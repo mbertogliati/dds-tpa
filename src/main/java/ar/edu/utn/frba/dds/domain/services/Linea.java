@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.domain.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 import lombok.Setter;
 
 public class Linea {
@@ -14,6 +15,7 @@ public class Linea {
   @Setter
   private Estacion estacionDestino;
   @Setter
+  @Getter
   private List<Estacion> estaciones;
 
   public Linea() {
