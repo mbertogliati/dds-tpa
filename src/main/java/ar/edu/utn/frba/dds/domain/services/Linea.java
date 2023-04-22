@@ -26,7 +26,8 @@ public class Linea {
     this.estaciones = new ArrayList<Estacion>();
   }
 
-  public Linea(TipoTransporte tipo, String nombre, Estacion estacionOrigen, Estacion estacionDestino, List<Estacion> estaciones) {
+  public Linea(TipoTransporte tipo, String nombre, Estacion estacionOrigen,
+               Estacion estacionDestino, List<Estacion> estaciones) {
     this.tipo = tipo;
     this.nombre = nombre;
     this.estacionOrigen = estacionOrigen;
@@ -38,7 +39,7 @@ public class Linea {
     this.estaciones.add(nuevaEstacion);
   }
 
-  public void eliminarEstacion(Estacion estacionAEliminar) {
-    this.estaciones.remove(estacionAEliminar);
+  public void eliminarEstacion(Estacion estacion) {
+    this.estaciones.remove(estacion);
   }
 }

@@ -28,8 +28,8 @@ public class Comunidad {
     this.miembros.add(nuevoMiembro);
   }
 
-  public void eliminarMiembro(Miembro miembroAEliminar) {
-    this.miembros.remove(miembroAEliminar);
+  public void eliminarMiembro(Miembro miembro) {
+    this.miembros.remove(miembro);
   }
 
   public boolean esMiembro(Usuario usuario) {

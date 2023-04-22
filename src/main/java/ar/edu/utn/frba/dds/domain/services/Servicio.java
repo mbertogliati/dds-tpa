@@ -28,7 +28,7 @@ public class Servicio {
     this.subtipos.add(nuevoSubtipo);
   }
 
-  public void eliminarSubtipo(SubtipoServicio subtipoAEliminar) {
-    this.subtipos.remove(subtipoAEliminar);
+  public void eliminarSubtipo(SubtipoServicio subtipoServicio) {
+    this.subtipos.remove(subtipoServicio);
   }
 }

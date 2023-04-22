@@ -28,7 +28,7 @@ public class Estacion {
     this.serviciosPrestados.add(nuevoServicioPrestado);
   }
 
-  public void eliminarServicioPrestado(ServicioPrestado servicioPrestadoAEliminar) {
-    this.serviciosPrestados.remove(servicioPrestadoAEliminar);
+  public void eliminarServicioPrestado(ServicioPrestado servicioPrestado) {
+    this.serviciosPrestados.remove(servicioPrestado);
   }
 }
