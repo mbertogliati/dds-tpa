@@ -2,14 +2,17 @@ package ar.edu.utn.frba.dds.domain.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 import lombok.Setter;
 
 public class Estacion {
+  @Setter @Getter
+  private int id;
   @Setter
   private String nombre;
   @Setter
   private float[] ubicacion;
-  @Setter
+  @Setter @Getter
   private List<ServicioPrestado> serviciosPrestados;
 
   public Estacion() {
@@ -18,7 +21,8 @@ public class Estacion {
     this.serviciosPrestados = new ArrayList<ServicioPrestado>();
   }
 
-  public Estacion(String nombre, float[] ubicacion, List<ServicioPrestado> serviciosPrestados) {
+  public Estacion(int id, String nombre, float[] ubicacion, List<ServicioPrestado> serviciosPrestados) {
+    this.id = id;
     this.nombre = nombre;
     this.ubicacion = ubicacion;
     this.serviciosPrestados = serviciosPrestados;
@@ -29,6 +33,17 @@ public class Estacion {
   }
 
   public void eliminarServicioPrestado(ServicioPrestado servicioPrestado) {
-    this.serviciosPrestados.remove(servicioPrestado);
+    for (ServicioPrestado servicioPrestadoActual : this.serviciosPrestados) {
+      if (servicioPrestadoActual.getId() == servicioPrestado.getId()) {
+        this.serviciosPrestados.remove(servicioPrestadoActual);
+      }
+    }
+  }
+  public void eliminarServicioPrestado(int idBuscada) {
+    for (ServicioPrestado servicioPrestadoActual : this.serviciosPrestados) {
+      if (servicioPrestadoActual.getId() == idBuscada) {
+        this.serviciosPrestados.remove(servicioPrestadoActual);
+      }
+    }
   }
 }

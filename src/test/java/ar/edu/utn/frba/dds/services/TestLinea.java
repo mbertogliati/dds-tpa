@@ -17,16 +17,16 @@ public class TestLinea {
 
   private Linea linea;
 
+  private Estacion estacionRetiro = new Estacion(0, "Retiro", this.ubicacion , null);
+  private Estacion estacionJLSuarez = new Estacion(1, "J.L. Suarez", this.ubicacion, null);
+  private Estacion estacionVPueyrredon = new Estacion(2, "V. Pueyrredon", this.ubicacion, null);
+
 
   @BeforeEach
   public void Init() {
     this.tipoTransporteTren = new TipoTransporte(0, "Tren");
     this.tipoTransporteSubte = new TipoTransporte(1, "Subte");
     this.ubicacion = new float[] { 0.0f, 0.0f };
-
-    Estacion estacionRetiro = new Estacion("Retiro", this.ubicacion , null);
-    Estacion estacionJLSuarez = new Estacion("J.L. Suarez", this.ubicacion, null);
-    Estacion estacionVPueyrredon = new Estacion("V. Pueyrredon", this.ubicacion, null);
 
     List<Estacion> estaciones = new ArrayList<Estacion>();
 
@@ -42,13 +42,26 @@ public class TestLinea {
   public void agregoEstacionCorrectamente() {
 
     //arrange
-    Estacion estacionVUrquiza = new Estacion("V. Urquiza", this.ubicacion, null);
+    Estacion estacionVUrquiza = new Estacion(3, "V. Urquiza", this.ubicacion, null);
 
     //act
     this.linea.agregarEstacion(estacionVUrquiza);
 
     //assert
     Assertions.assertEquals(4, this.linea.getEstaciones().size());
+  }
+
+  @Test
+  @DisplayName("Linea puede eliminar una estacion")
+  public void eliminoEstacionCorrectamente() {
+
+    //arrange
+
+    //act
+    this.linea.eliminarEstacion(estacionVPueyrredon);
+
+    //assert
+    Assertions.assertEquals(2, this.linea.getEstaciones().size());
   }
 
 }

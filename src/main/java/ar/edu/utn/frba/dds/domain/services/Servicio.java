@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.domain.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 import lombok.Setter;
 
 public class Servicio {
@@ -9,7 +10,7 @@ public class Servicio {
   private int id;
   @Setter
   private TipoServicio tipo;
-  @Setter
+  @Setter @Getter
   private List<SubtipoServicio> subtipos;
 
   public Servicio() {
@@ -29,6 +30,18 @@ public class Servicio {
   }
 
   public void eliminarSubtipo(SubtipoServicio subtipoServicio) {
-    this.subtipos.remove(subtipoServicio);
+    for (SubtipoServicio subtipoActual : this.subtipos) {
+      if (subtipoActual.getId() == subtipoServicio.getId()) {
+        this.subtipos.remove(subtipoActual);
+      }
+    }
+  }
+
+  public void eliminarSubtipo(int idBuscada) {
+    for (SubtipoServicio subtipoActual : this.subtipos) {
+      if (subtipoActual.getId() == idBuscada) {
+        this.subtipos.remove(subtipoActual);
+      }
+    }
   }
 }
