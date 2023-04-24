@@ -30,11 +30,7 @@ public class Servicio {
   }
 
   public void eliminarSubtipo(SubtipoServicio subtipoServicio) {
-    for (SubtipoServicio subtipoActual : this.subtipos) {
-      if (subtipoActual.getId() == subtipoServicio.getId()) {
-        this.subtipos.remove(subtipoActual);
-      }
-    }
+    this.eliminarSubtipo(subtipoServicio.getId());
   }
 
   public void eliminarSubtipo(int idBuscada) {

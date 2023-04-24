@@ -32,12 +32,8 @@ public class Estacion {
     this.serviciosPrestados.add(nuevoServicioPrestado);
   }
 
-  public void eliminarServicioPrestado(ServicioPrestado servicioPrestado) {
-    for (ServicioPrestado servicioPrestadoActual : this.serviciosPrestados) {
-      if (servicioPrestadoActual.getId() == servicioPrestado.getId()) {
-        this.serviciosPrestados.remove(servicioPrestadoActual);
-      }
-    }
+  public void eliminarServicioPrestado(ServicioPrestado servicio) {
+    this.eliminarServicioPrestado(servicio.getId());
   }
   public void eliminarServicioPrestado(int idBuscada) {
     for (ServicioPrestado servicioPrestadoActual : this.serviciosPrestados) {

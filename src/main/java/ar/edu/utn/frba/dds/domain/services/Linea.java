@@ -40,11 +40,7 @@ public class Linea {
   }
 
   public void eliminarEstacion(Estacion estacion) {
-    for (Estacion estacionActual : this.estaciones) {
-      if (estacionActual.getId() == estacion.getId()) {
-        this.estaciones.remove(estacionActual);
-      }
-    }
+    this.eliminarEstacion(estacion.getId());
   }
   public void eliminarEstacion(int idBuscada) {
     for (Estacion estacionActual : this.estaciones) {
