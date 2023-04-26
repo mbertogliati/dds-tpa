@@ -34,13 +34,18 @@ public class TestEstacion {
   private Servicio escaleraMecanicaFinal;
   private Servicio ascensorInicial;
 
+  List<Servicio> servicios = new ArrayList<Servicio>();
+
   @BeforeEach
   public void Init() {
-
     List<SubtipoServicio> subtiposBanioHombreConCambiador = new ArrayList<SubtipoServicio>();
     subtiposBanioHombreConCambiador.add(subtipoHombre);
     subtiposBanioHombreConCambiador.add(subtipoCambiadorBebe);
     this.banioHombres = new Servicio(0, tipoBanio, subtiposBanioHombreConCambiador);
+
+    List<SubtipoServicio> subtiposBanioMujer = new ArrayList<SubtipoServicio>();
+    subtiposBanioMujer.add(subtipoMujer);
+    this.banioMujeres = new Servicio(0, tipoBanio, subtiposBanioMujer);
 
     List<SubtipoServicio> subtiposBanioSinGenero = new ArrayList<SubtipoServicio>();
     subtiposBanioSinGenero.add(subtipoSinGenero);
@@ -62,6 +67,12 @@ public class TestEstacion {
     serviciosPrestadosRetiro.add(new ServicioPrestado(2, banioHombres, true));
     serviciosPrestadosRetiro.add(new ServicioPrestado(3, banioSinGenero, true));
     this.estacionRetiro = new Estacion(0, "Retiro", this.ubicacion, serviciosPrestadosRetiro);
+
+    servicios.add(banioHombres);
+    servicios.add(banioMujeres);
+    servicios.add(banioSinGenero);
+    servicios.add(escaleraMecanicaFinal);
+    servicios.add(ascensorInicial);
   }
 
   @Test
@@ -69,9 +80,6 @@ public class TestEstacion {
   public void agregoEstacionCorrectamente() {
 
     //arrange
-    List<SubtipoServicio> subtiposBanioMujer = new ArrayList<SubtipoServicio>();
-    subtiposBanioMujer.add(subtipoMujer);
-    this.banioMujeres = new Servicio(0, tipoBanio, subtiposBanioMujer);
 
     //act
     this.estacionRetiro.agregarServicioPrestado(new ServicioPrestado(4, banioMujeres, false));
@@ -93,4 +101,30 @@ public class TestEstacion {
     Assertions.assertEquals(3, this.estacionRetiro.getServiciosPrestados().size());
   }
 
+
+  //Los servicios se pueden encontrar agrupados, por ejemplo, el servicio "baños" puede incluir baño de
+  //hombres y baño de mujeres
+  @Test
+  @DisplayName("Los servicios se pueden agrupar, por ejemplo, por baños")
+  public void sePuedenAgruparServiciosPorTipo() {
+    //arrange
+
+    //act
+    long cantidadServiciosDeBanio = servicios.stream().filter(servicio -> servicio.esDelTipo(tipoBanio)).count();
+
+    //assert
+    Assertions.assertEquals(3, cantidadServiciosDeBanio);
+  }
+
+  @Test
+  @DisplayName("Los servicios se pueden agrupar, por ejemplo, por medios de elevacion")
+  public void sePuedenAgruparServiciosPorTipoElevacion() {
+    //arrange
+
+    //act
+    long cantidadServiciosDeElevacion = servicios.stream().filter(servicio -> servicio.esDelTipo(tipoMedioElevacion)).count();
+
+    //assert
+    Assertions.assertEquals(2, cantidadServiciosDeElevacion);
+  }
 }

@@ -40,4 +40,8 @@ public class Servicio {
       }
     }
   }
+
+  public boolean esDelTipo(TipoServicio tipoBuscado) {
+    return tipoBuscado.getId() == this.tipo.getId();
+  }
 }
