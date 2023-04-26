@@ -33,8 +33,8 @@ public class TestValidador {
 
     String pass = "hola123";
     byte[] salt = Validador.genSalt();
-    System.out.println(Validador.getHash(pass,salt,1));
-    Assertions.assertEquals(Validador.getHash(pass,salt,1), Validador.getHash(pass,salt,1));
+    System.out.println(Validador.getHash(pass,salt));
+    Assertions.assertEquals(Validador.getHash(pass,salt), Validador.getHash(pass,salt));
 
 
   }

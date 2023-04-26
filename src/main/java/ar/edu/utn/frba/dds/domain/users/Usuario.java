@@ -22,6 +22,12 @@ public class Usuario {
   @Getter
   private boolean sesionIniciada = false;
 
+  private long ultimoIntentoInicioSesion = 0;
+  @Getter
+  private int delaySeg = 0;
+
+  private final int factorSegundos = 3;
+
   public Usuario() {
     this.username = null;
     this.nombre = null;
@@ -37,12 +43,35 @@ public class Usuario {
     this.password = new Password(password, usuario);
   }
 
-  public void cambiarPassword(String viejaPassword, String nuevaPassword,String usuario) {
-    password.cambiarPassword(viejaPassword,nuevaPassword,usuario);
+  public void cambiarPassword(String viejaPassword, String nuevaPassword) {
+    password.cambiarPassword(viejaPassword,nuevaPassword,username);
+  }
+
+  private boolean sePuedeIniciarSesion(){
+    return System.currentTimeMillis() - ultimoIntentoInicioSesion > delaySeg* 1000L;
   }
 
   public boolean iniciarSesion(String password) {
-    return sesionIniciada = this.password.esValida(password);
+    if(!sePuedeIniciarSesion()){
+      System.out.println("Debe esperar " + delaySeg + " segundos para volver a intentar");
+      return false;
+    }
+    ultimoIntentoInicioSesion = System.currentTimeMillis();
+    delaySeg = 1;
+    if(sesionIniciada || this.password.esCorrecta(password)){
+      sesionIniciada = true;
+      delaySeg = 0;
+      return true;
+    }
+    else{
+      if(delaySeg == 0){
+        delaySeg+=factorSegundos;
+      }
+      else{
+        delaySeg*=factorSegundos;
+      }
+      return false;
+    }
   }
 
   public void cerrarSesion() {

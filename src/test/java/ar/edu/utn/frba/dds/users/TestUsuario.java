@@ -1,7 +1,5 @@
 package ar.edu.utn.frba.dds.users;
 
-import ar.edu.utn.frba.dds.domain.services.Estacion;
-import ar.edu.utn.frba.dds.domain.services.SubtipoServicio;
 import ar.edu.utn.frba.dds.domain.users.Comunidad;
 import ar.edu.utn.frba.dds.domain.users.Miembro;
 import ar.edu.utn.frba.dds.domain.users.Usuario;
@@ -11,17 +9,21 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 public class TestUsuario {
-  private Usuario userMatias;
+  @Mock
+  Usuario userMatias;
   private Comunidad comunidadX;
+
+
 
   @BeforeEach
   public void Init() {
     userMatias = new Usuario("userMatias", "Matias", "passwordMatias1-");
     Usuario userJoaquin = new Usuario("userJoaquin", "Joaquin", "passwordJoaquin1-");
 
-    List<Miembro> miembrosVacia = new ArrayList<Miembro>();
+    List<Miembro> miembrosVacia = new ArrayList<>();
 
     comunidadX = new Comunidad(1,"ComunidadX", miembrosVacia);
 
@@ -31,43 +33,65 @@ public class TestUsuario {
   @Test
   @DisplayName("Con una password correcta, se puede iniciar sesión")
   public void inicioSesionCorrectamente() {
-    //TODO: NO PASA EL TEST
     //arrange
 
     //act
     boolean resultado = userMatias.iniciarSesion("passwordMatias1-");
 
     //assert
-    Assertions.assertEquals(true, resultado);
-    Assertions.assertEquals(true, userMatias.isSesionIniciada());
+    Assertions.assertTrue(resultado);
+    Assertions.assertTrue(userMatias.isSesionIniciada());
   }
 
   @Test
   @DisplayName("Con una password incorrecta, no se puede iniciar sesión")
   public void noInicioSesionConClaveIncorrecta() {
-    //TODO: NO PASA EL TEST
     //arrange
 
     //act
     boolean resultado = userMatias.iniciarSesion("passwordMatiasIncorrecta");
 
     //assert
-    Assertions.assertEquals(false, resultado);
-    Assertions.assertEquals(false, userMatias.isSesionIniciada());
+    Assertions.assertFalse(resultado);
+    Assertions.assertFalse( userMatias.isSesionIniciada());
+  }
+  @Test
+  @DisplayName("No se puede iniciar sesión inmediatamente despues de haber puesto mal la contraseña")
+  public void noSePuedeIniciarSesionInmediatamenteSiHuboIntentoFallido() {
+    //arrangefactorSegundos;
+
+
+    //assert
+    Assertions.assertFalse(userMatias.iniciarSesion("contraseñaIncorrecta"));
+    Assertions.assertFalse(userMatias.iniciarSesion("passwordMatias1-"));
   }
 
   @Test
-  @DisplayName("Se puede cambiar la contraseña")
-  public void sePuedeCambiarPasswordCorrectamente() {
+  @DisplayName("Se puede iniciar sesión nuevamente luego de esperar el tiempo requerido")
+  public void sePuedeIniciarSesionLuegoDeEsperarDelay() throws InterruptedException {
+
+    //assert
+    Assertions.assertFalse(userMatias.iniciarSesion("passwordIncorrecta"));
+    Thread.sleep(userMatias.getDelaySeg()* 1000L);
+    Assertions.assertTrue(userMatias.iniciarSesion("passwordMatias1-"));
+  }
+  @Test
+  @DisplayName("Al cambiar la contraseña, solo se puede iniciar sesión con la nueva contraseña")
+  public void sePuedeCambiarPasswordCorrectamente() throws InterruptedException {
     //arrange
 
     //act
-    //TODO: NO SE ENTIENDE PARA QUE SE USA EL STRING USUARIO COMO TERCER PARAMETRO
-    userMatias.cambiarPassword("passwordMatias1-","passwordMatias2-", "Matias");
+    String viejaPass = "passwordMatias1-";
+    String nuevaPass = "passwordMatias2-";
+    userMatias.cambiarPassword(viejaPass,nuevaPass);
 
     //assert
-    Assertions.assertEquals(true, false);
+    Assertions.assertFalse(userMatias.iniciarSesion(viejaPass));
+    Thread.sleep(userMatias.getDelaySeg()* 1000L);
+    Assertions.assertTrue(userMatias.iniciarSesion(nuevaPass));
   }
+
+
 
   @Test
   @DisplayName("Se puede cerrar la sesion con el mensaje cerrarSesion")
@@ -79,7 +103,7 @@ public class TestUsuario {
     userMatias.cerrarSesion();
 
     //assert
-    Assertions.assertEquals(false, userMatias.isSesionIniciada());
+    Assertions.assertFalse(userMatias.isSesionIniciada());
   }
 
   @Test
@@ -92,7 +116,7 @@ public class TestUsuario {
     userMatias.suscribirAComunidad(comunidadX);
 
     //assert
-    Assertions.assertEquals(true, comunidadX.esMiembro(userMatias));
+    Assertions.assertTrue(comunidadX.esMiembro(userMatias));
   }
 
   @Test
@@ -104,7 +128,7 @@ public class TestUsuario {
     userMatias.desuscribirAComunidad(comunidadX);
 
     //assert
-    Assertions.assertEquals(false, comunidadX.esMiembro(userMatias));
+    Assertions.assertFalse(comunidadX.esMiembro(userMatias));
   }
 
 }

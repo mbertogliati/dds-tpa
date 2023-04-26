@@ -24,7 +24,10 @@ public class Validador {
 
   private static final int cantMinimaCaracteres = 8;
 
-    private static final ArrayList<String> peoresPasswords = obtenerPeoresPasswords();
+  private static final int costoBase = 310000;
+
+
+  private static final ArrayList<String> peoresPasswords = obtenerPeoresPasswords();
     private Validador() {
     }
 
@@ -66,18 +69,17 @@ public class Validador {
     return peores10000Passwords;
   }
 
-  public static String getHash(String password,byte[] salt,int costo) {
+  public static String getHash(String password,byte[] salt) {
     String password_normalizada = Normalizer.normalize(password, Normalizer.Form.NFKC);
     try {
       SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA512" );
-      PBEKeySpec spec = new PBEKeySpec( password_normalizada.toCharArray(), salt, costo, largoHash );
+      PBEKeySpec spec = new PBEKeySpec( password_normalizada.toCharArray(), salt, costoBase, largoHash );
       SecretKey key = skf.generateSecret( spec );
       return  HexFormat.of().formatHex(key.getEncoded( ));
     } catch ( NoSuchAlgorithmException | InvalidKeySpecException e ) {
       throw new RuntimeException( e );
     }
   }
-
   public static byte[] genSalt(){
 
     byte[] salt = new byte[largoSalt];
