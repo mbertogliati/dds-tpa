@@ -1,9 +1,10 @@
 package ar.edu.utn.frba.dds.domain.users;
 
+import lombok.Getter;
 import lombok.Setter;
 
 public class Miembro {
-  @Setter
+  @Setter @Getter
   private Usuario usuario;
   @Setter
   private Comunidad comunidad;

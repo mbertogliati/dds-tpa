@@ -5,7 +5,8 @@ import lombok.Setter;
 import lombok.Getter;
 
 public class Usuario {
-
+  @Getter
+  private String username;
   private String usuario;
   @Setter
   private String nombre;
@@ -22,6 +23,7 @@ public class Usuario {
   private boolean sesionIniciada = false;
 
   public Usuario() {
+    this.username = null;
     this.nombre = null;
     this.apellido = null;
     this.email = null;
@@ -29,7 +31,8 @@ public class Usuario {
     this.rol = null;
   }
 
-  public Usuario(String usuario, String password) {
+  public Usuario(String username, String usuario, String password) {
+    this.username = username;
     this.usuario = usuario;
     this.password = new Password(password, usuario);
   }
@@ -46,15 +49,15 @@ public class Usuario {
     sesionIniciada = false;
   }
 
-  public void registrar() {
-    //TODO: implementar registrar
-  }
-
   public void suscribirAComunidad(Comunidad comunidad) {
-    //TODO: implementar suscribir a comunidad
+    if(this.sesionIniciada){
+      comunidad.agregarMiembro(this);
+    }
   }
 
   public void desuscribirAComunidad(Comunidad comunidad) {
-    //TODO: desuscribir a comunidad
+    if(this.sesionIniciada){
+      comunidad.eliminarMiembro(this);
+    }
   }
 }
