@@ -27,14 +27,7 @@ public class Usuario {
 
   private final int factorSegundos = 3;
 
-  public Usuario() {
-    this.username = null;
-    this.nombre = null;
-    this.apellido = null;
-    this.email = null;
-    this.password = null;
-    this.rol = null;
-  }
+
 
   public Usuario(String username, String password) {
     this.username = username;
