@@ -7,7 +7,6 @@ import lombok.Getter;
 public class Usuario {
   @Getter
   private String username;
-  private String usuario;
   @Setter
   private String nombre;
   @Setter
@@ -37,10 +36,9 @@ public class Usuario {
     this.rol = null;
   }
 
-  public Usuario(String username, String usuario, String password) {
+  public Usuario(String username, String password) {
     this.username = username;
-    this.usuario = usuario;
-    this.password = new Password(password, usuario);
+    this.password = new Password(password, username);
   }
 
   public void cambiarPassword(String viejaPassword, String nuevaPassword) {

@@ -20,8 +20,8 @@ public class TestUsuario {
 
   @BeforeEach
   public void Init() {
-    userMatias = new Usuario("userMatias", "Matias", "passwordMatias1-");
-    Usuario userJoaquin = new Usuario("userJoaquin", "Joaquin", "passwordJoaquin1-");
+    userMatias = new Usuario("userMatias", "passwordMatias1-");
+    Usuario userJoaquin = new Usuario("userJoaquin", "passwordJoaquin1-");
 
     List<Miembro> miembrosVacia = new ArrayList<>();
 
