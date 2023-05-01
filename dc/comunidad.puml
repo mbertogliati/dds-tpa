@@ -1,0 +1,91 @@
+@startuml Comunidad
+skinparam linetype ortho
+
+class Usuario{
+    -id: int
+    -username: String
+    -nombre: String
+    -apellido: String
+    -email: String
+    -password: String
+    -sesion: Sesion
+    -rolPlataforma: RolPlataforma
+    -membresias: List<Membresia>
+
+    + esMiembroDe(comunidad: Comunidad)
+    + suscribirAComunidad(comunidad: Comunidad)
+    + desuscribirAComunidad(comunidad: Comunidad)
+    + cerrarSesion()
+    + iniciarSesion(password: String)
+    + sesionIniciada()
+    + cambiarPassword(viejaPassword: String, nuevaPassword: String)
+}
+
+
+
+class Membresia{
+    -usuario: Usuario
+    -comunidad: Comunidad
+    -rol: RolComunidad
+}
+!startsub Comunidad
+class Comunidad{
+    -id: int
+    -nombre: String
+    -Membresías: List<Membresia>
+    -servicios: List<Servicio>
+
+    +agregarMembresia(nuevoUsuario: Usuario)
+    +eliminarMembresia(usuario: Usuario)
+    +eliminarMembresia(username: String)
+    +esMiembro(usuario: Usuario): boolean
+    +esMiembro(username: String): boolean
+    +deshabilitarServicio(servicio: ServicioPrestado)
+    +agregarServicioAEstacion(estacion: Estacion)
+}
+!endsub
+
+interface RolComunidad{
+    + mostrarMenu(comunidad: Comunidad)
+    + definirServicio(servicio: ServicioPrestado)
+}
+
+class RolAdminComunidad {
+    + mostrarMenu(comunidad: Comunidad)
+    + definirServicio(servicio: ServicioPrestado)
+}
+
+class RolAfectadoComunidad {
+    + mostrarMenu(comunidad: Comunidad)
+    + definirServicio(servicio: ServicioPrestado)
+}
+
+class RolObservador {
+    + mostrarMenu(comunidad: Comunidad)
+    + definirServicio(servicio: ServicioPrestado)
+}
+
+/'HERENCIA'/
+
+
+/'ASOCIACION'/
+
+Usuario "1   " --> " *  " Membresia
+
+Comunidad "1   " --> " *  " Membresia
+
+Membresia --> Usuario
+Membresia --> Comunidad
+Membresia --> RolComunidad
+
+RolAdminComunidad ..|> RolComunidad
+RolAfectadoComunidad ..|> RolComunidad
+RolObservador ..|> RolComunidad
+
+/'IMPLEMENTS'/
+
+
+/'CORRECCION DE LAYOUT'/
+
+
+@enduml

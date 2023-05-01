@@ -1,0 +1,93 @@
+@startuml
+skinparam linetype ortho
+    class Comunidad{
+        -id: int
+        -nombre: String
+        -Membresías: List<Membresia>
+        -servicios: List<Servicio>
+
+        +agregarMembresia(nuevoUsuario: Usuario)
+        +eliminarMembresia(usuario: Usuario)
+        +eliminarMembresia(username: String)
+        +esMiembro(usuario: Usuario): boolean
+        +esMiembro(username: String): boolean
+        +deshabilitarServicio(servicio: ServicioPrestado)
+        +agregarServicioAEstacion(estacion: Estacion)
+    }
+
+    class Linea{
+        - tipo: TipoLinea
+        - nombre: String
+        - estacionOrigen: Estacion
+        - estacionDestino: Estacion
+        - estaciones: List<Estacion>
+        
+        +agregarEstacion(nuevaEstacion: Estacion)
+        +eliminarEstacion(estacion: Estacion)
+        +eliminarEstacion(idBuscada: int)
+    }
+
+    enum TipoLinea {
+        SUBTE
+        TREN
+        COLECTIVO
+    }
+
+    class Estacion{
+    - id: int
+    - nombre: String
+    - ubicacion: Ubicacion
+    - serviciosPrestados: List<ServicioPrestado>
+
+    + agregarServicioPrestado(nuevoServicioPrestado: ServicioPrestado)
+    + eliminarServicioPrestado(servicio: ServicioPrestado)
+    + eliminarServicioPrestado(idBuscada: int)
+
+    }
+    
+    class ServicioPrestado{
+        -id: int
+        -servicio: Servicio
+        -disponibilidad: boolean
+
+        + esAccesible()
+        + noEsAccesible()
+    }
+
+    class Servicio{
+        - id: int
+        - etiquetas: List<Etiqueta>
+
+        +agregarEtiqueta(nuevaEtiqueta: Etiqueta)
+        +eliminarEtiqueta(EtiquetaServicio: Etiqueta)
+        +eliminarEtiqueta(idBuscada: int)
+
+    }
+
+    class Ubicacion{
+        -latitud: float
+        -longitud: float
+    }
+    
+    class Etiqueta{
+        -id: int
+        -descripcion: String
+    }
+    
+    /'ASOCIACION'/
+
+    Linea "2  " --> " * " Estacion
+    Linea --> Estacion 
+    Linea --> Estacion
+    Linea -----> TipoLinea
+    Estacion ---> Ubicacion
+
+    Estacion "1   " --> " * " ServicioPrestado
+    
+    ServicioPrestado --> Servicio
+    Servicio "1" --> "    * " Etiqueta
+
+    Comunidad "1" --> "*" Servicio
+    Comunidad ..> Estacion
+
+@enduml

@@ -1,0 +1,64 @@
+/**/
+class Main{
+    public static void main(String[] args){
+        Usuario user = AdminUsuario.registrarUsuario("nombre","contra");
+        AdminUsuario.cambiarPasswordDe(user,"nuevaPassword");
+
+        user.password();
+
+    }
+}
+
+class AdminUsuario{
+
+    private static Validador validador;
+
+    public static registrarUsuario(String username, String nuevaPassword){
+
+    }
+    public static cambiarPasswordDe(Usuario user, String nuevaPassword){
+        
+    }
+}
+
+class Usuario{
+    public String Password;
+}
+
+class ValidadorUsuario {
+    private EstrategiaValidacion[] estrategias; //aca guardamos lo comúnn para todos
+    
+
+    public static void SetupValidaciones() {
+        this.estrategia.add(new EstrategiaValidacionRegexp("[0-9]+"))
+        this.estrategia.add(new EstrategiaValidacionRegexp("{.,8}"))
+        this.estrategia.add(new EstrategiaValidacionNoContiene())
+    }
+
+    public static configurarValidaciones(Usuario usuario){
+        var estrategiaNoContiene = (estrategiaNoContiene) this.estrategias.getByIndex(2);
+        estrategiaNoContiene.setStringBuscado(usuario.getUsername());
+    }
+
+    public static boolean validar(Usuario usuario){
+        
+        configurarValidaciones(usuario);
+        for(EstrategiaValidacion estrategia : estrategiasFinales){
+            if(!estrategia.validar(usuario.password)){
+                return false;
+            }
+        }
+        
+    }
+}
+
+interface EstrategiaValidacion{
+    public boolean validar(String cadena, Usuario Usuario);
+}
+
+
+
+
+
+
+
