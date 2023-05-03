@@ -1,0 +1,115 @@
+@startuml Usuario y Validacion
+skinparam linetype ortho
+
+!startsub ValidadorUsuario
+
+class AdministradorUsuario {
+    - validadorUsuario: ValidadorUsuario
+
+    + registrarUsuario(username: String, nombre: String, apellido: String, mail: String, nuevaPassword: String)
+    + cambiarPasswordDe(user: Usuario, viejaPassword: String, nuevaPassword: String)
+    + iniciarSesionDe(username: String, nuevaPassword: String)
+}
+
+AdministradorUsuario --> ValidadorUsuario
+AdministradorUsuario ..> Usuario
+AdministradorUsuario ..> Password
+AdministradorUsuario ..> EstrategiaHash
+
+class ValidadorUsuario{
+    - estrategiasPassword: List<EstrategiaValidacion>
+    
+    + ValidadorUsuario()
+    + esValido(usuario: Usuario, password: String) : boolean
+    - validarPorUsuario(Usuario usuario, String password) : boolean
+    - validarPassword(String password) : boolean
+}
+ValidadorUsuario ..> Usuario
+ValidadorUsuario -up-> "1..*" EstrategiaValidacion
+!endsub
+
+!startsub Usuario
+
+
+Usuario --> Password
+
+class Usuario{
+    -id: int
+    -username: String
+    -nombre: String
+    -apellido: String
+    -email: String
+    -rolPlataforma: RolPlataforma
+    -password: Password
+    -membresias: List<Miembro>
+
+    + esMiembroDe(comunidad: Comunidad) : boolean
+    + suscribirAComunidad(comunidad: Comunidad)
+    + desuscribirAComunidad(comunidad: Comunidad)
+    + iniciarSesion(password: String)
+    + cerrarSesion()
+    + sesionIniciada() : boolean
+    + cambiarPassword(viejaPassword: String, nuevaPassword: String)
+}
+!endsub
+Usuario --> RolPlataforma
+
+interface EstrategiaValidacion {
+    + validar(cadena: String) : boolean
+}
+
+class EstrategiaValidacionRegExp {    
+    - patron: RegExp
+    + validar(cadena: String) : boolean
+}
+EstrategiaValidacionRegExp .up.|> EstrategiaValidacion
+
+class EstrategiaValidacionNoEstaEnLista{
+    - obtenerListaString: ObtenerListaString
+    + EstrategiaValidacionNoEstaEnLista(listaEn: ObtenerListaString)
+    + validar(cadena: String) : boolean
+}
+EstrategiaValidacionNoEstaEnLista -down-> ObtenerListaString
+EstrategiaValidacionNoEstaEnLista ..|> EstrategiaValidacion
+
+interface ObtenerListaString {
+    + obtenerLista() : List<String>
+}
+
+class ObtenerTopPeoresPasswordsURL {
+    - url: String
+    - lista: List<String>
+    + obtenerLista() : List<String>
+}
+ObtenerTopPeoresPasswordsURL .up.|> ObtenerListaString
+
+class Password{
+    -hasheado: String
+    -estrategiaHash: EstrategiaHash
+
+    + esCorrecta(password: String) : boolean
+    + cambiarPassword(nuevaPassword: String)
+}
+Password --> EstrategiaHash
+
+interface EstrategiaHash {
+    + hashear(password: String) : String
+}
+
+class HashPBKDF2{
+    - salt: byte[]
+    - costo: int
+    + hashear(password: String) : String
+    - genSalt() : byte[]
+    - genCosto() : int
+}
+HashPBKDF2 .left.|> EstrategiaHash
+
+interface RolPlataforma {}
+
+AdministradorPlataforma ..|> RolPlataforma
+UsuarioPlataforma ..|> RolPlataforma
+
+
+
+@enduml

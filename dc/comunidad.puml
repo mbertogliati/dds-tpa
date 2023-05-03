@@ -1,0 +1,92 @@
+@startuml Comunidad
+skinparam linetype ortho
+
+class Usuario{
+    -id: int
+    -username: String
+    -nombre: String
+    -apellido: String
+    -email: String
+    -rolPlataforma: RolPlataforma
+    -password: Password
+    -membresias: List<Miembro>
+
+    + esMiembroDe(comunidad: Comunidad) : boolean
+    + suscribirAComunidad(comunidad: Comunidad)
+    + desuscribirAComunidad(comunidad: Comunidad)
+    + iniciarSesion(password: String)
+    + cerrarSesion()
+    + sesionIniciada() : boolean
+    + cambiarPassword(viejaPassword: String, nuevaPassword: String)
+}
+
+
+
+class Membresia{
+    -usuario: Usuario
+    -comunidad: Comunidad
+    -rol: RolComunidad
+}
+!startsub Comunidad
+class Comunidad{
+    -id: int
+    -nombre: String
+    -Membresias: List<Membresia>
+    -servicios: List<Servicio>
+
+    +agregarMembresia(nuevoUsuario: Usuario)
+    +eliminarMembresia(usuario: Usuario)
+    +eliminarMembresia(username: String)
+    +esMiembro(usuario: Usuario): boolean
+    +esMiembro(username: String): boolean
+    +deshabilitarServicio(servicio: ServicioPrestado)
+    +modificarServicio(servicio: ServicioPrestado)
+    +agregarServicioAEstablecimiento(estacion: Estacion, servicio: Servicio) 
+    ' -------------- TODO cambiar de estacion a Establecimiento ---------------    
+}
+!endsub
+
+interface RolComunidad{
+    + mostrarMenu(comunidad: Comunidad)
+    + definirServicio(servicio: ServicioPrestado)
+}
+
+class RolAdminComunidad {
+    + mostrarMenu(comunidad: Comunidad)
+    + definirServicio(servicio: ServicioPrestado)
+}
+
+class RolAfectadoComunidad {
+    + mostrarMenu(comunidad: Comunidad)
+    + definirServicio(servicio: ServicioPrestado)
+}
+
+class RolObservador {
+    + mostrarMenu(comunidad: Comunidad)
+    + definirServicio(servicio: ServicioPrestado)
+}
+
+/'HERENCIA'/
+
+
+/'ASOCIACION'/
+
+Usuario "1   " --> " *  " Membresia
+
+Comunidad "1   " --> " *  " Membresia
+
+Membresia --> Usuario
+Membresia --> Comunidad
+Membresia --> RolComunidad
+
+RolAdminComunidad ..|> RolComunidad
+RolAfectadoComunidad ..|> RolComunidad
+RolObservador ..|> RolComunidad
+
+/'IMPLEMENTS'/
+
+
+/'CORRECCION DE LAYOUT'/
+
+
+@enduml
