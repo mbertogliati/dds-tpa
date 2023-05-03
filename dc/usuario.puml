@@ -14,7 +14,6 @@ class AdministradorUsuario {
 AdministradorUsuario --> ValidadorUsuario
 AdministradorUsuario ..> Usuario
 AdministradorUsuario ..> Password
-AdministradorUsuario ..> EstrategiaHash
 
 class ValidadorUsuario{
     - estrategiasPassword: List<EstrategiaValidacion>
