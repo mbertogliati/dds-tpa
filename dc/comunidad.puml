@@ -9,7 +9,7 @@ class Usuario{
     -email: String
     -rolPlataforma: RolPlataforma
     -password: Password
-    -membresias: List<Miembro>
+    -membresias: List<Membresia>
 
     + esMiembroDe(comunidad: Comunidad) : boolean
     + suscribirAComunidad(comunidad: Comunidad)
@@ -48,22 +48,22 @@ class Comunidad{
 
 interface RolComunidad{
     + mostrarMenu(comunidad: Comunidad)
-    + definirServicio(servicio: ServicioPrestado)
+    + definirServicio(servicio: Servicio)
 }
 
 class RolAdminComunidad {
     + mostrarMenu(comunidad: Comunidad)
-    + definirServicio(servicio: ServicioPrestado)
+    + definirServicio(servicio: Servicio)
 }
 
 class RolAfectadoComunidad {
     + mostrarMenu(comunidad: Comunidad)
-    + definirServicio(servicio: ServicioPrestado)
+    + definirServicio(servicio: Servicio)
 }
 
-class RolObservador {
+class RolObservadorComunidad {
     + mostrarMenu(comunidad: Comunidad)
-    + definirServicio(servicio: ServicioPrestado)
+    + definirServicio(servicio: Servicio)
 }
 
 /'HERENCIA'/
@@ -81,7 +81,7 @@ Membresia --> RolComunidad
 
 RolAdminComunidad ..|> RolComunidad
 RolAfectadoComunidad ..|> RolComunidad
-RolObservador ..|> RolComunidad
+RolObservadorComunidad ..|> RolComunidad
 
 /'IMPLEMENTS'/
 

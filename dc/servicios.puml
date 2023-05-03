@@ -32,7 +32,6 @@ skinparam linetype ortho
     enum TipoLinea {
         SUBTE
         TREN
-        COLECTIVO
     }
 
     class Estacion{

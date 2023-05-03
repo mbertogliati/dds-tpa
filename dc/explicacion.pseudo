@@ -88,13 +88,10 @@ class Usuario{
     public String Password;
 
     public Usuario(){
-        s
     }
-
-
     
-    iniciarSesion(String pass){
-        
+    iniciarSesion(String password){
+        this.sesion.iniciar(Password.esCorrecta(password));
     }
 
 }

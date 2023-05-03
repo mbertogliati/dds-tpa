@@ -32,6 +32,16 @@ ValidadorUsuario -up-> "1..*" EstrategiaValidacion
 
 Usuario --> Password
 
+class Sesion{
+    -id: int
+    -{static} factorSegundos: int;
+    -iniciada: boolean
+    -delaySeg: int
+    -ultimoIntentoInicio: long
+    +sePuedeIniciar() : boolean
+    +iniciar(datosCorrectos:boolean)
+}
+
 class Usuario{
     -id: int
     -username: String
@@ -41,6 +51,7 @@ class Usuario{
     -rolPlataforma: RolPlataforma
     -password: Password
     -membresias: List<Miembro>
+    -sesion: Sesion
 
     + esMiembroDe(comunidad: Comunidad) : boolean
     + suscribirAComunidad(comunidad: Comunidad)
@@ -50,6 +61,9 @@ class Usuario{
     + sesionIniciada() : boolean
     + cambiarPassword(viejaPassword: String, nuevaPassword: String)
 }
+
+Usuario --> Sesion
+
 !endsub
 Usuario --> RolPlataforma
 
