@@ -7,17 +7,16 @@ class Usuario{
     -nombre: String
     -apellido: String
     -email: String
-    -password: String
-    -sesion: Sesion
     -rolPlataforma: RolPlataforma
-    -membresias: List<Membresia>
+    -password: Password
+    -membresias: List<Miembro>
 
-    + esMiembroDe(comunidad: Comunidad)
+    + esMiembroDe(comunidad: Comunidad) : boolean
     + suscribirAComunidad(comunidad: Comunidad)
     + desuscribirAComunidad(comunidad: Comunidad)
-    + cerrarSesion()
     + iniciarSesion(password: String)
-    + sesionIniciada()
+    + cerrarSesion()
+    + sesionIniciada() : boolean
     + cambiarPassword(viejaPassword: String, nuevaPassword: String)
 }
 
@@ -32,7 +31,7 @@ class Membresia{
 class Comunidad{
     -id: int
     -nombre: String
-    -Membresías: List<Membresia>
+    -Membresias: List<Membresia>
     -servicios: List<Servicio>
 
     +agregarMembresia(nuevoUsuario: Usuario)
@@ -41,7 +40,9 @@ class Comunidad{
     +esMiembro(usuario: Usuario): boolean
     +esMiembro(username: String): boolean
     +deshabilitarServicio(servicio: ServicioPrestado)
-    +agregarServicioAEstacion(estacion: Estacion)
+    +modificarServicio(servicio: ServicioPrestado)
+    +agregarServicioAEstablecimiento(estacion: Estacion, servicio: Servicio) 
+    ' -------------- TODO cambiar de estacion a Establecimiento ---------------    
 }
 !endsub
 

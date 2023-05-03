@@ -1,0 +1,114 @@
+@startuml Usuario y Validacion
+skinparam linetype ortho
+
+!startsub ValidadorUsuario
+
+class AdministradorUsuario {
+    - validadorUsuario: ValidadorUsuario
+
+    + registrarUsuario(nuevoUsuario: Usuario)
+}
+AdministradorUsuario --> ValidadorUsuario
+AdministradorUsuario ..> Usuario
+AdministradorUsuario ..> Password
+AdministradorUsuario ..> EstrategiaHash
+
+class ValidadorUsuario{
+    - {static} estrategias: List<EstrategiaValidacion>
+    
+    + inicializar()
+    + esValido(usuario: Usuario) : boolean
+}
+ValidadorUsuario ..> Usuario
+!endsub
+
+
+
+
+
+!startsub Usuario
+
+
+Usuario --> Password
+
+class Usuario{
+    -id: int
+    -username: String
+    -nombre: String
+    -apellido: String
+    -email: String
+    -password: Password
+    -sesion: Sesion
+    -rolPlataforma: RolPlataforma
+    -membresias: List<Miembro>
+
+    + esMiembroDe(comunidad: Comunidad)
+    + suscribirAComunidad(comunidad: Comunidad)
+    + desuscribirAComunidad(comunidad: Comunidad)
+    + cerrarSesion()
+    + iniciarSesion(password: String)
+    + sesionIniciada()
+    + cambiarPassword(viejaPassword: String, nuevaPassword: String)
+}
+!endsub
+Usuario --> RolPlataforma
+
+interface EstrategiaValidacionCadena {
+    + validar(cadena: String) : boolean
+}
+
+interface EstrategiaValidacionUsuario{
+    + validar(usuario: Usuario) : boolean
+}
+
+class ValidacionUsuarioCadena{
+
+    - estrategiaCadena : EstrategiaValidacionCadena
+    + validar(usuario: Usuario) 
+
+}
+
+
+ValidacionUsuarioCadena ..|> EstrategiaValidacionUsuario
+ValidacionUsuarioCadena --> EstrategiaValidacionCadena
+
+
+ValidadorUsuario ..> EstrategiaValidacionUsuario
+
+class EstrategiaValidacionRegExp {
+    
+    - patron: RegExp
+    + validar(cadena: String) : boolean
+}
+EstrategiaValidacionRegExp ..|> EstrategiaValidacion
+
+class EstrategiaValidacionNoEstaEnLista{
+    - obtenerListaString: ObtenerListaString
+    + validar(cadena: String) : boolean
+}
+EstrategiaValidacionNoEstaEnLista --> ObtenerListaString
+EstrategiaValidacionNoEstaEnLista ..|> EstrategiaValidacion
+
+interface ObtenerListaString {
+    + obtenerLista() : List<String>
+}
+
+class ObtenerTopPeoresPasswordsURL {
+    - url: String
+    - lista: List<String>
+    + obtenerLista() : List<String>
+}
+ObtenerTopPeoresPasswordsURL ..|> ObtenerListaString
+
+class Password{
+    -hasheado: String
+    -estrategiaHash: EstrategiaHash
+
+    + hashear(password: String)
+    + esCorrecta(password: String) : boolean
+    + cambiarPassword(viejaPassword: String, nuevaPassword: String)
+}
+
+
+
+@enduml

@@ -1,19 +1,21 @@
 @startuml
 skinparam linetype ortho
     class Comunidad{
-        -id: int
-        -nombre: String
-        -Membresías: List<Membresia>
-        -servicios: List<Servicio>
+    -id: int
+    -nombre: String
+    -Membresias: List<Membresia>
+    -servicios: List<Servicio>
 
-        +agregarMembresia(nuevoUsuario: Usuario)
-        +eliminarMembresia(usuario: Usuario)
-        +eliminarMembresia(username: String)
-        +esMiembro(usuario: Usuario): boolean
-        +esMiembro(username: String): boolean
-        +deshabilitarServicio(servicio: ServicioPrestado)
-        +agregarServicioAEstacion(estacion: Estacion)
-    }
+    +agregarMembresia(nuevoUsuario: Usuario)
+    +eliminarMembresia(usuario: Usuario)
+    +eliminarMembresia(username: String)
+    +esMiembro(usuario: Usuario): boolean
+    +esMiembro(username: String): boolean
+    +deshabilitarServicio(servicio: ServicioPrestado)
+    +modificarServicio(servicio: ServicioPrestado)
+    +agregarServicioAEstablecimiento(estacion: Estacion, servicio: Servicio) 
+    /'-------------- TODO cambiar de estacion a Establecimiento ---------------'/    
+}
 
     class Linea{
         - tipo: TipoLinea
@@ -76,18 +78,18 @@ skinparam linetype ortho
     
     /'ASOCIACION'/
 
-    Linea "2  " --> " * " Estacion
+    Linea --> "2..*" Estacion
     Linea --> Estacion 
     Linea --> Estacion
     Linea -----> TipoLinea
     Estacion ---> Ubicacion
 
-    Estacion "1   " --> " * " ServicioPrestado
+    Estacion --> "1..*" ServicioPrestado
     
     ServicioPrestado --> Servicio
-    Servicio "1" --> "    * " Etiqueta
+    Servicio --> "1..*" Etiqueta
 
-    Comunidad "1" --> "*" Servicio
+    Comunidad --> "1..*" Servicio
     Comunidad ..> Estacion
 
 @enduml

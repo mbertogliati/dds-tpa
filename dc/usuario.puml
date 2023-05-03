@@ -6,20 +6,26 @@ skinparam linetype ortho
 class AdministradorUsuario {
     - validadorUsuario: ValidadorUsuario
 
-    + registrarUsuario(nuevoUsuario: Usuario)
+    + registrarUsuario(username: String, nombre: String, apellido: String, mail: String, nuevaPassword: String)
+    + cambiarPasswordDe(user: Usuario, viejaPassword: String, nuevaPassword: String)
+    + iniciarSesionDe(username: String, nuevaPassword: String)
 }
+
 AdministradorUsuario --> ValidadorUsuario
 AdministradorUsuario ..> Usuario
-AdministradorUsuario .right.> EstrategiaHash
+AdministradorUsuario ..> Password
+AdministradorUsuario ..> EstrategiaHash
 
 class ValidadorUsuario{
-    - {static} estrategias: List<EstrategiaValidacion>
+    - estrategiasPassword: List<EstrategiaValidacion>
     
-    + inicializar()
-    + esValido(usuario: Usuario) : boolean
+    + ValidadorUsuario()
+    + esValido(usuario: Usuario, password: String) : boolean
+    - validarPorUsuario(Usuario usuario, String password) : boolean
+    - validarPassword(String password) : boolean
 }
 ValidadorUsuario ..> Usuario
-ValidadorUsuario -r-> "1..*" EstrategiaValidacion
+ValidadorUsuario -up-> "1..*" EstrategiaValidacion
 !endsub
 
 !startsub Usuario
@@ -33,17 +39,16 @@ class Usuario{
     -nombre: String
     -apellido: String
     -email: String
-    -password: Password
-    -sesion: Sesion
     -rolPlataforma: RolPlataforma
+    -password: Password
     -membresias: List<Miembro>
 
-    + esMiembroDe(comunidad: Comunidad)
+    + esMiembroDe(comunidad: Comunidad) : boolean
     + suscribirAComunidad(comunidad: Comunidad)
     + desuscribirAComunidad(comunidad: Comunidad)
-    + cerrarSesion()
     + iniciarSesion(password: String)
-    + sesionIniciada()
+    + cerrarSesion()
+    + sesionIniciada() : boolean
     + cambiarPassword(viejaPassword: String, nuevaPassword: String)
 }
 !endsub
@@ -53,18 +58,18 @@ interface EstrategiaValidacion {
     + validar(cadena: String) : boolean
 }
 
-class EstrategiaValidacionRegExp {
-    
+class EstrategiaValidacionRegExp {    
     - patron: RegExp
     + validar(cadena: String) : boolean
 }
-EstrategiaValidacionRegExp ..|> EstrategiaValidacion
+EstrategiaValidacionRegExp .up.|> EstrategiaValidacion
 
 class EstrategiaValidacionNoEstaEnLista{
     - obtenerListaString: ObtenerListaString
+    + EstrategiaValidacionNoEstaEnLista(listaEn: ObtenerListaString)
     + validar(cadena: String) : boolean
 }
-EstrategiaValidacionNoEstaEnLista --> ObtenerListaString
+EstrategiaValidacionNoEstaEnLista -down-> ObtenerListaString
 EstrategiaValidacionNoEstaEnLista ..|> EstrategiaValidacion
 
 interface ObtenerListaString {
@@ -76,15 +81,14 @@ class ObtenerTopPeoresPasswordsURL {
     - lista: List<String>
     + obtenerLista() : List<String>
 }
-ObtenerTopPeoresPasswordsURL ..|> ObtenerListaString
+ObtenerTopPeoresPasswordsURL .up.|> ObtenerListaString
 
 class Password{
     -hasheado: String
     -estrategiaHash: EstrategiaHash
 
-    + hashear(password: String)
     + esCorrecta(password: String) : boolean
-    + cambiarPassword(viejaPassword: String, nuevaPassword: String)
+    + cambiarPassword(nuevaPassword: String)
 }
 Password --> EstrategiaHash
 
@@ -96,14 +100,10 @@ class HashPBKDF2{
     - salt: byte[]
     - costo: int
     + hashear(password: String) : String
+    - genSalt() : byte[]
+    - genCosto() : int
 }
-HashPBKDF2 ..|> EstrategiaHash
-
-
-class HashMD5 <<ejemplo>>{
-    + hashear(password: String) : String
-}
-HashMD5 ..|> EstrategiaHash
+HashPBKDF2 .left.|> EstrategiaHash
 
 interface RolPlataforma {}
 

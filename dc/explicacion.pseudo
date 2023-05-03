@@ -9,47 +9,122 @@ class Main{
     }
 }
 
-class AdminUsuario{
+class Password{
+    private EstrategiaHash hasheo;
 
+    private String hasheado;
+
+    public Password(String passwordPlana){
+        estrategiaHash = new HashPBKDF2();
+        hasheado = estrategiaHash.hashear(passwordPlana);
+    }
+
+    public boolean esCorrecta(String password){
+        return hasheado == estrategiaHash.hashear(password);
+    }
+
+    public void cambiarPassword(String viejaPassword, String nuevaPassword){
+        if(this.esCorrecta(viejaPassword)){
+            this.hasheado = this.hasheo.hashear(nuevaPassword);
+        }
+    }
+}
+
+class HashPBKDF2 implements EstrategiaHash{
+    private byte salt[];
+    private int costo;
+
+    public HashPBKDF2(){
+        salt = genSalt();
+        costo = genCosto();
+    }
+
+    public static String hashear(String password) {
+        String password_normalizada = Normalizer.normalize(password, Normalizer.Form.NFKC);
+        try {
+            SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA512" );
+            PBEKeySpec spec = new PBEKeySpec( password_normalizada.toCharArray(), salt, costoBase, largoHash );
+            SecretKey key = skf.generateSecret( spec );
+            return  HexFormat.of().formatHex(key.getEncoded( ));
+        } catch ( NoSuchAlgorithmException | InvalidKeySpecException e ) {
+            throw new RuntimeException( e );
+        }
+    }
+
+    private static byte[] genSalt(){
+        byte[] salt = new byte[largoSalt];
+        generadorRandom.nextBytes(salt);
+        return salt;
+    }
+
+    private static int genCosto(){
+    }
+}
+
+class AdministradorUsuario{
     private static Validador validador;
 
-    public static registrarUsuario(String username, String nuevaPassword){
+    public static registrarUsuario(String username, String nombre, String apellido, String mail, String nuevaPassword){
+        Usuario user = new Usuario(username, nombre, apellido, mail);
 
+        //valida password
+        if(validador.validar(user, nuevaPassword)){
+            //si esta la password ok, registra la password en el usuario
+            Password nuevaPass = new Password(nuevaPassword);
+            user.setPassword(nuevaPass);
+
+            //aca lo guardaria en bd
+        }            
     }
-    public static cambiarPasswordDe(Usuario user, String nuevaPassword){
-        
+
+    public static cambiarPasswordDe(Usuario user, String viejaPassword, String nuevaPassword){
+        if(validador.esValido(user, nuevaPassword)){
+            user.password.cambiarPassword(viejaPassword, nuevaPassword);
+        }
     }
 }
 
 class Usuario{
     public String Password;
+
+    public Usuario(){
+        s
+    }
+
+
+    
+    iniciarSesion(String pass){
+        
+    }
+
 }
 
 class ValidadorUsuario {
-    private EstrategiaValidacion[] estrategias; //aca guardamos lo comúnn para todos
-    
+    private EstrategiaValidacion[] estrategiasPassword; 
 
-    public static void SetupValidaciones() {
-        this.estrategia.add(new EstrategiaValidacionRegexp("[0-9]+"))
-        this.estrategia.add(new EstrategiaValidacionRegexp("{.,8}"))
-        this.estrategia.add(new EstrategiaValidacionNoContiene())
+    public ValidadorUsuario() {
+        this.estrategia.add(new EstrategiaValidacionRegexp("[0-9]+"));
+        this.estrategia.add(new EstrategiaValidacionRegexp("{.,8}"));
+        this.estrategia.add(new EstrategiaValidacionNoEstaEnLista(new ObtenerTopPeoresPasswordsURL("url")));
     }
 
-    public static configurarValidaciones(Usuario usuario){
-        var estrategiaNoContiene = (estrategiaNoContiene) this.estrategias.getByIndex(2);
-        estrategiaNoContiene.setStringBuscado(usuario.getUsername());
+    private boolean validarPorUsuario(Usuario usuario, String password){
+        return password != usuario.username;
     }
 
-    public static boolean validar(Usuario usuario){
-        
-        configurarValidaciones(usuario);
-        for(EstrategiaValidacion estrategia : estrategiasFinales){
-            if(!estrategia.validar(usuario.password)){
+    private boolean validarPassword(String password){
+        for(EstrategiaValidacion estrategia : estrategiasPassword){
+            if(!estrategia.validar(password)){
                 return false;
             }
         }
-        
+        return true;
     }
+
+    public boolean esValido(Usuario usuario, String password){
+        return validarPorUsuario(usuario, password) && validarPassword(password);    
+    }
+
 }
 
 interface EstrategiaValidacion{
