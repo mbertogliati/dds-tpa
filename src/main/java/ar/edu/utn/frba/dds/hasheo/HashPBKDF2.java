@@ -32,3 +32,38 @@ public class HashPBKDF2 implements EstrategiaHash {
     return Base64.getEncoder().encodeToString(hash);
   }
 }
+
+/*
+package ar.edu.utn.frba.dds.hasheo;
+
+
+public class HashPBKDF2 implements EstrategiaHash {
+
+
+  private List<Byte> genSalt() {
+    private List<Byte> genSalt() {
+  byte[] salt = new byte[0]; // Longitud del salt
+  new SecureRandom().nextBytes(salt); // Generar valores aleatorios para el salt
+
+  List<Byte> saltList = new ArrayList<>();
+  for (byte b : salt) {
+    saltList.add(b);
+  }
+  return saltList;
+}
+  }
+
+  private int genCosto() {
+  return 10; // Costo arbitrario, ajusta según tus necesidades
+}
+
+  private byte[] convertSaltListToByteArray(List<Byte> saltList) {
+    byte[] saltArray = new byte[saltList.size()];
+    for (int i = 0; i < saltList.size(); i++) {
+        saltArray[i] = saltList.get(i);
+    }
+    return saltArray;
+  }
+}
+
+* */
