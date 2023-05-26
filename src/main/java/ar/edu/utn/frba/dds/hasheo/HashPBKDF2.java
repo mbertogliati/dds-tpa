@@ -1,25 +1,34 @@
 package ar.edu.utn.frba.dds.hasheo;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HashPBKDF2 implements EstrategiaHash {
-  private List<Byte> salt;
-  private int costo;
+  private int costo = 6000;
 
-  @Override
   public String hashear(String password) {
-    //TODO: IMPLEMENTAR HASHEO
-    return "PASSWORDHASHEADA";
-  }
+    byte[] saltBytes = new byte[0]; //TODO: LA salt no se implementa porque no sabemos como hacer que sea especifica por contraseña
+    KeySpec spec = new PBEKeySpec(password.toCharArray(), saltBytes, costo, 256);
+    SecretKeyFactory factory;
+    byte[] hash = null;
+    try {
+      factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+      hash = factory.generateSecret(spec).getEncoded();
+    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+      e.printStackTrace();
+    }
 
-  private List<Byte> genSalt(){
-    //TODO: IMPLEMENTAR SALT
-    return new ArrayList<Byte>();
-  }
-
-  private int genCosto(){
-    //TODO: IMPLEMENTAR COSTO
-    return 0;
+    return Base64.getEncoder().encodeToString(hash);
   }
 }
