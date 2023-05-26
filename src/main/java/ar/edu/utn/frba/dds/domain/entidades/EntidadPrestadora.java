@@ -9,20 +9,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class EntidadPrestadora extends Entidad{
-  @Getter
-  private int id;
-  @Getter
-  private String nombre;
-  @Getter
-  private Denominacion denominacion;
-  @Getter @Setter
-  private Persona informado = null;
-  private InformacionAdapter generadorInformacion;
   private List<Establecimiento> establecimientos;
 
-  public EntidadPrestadora(String nombre, Denominacion denominacion){
-    this.nombre = nombre;
-    this.denominacion = denominacion;
+  public EntidadPrestadora(String nombre, Denominacion denominacion) {
+    super(nombre, denominacion);
   }
 
   public List<Establecimiento> establecimientosEnLocNoDisp(Localizacion loc){

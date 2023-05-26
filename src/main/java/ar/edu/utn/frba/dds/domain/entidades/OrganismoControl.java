@@ -9,6 +9,10 @@ public class OrganismoControl extends Entidad {
   @Getter
   private List<Entidad> entidades;
 
+  public OrganismoControl(String nombre, Denominacion denominacion) {
+    super(nombre, denominacion);
+  }
+
   public void enviarInformacion(){
     //TODO: IMPLEMENTAR ENVIO DE INFORMACION
   }
