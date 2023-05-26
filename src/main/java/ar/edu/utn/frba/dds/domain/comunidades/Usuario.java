@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Usuario {
-  @Getter
+  @Getter @Setter
   private int id;
   @Getter
   private String username;
