@@ -11,11 +11,11 @@ public class Ubicacion {
   @Getter
   private float longitud;
   @Getter
-  private Optional<Localizacion> provincia;
+  private Localizacion provincia;
   @Getter
-  private Optional<Localizacion> departamento;
+  private Localizacion departamento;
   @Getter
-  private Optional<Localizacion> municipio;
+  private Localizacion municipio;
   private ServicioGeoRef geoRef;
 
   public Ubicacion(float latitud, float longitud) throws IOException {

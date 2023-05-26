@@ -9,7 +9,6 @@ import ar.edu.utn.frba.dds.domain.utilidades.TipoLocalizacion;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -17,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServicioGeoRef {
   private static ServicioGeoRef instancia;
-  private static String urlApi = "https://apis.datos.gob.ar/georef/api/";
+  private static final String urlApi = "https://apis.datos.gob.ar/georef/api/";
   private Retrofit retrofit;
 
   private ServicioGeoRef(){
@@ -28,27 +27,30 @@ public class ServicioGeoRef {
   }
 
   public static ServicioGeoRef instancia(){
-    if(instancia== null){
+    if(instancia == null){
       instancia = new ServicioGeoRef();
     }
     return instancia;
   }
 
-  public Optional<Localizacion> provincia(float latitud, float longitud) throws IOException {
+  public Localizacion provincia(float latitud, float longitud) throws IOException {
     return this.buscar(latitud, longitud, PROVINCIA);
   }
-  public Optional<Localizacion> departamento(float latitud, float longitud) throws IOException {
+  public Localizacion departamento(float latitud, float longitud) throws IOException {
     return this.buscar(latitud, longitud, DEPARTAMENTO);
   }
-  public Optional<Localizacion> municipio(float latitud, float longitud) throws IOException {
+  public Localizacion municipio(float latitud, float longitud) throws IOException {
     return this.buscar(latitud, longitud, MUNICIPIO);
   }
-  private Optional<Localizacion> buscar(float latitud, float longitud, TipoLocalizacion tipo) throws IOException {
+  private Localizacion buscar(float latitud, float longitud, TipoLocalizacion tipo) throws IOException {
     GeoRefService geoRefService = this.retrofit.create(GeoRefService.class);
     Call<ResponseUbicacion> requestBuscada = geoRefService.ubicacion(latitud, longitud);
     Response<ResponseUbicacion> responseBuscada = requestBuscada.execute();
 
-    return this.generarLocalizacionUbi(responseBuscada.body()).stream().filter(loc -> loc.getTipo() == tipo).findFirst();
+    return this.generarLocalizacionUbi(responseBuscada.body()).stream()
+        .filter(loc -> loc.getTipo() == tipo)
+        .findFirst()
+        .orElse(null);
   }
 
   public List<Localizacion> ubicacion(float latitud, float longitud) throws IOException {
