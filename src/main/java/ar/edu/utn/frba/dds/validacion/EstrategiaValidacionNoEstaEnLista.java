@@ -9,6 +9,6 @@ public class EstrategiaValidacionNoEstaEnLista implements EstrategiaValidacion{
 
   @Override
   public boolean validar(String cadena){
-    return this.obtenerListaString.obtenerLista().stream().noneMatch(cadenaLista -> cadenaLista == cadena);
+    return this.obtenerListaString.obtenerLista().stream().noneMatch(cadenaLista -> cadenaLista.equals(cadena));
   }
 }
