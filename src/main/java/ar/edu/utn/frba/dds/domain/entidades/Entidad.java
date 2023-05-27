@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public abstract class Entidad {
-  @Getter
+  @Getter @Setter
   private int id;
   @Getter
   private String nombre;

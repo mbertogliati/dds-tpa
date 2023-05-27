@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Establecimiento {
-  @Getter
+  @Getter @Setter
   private int id;
   @Getter
   private Denominacion denominacion;
@@ -32,7 +32,7 @@ public class Establecimiento {
   }
 
   public void eliminarServicioPrestado(ServicioPrestado servicioPrestado){
-    this.serviciosPrestados.stream().filter(servicio -> servicio.getId() == servicioPrestado.getId()).forEach(servicio -> this.serviciosPrestados.remove(servicio));
+    this.serviciosPrestados.removeIf(servicio -> servicio.getId() == servicioPrestado.getId());
   }
 
   public void eliminarServicio(Servicio servicio){

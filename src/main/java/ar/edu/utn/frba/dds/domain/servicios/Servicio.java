@@ -1,14 +1,17 @@
 package ar.edu.utn.frba.dds.domain.servicios;
 
 import ar.edu.utn.frba.dds.domain.utilidades.Etiqueta;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 
 public class Servicio {
-  @Getter
+  @Getter @Setter
   private int id;
   @Getter
-  private List<Etiqueta> etiquetas;
+  private List<Etiqueta> etiquetas = new ArrayList<Etiqueta>();
 
   public Servicio(List<Etiqueta> etiquetas){
     this.etiquetas = etiquetas;

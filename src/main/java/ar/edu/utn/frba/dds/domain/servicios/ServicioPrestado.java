@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ServicioPrestado {
-  @Getter
+  @Getter @Setter
   private int id;
   @Getter
   private Servicio servicio;

@@ -10,7 +10,7 @@ import lombok.Setter;
 
 public class EntidadPrestadora extends Entidad{
   @Getter
-  private List<Establecimiento> establecimientos;
+  private List<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
 
   public EntidadPrestadora(String nombre, Denominacion denominacion) {
     super(nombre, denominacion);
@@ -33,7 +33,7 @@ public class EntidadPrestadora extends Entidad{
   }
 
   private void eliminarEstablecimientoPorID(int id){
-    this.establecimientos.stream().filter(est -> est.getId() == id).forEach(est -> establecimientos.remove(est));
+    this.establecimientos.stream().filter(establecimiento -> establecimiento.getId() == id).toList().forEach(est -> establecimientos.remove(est));
   }
 
   public Establecimiento getPrimero(){
