@@ -37,8 +37,8 @@ public class EntidadTests {
     @BeforeEach
     public void init() throws IOException {
         this.iniciarServicios();
-        this.iniciarEntidades();
         this.iniciarEstablecimientos();
+        this.iniciarEntidades();
     }
 
     @Test
@@ -47,7 +47,7 @@ public class EntidadTests {
         entidadPrestadora1.agregarEstablecimiento(sucursal1);
         entidadPrestadora1.agregarEstablecimiento(sucursal2);
 
-        Assertions.assertTrue(entidadPrestadora1.getEstablecimientos().size() == 2);
+        Assertions.assertEquals(2,entidadPrestadora1.getEstablecimientos().size());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class EntidadTests {
 
         entidadPrestadora1.eliminarEstablecimiento(sucursal1);
 
-        Assertions.assertTrue(entidadPrestadora1.getEstablecimientos().size() == 1);
+        Assertions.assertEquals(1,entidadPrestadora1.getEstablecimientos().size());
     }
 
     @Test
@@ -67,8 +67,8 @@ public class EntidadTests {
         sucursal1.agregarServicio(new ServicioPrestado(banioHombreBebe));
         sucursal1.agregarServicio(new ServicioPrestado(banioMujerDiscapRampa));
 
-        Assertions.assertTrue(sucursal1.getServiciosPrestados().size() == 2);
-        Assertions.assertTrue(sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size() == 2);
+        Assertions.assertEquals(2,sucursal1.getServiciosPrestados().size());
+        Assertions.assertEquals(2,sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size());
     }
 
     @Test
@@ -80,8 +80,8 @@ public class EntidadTests {
 
         sucursal1.eliminarServicio(banioMujerDiscapRampa);
 
-        Assertions.assertTrue(sucursal1.getServiciosPrestados().size() == 2);
-        Assertions.assertTrue(sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size() == 2);
+        Assertions.assertEquals(2,sucursal1.getServiciosPrestados().size());
+        Assertions.assertEquals(2,sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size());
     }
 
     @Test
@@ -93,9 +93,9 @@ public class EntidadTests {
 
         sucursal1.setServicio(banioMujerDiscapRampa, false);
 
-        Assertions.assertTrue(sucursal1.getServiciosPrestados().size() == 3);
-        Assertions.assertTrue(sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size() == 2);
-        Assertions.assertTrue(sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size() == 1);
+        Assertions.assertEquals(3,sucursal1.getServiciosPrestados().size());
+        Assertions.assertEquals(2,sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size());
+        Assertions.assertEquals(1,sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == false).toList().size());
     }
 
     private void iniciarEstablecimientos() throws IOException {

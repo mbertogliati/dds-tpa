@@ -92,9 +92,9 @@ public class ServicioGeoRef {
   private List<Localizacion> generarLocalizacionUbi(ResponseUbicacion ubicacion){
     List<Localizacion> localizaciones = new ArrayList<>();
 
-    localizaciones.add(new Localizacion(ubicacion.ubicacionGeoRef.provincia.id, ubicacion.ubicacionGeoRef.provincia.nombre, PROVINCIA));
-    localizaciones.add(new Localizacion(ubicacion.ubicacionGeoRef.municipio.id, ubicacion.ubicacionGeoRef.municipio.nombre, MUNICIPIO));
-    localizaciones.add(new Localizacion(ubicacion.ubicacionGeoRef.departamento.id, ubicacion.ubicacionGeoRef.departamento.nombre, DEPARTAMENTO));
+    localizaciones.add(new Localizacion(ubicacion.ubicacion.provincia.id, ubicacion.ubicacion.provincia.nombre, PROVINCIA));
+    localizaciones.add(new Localizacion(ubicacion.ubicacion.municipio.id, ubicacion.ubicacion.municipio.nombre, MUNICIPIO));
+    localizaciones.add(new Localizacion(ubicacion.ubicacion.departamento.id, ubicacion.ubicacion.departamento.nombre, DEPARTAMENTO));
 
     return localizaciones;
   }

@@ -18,7 +18,7 @@ public class HashPBKDF2 implements EstrategiaHash {
   private int costo = 6000;
 
   public String hashear(String password) {
-    byte[] saltBytes = new byte[0]; //TODO: LA salt no se implementa porque no sabemos como hacer que sea especifica por contraseña
+    byte[] saltBytes = new byte[1]; //TODO: LA salt no se implementa porque no sabemos como hacer que sea especifica por contraseña
     KeySpec spec = new PBEKeySpec(password.toCharArray(), saltBytes, costo, 256);
     SecretKeyFactory factory;
     byte[] hash = null;

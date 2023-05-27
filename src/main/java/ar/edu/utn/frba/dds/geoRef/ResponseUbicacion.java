@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ResponseUbicacion {
   public Parametro parametros;
-  public UbicacionGeoRef ubicacionGeoRef;
+  public UbicacionGeoRef ubicacion;
 
   public class UbicacionGeoRef {
     public Departamento departamento;

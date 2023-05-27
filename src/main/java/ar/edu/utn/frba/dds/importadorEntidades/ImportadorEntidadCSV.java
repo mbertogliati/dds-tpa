@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.importadorEntidades;
 
-import ar.edu.utn.frba.dds.domain.comunidades.Persona;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.domain.entidades.Denominacion;
@@ -17,7 +16,7 @@ import java.nio.file.Paths;
 
 
 
-public class ImportarEntidadCSV implements ImportarEntidadAdapter{
+public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
 
   public List<Entidad> crearEntidades(String path){
     List<Entidad> entidades = new ArrayList<Entidad>();
