@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.domain.utilidades;
 
 import ar.edu.utn.frba.dds.geoRef.ServicioGeoRef;
 import java.io.IOException;
-import java.util.Optional;
 import lombok.Getter;
 
 public class Ubicacion {
@@ -23,7 +22,7 @@ public class Ubicacion {
     this.longitud = longitud;
     this.geoRef = ServicioGeoRef.instancia();
     this.provincia = geoRef.provincia(latitud, longitud);
-    this.departamento = geoRef.departamento(latitud, longitud);
+    this.departamento = geoRef.municipio(latitud, longitud);
     this.municipio = geoRef.municipio(latitud, longitud);
   }
 }
