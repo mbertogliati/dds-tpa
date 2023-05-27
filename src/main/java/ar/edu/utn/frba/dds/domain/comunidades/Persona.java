@@ -1,9 +1,14 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
+import ar.edu.utn.frba.dds.domain.entidades.Entidad;
+import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
+import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ar.edu.utn.frba.dds.domain.utilidades.Localizacion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +22,7 @@ public class Persona {
   @Getter @Setter
   private String email;
   @Getter
-  private Interes interes = null;
+  private Interes interes;
   @Getter
   private List<Membresia> membresias = new ArrayList<>();
 
@@ -25,6 +30,33 @@ public class Persona {
     this.nombre = nombre;
     this.apellido = apellido;
     this.usuario = usuario;
+  }
+
+  public Persona(String nombre, String apellido, String email, Usuario usuario, Localizacion localizacion){
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.usuario = usuario;
+    this.interes = new Interes(localizacion);
+  }
+
+  public void agregarServicioDeInteres(Servicio servicio){
+    this.interes.agregarServicio(servicio);
+  }
+
+  public void agregarEntidadDeInteres(EntidadPrestadora entidad){
+    this.interes.agregarEntidad(entidad);
+  }
+
+  public void eliminarServicioDeInteres(Servicio servicio){
+    this.interes.eliminarServicio(servicio);
+  }
+
+  public void eliminarEntidadDeInteres(EntidadPrestadora entidad){
+    this.interes.eliminarEntidad(entidad);
+  }
+
+  public void setLocalizacion(Localizacion localizacion){
+    this.interes.setLocalizacion(localizacion);
   }
 
   public void agregarMembresia(Membresia membresia){

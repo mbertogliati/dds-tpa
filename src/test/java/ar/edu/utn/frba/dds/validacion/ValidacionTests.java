@@ -1,24 +1,13 @@
 package ar.edu.utn.frba.dds.validacion;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Usuario;
-import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ValidacionTests {
     private ValidadorUsuario validador = new ValidadorUsuario();
     private Usuario usuario;
-
-    @BeforeEach
-    public void init(){
-    }
 
     @Test
     @DisplayName("Una cadena que está en las peores 10.000, no es válida")

@@ -5,12 +5,24 @@ import ar.edu.utn.frba.dds.domain.utilidades.InformacionAdapter;
 import ar.edu.utn.frba.dds.domain.utilidades.Localizacion;
 import java.util.ArrayList;
 import java.util.List;
+
+import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;
 
 public class EntidadPrestadora extends Entidad{
   @Getter
   private List<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
+
+  @Override
+  public List<Localizacion> getLocalizaciones() {
+    List<Localizacion> lista = new ArrayList<>();
+    lista.addAll(establecimientos.stream().map(establecimiento -> establecimiento.getUbicacion().getDepartamento()).toList());
+    lista.addAll(establecimientos.stream().map(establecimiento -> establecimiento.getUbicacion().getProvincia()).toList());
+    lista.addAll(establecimientos.stream().map(establecimiento -> establecimiento.getUbicacion().getMunicipio()).toList());
+    lista.stream().filter(localizacion -> localizacion.getId() == 0).toList().forEach(localizacion -> lista.remove(localizacion));
+    return lista;
+  }
 
   public EntidadPrestadora(String nombre, Denominacion denominacion) {
     super(nombre, denominacion);

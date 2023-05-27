@@ -20,6 +20,6 @@ public class Rol {
   }
 
   private void eliminarPermisoPorID(int id){
-    permisos.stream().filter(perm -> perm.getId() == id).forEach(perm -> permisos.remove(perm));
+    permisos.stream().filter(perm -> perm.getId() == id).toList().forEach(perm -> permisos.remove(perm));
   }
 }

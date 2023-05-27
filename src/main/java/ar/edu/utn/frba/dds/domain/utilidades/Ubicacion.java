@@ -25,4 +25,12 @@ public class Ubicacion {
     this.departamento = geoRef.municipio(latitud, longitud);
     this.municipio = geoRef.municipio(latitud, longitud);
   }
+
+  public void setLatitudLongitud(float latitud, float longitud) throws IOException {
+    this.latitud = latitud;
+    this.longitud = longitud;
+    this.provincia = geoRef.provincia(latitud, longitud);
+    this.departamento = geoRef.municipio(latitud, longitud);
+    this.municipio = geoRef.municipio(latitud, longitud);
+  }
 }

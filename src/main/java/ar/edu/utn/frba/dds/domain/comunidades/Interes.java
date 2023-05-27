@@ -29,7 +29,7 @@ public class Interes {
   }
 
   private void eliminarServicioPorID(int id){
-    servicios.stream().filter(servicio -> servicio.getId() == id).forEach(servicio -> servicios.remove(servicio));
+    servicios.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> servicios.remove(servicio));
   }
 
   public void agregarEntidad(EntidadPrestadora entidad){
@@ -41,6 +41,6 @@ public class Interes {
   }
 
   private void eliminarEntidadPorID(int id){
-    servicios.stream().filter(entidad -> entidad.getId() == id).forEach(entidad -> entidades.remove(entidad));
+    servicios.stream().filter(entidad -> entidad.getId() == id).toList().forEach(entidad -> entidades.remove(entidad));
   }
 }

@@ -32,7 +32,7 @@ public class Comunidad {
   }
 
   private void eliminarServicioPorID(int id){
-    servicios.stream().filter(servicio -> servicio.getId() == id).forEach(servicio -> servicios.remove(servicio));
+    servicios.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> servicios.remove(servicio));
   }
 
   public void agregarMembresia(Membresia membresia){
