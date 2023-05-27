@@ -20,6 +20,9 @@ public class Comunidad {
     this.detalle = detalle;
   }
 
+  public void agregarMembresiaDirecto(Membresia membresia){
+    this.membresias.add(membresia);
+  }
   public void agregarServicio(Servicio servicio){
     this.servicios.add(servicio);
   }
@@ -34,6 +37,7 @@ public class Comunidad {
 
   public void agregarMembresia(Membresia membresia){
     this.membresias.add(membresia);
+    membresia.getPersona().agregarMembresiaDirecto(membresia);
   }
 
   public void eliminarMembresiaDirecto(Membresia membresia){

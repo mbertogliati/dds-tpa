@@ -31,12 +31,20 @@ public class Establecimiento {
     this.serviciosPrestados.add(servicioPrestado);
   }
 
-  public void eliminarServicio(ServicioPrestado servicioPrestado){
-    this.eliminarServicioPorID(servicioPrestado.getId());
+  public void eliminarServicioPrestado(ServicioPrestado servicioPrestado){
+    this.serviciosPrestados.stream().filter(servicio -> servicio.getId() == servicioPrestado.getId()).forEach(servicio -> this.serviciosPrestados.remove(servicio));
   }
 
-  private void eliminarServicioPorID(int id){
-    serviciosPrestados.stream().filter(servicio -> servicio.getId() == id).forEach(servicio -> serviciosPrestados.remove(servicio));
+  public void eliminarServicio(Servicio servicio){
+    this.serviciosPrestadosConServicio(servicio).forEach(servicioPrestado -> this.serviciosPrestados.remove(servicio));
+  }
+
+  public void setServicio(Servicio servicio, boolean valor){
+    this.serviciosPrestadosConServicio(servicio).forEach(servicioPrestado -> servicioPrestado.setDisponibilidad(valor));
+  }
+
+  public List<ServicioPrestado> serviciosPrestadosConServicio(Servicio servicio){
+    return this.serviciosPrestados.stream().filter(servicioPrestado -> servicioPrestado.getServicio().getId() == servicio.getId()).toList();
   }
 
 

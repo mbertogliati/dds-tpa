@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +19,7 @@ public class Persona {
   @Getter
   private Interes interes = null;
   @Getter
-  private List<Membresia> membresias;
+  private List<Membresia> membresias = new ArrayList<>();
 
   public Persona(String nombre, String apellido, String email, Usuario usuario){
     this.nombre = nombre;
@@ -26,6 +28,11 @@ public class Persona {
   }
 
   public void agregarMembresia(Membresia membresia){
+    this.membresias.add(membresia);
+    membresia.getComunidad().agregarMembresiaDirecto(membresia);
+  }
+
+  public void agregarMembresiaDirecto(Membresia membresia){
     this.membresias.add(membresia);
   }
 

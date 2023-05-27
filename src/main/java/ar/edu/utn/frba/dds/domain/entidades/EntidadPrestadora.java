@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class EntidadPrestadora extends Entidad{
+  @Getter
   private List<Establecimiento> establecimientos;
 
   public EntidadPrestadora(String nombre, Denominacion denominacion) {
