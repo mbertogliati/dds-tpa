@@ -26,6 +26,7 @@ public class ControlEntidades {
   public ControlEntidades(String nombre, Denominacion denominacion) {
     this.nombre = nombre;
     this.denominacion = denominacion;
+    this.entidades = new ArrayList<Entidad>();
   }
 
   public List<Localizacion> getLocalizaciones() {
