@@ -1,8 +1,9 @@
 package ar.edu.utn.frba.dds.importadorEntidades;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
+
 import java.util.List;
 
 public interface ImportadorEntidadAdapter {
-  public abstract List<Entidad> crearEntidades(String path);
+  public List<Entidad> crearEntidades(String path);
 }

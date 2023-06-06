@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class EntidadTests {
     private Servicio banioHombreBebe;
     private Servicio escaleraMolinete;
@@ -23,11 +21,11 @@ public class EntidadTests {
     private Servicio banioMujerDiscapRampa;
     private Servicio escMecanicaMolinete;
     private List<Servicio> serviciosIniciales = new ArrayList<>();
-    private EntidadPrestadora entidadPrestadora1;
-    private EntidadPrestadora entidadPrestadora2;
-    private EntidadPrestadora entidadPrestadora3;
-    private OrganismoControl organismoControl1;
-    private OrganismoControl organismoControl2;
+    private Entidad entidad1;
+    private Entidad entidad2;
+    private Entidad entidad3;
+    private ControlEntidades organismoControl1;
+    private ControlEntidades organismoControl2;
     private Establecimiento sucursal1;
     private Establecimiento sucursal2;
     private Establecimiento estacion1;
@@ -44,21 +42,21 @@ public class EntidadTests {
     @Test
     @DisplayName("Se pueden agregar establecimientos a una entidad")
     public void agregarEstablecimientos(){
-        entidadPrestadora1.agregarEstablecimiento(sucursal1);
-        entidadPrestadora1.agregarEstablecimiento(sucursal2);
+        entidad1.agregarEstablecimiento(sucursal1);
+        entidad1.agregarEstablecimiento(sucursal2);
 
-        Assertions.assertEquals(2,entidadPrestadora1.getEstablecimientos().size());
+        Assertions.assertEquals(2, entidad1.getEstablecimientos().size());
     }
 
     @Test
     @DisplayName("Se pueden eliminar establecimientos de una entidad")
     public void eliminarEstablecimientos(){
-        entidadPrestadora1.agregarEstablecimiento(sucursal1);
-        entidadPrestadora1.agregarEstablecimiento(sucursal2);
+        entidad1.agregarEstablecimiento(sucursal1);
+        entidad1.agregarEstablecimiento(sucursal2);
 
-        entidadPrestadora1.eliminarEstablecimiento(sucursal1);
+        entidad1.eliminarEstablecimiento(sucursal1);
 
-        Assertions.assertEquals(1,entidadPrestadora1.getEstablecimientos().size());
+        Assertions.assertEquals(1, entidad1.getEstablecimientos().size());
     }
 
     @Test
@@ -119,15 +117,15 @@ public class EntidadTests {
     }
 
     private void iniciarEntidades(){
-        this.entidadPrestadora1 = new EntidadPrestadora("Primera entidad prestadora de banco", new Denominacion("banco"));
-        entidadPrestadora1.setId(0);
-        this.entidadPrestadora2 = new EntidadPrestadora("Segunda entidad prestadora de banco", new Denominacion("banco"));
-        entidadPrestadora2.setId(1);
-        this.entidadPrestadora3 = new EntidadPrestadora("Primera entidad prestadora de transporte", new Denominacion("transporte"));
-        entidadPrestadora3.setId(2);
-        this.organismoControl1 = new OrganismoControl("Primer organismo de control transporte", new Denominacion("controlTransporte"));
+        this.entidad1 = new Entidad("Primera entidad de banco", new Denominacion("banco"));
+        entidad1.setId(0);
+        this.entidad2 = new Entidad("Segunda entidad de banco", new Denominacion("banco"));
+        entidad2.setId(1);
+        this.entidad3 = new Entidad("Primera entidad de transporte", new Denominacion("transporte"));
+        entidad3.setId(2);
+        this.organismoControl1 = new ControlEntidades("Primer organismo de control transporte", new Denominacion("controlTransporte"));
         organismoControl1.setId(3);
-        this.organismoControl2 = new OrganismoControl("Primer organismo de control banco", new Denominacion("controlBanco"));
+        this.organismoControl2 = new ControlEntidades("Primer organismo de control banco", new Denominacion("controlBanco"));
         organismoControl2.setId(4);
     }
 

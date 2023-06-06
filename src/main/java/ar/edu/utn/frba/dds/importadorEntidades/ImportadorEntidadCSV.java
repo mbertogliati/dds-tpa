@@ -1,14 +1,15 @@
 package ar.edu.utn.frba.dds.importadorEntidades;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
-import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.domain.entidades.Denominacion;
-import ar.edu.utn.frba.dds.domain.entidades.OrganismoControl;
+import ar.edu.utn.frba.dds.domain.entidades.ControlEntidades;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+
+import javax.naming.ldap.Control;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -34,29 +35,19 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
   }
 
   private Entidad crearEntidad(CSVRecord csvRecord){
-    Entidad entidad = null;
-    Denominacion denominacion = new Denominacion(csvRecord.get(2));
+    Denominacion denominacion = new Denominacion(csvRecord.get(1));
+    Entidad entidad = new Entidad(csvRecord.get(0), denominacion);
 
-    switch (csvRecord.get(0)){
-      case "0":
-        entidad = new EntidadPrestadora(csvRecord.get(1), denominacion);
-        break;
-      case "1":
-        entidad = new OrganismoControl(csvRecord.get(1), denominacion);
-        break;
-      default:
-        throw new RuntimeException("Tipo de entidad no valido");
-    }
     return entidad;
   }
 }
 /*
 * EJEMPLO .CSV
 *
-* TipoEntidad(0,1);Nombre;Denominacion
-* 0;Linea B;Transporte;Juan;Perez;juan_perez@gmail.com
-* 0;Linea 60;Transporte;Rodrigo;Pena;rpena@hotmail.com
-* 1;Ministerio De Transporte;Administracion Estatal;Juan;Perez;juan_perez@gmail.com
-* 1;Banco Nacion;Banco;Rodrigo;Pena;rpena@hotmail.com
+* Nombre;Denominacion
+* Linea B;Transporte;Juan;Perez;juan_perez@gmail.com
+* Linea 60;Transporte;Rodrigo;Pena;rpena@hotmail.com
+* Ministerio De Transporte;Administracion Estatal;Juan;Perez;juan_perez@gmail.com
+* Banco Nacion;Banco;Rodrigo;Pena;rpena@hotmail.com
 *
 * */

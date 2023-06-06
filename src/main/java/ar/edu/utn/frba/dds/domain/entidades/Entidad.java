@@ -1,31 +1,73 @@
 package ar.edu.utn.frba.dds.domain.entidades;
 
-import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.utilidades.InformacionAdapter;
 import ar.edu.utn.frba.dds.domain.utilidades.Localizacion;
-import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
-public abstract class Entidad {
+public class Entidad {
   @Getter @Setter
   private int id;
+  @Getter
+  private List<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
   @Getter
   private String nombre;
   @Getter
   private Denominacion denominacion;
-  @Getter @Setter
-  private Persona informado = null;
-  private InformacionAdapter generadorInformacion;
 
-  public abstract List<Localizacion> getLocalizaciones();
+  public List<Localizacion> getLocalizaciones() {
+    List<Localizacion> lista = new ArrayList<>();
+    lista.addAll(establecimientos.stream().map(establecimiento -> establecimiento.getUbicacion().getDepartamento()).toList());
+    lista.addAll(establecimientos.stream().map(establecimiento -> establecimiento.getUbicacion().getProvincia()).toList());
+    lista.addAll(establecimientos.stream().map(establecimiento -> establecimiento.getUbicacion().getMunicipio()).toList());
+    lista.stream().filter(localizacion -> localizacion.getId() == 0).toList().forEach(localizacion -> lista.remove(localizacion));
+    return lista;
+  }
 
-  protected Entidad(String nombre, Denominacion denominacion) {
+  public Entidad(String nombre, Denominacion denominacion) {
     this.nombre = nombre;
     this.denominacion = denominacion;
   }
 
-  public abstract void enviarInformacion();
+  public List<Establecimiento> establecimientosEnLocNoDisp(Localizacion loc){
+    return this.getEstablecimientosEnLocacion(loc).stream().filter(est -> est.getServiciosPrestados().stream().anyMatch(serv -> serv.isDisponibilidad() == false)).toList();
+  }
+
+  public void agregarEstablecimiento(Establecimiento establecimiento, int posicion){
+    this.establecimientos.add(posicion, establecimiento);
+  }
+
+  public void agregarEstablecimiento(Establecimiento establecimiento){
+    this.establecimientos.add(establecimiento);
+  }
+
+  public void eliminarEstablecimiento(Establecimiento establecimiento){
+    this.eliminarEstablecimientoPorID(establecimiento.getId());
+  }
+
+  private void eliminarEstablecimientoPorID(int id){
+    this.establecimientos.stream().filter(establecimiento -> establecimiento.getId() == id).toList().forEach(est -> establecimientos.remove(est));
+  }
+
+  public Establecimiento getPrimero(){
+    return establecimientos.get(0);
+  }
+
+  public Establecimiento getUltimo(){
+    return establecimientos.get(establecimientos.size() - 1);
+  }
+
+  private List<Establecimiento> getEstablecimientosEnLocacion(Localizacion localizacion){
+    List<Establecimiento> listaRetornar = new ArrayList<>();
+
+    switch (localizacion.getTipo()){
+      case MUNICIPIO -> listaRetornar = this.establecimientos.stream().filter(est -> est.getUbicacion().getMunicipio() == localizacion).toList();
+      case PROVINCIA -> listaRetornar = this.establecimientos.stream().filter(est -> est.getUbicacion().getProvincia() == localizacion).toList();
+      case DEPARTAMENTO -> listaRetornar = this.establecimientos.stream().filter(est -> est.getUbicacion().getDepartamento() == localizacion).toList();
+    }
+
+    return listaRetornar;
+  }
 }

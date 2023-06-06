@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
-import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
+import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import ar.edu.utn.frba.dds.domain.utilidades.Localizacion;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import lombok.Setter;
 
 public class Interes {
   @Getter
-  private List<EntidadPrestadora> entidades = new ArrayList<>();
+  private List<Entidad> entidades = new ArrayList<>();
   @Getter
   private List<Servicio> servicios = new ArrayList<>();
   @Getter @Setter
@@ -32,11 +32,11 @@ public class Interes {
     servicios.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> servicios.remove(servicio));
   }
 
-  public void agregarEntidad(EntidadPrestadora entidad){
+  public void agregarEntidad(Entidad entidad){
     this.entidades.add(entidad);
   }
 
-  public void eliminarEntidad(EntidadPrestadora entidad){
+  public void eliminarEntidad(Entidad entidad){
     this.eliminarEntidadPorID(entidad.getId());
   }
 

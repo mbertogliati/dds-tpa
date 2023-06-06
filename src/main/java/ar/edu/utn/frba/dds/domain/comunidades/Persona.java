@@ -1,9 +1,7 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
-import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
-import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,7 @@ public class Persona {
     this.interes.agregarServicio(servicio);
   }
 
-  public void agregarEntidadDeInteres(EntidadPrestadora entidad){
+  public void agregarEntidadDeInteres(Entidad entidad){
     this.interes.agregarEntidad(entidad);
   }
 
@@ -51,7 +49,7 @@ public class Persona {
     this.interes.eliminarServicio(servicio);
   }
 
-  public void eliminarEntidadDeInteres(EntidadPrestadora entidad){
+  public void eliminarEntidadDeInteres(Entidad entidad){
     this.interes.eliminarEntidad(entidad);
   }
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class ValidacionTests {
-    private ValidadorUsuario validador = new ValidadorUsuario();
+    private ValidadorUsuarioConcreto validador = new ValidadorUsuarioConcreto();
     private Usuario usuario;
 
     @Test

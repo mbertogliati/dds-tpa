@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.domain.utilidades;
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
 import ar.edu.utn.frba.dds.domain.comunidades.Usuario;
 import ar.edu.utn.frba.dds.domain.entidades.Denominacion;
-import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
+import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ public class LocalizacionTests {
     @Test
     @DisplayName("Se puede asignar una localizacion a una entidad")
     public void asignarLocalizacionAEntidad(){
-        EntidadPrestadora entidad = new EntidadPrestadora("entidad prestadora", new Denominacion("entidad"));
+        Entidad entidad = new Entidad("entidad prestadora", new Denominacion("entidad"));
 
         try {
             entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.77995323941093, (float)-58.39850705828568), new Denominacion("establecimiento")));

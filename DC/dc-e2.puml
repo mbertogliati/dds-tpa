@@ -1,0 +1,216 @@
+@startuml
+skinparam linetype ortho
+
+class Usuario{
+    -id: int
+    -username: String
+    -password: String
+    -rolPlataforma: Rol
+}
+
+class Interes{
+    -entidades: List<Entidad>
+    -servicios: List<Servicio> 
+    -localizacion: Localizacion
+}
+
+Persona -right-> Interes
+
+class Persona{
+    -usuario: Usuario
+    -nombre: String
+    -apellido: String
+    -email: String
+    -interes: Interes
+    -membresias: List<Membresia>   
+
+    +agregarServicio(servicio: Servicio)
+    +eliminarServicio(servicio: Servicio)
+}
+
+class Comunidad{
+    -id: int
+    -detalle: String
+    -servicios: List<Servicio>
+    -membresias: List<Membresia>
+
+    +agregarServicioAEstablecimiento(establecimiento: Establecimiento, servicio: Servicio)   
+}
+
+class Membresia{
+    -usuario: Persona
+    -comunidad: Comunidad
+    -rolComunidad: Rol
+}
+Membresia --> Persona
+Membresia --> Comunidad
+Comunidad --> "1..*" Membresia
+Persona --> "1..*" Membresia
+
+Usuario-->Rol
+
+
+class Rol{
+    -id: int
+    -permisos: List<Permiso>
+
+    +tienePermiso(permiso: Permiso)
+}
+class Permiso{
+    -id: int
+    -detalles: String
+}
+Membresia --> Rol
+Rol --> "1..*" Permiso
+
+class Localizacion{
+    -id: int
+    -nombre: String
+    -tipo: TipoLocalizacion
+}
+
+Localizacion --> TipoLocalizacion
+
+enum TipoLocalizacion {
+    PROVINCIA
+    DEPARTAMENTO
+    MUNICIPIO
+}
+
+Ubicacion --> Localizacion
+Ubicacion --> Localizacion
+Ubicacion --> Localizacion
+
+interface LocalizacionAdapter{
+    + provincia(lat: float, long: float): Localizacion
+    + departamento(lat: float, long: float): Localizacion
+    + municipio(lat: float, long: float): Localizacion
+    + provincias(): List<Localizacion>
+    + municipiosDeProvincia(provincia Localizacion): List<Localizacion>
+    + departamentosDeProvincia(provincia Localizacion): List<Localizacion>
+    + ubicacion(lat: float, long: float): List<Localizacion>
+}
+
+Ubicacion ..> LocalizacionAdapter
+LocalizacionAdapter ..> Localizacion
+
+class ControlEntidades{
+    - entidades: List<Entidad>
+    - nombre : String
+    - denominacion : Denominacion
+    - informado: Persona
+    - generadorInformacion: InformacionAdapter
+    
+    +enviarInformacion()
+}
+
+class Entidad{    
+    - establecimientos: List<Establecimiento>
+    - nombre : String
+    - denominacion : Denominacion
+   
+    +establecimientosEnLocNoDisp(loc: Localizacion): List<Establecimiento>
+    +agregarEstablecimiento(establecimiento: Establecimiento, posicion: int)
+    +eliminarEstablecimiento(establecimiento: Establecimiento)
+    -eliminarEstablecimientoPorID(idBuscada: int)
+    +getPrimero() : Establecimiento
+    +getUltimo() : Establecimiento
+    -getEstablecimientosEnLocalizacion(loc: Localizacion): List<Establecimiento>
+}
+
+ControlEntidades -->"1..*" Entidad
+ControlEntidades --> Persona
+ControlEntidades --> Denominacion
+ControlEntidades-->InformacionAdapter
+InformacionAdapter..>Entidad
+Establecimiento -right-> Denominacion
+Entidad --> Denominacion
+
+class Denominacion{
+    - id: int
+    - descripcion: String
+
+    + getDescripcion(): String
+}
+
+class Establecimiento{
+    - denominacion : Denominacion
+    - serviciosPrestados : List<ServicioPrestado>
+    - ubicacion : Ubicacion
+
+    + serviciosConDisponibilidad(disponibilidad: boolean): List<Servicio>
+    + agregarServicio(nuevo: ServicioPrestado)
+    + eliminarServicio(servicio: ServicioPrestado)
+    - eliminarServicioPorID(idBuscada: int)
+}
+
+class ServicioPrestado{
+    -id: int
+    -servicio: Servicio
+    -disponibilidad: boolean
+
+    + setDisponibilidad(estado: boolean)
+}
+
+interface InformacionAdapter{
+    + obtenerInformacion(entidad: Entidad) : String
+}
+
+class Servicio{
+    - id: int
+    - etiquetas: List<Etiqueta>
+
+    + agregarEtiqueta(nuevaEtiqueta: Etiqueta)
+    + eliminarEtiqueta(EtiquetaServicio: Etiqueta)
+    - eliminarEtiqueta(idBuscada: int)
+
+}
+
+class Ubicacion{
+    -lat: float
+    -long: float
+    -provincia: Localizacion
+    -departamento: Localizacion
+    -municipio: Localizacion
+}
+
+class Etiqueta{
+    -id: int
+    -tipo: String
+    -valor: String
+}
+
+/'  RELACIONES  '/
+
+
+Establecimiento --> "1..*" ServicioPrestado
+
+ServicioPrestado --> Servicio
+Servicio -right-> "1..*" Etiqueta
+
+Entidad --> "1..*" Establecimiento
+
+Establecimiento --> Ubicacion
+
+Persona -left-> Usuario
+Interes --> Localizacion
+Interes --> "1..*" Servicio
+Interes --> "1..*" Entidad
+
+ImportarEntidadAdapter .right.> ControlEntidades
+
+interface ImportarEntidadAdapter{
+    + crearEntidades(path: String): List<ControlEntidades>
+}
+ImportarEntidadCSV ..|> ImportarEntidadAdapter
+class ImportarEntidadCSV{
+    + crearEntidades(path: String): List<ControlEntidades>
+}
+
+interface ValidadorUsuario{
+    + validar(usuario: Usuario, password: String) : boolean
+}
+ValidadorUsuario ..> Usuario
+
+
+@enduml
