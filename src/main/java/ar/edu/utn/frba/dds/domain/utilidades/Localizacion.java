@@ -4,13 +4,13 @@ import lombok.Getter;
 
 public class Localizacion {
   @Getter
-  private int id;
+  private String id;
   @Getter
   private String nombre;
   @Getter
   private TipoLocalizacion tipo;
 
-  public Localizacion(int id, String nombre, TipoLocalizacion tipo){
+  public Localizacion(String id, String nombre, TipoLocalizacion tipo){
     this.id = id;
     this.tipo = tipo;
     this.nombre = nombre;

@@ -64,7 +64,7 @@ Membresia --> Rol
 Rol --> "1..*" Permiso
 
 class Localizacion{
-    -id: int
+    -id: String
     -nombre: String
     -tipo: TipoLocalizacion
 }
@@ -169,9 +169,7 @@ class Servicio{
 class Ubicacion{
     -lat: float
     -long: float
-    -provincia: Localizacion
-    -departamento: Localizacion
-    -municipio: Localizacion
+    -localizaciones: List<Localizacion>
 }
 
 class Etiqueta{

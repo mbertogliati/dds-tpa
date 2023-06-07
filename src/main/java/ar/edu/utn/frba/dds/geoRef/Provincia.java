@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.geoRef;
 
 public class Provincia {
-  public int id;
+  public String id;
   public String nombre;
 }

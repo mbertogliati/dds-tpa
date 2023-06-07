@@ -10,7 +10,7 @@ public class ListadoDeProvincias {
   public Parametro parametros;
   public List<Provincia> provincias;
 
-  public Optional<Provincia> provinciaDeId(int id){
+  public Optional<Provincia> provinciaDeId(String id){
     return this.provincias.stream()
         .filter(p -> p.id == id)
         .findFirst();

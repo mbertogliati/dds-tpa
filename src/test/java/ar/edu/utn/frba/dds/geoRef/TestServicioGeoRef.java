@@ -1,7 +1,10 @@
 package ar.edu.utn.frba.dds.geoRef;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
+import ar.edu.utn.frba.dds.domain.utilidades.Localizacion;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -73,23 +76,26 @@ public class TestServicioGeoRef{
     ServicioGeoRef servicioGeoRef = ServicioGeoRef.instancia();
     Float latitud = (float) -37.54787204004173;
     Float longitud = (float) -61.46888869402542;
-    String municipio = servicioGeoRef.municipio(latitud, longitud).getNombre(); //General La Madrid
-    assertEquals(municipio, "General la Madrid");
+    Localizacion municipio;
+    municipio = servicioGeoRef.municipio(latitud, longitud); //General La Madrid
+    assertNotNull(municipio);
+    assertEquals(municipio.getNombre(), "General la Madrid");
 
     latitud = (float) -38.37937303006633;
     longitud = (float) -63.51234577394965;
-    municipio = servicioGeoRef.municipio(latitud,longitud).getNombre(); //Caleu Caleu
-    assertEquals(municipio, "Jacinto Arauz");
+    municipio = servicioGeoRef.municipio(latitud,longitud); //Caleu Caleu
+    assertNotNull(municipio);
+    assertEquals(municipio.getNombre(), "Jacinto Arauz");
 
     latitud = (float)  -24.38287297032664;
     longitud = (float) -65.54097791735738;
-    municipio = servicioGeoRef.municipio(latitud,longitud).getNombre(); //San Antonio
-    assertEquals(municipio, "San Antonio");
+    municipio = servicioGeoRef.municipio(latitud,longitud); //San Antonio
+    assertNotNull(municipio);
+    assertEquals(municipio.getNombre(), "San Antonio");
 
     latitud = (float)  -75.70025211682918;
     longitud = (float) -72.27246873936852;
-    municipio = servicioGeoRef.municipio(latitud,longitud).getNombre(); //Antártida Argentina
-    assertEquals(municipio, null);
-
+    municipio = servicioGeoRef.municipio(latitud,longitud); //Antártida Argentina
+    assertNull(municipio);
   }
 }

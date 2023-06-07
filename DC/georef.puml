@@ -94,15 +94,15 @@ class ListadoDeMunicipios{
 ListadoDeMunicipios --> "1..*" Municipio
 
 class Departamento{
-    +id: int
+    +id: String
     +nombre: String
 }
 class Provincia{
-    +id: int
+    +id: String
     +nombre: String
 }
 class Municipio{
-    +id: int
+    +id: String
     +nombre: String
 }
 
@@ -113,7 +113,7 @@ GeoRefService ..> ListadoDeMunicipios
 ServicioGeoRef .left.> Localizacion
 
 class Localizacion{
-    -id: int
+    -id: String
     -nombre: String
     -tipo: TipoLocalizacion
 }

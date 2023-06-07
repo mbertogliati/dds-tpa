@@ -30,11 +30,7 @@ public class ControlEntidades {
   }
 
   public List<Localizacion> getLocalizaciones() {
-    List<Localizacion> lista = new ArrayList<>();
-    lista.add(this.ubicacion.getDepartamento());
-    lista.add(this.ubicacion.getProvincia());
-    lista.add(this.ubicacion.getMunicipio());
-    return lista;
+    return this.ubicacion.getLocalizaciones();
   }
 
   public void enviarInformacion(){

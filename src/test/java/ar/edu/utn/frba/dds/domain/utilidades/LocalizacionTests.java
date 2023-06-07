@@ -32,7 +32,7 @@ public class LocalizacionTests {
             throw new RuntimeException(e);
         }
 
-        Assertions.assertEquals(5, entidad.getLocalizaciones().size());
+        Assertions.assertEquals(7, entidad.getLocalizaciones().size());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class LocalizacionTests {
             throw new RuntimeException(e);
         }
 
-        Assertions.assertEquals(6, persona.getInteres().getLocalizacion().getId());
+        Assertions.assertEquals("06", persona.getInteres().getLocalizacion().getId());
     }
 
 }

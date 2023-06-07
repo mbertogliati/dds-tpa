@@ -18,12 +18,11 @@ public class Entidad {
   private Denominacion denominacion;
 
   public List<Localizacion> getLocalizaciones() {
-    List<Localizacion> lista = new ArrayList<>();
-    lista.addAll(establecimientos.stream().map(establecimiento -> establecimiento.getUbicacion().getDepartamento()).toList());
-    lista.addAll(establecimientos.stream().map(establecimiento -> establecimiento.getUbicacion().getProvincia()).toList());
-    lista.addAll(establecimientos.stream().map(establecimiento -> establecimiento.getUbicacion().getMunicipio()).toList());
-    lista.stream().filter(localizacion -> localizacion.getId() == 0).toList().forEach(localizacion -> lista.remove(localizacion));
-    return lista;
+    List<Localizacion> localizaciones = new ArrayList<Localizacion>();
+    this.establecimientos.stream().forEach(e -> {
+      localizaciones.addAll(e.getUbicacion().getLocalizaciones());
+    });
+    return localizaciones;
   }
 
   public Entidad(String nombre, Denominacion denominacion) {

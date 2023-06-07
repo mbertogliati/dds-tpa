@@ -89,13 +89,21 @@ public class ServicioGeoRef {
   private List<Localizacion> generarLocalizacionMuni(ListadoDeMunicipios lista){
     return lista.municipios.stream().map(muni -> new Localizacion(muni.id, muni.nombre, MUNICIPIO)).toList();
   }
-  private List<Localizacion> generarLocalizacionUbi(ResponseUbicacion ubicacion){
+  private List<Localizacion> generarLocalizacionUbi(ResponseUbicacion ubicacion) {
     List<Localizacion> localizaciones = new ArrayList<>();
-
-    localizaciones.add(new Localizacion(ubicacion.ubicacion.provincia.id, ubicacion.ubicacion.provincia.nombre, PROVINCIA));
-    localizaciones.add(new Localizacion(ubicacion.ubicacion.municipio.id, ubicacion.ubicacion.municipio.nombre, MUNICIPIO));
-    localizaciones.add(new Localizacion(ubicacion.ubicacion.departamento.id, ubicacion.ubicacion.departamento.nombre, DEPARTAMENTO));
-
+    if (this.esIdentificadorValido(ubicacion.ubicacion.provincia.id)) {
+      localizaciones.add(new Localizacion(ubicacion.ubicacion.provincia.id, ubicacion.ubicacion.provincia.nombre, PROVINCIA));
+    }
+    if (this.esIdentificadorValido(ubicacion.ubicacion.municipio.id)) {
+      localizaciones.add(new Localizacion(ubicacion.ubicacion.municipio.id, ubicacion.ubicacion.municipio.nombre, MUNICIPIO));
+    }
+    if (this.esIdentificadorValido(ubicacion.ubicacion.departamento.id)) {
+      localizaciones.add(new Localizacion(ubicacion.ubicacion.departamento.id, ubicacion.ubicacion.departamento.nombre, DEPARTAMENTO));
+    }
     return localizaciones;
+  }
+
+  private boolean esIdentificadorValido(String id) {
+    return id != null && !id.isEmpty() && !id.isBlank();
   }
 }

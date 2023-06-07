@@ -9,10 +9,10 @@ public interface GeoRefService {
   Call<ListadoDeProvincias> provincias(@Query("campos") String campos);
 
   @GET("municipios")
-  Call<ListadoDeMunicipios> municipios(@Query("id") int idProvincia, @Query("campos") String campos);
+  Call<ListadoDeMunicipios> municipios(@Query("id") String idProvincia, @Query("campos") String campos);
 
   @GET("departamentos")
-  Call<ListadoDeDepartamentos> departamentos(@Query("id") int idProvincia, @Query("campos") String campos);
+  Call<ListadoDeDepartamentos> departamentos(@Query("id") String idProvincia, @Query("campos") String campos);
 
   @GET("ubicacion")
   Call<ResponseUbicacion> ubicacion(@Query("lat") float latitud, @Query("lon") float longitud);
