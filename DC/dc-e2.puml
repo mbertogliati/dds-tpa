@@ -77,9 +77,7 @@ enum TipoLocalizacion {
     MUNICIPIO
 }
 
-Ubicacion --> Localizacion
-Ubicacion --> Localizacion
-Ubicacion --> Localizacion
+Ubicacion --> "1..*" Localizacion
 
 interface LocalizacionAdapter{
     + provincia(lat: float, long: float): Localizacion
