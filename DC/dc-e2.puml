@@ -1,26 +1,29 @@
 @startuml
 skinparam linetype ortho
 
+
+Provincia --> "1..*" Municipio
+Municipio --> "1..*" Localidad
+Localidad --> Municipio
+
 class Provincia{
     -id: String
     -nombre: String
     -municipios: List<Municipio>
-    -departamento: List<Departamento>
+    -localidad: List<Localidad>
 }
-
-Provincia --> "1..*" Departamento
-Provincia --> "1..*" Municipio
 
 class Municipio{
     -id: String
     -nombre: String
     -provincia: Provincia
+    -localidades: List<Localidad>
 }
 
-class Departamento{
+class Localidad{
     -id: String
     -nombre: String
-    -provincia: Provincia
+    -municipio: Municipio
 }
 
 class Usuario{
@@ -92,15 +95,15 @@ Rol --> "1..*" Permiso
 
 interface LocalizacionAdapter{
     + provincia(lat: float, long: float): Provincia
-    + departamento(lat: float, long: float): Departamento
+    + localidad(lat: float, long: float): Localidad
     + municipio(lat: float, long: float): Municipio
     + provincias(): List<Provincia>
     + municipiosDeProvincia(provincia Provincia): List<Municipio>
-    + departamentosDeProvincia(provincia Provincia): List<Departamento>
+    + localidadDeProvincia(provincia Provincia): List<Localidad>
 }
-LocalizacionAdapter .up.> Provincia
-LocalizacionAdapter .up.> Departamento
-LocalizacionAdapter .up.> Municipio
+LocalizacionAdapter ..> Provincia
+LocalizacionAdapter ..> Localidad
+LocalizacionAdapter ..> Municipio
 
 Ubicacion ..> LocalizacionAdapter
 
@@ -190,12 +193,12 @@ class Ubicacion{
     -lat: float
     -long: float
     -provincia: Provincia
-    -departamento: Departamento
+    -localidad: Localidad
     -municipio: Municipio
 }
 
 Ubicacion --> Provincia
-Ubicacion --> Departamento
+Ubicacion --> Localidad
 Ubicacion --> Municipio
 
 class Etiqueta{
