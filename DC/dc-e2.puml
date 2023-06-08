@@ -5,12 +5,12 @@ skinparam linetype ortho
 Provincia --> "1..*" Municipio
 Municipio --> "1..*" Localidad
 Localidad --> Municipio
+Municipio --> Provincia
 
 class Provincia{
     -id: String
     -nombre: String
     -municipios: List<Municipio>
-    -localidad: List<Localidad>
 }
 
 class Municipio{
