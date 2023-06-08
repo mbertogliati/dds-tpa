@@ -1,14 +1,16 @@
 @startuml
 
 interface LocalizacionAdapter{
-    + provincia(lat: float, long: float): Localizacion
-    + departamento(lat: float, long: float): Localizacion
-    + municipio(lat: float, long: float): Localizacion
-    + provincias(): List<Localizacion>
-    + municipiosDeProvincia(provincia Localizacion): List<Localizacion>
-    + departamentosDeProvincia(provincia Localizacion): List<Localizacion>
-    + ubicacion(lat: float, long: float): List<Localizacion>
+    + provincia(lat: float, long: float): Provincia
+    + departamento(lat: float, long: float): Departamento
+    + municipio(lat: float, long: float): Municipio
+    + provincias(): List<Provincia>
+    + municipiosDeProvincia(provincia Provincia): List<Municipio>
+    + departamentosDeProvincia(provincia Provincia): List<Departamento>
 }
+LocalizacionAdapter ..> Provincia
+LocalizacionAdapter ..> Departamento
+LocalizacionAdapter ..> Municipio
 
 interface GeoRefService{
     + provincias(campos: String): ListadoDeProvincias
@@ -18,7 +20,10 @@ interface GeoRefService{
 }
 
 ServicioGeoRef .up.|> LocalizacionAdapter
-LocalizacionAdapter ..> Localizacion
+
+ServicioGeoRef .up.> Provincia
+ServicioGeoRef .up.> Departamento
+ServicioGeoRef .up.> Municipio
 
 class ServicioGeoRef{
     {static} -instancia: ServicioGeoRef
@@ -27,17 +32,15 @@ class ServicioGeoRef{
 
     -ServicioGeoRef()
     {static}+instancia() : ServicioGeoRef
-    + provincia(lat: float, long: float): Localizacion
-    + departamento(lat: float, long: float): Localizacion
-    + municipio(lat: float, long: float): Localizacion
-    +provincias(): List<Localizacion>
-    +municipiosDeProvincia(provincia Localizacion): List<Localizacion>
-    +departamentosDeProvincia(provincia Localizacion): List<Localizacion>
-    +ubicacion(lat: float, long: float): List<Localizacion>
-    -generarLocalizacionDep(lista: ListadoDeDepartamentos): List<Localizacion>
-    -generarLocalizacionProv(lista: ListadoDeProvincias): List<Localizacion>
-    -generarLocalizacionMuni(lista: ListadoDeMunicipios): List<Localizacion>
-    -generarLocalizacionUbi(ubicacion: ResponseUbicacion): List<Localizacion>
+    + provincia(lat: float, long: float): Provincia
+    + departamento(lat: float, long: float): Departamento
+    + municipio(lat: float, long: float): Municipio
+    + provincias(): List<Provincia>
+    + municipiosDeProvincia(provincia Localizacion): List<Municipio>
+    + departamentosDeProvincia(provincia Localizacion): List<Departamento>
+    -generarLocalizacionDep(lista: ListadoDeDepartamentos): List<Departamento>
+    -generarLocalizacionProv(lista: ListadoDeProvincias): List<Provincia>
+    -generarLocalizacionMuni(lista: ListadoDeMunicipios): List<Municipio>
 }
 
 class ResponseUbicacion{
@@ -50,11 +53,11 @@ ResponseUbicacion --> UbicacionGeoRef
 ResponseUbicacion --> Parametro
 
 class UbicacionGeoRef{
-    + departamento: Departamento
+    + departamento: DepartamentoGeoref
     + lat: float
     + long: float
-    + municipio: Municipio
-    + provincia: Provincia
+    + municipio: MunicipioGeoref
+    + provincia: ProvinciaGeoref
 }
 
 ServicioGeoRef .down.>"usa" GeoRefService
@@ -72,7 +75,7 @@ class ListadoDeDepartamentos{
     + parametros: Parametro
     + departamentos: List<Departamento>
 }
-ListadoDeDepartamentos --> "1..*" Departamento
+ListadoDeDepartamentos --> "1..*" DepartamentoGeoref
 ListadoDeDepartamentos --> Parametro
 ListadoDeProvincias --> Parametro
 ListadoDeMunicipios ---> Parametro
@@ -81,27 +84,27 @@ class ListadoDeProvincias{
     + total: int
     + inicio: int
     + parametros: Parametro
-    + provincias: List<Provincia>
+    + provincias: List<ProvinciaGeoref>
 }
-ListadoDeProvincias --> "1..*" Provincia
+ListadoDeProvincias --> "1..*" ProvinciaGeoref
 class ListadoDeMunicipios{
     + cantidad: int
     + total: int
     + inicio: int
     + parametros: Parametro
-    + municipios: List<Municipio>
+    + municipios: List<MunicipioGeoref>
 }
-ListadoDeMunicipios --> "1..*" Municipio
+ListadoDeMunicipios --> "1..*" MunicipioGeoref
 
-class Departamento{
+class DepartamentoGeoref{
     +id: String
     +nombre: String
 }
-class Provincia{
+class ProvinciaGeoref{
     +id: String
     +nombre: String
 }
-class Municipio{
+class MunicipioGeoref{
     +id: String
     +nombre: String
 }
@@ -109,21 +112,5 @@ class Municipio{
 GeoRefService ..> ListadoDeDepartamentos
 GeoRefService ..> ListadoDeProvincias
 GeoRefService ..> ListadoDeMunicipios
-
-ServicioGeoRef .left.> Localizacion
-
-class Localizacion{
-    -id: String
-    -nombre: String
-    -tipo: TipoLocalizacion
-}
-
-Localizacion --> TipoLocalizacion
-
-enum TipoLocalizacion{
-    PROVINCIA
-    DEPARTAMENTO
-    MUNICIPIO
-}
 
 @enduml

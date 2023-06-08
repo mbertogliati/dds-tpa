@@ -1,6 +1,28 @@
 @startuml
 skinparam linetype ortho
 
+class Provincia{
+    -id: String
+    -nombre: String
+    -municipios: List<Municipio>
+    -departamento: List<Departamento>
+}
+
+Provincia --> "1..*" Departamento
+Provincia --> "1..*" Municipio
+
+class Municipio{
+    -id: String
+    -nombre: String
+    -provincia: Provincia
+}
+
+class Departamento{
+    -id: String
+    -nombre: String
+    -provincia: Provincia
+}
+
 class Usuario{
     -id: int
     -username: String
@@ -11,10 +33,13 @@ class Usuario{
 class Interes{
     -entidades: List<Entidad>
     -servicios: List<Servicio> 
-    -localizacion: Localizacion
+
+    +serviciosDeUbicacion(ubi: Ubicacion): List<Servicio>
+    +entidadesDeUbicacion(ubi: Ubicacion): List<Entidad>
 }
 
-Persona -right-> Interes
+Interes ..> Ubicacion
+Persona --> Interes
 
 class Persona{
     -usuario: Usuario
@@ -22,6 +47,7 @@ class Persona{
     -apellido: String
     -email: String
     -interes: Interes
+    -ubicacion: Ubicacion
     -membresias: List<Membresia>   
 
     +agregarServicio(servicio: Servicio)
@@ -63,39 +89,33 @@ class Permiso{
 Membresia --> Rol
 Rol --> "1..*" Permiso
 
-class Localizacion{
-    -id: String
-    -nombre: String
-    -tipo: TipoLocalizacion
-}
-
-Localizacion --> TipoLocalizacion
-
-enum TipoLocalizacion {
-    PROVINCIA
-    DEPARTAMENTO
-    MUNICIPIO
-}
-
-Ubicacion --> "1..*" Localizacion
 
 interface LocalizacionAdapter{
-    + provincia(lat: float, long: float): Localizacion
-    + departamento(lat: float, long: float): Localizacion
-    + municipio(lat: float, long: float): Localizacion
-    + provincias(): List<Localizacion>
-    + municipiosDeProvincia(provincia Localizacion): List<Localizacion>
-    + departamentosDeProvincia(provincia Localizacion): List<Localizacion>
-    + ubicacion(lat: float, long: float): List<Localizacion>
+    + provincia(lat: float, long: float): Provincia
+    + departamento(lat: float, long: float): Departamento
+    + municipio(lat: float, long: float): Municipio
+    + provincias(): List<Provincia>
+    + municipiosDeProvincia(provincia Provincia): List<Municipio>
+    + departamentosDeProvincia(provincia Provincia): List<Departamento>
 }
+LocalizacionAdapter .up.> Provincia
+LocalizacionAdapter .up.> Departamento
+LocalizacionAdapter .up.> Municipio
 
 Ubicacion ..> LocalizacionAdapter
-LocalizacionAdapter ..> Localizacion
 
-class ControlEntidades{
+class EntidadPrestadora{
     - entidades: List<Entidad>
     - nombre : String
-    - denominacion : Denominacion
+    - informado: Persona
+    - generadorInformacion: InformacionAdapter
+    
+    +enviarInformacion()
+}
+
+class OrganismoControl{
+    - entidades: List<EntidadPrestadora>
+    - nombre : String
     - informado: Persona
     - generadorInformacion: InformacionAdapter
     
@@ -107,21 +127,22 @@ class Entidad{
     - nombre : String
     - denominacion : Denominacion
    
-    +establecimientosEnLocNoDisp(loc: Localizacion): List<Establecimiento>
+    +establecimientosEnUbiConDispo(ubi: Ubicacion, disp: boolean): List<Establecimiento>
     +agregarEstablecimiento(establecimiento: Establecimiento, posicion: int)
     +eliminarEstablecimiento(establecimiento: Establecimiento)
     -eliminarEstablecimientoPorID(idBuscada: int)
-    +getPrimero() : Establecimiento
-    +getUltimo() : Establecimiento
-    -getEstablecimientosEnLocalizacion(loc: Localizacion): List<Establecimiento>
+    -getEstablecimientosEnUbicacion(ubi: Ubicacion): List<Establecimiento>
 }
 
-ControlEntidades -->"1..*" Entidad
-ControlEntidades --> Persona
-ControlEntidades --> Denominacion
-ControlEntidades-->InformacionAdapter
+OrganismoControl -->"1..*" EntidadPrestadora
+EntidadPrestadora -->"1..*" Entidad
+OrganismoControl --> Persona
+EntidadPrestadora --> Persona
+OrganismoControl-->InformacionAdapter
+EntidadPrestadora-->InformacionAdapter
 InformacionAdapter..>Entidad
-Establecimiento -right-> Denominacion
+InformacionAdapter..>EntidadPrestadora
+Establecimiento --> Denominacion
 Entidad --> Denominacion
 
 class Denominacion{
@@ -152,6 +173,7 @@ class ServicioPrestado{
 
 interface InformacionAdapter{
     + obtenerInformacion(entidad: Entidad) : String
+    + obtenerInformacion(entidadPrestadora: EntidadPrestadora) : String
 }
 
 class Servicio{
@@ -167,8 +189,14 @@ class Servicio{
 class Ubicacion{
     -lat: float
     -long: float
-    -localizaciones: List<Localizacion>
+    -provincia: Provincia
+    -departamento: Departamento
+    -municipio: Municipio
 }
+
+Ubicacion --> Provincia
+Ubicacion --> Departamento
+Ubicacion --> Municipio
 
 class Etiqueta{
     -id: int
@@ -182,25 +210,28 @@ class Etiqueta{
 Establecimiento --> "1..*" ServicioPrestado
 
 ServicioPrestado --> Servicio
-Servicio -right-> "1..*" Etiqueta
+Servicio --> "1..*" Etiqueta
 
 Entidad --> "1..*" Establecimiento
 
 Establecimiento --> Ubicacion
 
-Persona -left-> Usuario
-Interes --> Localizacion
+Persona --> Usuario
+Persona --> Ubicacion
 Interes --> "1..*" Servicio
 Interes --> "1..*" Entidad
 
-ImportarEntidadAdapter .right.> ControlEntidades
+ImportarEntidadAdapter ..> OrganismoControl
+ImportarEntidadAdapter ..> EntidadPrestadora
 
 interface ImportarEntidadAdapter{
-    + crearEntidades(path: String): List<ControlEntidades>
+    + crearOrganismosControl(path: String): List<OrganismoControl>
+    + crearEntidadesPrestadoras(path: String): List<EntidadPrestadora>
 }
 ImportarEntidadCSV ..|> ImportarEntidadAdapter
 class ImportarEntidadCSV{
-    + crearEntidades(path: String): List<ControlEntidades>
+    + crearOrganismosControl(path: String): List<OrganismoControl>
+    + crearEntidadesPrestadoras(path: String): List<EntidadPrestadora>
 }
 
 interface ValidadorUsuario{
