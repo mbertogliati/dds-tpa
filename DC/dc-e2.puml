@@ -37,8 +37,8 @@ class Interes{
     -entidades: List<Entidad>
     -servicios: List<Servicio> 
 
-    +serviciosDeUbicacion(ubi: Ubicacion): List<Servicio>
-    +entidadesDeUbicacion(ubi: Ubicacion): List<Entidad>
+    +serviciosDeInteres(ubi: Ubicacion): List<Servicio>
+    -entidadesDeUbicacion(ubi: Ubicacion): List<Entidad>
 }
 
 Interes ..> Ubicacion
@@ -130,12 +130,15 @@ class Entidad{
     - nombre : String
     - denominacion : Denominacion
    
+    +ubicaciones(): List<Ubicacion>
     +establecimientosEnUbiConDispo(ubi: Ubicacion, disp: boolean): List<Establecimiento>
     +agregarEstablecimiento(establecimiento: Establecimiento, posicion: int)
     +eliminarEstablecimiento(establecimiento: Establecimiento)
     -eliminarEstablecimientoPorID(idBuscada: int)
     -getEstablecimientosEnUbicacion(ubi: Ubicacion): List<Establecimiento>
 }
+
+Entidad .right.> Ubicacion
 
 OrganismoControl -->"1..*" EntidadPrestadora
 EntidadPrestadora -->"1..*" Entidad
