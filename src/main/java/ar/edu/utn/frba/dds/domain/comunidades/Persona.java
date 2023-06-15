@@ -19,14 +19,19 @@ public class Persona {
   private String apellido;
   @Getter @Setter
   private String email;
+  @Getter @Setter
+  private int whatsapp;
   @Getter
   private Interes interes;
+  @Getter @Setter
+  private String metodoNotificacion;
   @Getter
   private List<Membresia> membresias = new ArrayList<>();
 
   public Persona(String nombre, String apellido, String email, Usuario usuario){
     this.nombre = nombre;
     this.apellido = apellido;
+    this.email = email;
     this.usuario = usuario;
   }
 

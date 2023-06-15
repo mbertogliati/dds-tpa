@@ -21,14 +21,8 @@ class Incidente{
 Ranking .down.|> Notificable
 Incidente .up.|> Notificable
 
-interface INotificador{
-    {static}+notificar(notificable: Notificable, persona: Persona)
-}
-
-Notificador ..|> INotificador
-
-INotificador ..> Persona
-INotificador .left.> Notificable
+Notificador ..> Persona
+Notificador .left.> Notificable
 
 class Notificador{
     {static}+notificar(notificable: Notificable, persona: Persona)
@@ -43,12 +37,15 @@ interface AdapterMail{
     +enviarMail(mensaje: String, correo: String)
 }
 
-class EnviadorMailConcreto{
-    .....atributos
-    +enviarMail(mensaje: String, correo: String)
-    .....metodos
+class ApacheCommonsEmail{
+    -hostName: String
+    -smtpPorst: int
+    -username: String
+    -password: String
+
+    +enviarMail(mensaje: String, destinatario: String)
 }
-EnviadorMailConcreto ..|> AdapterMail
+ApacheCommonsEmail ..|> AdapterMail
 
 interface AdapterWPP{
     +enviarWPP(mensaje: String, telefono: int)
