@@ -18,24 +18,26 @@ class Ranking{
 class Incidente{
     +getInfo(): String
 }
-Ranking .down.|> Notificable
-Incidente .up.|> Notificable
+Ranking ..|> Notificable
+Incidente ..|> Notificable
 
 Notificador ..> Persona
-Notificador .left.> Notificable
+Notificador .up.> Notificable
 
 class Notificador{
+    {static}-estrategias: Map<String, StrategyNotificacion>
     {static}+notificar(notificable: Notificable, persona: Persona)
     {static}-notificarWPP(notificable: Notificable, persona: Persona)
     {static}-notificarMail(notificable: Notificable, persona: Persona)
 }
 
-Notificador .up.> AdapterMail
-Notificador .right.> AdapterWPP
-
 interface AdapterMail{
     +enviarMail(mensaje: String, correo: String)
 }
+interface StrategyNotificacion{
+    +enviarNotificacion(mensaje: String, persona: Persona)
+}
+Notificador ..> StrategyNotificacion
 
 class ApacheCommonsEmail{
     -hostName: String
@@ -50,11 +52,23 @@ ApacheCommonsEmail ..|> AdapterMail
 interface AdapterWPP{
     +enviarWPP(mensaje: String, telefono: int)
 }
-class EnviadorWPPConcreto{
+class StrategyWPP{
+-adapter: AdapterWPP
++enviarNotificacion(mensaje: String, persona: Persona)
+}
+class APIWhatsapp{
     .....atributos
     +enviarWPP(mensaje: String, telefono: int)
     .....metodos
 }
-EnviadorWPPConcreto ..|> AdapterWPP
-
+class StrategyMAIL{
+-adapter: AdapterMail
++enviarNotificacion(mensaje: String, persona: Persona)
+}
+StrategyNotificacion..>Persona
+APIWhatsapp..|>AdapterWPP
+StrategyMAIL ..|> StrategyNotificacion
+StrategyWPP ..|> StrategyNotificacion
+StrategyWPP -up-> AdapterWPP
+StrategyMAIL -up-> AdapterMail
 @enduml
