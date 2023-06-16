@@ -1,9 +1,7 @@
 package ar.edu.utn.frba.dds.notificaciones;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.notificaciones.email.ApacheCommonsEmail;
 import ar.edu.utn.frba.dds.notificaciones.email.StrategyMAIL;
-import ar.edu.utn.frba.dds.notificaciones.wpp.APIWhatsapp;
 import ar.edu.utn.frba.dds.notificaciones.wpp.StrategyWPP;
 
 import java.util.HashMap;

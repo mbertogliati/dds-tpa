@@ -7,7 +7,7 @@ public class StrategyWPP implements StrategyNotificacion {
     private AdapterWPP adapter;
 
     public StrategyWPP(){
-        this.adapter = new APIWhatsapp();
+        this.adapter = new WhatsappTwilio();
     }
 
     @Override

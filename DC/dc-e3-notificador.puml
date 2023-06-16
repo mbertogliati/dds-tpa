@@ -55,17 +55,18 @@ class StrategyWPP{
 -adapter: AdapterWPP
 +enviarNotificacion(mensaje: String, persona: Persona)
 }
-class APIWhatsapp{
-    .....atributos
+class WhatsappTwilio{
+    -ACCOUNT_SID: String
+    -AUTH_TOKEN: String
+
     +enviarWPP(mensaje: String, telefono: int)
-    .....metodos
 }
 class StrategyMAIL{
 -adapter: AdapterMail
 +enviarNotificacion(mensaje: String, persona: Persona)
 }
 StrategyNotificacion..>Persona
-APIWhatsapp..|>AdapterWPP
+WhatsappTwilio..|>AdapterWPP
 StrategyMAIL ..|> StrategyNotificacion
 StrategyWPP ..|> StrategyNotificacion
 StrategyWPP -up-> AdapterWPP
