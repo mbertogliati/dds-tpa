@@ -5,7 +5,6 @@ import ar.edu.utn.frba.dds.domain.comunidades.Usuario;
 import ar.edu.utn.frba.dds.notificaciones.EjemploNotificable;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
 import ar.edu.utn.frba.dds.notificaciones.Notificador;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
