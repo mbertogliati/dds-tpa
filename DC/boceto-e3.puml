@@ -107,18 +107,18 @@ NotificacionSinApuro ..> ListadoNotificables
 NotificacionAlMomento ..|> TiempoNotificacion
 
 class Comunidad{
-    -id: int
-    -detalle: String
-    -servicios: List<Servicio>
-    -membresias: List<Membresia>
-    -incidentes: List<Incidente>
-
-    +getIncidentes(): List<Incidente>
-    +cerrarIncidente(Incidente incidente)
-    +agregarIncidente(Incidente incidente)
-    +agregarServicioAEstablecimiento(establecimiento: Establecimiento, servicio: Servicio)   
+    - id: int
+    - detalle: String
+    - servicios: List<Servicio>
+    - membresias: List<Membresia>
+    - incidentes: List<IncidentePorComunidad>
+    ---
+    + getIncidentes(): List<IncidentePorComunidad>
+    + cerrarIncidente(Incidente incidente)
+    + agregarIncidente(Incidente incidente)
+    + agregarServicioAEstablecimiento(establecimiento: Establecimiento, servicio: Servicio)   
 }
-Comunidad --> "1..*" Incidente
+Comunidad --> "1..*" IncidentePorComunidad
 
 class Membresia{
     -usuario: Persona
@@ -321,18 +321,27 @@ GradoDeImpacto ..|> Ponderador
 Ranking --> Ponderador
 Ranking --> "1..*" Entidad
 
+class IncidentePorComunidad {
+    - incidente: Incidente
+    - estaCerrado: boolean
+    - fechaCierre: DateTime
+    - autorCierre: Persona
+}
+IncidentePorComunidad ---> Incidente
+
 class Incidente{
-    -servicio: ServicioPrestado
-    -apertura: String
-    -cierre: String
-    -observaciones: String
-    -servicioDisponible: boolean
-    
+    - serviciosAfectados: List<ServicioPrestado>
+    - observaciones: String
+    - fechaApertura: DateTime
+    - autorApertura: Persona
     +getInfo(): String
     +setServicioDisponible(estado: boolean)
 }
-Ranking ..|> Notificable
 Incidente ..|> Notificable
+Incidente "1" --> "*" ServicioPrestado
+
+Ranking ..|> Notificable
+
 
 Notificador ..> Persona
 Notificador ..> Notificable
