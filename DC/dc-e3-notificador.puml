@@ -1,0 +1,74 @@
+<<<<<<< HEAD
+@startuml
+skinparam linetype ortho
+
+class Persona{
+    -metodoNotificacion: String
+
+    +getMetodoNotificacion(): String
+    +setMetodoNotificacion(metodo: String)
+}
+
+interface Notificable{
+    +getInfo(): String
+}
+
+class Ranking{
+    +getInfo(): String
+}
+class Incidente{
+    +getInfo(): String
+}
+Ranking ..|> Notificable
+Incidente ..|> Notificable
+
+Notificador ..> Persona
+Notificador .up.> Notificable
+
+class Notificador{
+    {static}-estrategias: Map<String, StrategyNotificacion>
+    {static}+notificar(notificable: Notificable, persona: Persona)
+}
+
+interface AdapterMail{
+    +enviarMail(mensaje: String, correo: String)
+}
+interface StrategyNotificacion{
+    +enviarNotificacion(mensaje: String, persona: Persona)
+}
+Notificador ..> StrategyNotificacion
+
+class ApacheCommonsEmail{
+    -hostName: String
+    -smtpPorst: int
+    -username: String
+    -password: String
+
+    +enviarMail(mensaje: String, destinatario: String)
+}
+ApacheCommonsEmail ..|> AdapterMail
+
+interface AdapterWPP{
+    +enviarWPP(mensaje: String, telefono: int)
+}
+class StrategyWPP{
+-adapter: AdapterWPP
++enviarNotificacion(mensaje: String, persona: Persona)
+}
+class WhatsappTwilio{
+    -ACCOUNT_SID: String
+    -AUTH_TOKEN: String
+
+    +enviarWPP(mensaje: String, telefono: int)
+}
+class StrategyMAIL{
+-adapter: AdapterMail
++enviarNotificacion(mensaje: String, persona: Persona)
+}
+StrategyNotificacion..>Persona
+WhatsappTwilio..|>AdapterWPP
+StrategyMAIL ..|> StrategyNotificacion
+StrategyWPP ..|> StrategyNotificacion
+StrategyWPP -up-> AdapterWPP
+StrategyMAIL -up-> AdapterMail
+@enduml
