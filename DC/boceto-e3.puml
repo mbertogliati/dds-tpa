@@ -45,6 +45,7 @@ class Interes{
 
 Interes ..> Ubicacion
 Persona --> Interes
+Persona ..> Notificable
 
 class Persona{
     -usuario: Usuario
@@ -58,6 +59,7 @@ class Persona{
     -metodoNotificacion: String
     -tiempoNotificacion: TiempoNotificacion
 
+    +setUbicacion(Ubicacion ubicacion)
     +enviarNotificacion(Notificable notificable)
     +setTiempoNotificacion(TiempoNotificacion tiempo)
     +getMetodoNotificacion(): String
@@ -69,6 +71,11 @@ class Persona{
 }
 Persona-->"1..*" Notificable
 Persona --> TiempoNotificacion
+Persona ..> DistanciaEntrePuntos
+
+interface DistanciaEntrePuntos{
+    +distanciaEntre(Ubicacion ubicacionA, Ubicacion ubicacionB): float
+}
 
 interface TiempoNotificacion{
     +notificar(notificable Notificable, persona: Persona)
@@ -117,6 +124,11 @@ class Membresia{
     -usuario: Persona
     -comunidad: Comunidad
     -rolComunidad: Rol
+    -afectado: boolean
+
+    +setRol(Rol rol)
+    +setAfectado(boolean valor)
+    +isAfectado(): boolean
 }
 Membresia --> Persona
 Membresia --> Comunidad
@@ -159,7 +171,10 @@ class EntidadPrestadora{
     - nombre : String
     - informado: Persona
     - generadorInformacion: InformacionAdapter
-    
+    - rankings: List<Ranking>
+
+    +generarRankings()
+    +getEntidades(): List<Entidad>
     +enviarInformacion()
 }
 
@@ -168,7 +183,11 @@ class OrganismoControl{
     - nombre : String
     - informado: Persona
     - generadorInformacion: InformacionAdapter
-    
+    - rankings: List<Ranking>
+
+    +getRankings(): List<Ranking>
+    +generarRankings()
+    +getEntidades(): List<Entidad>
     +enviarInformacion()
 }
 
@@ -267,8 +286,41 @@ interface Notificable{
 }
 
 class Ranking{
+    -ponderador: Ponderador
+    -entidades: List<Entidad>
+
     +getInfo(): String
 }
+
+interface Ponderador{
+    +ordenar(List<Entidad> entidades): List<Entidad>
+}
+
+class PromedioTiempoCierre{
+    +ordenar(List<Entidad> entidades): List<Entidad>
+}
+
+class MasIncidentesEnSemana{
+    +ordenar(List<Entidad> entidades): List<Entidad>
+}
+
+class GradoDeImpacto{
+    +ordenar(List<Entidad> entidades): List<Entidad>
+}
+
+GradoDeImpacto ..> MedidorImpacto
+
+interface MedidorImpacto{
+    +comunidadConMasImpacto(Comunidad comunidadA, Comunidad comunidadB): Comunidad
+}
+
+PromedioTiempoCierre ..|> Ponderador
+MasIncidentesEnSemana ..|> Ponderador
+GradoDeImpacto ..|> Ponderador
+
+Ranking --> Ponderador
+Ranking --> "1..*" Entidad
+
 class Incidente{
     -servicio: ServicioPrestado
     -apertura: String
