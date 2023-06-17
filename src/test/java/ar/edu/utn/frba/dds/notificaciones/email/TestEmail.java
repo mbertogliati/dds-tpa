@@ -15,7 +15,13 @@ public class TestEmail {
 
     @BeforeEach
     public void init(){
-        this.persona = new Persona("Matias", "Cotens", "mcotens@gmail.com", new Usuario("userMatias", "passMatias"));
+        this.persona = new Persona(
+                "Matias",
+                "Cotens",
+                "mbertogliati@frba.utn.edu.ar",
+                new Usuario(
+                        "userMatias",
+                        "passMatias"));
         this.notificable = new EjemploNotificable();
     }
 
