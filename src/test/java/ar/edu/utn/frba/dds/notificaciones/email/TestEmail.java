@@ -18,10 +18,10 @@ public class TestEmail {
         this.persona = new Persona(
                 "Matias",
                 "Cotens",
-                "mbertogliati@frba.utn.edu.ar",
                 new Usuario(
                         "userMatias",
                         "passMatias"));
+        this.persona.setEmail("mcotens@gmail.com");
         this.notificable = new EjemploNotificable();
     }
 

@@ -16,7 +16,7 @@ public class LocalizacionTests {
 
     @BeforeEach
     public void init(){
-
+    //TODO: ARREGLAR TESTS LOCALIZACION
     }
 
     @Test
@@ -24,28 +24,23 @@ public class LocalizacionTests {
     public void asignarLocalizacionAEntidad(){
         Entidad entidad = new Entidad("entidad prestadora", new Denominacion("entidad"));
 
-        try {
             entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.77995323941093, (float)-58.39850705828568), new Denominacion("establecimiento")));
             entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.60364737571995, (float)-58.38158957545822), new Denominacion("establecimiento")));
             entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.568478432086074, (float)-58.47965135917718), new Denominacion("establecimiento")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        Assertions.assertEquals(7, entidad.getLocalizaciones().size());
+
+        Assertions.assertEquals(7, entidad.getUbicaciones().size());
     }
 
     @Test
     @DisplayName("Se puede asignar una localizacion a una persona")
     public void asignarLocalizacionAPersona(){
         Persona persona;
-        try {
-            persona = new Persona("Nombre", "Apellido", "mail@ejemplo.com", new Usuario("username", "password"),new Ubicacion((float)-34.77995323941093, (float)-58.39850705828568).getProvincia());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        Assertions.assertEquals("06", persona.getInteres().getLocalizacion().getId());
+            persona = new Persona("Nombre", "Apellido", new Usuario("username", "password"));
+            persona.setUbicacion(new Ubicacion((float)-34.77995323941093, (float)-58.39850705828568));
+
+        Assertions.assertEquals("06", persona.getInteres().getUbicacion().getProvincia().getId());
     }
 
 }

@@ -7,11 +7,11 @@ public class ResponseUbicacion {
   public UbicacionGeoRef ubicacion;
 
   public class UbicacionGeoRef {
-    public Departamento departamento;
+    public LocalidadGeoref localidadGeoref;
     public float lat;
     public float lon;
-    public Municipio municipio;
-    public Provincia provincia;
+    public MunicipioGeoref municipioGeoref;
+    public ProvinciaGeoref provinciaGeoref;
   }
 
   private class Parametro {

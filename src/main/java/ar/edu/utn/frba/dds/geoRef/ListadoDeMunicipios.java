@@ -7,7 +7,7 @@ public class ListadoDeMunicipios {
   public int total;
   public int inicio;
   public Parametro parametros;
-  public List<Municipio> municipios;
+  public List<MunicipioGeoref> municipios;
 
   private class Parametro {
     public List<String> campos;

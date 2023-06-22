@@ -11,7 +11,7 @@ public class Servicio {
   @Getter @Setter
   private int id;
   @Getter
-  private List<Etiqueta> etiquetas = new ArrayList<Etiqueta>();
+  private List<Etiqueta> etiquetas = new ArrayList<>();
 
   public Servicio(List<Etiqueta> etiquetas){
     this.etiquetas = etiquetas;

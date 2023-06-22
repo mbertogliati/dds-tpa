@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
+import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
+import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Comunidad {
-  @Getter
+  @Getter @Setter
   private int id;
   @Getter @Setter
   private String detalle;
@@ -15,9 +17,19 @@ public class Comunidad {
   private List<Servicio> servicios = new ArrayList<>();
   @Getter
   private List<Membresia> membresias = new ArrayList<>();
+  @Getter
+  private List<IncidentePorComunidad> incidentes = new ArrayList<>();
 
   public Comunidad(String detalle){
     this.detalle = detalle;
+  }
+
+  public void cerrarIncidente(Incidente incidente){
+
+  }
+
+  public void agregarIncidente(Incidente incidente){
+
   }
 
   public void agregarMembresiaDirecto(Membresia membresia){

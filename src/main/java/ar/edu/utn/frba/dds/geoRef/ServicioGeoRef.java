@@ -1,13 +1,7 @@
 package ar.edu.utn.frba.dds.geoRef;
 
-import static ar.edu.utn.frba.dds.domain.utilidades.TipoLocalizacion.DEPARTAMENTO;
-import static ar.edu.utn.frba.dds.domain.utilidades.TipoLocalizacion.MUNICIPIO;
-import static ar.edu.utn.frba.dds.domain.utilidades.TipoLocalizacion.PROVINCIA;
 
-import ar.edu.utn.frba.dds.domain.utilidades.Localizacion;
-import ar.edu.utn.frba.dds.domain.utilidades.TipoLocalizacion;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -33,77 +27,49 @@ public class ServicioGeoRef {
     return instancia;
   }
 
-  public Localizacion provincia(float latitud, float longitud) throws IOException {
-    return this.buscar(latitud, longitud, PROVINCIA);
+  public Provincia provincia(float latitud, float longitud) throws IOException {
+    ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
+
+    return new Provincia(Integer.parseInt(response.ubicacion.provinciaGeoref.id), response.ubicacion.provinciaGeoref.nombre);
   }
-  public Localizacion departamento(float latitud, float longitud) throws IOException {
-    return this.buscar(latitud, longitud, DEPARTAMENTO);
+  public Localidad localidad(float latitud, float longitud) throws IOException {
+    ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
+
+    return new Localidad(Integer.parseInt(response.ubicacion.localidadGeoref.id), response.ubicacion.localidadGeoref.nombre);
   }
-  public Localizacion municipio(float latitud, float longitud) throws IOException {
-    return this.buscar(latitud, longitud, MUNICIPIO);
+  public Municipio municipio(float latitud, float longitud) throws IOException {
+    ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
+
+    return new Municipio(Integer.parseInt(response.ubicacion.municipioGeoref.id), response.ubicacion.municipioGeoref.nombre);
   }
-  private Localizacion buscar(float latitud, float longitud, TipoLocalizacion tipo) throws IOException {
+
+  private ResponseUbicacion getResponseUbicacion(float latitud, float longitud) throws IOException {
     GeoRefService geoRefService = this.retrofit.create(GeoRefService.class);
     Call<ResponseUbicacion> requestBuscada = geoRefService.ubicacion(latitud, longitud);
     Response<ResponseUbicacion> responseBuscada = requestBuscada.execute();
-
-    return this.generarLocalizacionUbi(responseBuscada.body()).stream()
-        .filter(loc -> loc.getTipo() == tipo)
-        .findFirst()
-        .orElse(null);
+    return responseBuscada.body();
   }
 
-  public List<Localizacion> ubicacion(float latitud, float longitud) throws IOException {
-    GeoRefService geoRefService = this.retrofit.create(GeoRefService.class);
-    Call<ResponseUbicacion> requestBuscada = geoRefService.ubicacion(latitud, longitud);
-    Response<ResponseUbicacion> responseBuscada = requestBuscada.execute();
-
-    return this.generarLocalizacionUbi(responseBuscada.body());
-  }
-
-  public List<Localizacion> provincias() throws IOException {
+  public List<Provincia> provincias() throws IOException {
     GeoRefService geoRefService = this.retrofit.create(GeoRefService.class);
     Call<ListadoDeProvincias> requestBuscada = geoRefService.provincias("id, nombre");
     Response<ListadoDeProvincias> responseBuscada = requestBuscada.execute();
-    return this.generarLocalizacionProv(responseBuscada.body());
+    return responseBuscada.body().provinciaGeorefs.stream().map(prov -> new Provincia(Integer.parseInt(prov.id), prov.nombre)).toList();
   }
-  public List<Localizacion> municipiosDeProvincia(Localizacion provincia) throws IOException {
+  public List<Municipio> municipiosDeProvincia(Provincia provincia) throws IOException {
     GeoRefService geoRefService = this.retrofit.create(GeoRefService.class);
-    Call<ListadoDeMunicipios> requestBuscada = geoRefService.municipios(provincia.getId(), "id, nombre");
+    Call<ListadoDeMunicipios> requestBuscada = geoRefService.municipios(String.valueOf(provincia.getId()), "id, nombre");
     Response<ListadoDeMunicipios> responseBuscada = requestBuscada.execute();
-    return this.generarLocalizacionMuni(responseBuscada.body());
+    ListadoDeMunicipios lista = responseBuscada.body();
+
+    return lista.municipios.stream().map(mun -> new Municipio(Integer.parseInt(mun.id), mun.nombre)).toList();
   }
-  public List<Localizacion> departamentosDeProvincia(Localizacion provincia) throws IOException {
+  public List<Localidad> localidadesDeMunicipio(Municipio municipio) throws IOException {
     GeoRefService geoRefService = this.retrofit.create(GeoRefService.class);
-    Call<ListadoDeDepartamentos> requestBuscada = geoRefService.departamentos(provincia.getId(), "id, nombre");
-    Response<ListadoDeDepartamentos> responseBuscada = requestBuscada.execute();
-    return this.generarLocalizacionDep(responseBuscada.body());
-  }
+    Call<ListadoDeMunicipios> requestBuscada = geoRefService.municipios(String.valueOf(municipio.getId()), "id, nombre");
+    Response<ListadoDeMunicipios> responseBuscada = requestBuscada.execute();
+    ListadoDeMunicipios lista = responseBuscada.body();
 
-  private List<Localizacion> generarLocalizacionDep(ListadoDeDepartamentos lista){
-    return lista.departamentos.stream().map(dep -> new Localizacion(dep.id, dep.nombre, DEPARTAMENTO)).toList();
-  }
-  private List<Localizacion> generarLocalizacionProv(ListadoDeProvincias lista){
-    return lista.provincias.stream().map(prov -> new Localizacion(prov.id, prov.nombre, PROVINCIA)).toList();
-  }
-  private List<Localizacion> generarLocalizacionMuni(ListadoDeMunicipios lista){
-    return lista.municipios.stream().map(muni -> new Localizacion(muni.id, muni.nombre, MUNICIPIO)).toList();
-  }
-  private List<Localizacion> generarLocalizacionUbi(ResponseUbicacion ubicacion) {
-    List<Localizacion> localizaciones = new ArrayList<>();
-    if (this.esIdentificadorValido(ubicacion.ubicacion.provincia.id)) {
-      localizaciones.add(new Localizacion(ubicacion.ubicacion.provincia.id, ubicacion.ubicacion.provincia.nombre, PROVINCIA));
-    }
-    if (this.esIdentificadorValido(ubicacion.ubicacion.municipio.id)) {
-      localizaciones.add(new Localizacion(ubicacion.ubicacion.municipio.id, ubicacion.ubicacion.municipio.nombre, MUNICIPIO));
-    }
-    if (this.esIdentificadorValido(ubicacion.ubicacion.departamento.id)) {
-      localizaciones.add(new Localizacion(ubicacion.ubicacion.departamento.id, ubicacion.ubicacion.departamento.nombre, DEPARTAMENTO));
-    }
-    return localizaciones;
-  }
-
-  private boolean esIdentificadorValido(String id) {
-    return id != null && !id.isEmpty() && !id.isBlank();
+    return lista.municipios.stream().map(mun -> new Localidad(Integer.parseInt(mun.id), mun.nombre)).toList();
   }
 }

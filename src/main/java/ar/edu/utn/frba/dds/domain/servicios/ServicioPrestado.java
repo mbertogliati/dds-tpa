@@ -8,11 +8,8 @@ public class ServicioPrestado {
   private int id;
   @Getter
   private Servicio servicio;
-  @Setter @Getter
-  private boolean disponibilidad;
 
   public ServicioPrestado(Servicio servicio){
     this.servicio = servicio;
-    this.disponibilidad = true;
   }
 }

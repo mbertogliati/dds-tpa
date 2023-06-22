@@ -15,11 +15,11 @@ public class MembresiaTests {
     public void init() {
         Usuario usuario = new Usuario("username", "clave");
         usuario.setId(0);
-        this.persona = new Persona("Nombre", "Apellido", "mail@mail.com", usuario);
+        this.persona = new Persona("Nombre", "Apellido", usuario);
 
         Usuario usuario2 = new Usuario("username2", "clave");
         usuario2.setId(1);
-        this.persona2 = new Persona("Nombre2", "Apellido2", "mail2@mail.com", usuario2);
+        this.persona2 = new Persona("Nombre2", "Apellido2", usuario2);
 
         this.comunidad1 = new Comunidad("Una comunidad");
         this.membresia = new Membresia(this.comunidad1, this.persona);

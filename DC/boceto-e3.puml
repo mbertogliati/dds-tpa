@@ -67,23 +67,27 @@ class Persona{
     +agregarServicio(servicio: Servicio)
     +eliminarServicio(servicio: Servicio)
     +agregarEntidad(entidad: Entidad)
-    +eliminarEntidad(entidad: Entidad)
 }
 Persona-->"1..*" Notificable
 Persona --> TiempoNotificacion
 Persona ..> DistanciaEntrePuntos
 
 interface DistanciaEntrePuntos{
-    +distanciaEntre(Ubicacion ubicacionA, Ubicacion ubicacionB): float
+    +distanciaEntre(Ubicacion ubicacionA, Ubicacion ubicacionB): double
 }
 
 interface TiempoNotificacion{
     +notificar(notificable Notificable, persona: Persona)
 }
 
+NotificacionSinApuro --> "1..*" Horario
+
+enum Horario{
+}
+
 class NotificacionSinApuro{
-    -notificableSinNotificar: ListadoNotificables
-    -horarios: List<DateTime>
+    -notificablesSinNotificar: ListadoNotificables
+    -fechas: Map<DayOfWeek, List<Horario>>
 
     +notificar(notificable Notificable, persona: Persona)
 }
@@ -95,8 +99,8 @@ class NotificacionAlMomento{
 class ListadoNotificables{
     -notificables: List<Notificable>
 
-    +agregarNotificable(Notificable notificable)
-    +sacarNotificable(Notificable notificable)
+    +agregarNotificables(Notificable notificable)
+    +vaciarNotificables()
     +getInfo(): String
 }
 
@@ -118,9 +122,9 @@ class Comunidad{
     + getIncidentes(): List<IncidentePorComunidad>
     + cerrarIncidente(Incidente incidente)
     + agregarIncidente(Incidente incidente)
-    + agregarServicioAEstablecimiento(establecimiento: Establecimiento, servicio: Servicio)   
 }
 Comunidad --> "1..*" IncidentePorComunidad
+Comunidad ..> Incidente
 
 class Membresia{
     -usuario: Persona
@@ -252,7 +256,7 @@ class Servicio{
 
     + agregarEtiqueta(nuevaEtiqueta: Etiqueta)
     + eliminarEtiqueta(EtiquetaServicio: Etiqueta)
-    - eliminarEtiqueta(idBuscada: int)
+    - eliminarEtiquetaPorID(idBuscada: int)
 
 }
 
@@ -337,7 +341,6 @@ class Incidente{
     - fechaApertura: DateTime
     - autorApertura: Persona
     +getInfo(): String
-    +setServicioDisponible(estado: boolean)
 }
 Incidente ..|> Notificable
 Incidente "1" --> "*" ServicioPrestado

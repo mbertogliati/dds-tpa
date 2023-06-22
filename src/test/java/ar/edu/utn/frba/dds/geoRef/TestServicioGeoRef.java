@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import ar.edu.utn.frba.dds.domain.utilidades.Localizacion;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,22 +49,22 @@ public class TestServicioGeoRef{
     ServicioGeoRef servicioGeoRef = ServicioGeoRef.instancia();
     Float latitud = (float) -37.54787204004173;
     Float longitud = (float) -61.46888869402542;
-    String departamento = servicioGeoRef.departamento(latitud, longitud).getNombre(); //General La Madrid
+    String departamento = servicioGeoRef.localidad(latitud, longitud).getNombre(); //General La Madrid
     assertEquals(departamento, "General La Madrid");
 
     latitud = (float) -38.37937303006633;
     longitud = (float) -63.51234577394965;
-    departamento = servicioGeoRef.departamento(latitud,longitud).getNombre(); //Caleu Caleu
+    departamento = servicioGeoRef.localidad(latitud,longitud).getNombre(); //Caleu Caleu
     assertEquals(departamento, "Caleu Caleu");
 
     latitud = (float)  -24.38287297032664;
     longitud = (float) -65.54097791735738;
-    departamento = servicioGeoRef.departamento(latitud,longitud).getNombre(); //San Antonio
+    departamento = servicioGeoRef.localidad(latitud,longitud).getNombre(); //San Antonio
     assertEquals(departamento, "San Antonio");
 
     latitud = (float)  -75.70025211682918;
     longitud = (float) -72.27246873936852;
-    departamento = servicioGeoRef.departamento(latitud,longitud).getNombre(); //Antártida Argentina
+    departamento = servicioGeoRef.localidad(latitud,longitud).getNombre(); //Antártida Argentina
     assertEquals(departamento, "Antártida Argentina");
 
   }
@@ -76,7 +75,7 @@ public class TestServicioGeoRef{
     ServicioGeoRef servicioGeoRef = ServicioGeoRef.instancia();
     Float latitud = (float) -37.54787204004173;
     Float longitud = (float) -61.46888869402542;
-    Localizacion municipio;
+    Municipio municipio;
     municipio = servicioGeoRef.municipio(latitud, longitud); //General La Madrid
     assertNotNull(municipio);
     assertEquals(municipio.getNombre(), "General la Madrid");

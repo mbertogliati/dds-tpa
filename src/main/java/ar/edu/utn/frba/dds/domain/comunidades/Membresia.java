@@ -11,6 +11,8 @@ public class Membresia {
   private Comunidad comunidad;
   @Getter @Setter
   private Rol rolComunidad;
+  @Getter @Setter
+  private boolean afectado;
 
   public Membresia(Comunidad comunidad, Persona persona){
     this.persona = persona;
