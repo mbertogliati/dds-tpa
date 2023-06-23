@@ -2,9 +2,11 @@ package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
-import ar.edu.utn.frba.dds.domain.utilidades.Localizacion;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +16,10 @@ public class Interes {
   @Getter
   private List<Servicio> servicios = new ArrayList<>();
   @Getter @Setter
-  private Localizacion localizacion;
+  private Ubicacion ubicacion;
 
-  public Interes(Localizacion localizacion){
-    this.localizacion = localizacion;
+  public Interes(Ubicacion ubicacion){
+    this.ubicacion = ubicacion;
   }
 
   public void agregarServicio(Servicio servicio){

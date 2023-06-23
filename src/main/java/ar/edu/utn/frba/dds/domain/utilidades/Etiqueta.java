@@ -1,9 +1,10 @@
 package ar.edu.utn.frba.dds.domain.utilidades;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class Etiqueta {
-  @Getter
+  @Getter @Setter
   private int id;
   @Getter
   private String tipo;

@@ -24,7 +24,8 @@ public class TestWPP {
 
     @BeforeEach
     public void init(){
-        this.persona = new Persona("Matias", "Cotens", "mcotens@gmail.com", new Usuario("userMatias", "passMatias"));
+        this.persona = new Persona("Matias", "Cotens", new Usuario("userMatias", "passMatias"));
+        this.persona.setEmail("mcotens@gmail.com");
         this.notificable = new EjemploNotificable();
     }
 

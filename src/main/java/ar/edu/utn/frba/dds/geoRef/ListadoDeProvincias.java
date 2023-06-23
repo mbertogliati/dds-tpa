@@ -8,10 +8,10 @@ public class ListadoDeProvincias {
   public int total;
   public int inicio;
   public Parametro parametros;
-  public List<Provincia> provincias;
+  public List<ProvinciaGeoref> provinciaGeorefs;
 
-  public Optional<Provincia> provinciaDeId(String id){
-    return this.provincias.stream()
+  public Optional<ProvinciaGeoref> provinciaDeId(String id){
+    return this.provinciaGeorefs.stream()
         .filter(p -> p.id == id)
         .findFirst();
   }

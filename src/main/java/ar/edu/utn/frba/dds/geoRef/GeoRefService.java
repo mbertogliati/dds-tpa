@@ -12,9 +12,8 @@ public interface GeoRefService {
   Call<ListadoDeMunicipios> municipios(@Query("id") String idProvincia, @Query("campos") String campos);
 
   @GET("departamentos")
-  Call<ListadoDeDepartamentos> departamentos(@Query("id") String idProvincia, @Query("campos") String campos);
+  Call<ListadoDeLocalidades> departamentos(@Query("id") String idProvincia, @Query("campos") String campos);
 
   @GET("ubicacion")
   Call<ResponseUbicacion> ubicacion(@Query("lat") float latitud, @Query("lon") float longitud);
-
 }

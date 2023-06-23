@@ -1,9 +1,9 @@
 package ar.edu.utn.frba.dds.domain.entidades;
 
-import ar.edu.utn.frba.dds.domain.utilidades.Localizacion;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,12 +17,15 @@ public class Entidad {
   @Getter
   private Denominacion denominacion;
 
-  public List<Localizacion> getLocalizaciones() {
-    List<Localizacion> localizaciones = new ArrayList<Localizacion>();
-    this.establecimientos.stream().forEach(e -> {
+
+
+  public List<Ubicacion> getUbicaciones() {
+    List<Ubicacion> ubicaciones = new ArrayList<Ubicacion>();
+    /*this.establecimientos.stream().forEach(e -> {
       localizaciones.addAll(e.getUbicacion().getLocalizaciones());
-    });
-    return localizaciones;
+    });*/
+    //TODO
+    return ubicaciones;
   }
 
   public Entidad(String nombre, Denominacion denominacion) {
@@ -30,8 +33,10 @@ public class Entidad {
     this.denominacion = denominacion;
   }
 
-  public List<Establecimiento> establecimientosEnLocNoDisp(Localizacion loc){
-    return this.getEstablecimientosEnLocacion(loc).stream().filter(est -> est.getServiciosPrestados().stream().anyMatch(serv -> serv.isDisponibilidad() == false)).toList();
+  public List<Establecimiento> establecimientosEnLocNoDisp(Ubicacion ubicacion){
+    return this.getEstablecimientosEnLocacion(ubicacion);
+    //TODO
+    //.stream().filter(est -> est.getServiciosPrestados().stream().anyMatch(serv -> serv.isDisponibilidad() == false)).toList();
   }
 
   public void agregarEstablecimiento(Establecimiento establecimiento, int posicion){
@@ -58,13 +63,19 @@ public class Entidad {
     return establecimientos.get(establecimientos.size() - 1);
   }
 
-  private List<Establecimiento> getEstablecimientosEnLocacion(Localizacion localizacion){
+  private List<Establecimiento> getEstablecimientosEnLocacion(Ubicacion ubicacion){
     List<Establecimiento> listaRetornar = new ArrayList<>();
 
-    switch (localizacion.getTipo()){
-      case MUNICIPIO -> listaRetornar = this.establecimientos.stream().filter(est -> est.getUbicacion().getMunicipio() == localizacion).toList();
-      case PROVINCIA -> listaRetornar = this.establecimientos.stream().filter(est -> est.getUbicacion().getProvincia() == localizacion).toList();
-      case DEPARTAMENTO -> listaRetornar = this.establecimientos.stream().filter(est -> est.getUbicacion().getDepartamento() == localizacion).toList();
+    if(ubicacion.getProvincia() != null){
+      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getProvincia().getId() == ubicacion.getProvincia().getId()).toList());
+    }
+
+    if(ubicacion.getMunicipio() != null){
+      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getMunicipio().getId() == ubicacion.getMunicipio().getId()).toList());
+    }
+
+    if(ubicacion.getLocalidad() != null){
+      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getLocalidad().getId() == ubicacion.getLocalidad().getId()).toList());
     }
 
     return listaRetornar;
