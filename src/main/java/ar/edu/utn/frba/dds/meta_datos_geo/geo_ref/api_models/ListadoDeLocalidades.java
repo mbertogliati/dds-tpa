@@ -1,13 +1,13 @@
-package ar.edu.utn.frba.dds.geoRef.api_models;
+package ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models;
 
 import java.util.List;
 
-public class ListadoDeMunicipios {
+public class ListadoDeLocalidades {
   public int cantidad;
   public int total;
   public int inicio;
   public Parametro parametros;
-  public List<MunicipioGeoref> municipios;
+  public List<LocalidadGeoref> localidades;
 
   private class Parametro {
     public List<String> campos;

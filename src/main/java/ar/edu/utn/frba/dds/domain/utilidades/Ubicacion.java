@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.utilidades;
 
-import ar.edu.utn.frba.dds.geoRef.*;
+import ar.edu.utn.frba.dds.meta_datos_geo.*;
 
 import java.io.IOException;
 

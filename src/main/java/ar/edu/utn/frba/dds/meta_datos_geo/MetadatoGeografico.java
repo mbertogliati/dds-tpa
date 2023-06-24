@@ -1,7 +1,6 @@
-package ar.edu.utn.frba.dds.geoRef;
+package ar.edu.utn.frba.dds.meta_datos_geo;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public class MetadatoGeografico {
   @Getter

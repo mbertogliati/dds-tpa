@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.geoRef.api_models;
+package ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models;
 
 import java.util.List;
 import java.util.Optional;

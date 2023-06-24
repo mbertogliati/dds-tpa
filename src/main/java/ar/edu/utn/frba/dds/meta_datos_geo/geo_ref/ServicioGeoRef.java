@@ -1,9 +1,14 @@
-package ar.edu.utn.frba.dds.geoRef;
+package ar.edu.utn.frba.dds.meta_datos_geo.geo_ref;
 
-import ar.edu.utn.frba.dds.geoRef.api_models.ListadoDeLocalidades;
-import ar.edu.utn.frba.dds.geoRef.api_models.ListadoDeMunicipios;
-import ar.edu.utn.frba.dds.geoRef.api_models.ListadoDeProvincias;
-import ar.edu.utn.frba.dds.geoRef.api_models.ResponseUbicacion;
+import ar.edu.utn.frba.dds.meta_datos_geo.AdapterMetadatosGeograficos;
+import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
+import ar.edu.utn.frba.dds.meta_datos_geo.MetadatoGeografico;
+import ar.edu.utn.frba.dds.meta_datos_geo.Municipio;
+import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeLocalidades;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeMunicipios;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeProvincias;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ResponseUbicacion;
 import java.io.IOException;
 import java.util.List;
 import retrofit2.Call;

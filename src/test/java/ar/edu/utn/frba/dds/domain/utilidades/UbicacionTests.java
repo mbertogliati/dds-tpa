@@ -1,12 +1,10 @@
 package ar.edu.utn.frba.dds.domain.utilidades;
 
-import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.comunidades.Usuario;
-import ar.edu.utn.frba.dds.geoRef.AdapterMetadatosGeograficos;
-import ar.edu.utn.frba.dds.geoRef.Localidad;
-import ar.edu.utn.frba.dds.geoRef.MetadatoGeografico;
-import ar.edu.utn.frba.dds.geoRef.Municipio;
-import ar.edu.utn.frba.dds.geoRef.Provincia;
+import ar.edu.utn.frba.dds.meta_datos_geo.AdapterMetadatosGeograficos;
+import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
+import ar.edu.utn.frba.dds.meta_datos_geo.MetadatoGeografico;
+import ar.edu.utn.frba.dds.meta_datos_geo.Municipio;
+import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

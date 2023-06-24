@@ -5,9 +5,9 @@ import java.util.List;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
-import ar.edu.utn.frba.dds.geoRef.Localidad;
-import ar.edu.utn.frba.dds.geoRef.Municipio;
-import ar.edu.utn.frba.dds.geoRef.Provincia;
+import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
+import ar.edu.utn.frba.dds.meta_datos_geo.Municipio;
+import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
 import lombok.Getter;
 import lombok.Setter;
 

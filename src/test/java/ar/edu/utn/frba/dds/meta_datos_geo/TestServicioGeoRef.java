@@ -1,9 +1,19 @@
-package ar.edu.utn.frba.dds.geoRef;
+package ar.edu.utn.frba.dds.meta_datos_geo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import ar.edu.utn.frba.dds.geoRef.api_models.*;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.*;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.GeoRefService;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.ServicioGeoRef;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeProvincias;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.LocalidadGeoref;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.MunicipioGeoref;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ParametroProvincia;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ParametroUbicacion;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ProvinciaGeoref;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ResponseUbicacion;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.UbicacionGeoRef;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
