@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.meta_datos_geo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.*;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.GeoRefService;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.ServicioGeoRef;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeProvincias;
@@ -131,9 +130,9 @@ public class TestServicioGeoRef{
     MunicipioGeoref municipioGeoref = new MunicipioGeoref("1", municipio);
     LocalidadGeoref localidadGeoref = new LocalidadGeoref("2", localidad);
 
-    ubicacion.provinciaGeoref = provinciaGeoref;
-    ubicacion.municipioGeoref = municipioGeoref;
-    ubicacion.localidadGeoref = localidadGeoref;
+    ubicacion.provincia = provinciaGeoref;
+    ubicacion.municipio = municipioGeoref;
+    ubicacion.localidad = localidadGeoref;
 
     ResponseUbicacion responseUbicacion = new ResponseUbicacion();
     responseUbicacion.parametros = parametros;

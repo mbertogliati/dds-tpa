@@ -47,24 +47,37 @@ public class ServicioGeoRef implements AdapterMetadatosGeograficos {
 
   public MetadatoGeografico obtenerMetadatoGeografico(float latitud, float longitud) throws IOException {
     ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
-    return new MetadatoGeografico(
-        new Provincia(Integer.parseInt(response.ubicacion.provinciaGeoref.id), response.ubicacion.provinciaGeoref.nombre),
-        new Municipio(Integer.parseInt(response.ubicacion.municipioGeoref.id), response.ubicacion.municipioGeoref.nombre),
-        new Localidad(Integer.parseInt(response.ubicacion.localidadGeoref.id), response.ubicacion.localidadGeoref.nombre)
-    );
+
+    Provincia provincia = null;
+    Municipio municipio = null;
+    Localidad localidad = null;
+
+    if (response.ubicacion.provincia != null) {
+      provincia = new Provincia(Integer.parseInt(response.ubicacion.provincia.id), response.ubicacion.provincia.nombre);
+    }
+
+    if (response.ubicacion.municipio != null) {
+      municipio = new Municipio(Integer.parseInt(response.ubicacion.municipio.id), response.ubicacion.municipio.nombre);
+    }
+
+    if (response.ubicacion.localidad != null) {
+      localidad = new Localidad(Integer.parseInt(response.ubicacion.localidad.id), response.ubicacion.localidad.nombre);
+    }
+
+    return new MetadatoGeografico(provincia, municipio, localidad);
   }
 
   public Provincia obtenerProvincia(float latitud, float longitud) throws IOException {
     ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
-    return new Provincia(Integer.parseInt(response.ubicacion.provinciaGeoref.id), response.ubicacion.provinciaGeoref.nombre);
+    return new Provincia(Integer.parseInt(response.ubicacion.provincia.id), response.ubicacion.provincia.nombre);
   }
   public Localidad obtenerLocalidad(float latitud, float longitud) throws IOException {
     ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
-    return new Localidad(Integer.parseInt(response.ubicacion.localidadGeoref.id), response.ubicacion.localidadGeoref.nombre);
+    return new Localidad(Integer.parseInt(response.ubicacion.localidad.id), response.ubicacion.localidad.nombre);
   }
   public Municipio obtenerMunicipio(float latitud, float longitud) throws IOException {
     ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
-    return new Municipio(Integer.parseInt(response.ubicacion.municipioGeoref.id), response.ubicacion.municipioGeoref.nombre);
+    return new Municipio(Integer.parseInt(response.ubicacion.municipio.id), response.ubicacion.municipio.nombre);
   }
 
   private ResponseUbicacion getResponseUbicacion(float latitud, float longitud) throws IOException {
