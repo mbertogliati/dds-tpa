@@ -17,18 +17,19 @@ public class Ubicacion {
   private Municipio municipio;
   @Getter
   private Localidad localidad;
-  private ServicioGeoRef geoRef;
+  private AdapterMetadatosGeograficos adapterMetadatosGeograficos;
 
   public Ubicacion(float latitud, float longitud) {
     this.latitud = latitud;
     this.longitud = longitud;
-    this.geoRef = ServicioGeoRef.instancia();
+    this.adapterMetadatosGeograficos = ServicioGeoRef.instancia();
   }
 
   public void setLocalizaciones() throws IOException {
-    this.provincia = this.geoRef.provincia(this.latitud, this.longitud);
-    this.municipio = this.geoRef.municipio(this.latitud, this.longitud);
-    this.localidad = this.geoRef.localidad(this.latitud, this.longitud);
+    var metadatos = this.adapterMetadatosGeograficos.obtenerMetadatoGeografico(this.latitud, this.longitud);
+    this.provincia = metadatos.getProvincia();
+    this.municipio = metadatos.getMunicipio();
+    this.localidad = metadatos.getLocalidad();
   }
 
   public void setLatitudLongitud(float latitud, float longitud) {
