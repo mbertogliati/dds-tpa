@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.geoRef.*;
 import java.io.IOException;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class Ubicacion {
   @Getter
@@ -17,19 +18,22 @@ public class Ubicacion {
   private Municipio municipio;
   @Getter
   private Localidad localidad;
+  @Setter
   private AdapterMetadatosGeograficos adapterMetadatosGeograficos;
 
   public Ubicacion(float latitud, float longitud) {
     this.latitud = latitud;
     this.longitud = longitud;
-    this.adapterMetadatosGeograficos = ServicioGeoRef.instancia();
+    this.adapterMetadatosGeograficos = null;
   }
 
-  public void setLocalizaciones() throws IOException {
-    var metadatos = this.adapterMetadatosGeograficos.obtenerMetadatoGeografico(this.latitud, this.longitud);
-    this.provincia = metadatos.getProvincia();
-    this.municipio = metadatos.getMunicipio();
-    this.localidad = metadatos.getLocalidad();
+  public void cargarMetadatosGeograficos() throws IOException {
+    if (this.adapterMetadatosGeograficos != null) {
+      var metadatos = this.adapterMetadatosGeograficos.obtenerMetadatoGeografico(this.latitud, this.longitud);
+      this.provincia = metadatos.getProvincia();
+      this.municipio = metadatos.getMunicipio();
+      this.localidad = metadatos.getLocalidad();
+    }
   }
 
   public void setLatitudLongitud(float latitud, float longitud) {

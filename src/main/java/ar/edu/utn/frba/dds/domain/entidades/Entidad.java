@@ -20,11 +20,7 @@ public class Entidad {
 
 
   public List<Ubicacion> getUbicaciones() {
-    List<Ubicacion> ubicaciones = new ArrayList<Ubicacion>();
-    /*this.establecimientos.stream().forEach(e -> {
-      localizaciones.addAll(e.getUbicacion().getLocalizaciones());
-    });*/
-    //TODO
+    List<Ubicacion> ubicaciones = this.establecimientos.stream().map(e -> e.getUbicacion()).toList();
     return ubicaciones;
   }
 
