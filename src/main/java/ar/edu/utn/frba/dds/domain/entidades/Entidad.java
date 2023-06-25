@@ -16,12 +16,12 @@ public class Entidad {
   private String nombre;
   @Getter
   private Denominacion denominacion;
+  @Getter @Setter
+  private Ubicacion ubicacion;
 
-
-
-  public List<Ubicacion> getUbicaciones() {
-    List<Ubicacion> ubicaciones = this.establecimientos.stream().map(e -> e.getUbicacion()).toList();
-    return ubicaciones;
+  public Entidad(String nombre, String denominacion) {
+    this.nombre = nombre;
+    this.denominacion = new Denominacion(denominacion);
   }
 
   public Entidad(String nombre, Denominacion denominacion) {
@@ -29,14 +29,12 @@ public class Entidad {
     this.denominacion = denominacion;
   }
 
-  public List<Establecimiento> establecimientosEnLocNoDisp(Ubicacion ubicacion){
-    return this.getEstablecimientosEnLocacion(ubicacion);
-    //TODO
-    //.stream().filter(est -> est.getServiciosPrestados().stream().anyMatch(serv -> serv.isDisponibilidad() == false)).toList();
-  }
-
   public void agregarEstablecimiento(Establecimiento establecimiento, int posicion){
     this.establecimientos.add(posicion, establecimiento);
+  }
+
+  public List<Ubicacion> getUbicaciones(){
+    return this.establecimientos.stream().map(e -> e.getUbicacion()).toList();
   }
 
   public void agregarEstablecimiento(Establecimiento establecimiento){
@@ -63,15 +61,15 @@ public class Entidad {
     List<Establecimiento> listaRetornar = new ArrayList<>();
 
     if(ubicacion.getProvincia() != null){
-      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getProvincia().getId() == ubicacion.getProvincia().getId()).toList());
+      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getUbicacion().getProvincia().getId() == ubicacion.getProvincia().getId()).toList());
     }
 
     if(ubicacion.getMunicipio() != null){
-      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getMunicipio().getId() == ubicacion.getMunicipio().getId()).toList());
+      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getUbicacion().getMunicipio().getId() == ubicacion.getMunicipio().getId()).toList());
     }
 
     if(ubicacion.getLocalidad() != null){
-      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getLocalidad().getId() == ubicacion.getLocalidad().getId()).toList());
+      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getUbicacion().getLocalidad().getId() == ubicacion.getLocalidad().getId()).toList());
     }
 
     return listaRetornar;

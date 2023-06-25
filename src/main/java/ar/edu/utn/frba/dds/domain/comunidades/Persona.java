@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
 import lombok.Getter;
@@ -39,7 +40,26 @@ public class Persona {
     this.apellido = apellido;
     this.usuario = usuario;
     this.email = "";
+    this.whatsapp = 0;
     this.ubicacionActual = new Ubicacion(0.0f, 0.0f);
+    this.interes = new Interes();
+  }
+
+  public void agregarEntidadInteres(Entidad entidad){
+    this.interes.agregarEntidad(entidad);
+  }
+  public void eliminarEntidadInteres(Entidad entidad){
+    this.interes.eliminarEntidad(entidad);
+  }
+  public void agregarServicioInteres(Servicio servicio){
+    this.interes.agregarServicio(servicio);
+  }
+  public void eliminarServicioInteres(Servicio servicio){
+    this.interes.eliminarServicio(servicio);
+  }
+
+  public boolean servicioPrestadoEsDeInteres(ServicioPrestado servicioPrestado){
+    return this.interes.servicioPrestadoEsDeInteres(servicioPrestado);
   }
 
   public void enviarNotificacion(Notificable notificable) {
@@ -60,6 +80,10 @@ public class Persona {
 
   public void eliminarEntidadDeInteres(Entidad entidad) {
     this.interes.eliminarEntidad(entidad);
+  }
+
+  public void setUbicacion(float lat, float lon){
+    this.ubicacionActual = new Ubicacion(lat, lon);
   }
 
   public void agregarMembresia(Membresia membresia) {
