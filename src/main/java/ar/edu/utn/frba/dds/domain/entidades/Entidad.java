@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.domain.entidades;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;

@@ -4,6 +4,6 @@ import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 
 import java.util.List;
 
-public interface Ponderador {
+public interface GeneradorRanking {
     public List<Entidad> ordenar(List<Entidad> entidades);
 }

@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 
 import java.util.List;
 
-public class MasIncidentesEnSemana implements Ponderador{
+public class MasIncidentesEnSemana implements GeneradorRanking {
     @Override
     public List<Entidad> ordenar(List<Entidad> entidades) {
         //TODO: IMPLEMENTAR ORDENAMIENTO

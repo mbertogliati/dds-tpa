@@ -58,6 +58,13 @@ public class Ubicacion {
     this.longitud = longitud;
   }
 
+  public boolean estaCercaDe(Ubicacion ubicacion){
+    DistanciaEntrePuntos medidorDistancia = new DistanciaEnMetros();
+
+    //CONSIDERO CERCA A 500 METROS
+    return medidorDistancia.distanciaEntre(this, ubicacion) < 500;
+  }
+
   public boolean coincideCon(Ubicacion ubicacion) {
     if(this.localidad == null && ubicacion.localidad == null){//si ambas LOCALIDADES son null
 

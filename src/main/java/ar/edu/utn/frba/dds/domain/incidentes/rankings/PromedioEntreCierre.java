@@ -4,10 +4,9 @@ import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 
 import java.util.List;
 
-public class PromedioEntreCierre implements Ponderador{
+public class PromedioEntreCierre implements GeneradorRanking {
     @Override
     public List<Entidad> ordenar(List<Entidad> entidades) {
-        //TODO: IMPLEMENTAR ORDENAMIENTO
         return entidades;
     }
 }
