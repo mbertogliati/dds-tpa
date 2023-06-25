@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.TiempoNotificacion;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
+import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 
 import java.util.ArrayList;
@@ -64,6 +65,10 @@ public class Persona {
 
   public void enviarNotificacion(Notificable notificable) {
     this.tiempoNotificacion.notificar(notificable, this);
+  }
+
+  public void cerrarIncidente(Incidente incidente){
+    this.membresias.stream().map(m -> m.getComunidad()).filter(c -> c.tieneIncidente(incidente)).forEach(c -> c.cerrarIncidente(incidente, this));
   }
 
   public void agregarServicioDeInteres(Servicio servicio) {

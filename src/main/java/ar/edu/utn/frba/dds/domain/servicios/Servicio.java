@@ -30,6 +30,14 @@ public class Servicio {
     this.eliminarEtiquetaPorID(etiqueta.getId());
   }
 
+  public String getStringEtiquetas(){
+    List<String> listaEtiquetas = this.etiquetas.stream().map(e -> e.getValor()).toList();
+    String texto = "";
+    for (String etiqueta : listaEtiquetas){
+      texto = texto + etiqueta + " - ";
+    }
+    return texto;
+  }
   private void eliminarEtiquetaPorID(int id){
     for (Etiqueta etiqueta : this.etiquetas){
       if(etiqueta.getId() == id){

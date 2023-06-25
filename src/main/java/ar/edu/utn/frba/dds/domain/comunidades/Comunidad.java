@@ -41,10 +41,12 @@ public class Comunidad {
         ipc.setFechaCierre(new Date());
       });
     }
+    notificarMiembros(new IncidenteCerrado(incidente));
   }
 
   public void agregarIncidente(Incidente incidente){
     this.incidentes.add(new IncidentePorComunidad(incidente));
+    notificarMiembros(new IncidenteAbierto(incidente));
   }
 
   public void agregarMembresiaDirecto(Membresia membresia){
@@ -60,6 +62,12 @@ public class Comunidad {
 
   private void eliminarServicioPorID(int id){
     servicios.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> servicios.remove(servicio));
+  }
+
+  public void agregarPersona(Persona persona){
+    Membresia membresia = new Membresia(this, persona);
+    this.membresias.add(membresia);
+    persona.agregarMembresiaDirecto(membresia);
   }
 
   public void agregarMembresia(Membresia membresia){
@@ -83,5 +91,9 @@ public class Comunidad {
         membresia.getPersona().eliminarMembresiaDirecto(membresia);
       }
     }
+  }
+
+  public boolean tieneIncidente(Incidente incidente) {
+    return this.incidentes.stream().map(ipc -> ipc.getIncidente()).anyMatch(i -> i.equals(incidente));
   }
 }
