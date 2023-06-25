@@ -26,10 +26,9 @@ public class Incidente implements Notificable {
         this.autorApertura = autor;
         this.servicioPrestados = new ArrayList<>();
         Collections.addAll(this.servicioPrestados, serviciosPrestados);
-        agregarIncidenteComunidad(autor);
     }
 
-    private void agregarIncidenteComunidad(Persona persona){
+    public void agregarIncidenteComunidad(Persona persona){
         persona.getMembresias().stream().map(m -> m.getComunidad()).forEach(c -> c.agregarIncidente(this));
     }
 

@@ -77,6 +77,7 @@ public class IncidenteTests {
         ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
         Incidente incidente = new Incidente(persona1, servicioPrestado);
+        incidente.agregarIncidenteComunidad(persona1);
 
         Assertions.assertEquals(1, comunidad.getIncidentes().size());
     }
@@ -104,6 +105,7 @@ public class IncidenteTests {
         ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
         Incidente incidente = new Incidente(persona1, servicioPrestado);
+        incidente.agregarIncidenteComunidad(persona1);
 
         Assertions.assertEquals(1, comunidad.getIncidentes().size());
 
@@ -112,5 +114,6 @@ public class IncidenteTests {
         Assertions.assertEquals(1, comunidad.getIncidentes().size());
 
         Assertions.assertEquals(1, comunidad.getIncidentes().stream().filter(ipc -> ipc.isEstaCerrado()).toList().size());
+        Assertions.assertEquals(0, comunidad.getIncidentes().stream().filter(ipc -> !(ipc.isEstaCerrado())).toList().size());
     }
 }
