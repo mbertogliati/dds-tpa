@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.hasheo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ar.edu.utn.frba.dds.geoRef.ServicioGeoRef;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

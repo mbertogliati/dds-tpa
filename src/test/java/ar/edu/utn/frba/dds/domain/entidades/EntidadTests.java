@@ -107,6 +107,22 @@ public class EntidadTests {
         //TODO
     }
 
+    @Test
+    @DisplayName("Se puede asignar una ubicacion a los establecimientos de una entidad y consultar sus ubicaciones")
+    public void asignarUbicacionAEntidad() {
+        //arrange
+        Entidad entidad = new Entidad("entidad prestadora", new Denominacion("entidad"));
+        entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.77995323941093, (float)-58.39850705828568), new Denominacion("establecimiento")));
+        entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.60364737571995, (float)-58.38158957545822), new Denominacion("establecimiento")));
+        entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.568478432086074, (float)-58.47965135917718), new Denominacion("establecimiento")));
+
+        //act
+        List<Ubicacion> ubicacionesDeEntidad = entidad.getUbicaciones();
+
+        //assert
+        Assertions.assertEquals(3, ubicacionesDeEntidad.size());
+    }
+
     private void iniciarEstablecimientos() throws IOException {
         this.estacion1 = new Establecimiento(new Ubicacion((float) -30.150, (float) -30.150), new Denominacion("Estacion"));
         estacion1.setId(0);
