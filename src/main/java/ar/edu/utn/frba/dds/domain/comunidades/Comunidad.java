@@ -1,10 +1,15 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
+import ar.edu.utn.frba.dds.domain.incidentes.IncidenteAbierto;
+import ar.edu.utn.frba.dds.domain.incidentes.IncidenteCerrado;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import ar.edu.utn.frba.dds.notificaciones.Notificable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,12 +29,24 @@ public class Comunidad {
     this.detalle = detalle;
   }
 
-  public void cerrarIncidente(Incidente incidente){
+  public void notificarMiembros(Notificable notificable){
+    this.membresias.stream().map(m -> m.getPersona()).forEach(p -> p.enviarNotificacion(notificable));
+  }
 
+  public void cerrarIncidente(Incidente incidente, Persona persona){
+    if(this.incidentes.stream().map(ipc -> ipc.getIncidente()).anyMatch(i -> i.equals(incidente))){
+      this.incidentes.stream().filter(ipc -> ipc.getIncidente().equals(incidente)).forEach(ipc -> {
+        ipc.setEstaCerrado(true);
+        ipc.setAutorCierre(persona);
+        ipc.setFechaCierre(new Date());
+      });
+    }
+    notificarMiembros(new IncidenteCerrado(incidente));
   }
 
   public void agregarIncidente(Incidente incidente){
-
+    this.incidentes.add(new IncidentePorComunidad(incidente));
+    notificarMiembros(new IncidenteAbierto(incidente));
   }
 
   public void agregarMembresiaDirecto(Membresia membresia){
@@ -45,6 +62,12 @@ public class Comunidad {
 
   private void eliminarServicioPorID(int id){
     servicios.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> servicios.remove(servicio));
+  }
+
+  public void agregarPersona(Persona persona){
+    Membresia membresia = new Membresia(this, persona);
+    this.membresias.add(membresia);
+    persona.agregarMembresiaDirecto(membresia);
   }
 
   public void agregarMembresia(Membresia membresia){
@@ -68,5 +91,9 @@ public class Comunidad {
         membresia.getPersona().eliminarMembresiaDirecto(membresia);
       }
     }
+  }
+
+  public boolean tieneIncidente(Incidente incidente) {
+    return this.incidentes.stream().map(ipc -> ipc.getIncidente()).anyMatch(i -> i.equals(incidente));
   }
 }

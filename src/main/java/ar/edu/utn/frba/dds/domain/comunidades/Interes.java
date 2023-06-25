@@ -1,11 +1,14 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
+import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,11 +18,15 @@ public class Interes {
   private List<Entidad> entidades = new ArrayList<>();
   @Getter
   private List<Servicio> servicios = new ArrayList<>();
-  @Getter @Setter
-  private Ubicacion ubicacion;
 
-  public Interes(Ubicacion ubicacion){
-    this.ubicacion = ubicacion;
+  public boolean servicioPrestadoEsDeInteres(ServicioPrestado servicioPrestado){
+    if(this.servicios.stream().map(s -> s.getId()).toList().contains(servicioPrestado.getServicio().getId())){
+      //El servicio está en la lista de ineteres
+      //Ahora verifico si la ubicacion del servicioPrestado coincide con alguna de las entidades de interés
+      List<List<Establecimiento>> listaDeListas = this.entidades.stream().map(e -> e.getEstablecimientos()).toList();
+      return listaDeListas.stream().flatMap(List::stream).collect(Collectors.toList()).stream().map(e -> e.getUbicacion()).anyMatch(ubi -> ubi.coincideCon(servicioPrestado.getUbicacion()));
+    }
+    return false;
   }
 
   public void agregarServicio(Servicio servicio){

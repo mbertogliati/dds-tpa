@@ -17,11 +17,6 @@ import static org.mockito.Mockito.when;
 
 public class UbicacionTests {
 
-    @BeforeEach
-    public void init(){
-    //TODO: ARREGLAR TESTS UBICACION
-    }
-
     @Test
     @DisplayName("Se puede crear una ubicacion")
     public void crearUbicacion() {
