@@ -1,17 +1,17 @@
 package ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ListadoDeMunicipios {
+  @SerializedName("cantidad")
   public int cantidad;
+  @SerializedName("total")
   public int total;
+  @SerializedName("inicio")
   public int inicio;
-  public Parametro parametros;
-  public List<MunicipioGeoref> municipios;
-
-  private class Parametro {
-    public List<String> campos;
-    public int max;
-    public List<String> provincia;
-  }
+  @SerializedName("parametros")
+  public ParametroMunicipio parametros;
+  @SerializedName("municipios")
+  public List<EntidadGeoRef> municipios;
 }

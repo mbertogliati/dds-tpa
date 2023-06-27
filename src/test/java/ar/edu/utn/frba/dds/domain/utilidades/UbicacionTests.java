@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.domain.utilidades;
 
 import ar.edu.utn.frba.dds.meta_datos_geo.AdapterMetadatosGeograficos;
+import ar.edu.utn.frba.dds.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.meta_datos_geo.MetadatoGeografico;
 import ar.edu.utn.frba.dds.meta_datos_geo.Municipio;
@@ -83,7 +84,8 @@ public class UbicacionTests {
     private MetadatoGeografico BuildFakeMetadatoGeografico() {
         Provincia provincia = new Provincia(1, "Buenos Aires");
         Municipio municipio = new Municipio(2, "CABA");
-        Localidad localidad = new Localidad(3, "Lugano");
-        return new MetadatoGeografico(provincia, municipio, localidad);
+        Departamento departamento = new Departamento(4, "Departamento de Pikachu");
+        Localidad localidad = new Localidad("3", "Lugano");
+        return new MetadatoGeografico(provincia, municipio, departamento, localidad);
     }
 }

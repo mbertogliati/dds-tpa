@@ -4,11 +4,11 @@ import lombok.Getter;
 
 public class Localidad {
     @Getter
-    private int id;
+    private String id;
     @Getter
     private String nombre;
 
-    public Localidad(int id, String nombre){
+    public Localidad(String id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }

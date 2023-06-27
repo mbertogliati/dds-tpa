@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.meta_datos_geo.geo_ref;
 
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeDepartamentos;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeLocalidades;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeMunicipios;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeProvincias;
@@ -13,10 +14,12 @@ public interface GeoRefService {
   Call<ListadoDeProvincias> provincias(@Query("campos") String campos);
 
   @GET("municipios")
-  Call<ListadoDeMunicipios> municipios(@Query("id") String idProvincia, @Query("campos") String campos);
+  Call<ListadoDeMunicipios> municipios(@Query("provincia") String idProvincia, @Query("campos") String campos);
 
   @GET("departamentos")
-  Call<ListadoDeLocalidades> departamentos(@Query("id") String idProvincia, @Query("campos") String campos);
+  Call<ListadoDeDepartamentos> departamentos(@Query("provincia") String idProvincia, @Query("campos") String campos);
+  @GET("localidades")
+  Call<ListadoDeLocalidades> localidades(@Query("provincia") String idProvincia, @Query("campos") String campos);
 
   @GET("ubicacion")
   Call<ResponseUbicacion> ubicacion(@Query("lat") float latitud, @Query("lon") float longitud);

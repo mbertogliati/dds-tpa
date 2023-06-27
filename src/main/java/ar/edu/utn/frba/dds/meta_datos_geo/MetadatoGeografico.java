@@ -10,11 +10,15 @@ public class MetadatoGeografico {
   Municipio municipio;
 
   @Getter
+  Departamento departamento;
+
+  @Getter
   Localidad localidad;
 
-  public MetadatoGeografico(Provincia provincia, Municipio municipio, Localidad localidad) {
+  public MetadatoGeografico(Provincia provincia, Municipio municipio, Departamento departamento, Localidad localidad) {
     this.provincia = provincia;
     this.municipio = municipio;
+    this.departamento = departamento;
     this.localidad = localidad;
   }
 }

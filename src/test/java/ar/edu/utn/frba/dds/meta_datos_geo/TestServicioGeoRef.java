@@ -5,12 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.GeoRefService;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.ServicioGeoRef;
+import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.EntidadGeoRef;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ListadoDeProvincias;
-import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.LocalidadGeoref;
-import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.MunicipioGeoref;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ParametroProvincia;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ParametroUbicacion;
-import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ProvinciaGeoref;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ResponseUbicacion;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.UbicacionGeoRef;
 import java.io.IOException;
@@ -24,16 +22,9 @@ import retrofit2.Response;
 
 import static org.mockito.Mockito.*;
 
-public class TestServicioGeoRef{
-  //private GeoRefService geoRefServiceMock;
-  //private Call<ResponseUbicacion> responseUbicacionMock;
-  //private Call<ListadoDeProvincias> listadoDeProvinciasMock;
-
+public class TestServicioGeoRef {
   @BeforeEach
   public void init(){
-    //this.geoRefServiceMock = mock(GeoRefService.class);
-    //this.responseUbicacionMock = (Call<ResponseUbicacion>) mock(Call.class);
-    //this.listadoDeProvinciasMock = (Call<ListadoDeProvincias>) mock(Call.class);
   }
 
   @Test
@@ -126,9 +117,9 @@ public class TestServicioGeoRef{
     ubicacion.lat = latitud;
     ubicacion.lon = longitud;
 
-    ProvinciaGeoref provinciaGeoref = new ProvinciaGeoref("0", provincia);
-    MunicipioGeoref municipioGeoref = new MunicipioGeoref("1", municipio);
-    LocalidadGeoref localidadGeoref = new LocalidadGeoref("2", localidad);
+    EntidadGeoRef provinciaGeoref = new EntidadGeoRef("0", provincia);
+    EntidadGeoRef municipioGeoref = new EntidadGeoRef("1", municipio);
+    EntidadGeoRef localidadGeoref = new EntidadGeoRef("2", localidad);
 
     ubicacion.provincia = provinciaGeoref;
     ubicacion.municipio = municipioGeoref;
@@ -144,11 +135,11 @@ public class TestServicioGeoRef{
   private ListadoDeProvincias BuildFakeListadoDeProvincias() {
     ListadoDeProvincias listado = new ListadoDeProvincias();
 
-    List<ProvinciaGeoref> provincias = new ArrayList<ProvinciaGeoref>();
+    List<EntidadGeoRef> provincias = new ArrayList<EntidadGeoRef>();
 
-    provincias.add(new ProvinciaGeoref("0", "Buenos Aires"));
-    provincias.add(new ProvinciaGeoref("1", "Santa Fe"));
-    provincias.add(new ProvinciaGeoref("2", "Corrientes"));
+    provincias.add(new EntidadGeoRef("0", "Buenos Aires"));
+    provincias.add(new EntidadGeoRef("1", "Santa Fe"));
+    provincias.add(new EntidadGeoRef("2", "Corrientes"));
 
     listado.provincias = provincias;
     listado.cantidad = provincias.size();

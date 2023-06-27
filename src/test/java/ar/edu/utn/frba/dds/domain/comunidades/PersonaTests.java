@@ -35,7 +35,7 @@ public class PersonaTests {
     Provincia provincia = new Provincia(1, "Buenos Aires");
     Municipio municipio1 = new Municipio(1, "Lomas de Zamora");
     Municipio municipio2 = new Municipio(2, "Lanús");
-    Localidad localidad1 = new Localidad(1, "Temperley");
+    Localidad localidad1 = new Localidad("1", "Temperley");
 
     Persona persona = new Persona("Nombre", "Apellido", new Usuario("username", "password"));
     Ubicacion ubicacion1 = new Ubicacion(provincia, municipio1, localidad1);

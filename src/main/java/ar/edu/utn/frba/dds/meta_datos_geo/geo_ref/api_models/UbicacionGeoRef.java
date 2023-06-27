@@ -7,10 +7,12 @@ public class UbicacionGeoRef {
   public float lat;
   @SerializedName("lon")
   public float lon;
-  @SerializedName("municipio")
-  public MunicipioGeoref municipio;
   @SerializedName("provincia")
-  public ProvinciaGeoref provincia;
+  public EntidadGeoRef provincia;
+  @SerializedName("municipio")
+  public EntidadGeoRef municipio;
+  @SerializedName("departamento")
+  public EntidadGeoRef departamento;
   @SerializedName("localidad")
-  public LocalidadGeoref localidad;
+  public EntidadGeoRef localidad;
 }

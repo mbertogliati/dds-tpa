@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class ListadoDeLocalidades {
+public class ListadoDeDepartamentos {
   @SerializedName("cantidad")
   public int cantidad;
   @SerializedName("total")
@@ -11,7 +11,7 @@ public class ListadoDeLocalidades {
   @SerializedName("inicio")
   public int inicio;
   @SerializedName("parametros")
-  public ParametroLocalidad parametros;
-  @SerializedName("localidades")
-  public List<EntidadGeoRef> localidades;
+  public ParametroMunicipio parametros;
+  @SerializedName("departamentos")
+  public List<EntidadGeoRef> departamentos;
 }
