@@ -62,49 +62,22 @@ public class EntidadTests {
     @Test
     @DisplayName("Se pueden agregar servicios a un establecimiento")
     public void agregarServicios(){
-        sucursal1.agregarServicio(new ServicioPrestado(banioHombreBebe));
-        sucursal1.agregarServicio(new ServicioPrestado(banioMujerDiscapRampa));
+        sucursal1.agregarServicio(banioHombreBebe);
+        sucursal1.agregarServicio(banioMujerDiscapRampa);
 
         Assertions.assertEquals(2,sucursal1.getServiciosPrestados().size());
-        //Assertions.assertEquals(2,sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size());
-        //TODO
     }
 
     @Test
     @DisplayName("Se pueden eliminar servicios de un establecimiento")
     public void eliminarServicios(){
-        //TODO: ARREGLAR TESTS ENTIDAD, SON POR PROBLEMAS CON UBICACIÓN
-        ServicioPrestado serv1 = new ServicioPrestado(banioHombreBebe);
-        serv1.setId(0);
-        ServicioPrestado serv2 = new ServicioPrestado(banioMujerDiscapRampa);
-        serv2.setId(1);
-        ServicioPrestado serv3 = new ServicioPrestado(escaleraMolinete);
-        serv3.setId(2);
+        sucursal1.agregarServicio(banioHombreBebe);
+        sucursal1.agregarServicio(banioMujerDiscapRampa);
+        sucursal1.agregarServicio(escaleraMolinete);
 
-        sucursal1.agregarServicio(serv1);
-        sucursal1.agregarServicio(serv2);
-        sucursal1.agregarServicio(serv3);
-
-        sucursal1.eliminarServicioPrestado(serv2);
+        sucursal1.eliminarServicio(banioMujerDiscapRampa);
 
         Assertions.assertEquals(2,sucursal1.getServiciosPrestados().size());
-        //Assertions.assertEquals(2,sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size());
-        //TODO
-    }
-
-    @Test
-    @DisplayName("Se pueden modificar los servicios prestados de un establecimiento")
-    public void modificarServicios(){
-        sucursal1.agregarServicio(new ServicioPrestado(banioHombreBebe));
-        sucursal1.agregarServicio(new ServicioPrestado(banioMujerDiscapRampa));
-        sucursal1.agregarServicio(new ServicioPrestado(escaleraMolinete));
-
-        sucursal1.setServicio(banioMujerDiscapRampa, false);
-
-        Assertions.assertEquals(3,sucursal1.getServiciosPrestados().size());
-        //Assertions.assertEquals(2,sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == true).toList().size());
-        //Assertions.assertEquals(1,sucursal1.getServiciosPrestados().stream().filter(servicioPrestado -> servicioPrestado.isDisponibilidad() == false).toList().size());
-        //TODO
     }
 
     @Test
@@ -112,9 +85,18 @@ public class EntidadTests {
     public void asignarUbicacionAEntidad() {
         //arrange
         Entidad entidad = new Entidad("entidad prestadora", new Denominacion("entidad"));
-        entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.77995323941093, (float)-58.39850705828568), new Denominacion("establecimiento")));
-        entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.60364737571995, (float)-58.38158957545822), new Denominacion("establecimiento")));
-        entidad.agregarEstablecimiento(new Establecimiento(new Ubicacion((float)-34.568478432086074, (float)-58.47965135917718), new Denominacion("establecimiento")));
+
+        Establecimiento establecimiento1 = new Establecimiento("estación 1", new Denominacion("estación"));
+        establecimiento1.setUbicacion(new Ubicacion((float)-34.77995323941093, (float)-58.39850705828568));
+        entidad.agregarEstablecimiento(establecimiento1);
+
+        Establecimiento establecimiento2 = new Establecimiento("estación 2", new Denominacion("estación"));
+        establecimiento1.setUbicacion(new Ubicacion((float)-34.60364737571995, (float)-58.38158957545822));
+        entidad.agregarEstablecimiento(establecimiento2);
+
+        Establecimiento establecimiento3 = new Establecimiento("estación 3", new Denominacion("estación"));
+        establecimiento1.setUbicacion(new Ubicacion((float)-34.568478432086074, (float)-58.47965135917718));
+        entidad.agregarEstablecimiento(establecimiento3);
 
         //act
         List<Ubicacion> ubicacionesDeEntidad = entidad.getUbicaciones();
@@ -123,17 +105,26 @@ public class EntidadTests {
         Assertions.assertEquals(3, ubicacionesDeEntidad.size());
     }
 
-    private void iniciarEstablecimientos() throws IOException {
-        this.estacion1 = new Establecimiento(new Ubicacion((float) -30.150, (float) -30.150), new Denominacion("Estacion"));
+    private void iniciarEstablecimientos() {
+        this.estacion1 = new Establecimiento("estación 1", new Denominacion("Estacion"));
         estacion1.setId(0);
-        this.estacion2 = new Establecimiento(new Ubicacion((float) -31.150, (float) -31.150), new Denominacion("Estacion"));
+        this.estacion1.setUbicacion(new Ubicacion((float) -30.150, (float) -30.150));
+
+        this.estacion2 = new Establecimiento("estación 2", new Denominacion("Estacion"));
         estacion2.setId(1);
-        this.estacion3 = new Establecimiento(new Ubicacion((float) -32.150, (float) -32.150), new Denominacion("Estacion"));
+        this.estacion2.setUbicacion(new Ubicacion((float) -31.150, (float) -31.150));
+
+        this.estacion3 = new Establecimiento("estación 3", new Denominacion("Estacion"));
         estacion3.setId(2);
-        this.sucursal1 = new Establecimiento(new Ubicacion((float) -40.000, (float) -40.000), new Denominacion("Sucursal"));
+        estacion3.setUbicacion(new Ubicacion((float) -32.150, (float) -32.150));
+
+        this.sucursal1 = new Establecimiento("sucursal1", new Denominacion("Sucursal"));
         sucursal1.setId(3);
-        this.sucursal2 = new Establecimiento(new Ubicacion((float) -41.000, (float) -41.000), new Denominacion("Sucursal"));
+        sucursal1.setUbicacion(new Ubicacion((float) -40.000, (float) -40.000));
+
+        this.sucursal2 = new Establecimiento("sucursal2", new Denominacion("Sucursal"));
         sucursal2.setId(4);
+        sucursal2.setUbicacion(new Ubicacion((float) -41.000, (float) -41.000));
     }
 
     private void iniciarEntidades(){

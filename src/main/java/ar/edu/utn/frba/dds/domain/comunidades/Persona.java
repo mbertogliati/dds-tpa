@@ -2,11 +2,13 @@ package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.TiempoNotificacion;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
+import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
 import lombok.Getter;
@@ -39,11 +41,34 @@ public class Persona {
     this.apellido = apellido;
     this.usuario = usuario;
     this.email = "";
+    this.whatsapp = 0;
     this.ubicacionActual = new Ubicacion(0.0f, 0.0f);
+    this.interes = new Interes();
+  }
+
+  public void agregarEntidadInteres(Entidad entidad){
+    this.interes.agregarEntidad(entidad);
+  }
+  public void eliminarEntidadInteres(Entidad entidad){
+    this.interes.eliminarEntidad(entidad);
+  }
+  public void agregarServicioInteres(Servicio servicio){
+    this.interes.agregarServicio(servicio);
+  }
+  public void eliminarServicioInteres(Servicio servicio){
+    this.interes.eliminarServicio(servicio);
+  }
+
+  public boolean servicioPrestadoEsDeInteres(ServicioPrestado servicioPrestado){
+    return this.interes.servicioPrestadoEsDeInteres(servicioPrestado);
   }
 
   public void enviarNotificacion(Notificable notificable) {
     this.tiempoNotificacion.notificar(notificable, this);
+  }
+
+  public void cerrarIncidente(Incidente incidente){
+    this.membresias.stream().map(m -> m.getComunidad()).filter(c -> c.tieneIncidente(incidente)).forEach(c -> c.cerrarIncidente(incidente, this));
   }
 
   public void agregarServicioDeInteres(Servicio servicio) {
@@ -60,6 +85,10 @@ public class Persona {
 
   public void eliminarEntidadDeInteres(Entidad entidad) {
     this.interes.eliminarEntidad(entidad);
+  }
+
+  public void setUbicacion(float lat, float lon){
+    this.ubicacionActual = new Ubicacion(lat, lon);
   }
 
   public void agregarMembresia(Membresia membresia) {

@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.domain.servicios;
 import ar.edu.utn.frba.dds.domain.utilidades.Etiqueta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +14,12 @@ public class Servicio {
   @Getter
   private List<Etiqueta> etiquetas = new ArrayList<>();
 
+  public Servicio(Etiqueta ... etiquetas){
+    Collections.addAll(this.etiquetas, etiquetas);
+  }
+
   public Servicio(List<Etiqueta> etiquetas){
-    this.etiquetas = etiquetas;
+    this.etiquetas.addAll(etiquetas);
   }
 
   public void agregarEtiqueta(Etiqueta etiqueta){
@@ -25,10 +30,18 @@ public class Servicio {
     this.eliminarEtiquetaPorID(etiqueta.getId());
   }
 
+  public String getStringEtiquetas(){
+    List<String> listaEtiquetas = this.etiquetas.stream().map(e -> e.getValor()).toList();
+    String texto = "";
+    for (String etiqueta : listaEtiquetas){
+      texto = texto + etiqueta + " - ";
+    }
+    return texto;
+  }
   private void eliminarEtiquetaPorID(int id){
-    for (Etiqueta etiqueta : etiquetas){
+    for (Etiqueta etiqueta : this.etiquetas){
       if(etiqueta.getId() == id){
-        etiquetas.remove(etiqueta);
+        this.etiquetas.remove(etiqueta);
       }
     }
   }

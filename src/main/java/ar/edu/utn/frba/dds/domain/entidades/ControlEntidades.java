@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.meta_datos_geo.Municipio;
 import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
+import ar.edu.utn.frba.dds.notificaciones.Notificable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,6 +45,6 @@ public class ControlEntidades {
   }
 
   public void enviarInformacion(){
-    //TODO: IMPLEMENTAR ENVIO DE INFORMACION
+    //TODO
   }
 }
