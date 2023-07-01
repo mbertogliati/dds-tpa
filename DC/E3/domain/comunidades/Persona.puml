@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam linetype ortho
+
+class Persona{
+    -usuario: Usuario
+    -nombre: String
+    -apellido: String
+    -email: String
+    -whatsapp: int
+    -interes: Interes
+    -ubicacion: Ubicacion
+    -membresias: List<Membresia>
+    -metodoNotificacion: String
+    -tiempoNotificacion: TiempoNotificacion
+
+    +setUbicacion(Ubicacion ubicacion)
+    +enviarNotificacion(Notificable notificable)
+    +setTiempoNotificacion(TiempoNotificacion tiempo)
+    +getMetodoNotificacion(): String
+    +setMetodoNotificacion(metodo: String)
+    +agregarServicio(servicio: Servicio)
+    +eliminarServicio(servicio: Servicio)
+    +agregarEntidad(entidad: Entidad)
+}
+@enduml

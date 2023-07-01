@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class OrganismoControl{
+    - entidades: List<EntidadPrestadora>
+    - nombre : String
+    - informado: Persona
+    - generadorInformacion: InformacionAdapter
+    - rankings: List<Ranking>
+
+    +getRankings(): List<Ranking>
+    +generarRankings()
+    +getEntidades(): List<Entidad>
+    +enviarInformacion()
+}
+
+@enduml

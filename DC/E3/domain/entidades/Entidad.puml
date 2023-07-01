@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Entidad{
+    - establecimientos: List<Establecimiento>
+    - nombre : String
+    - denominacion : Denominacion
+
+    +ubicaciones(): List<Ubicacion>
+    +establecimientosEnUbiConDispo(ubi: Ubicacion, disp: boolean): List<Establecimiento>
+    +agregarEstablecimiento(establecimiento: Establecimiento, posicion: int)
+    +eliminarEstablecimiento(establecimiento: Establecimiento)
+    -eliminarEstablecimientoPorID(idBuscada: int)
+    -getEstablecimientosEnUbicacion(ubi: Ubicacion): List<Establecimiento>
+}
+
+@enduml

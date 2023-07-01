@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class EntidadPrestadora{
+    - entidades: List<Entidad>
+    - nombre : String
+    - informado: Persona
+    - generadorInformacion: InformacionAdapter
+    - rankings: List<Ranking>
+
+    +generarRankings()
+    +getEntidades(): List<Entidad>
+    +enviarInformacion()
+}
+
+@enduml

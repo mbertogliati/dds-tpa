@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Rol{
+    -id: int
+    -permisos: List<Permiso>
+
+    +tienePermiso(permiso: Permiso)
+}
+
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class MasIncidentesEnSemana{
+    +ordenar(List<Entidad> entidades): List<Entidad>
+}
+
+@enduml
