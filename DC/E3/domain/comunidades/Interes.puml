@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam linetype ortho
+
+class Interes{
+    -entidades: List<Entidad>
+    -servicios: List<Servicio>
+
+    +serviciosDeInteres(ubi: Ubicacion): List<Servicio>
+    -entidadesDeUbicacion(ubi: Ubicacion): List<Entidad>
+}
+
+@enduml

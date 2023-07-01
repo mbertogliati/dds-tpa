@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.importadorEntidades;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.entidades.Denominacion;
-import ar.edu.utn.frba.dds.domain.entidades.ControlEntidades;
+//import ar.edu.utn.frba.dds.domain.entidades.ControlEntidades;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 
 
 public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
-
+/*
   private enum PosicionColumnasCSV {
     TIPO,
     ID,
@@ -80,7 +80,10 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
     List<Integer> idRelacionados = Arrays.stream(idEntidadesConcatenadas.split(",")).mapToInt(Integer::parseInt).boxed().toList();
     return entidadesTotales.stream().filter(e -> idRelacionados.contains(e.getId())).toList();
   }
+ */
 }
+
+
 /*
 * EJEMPLO .CSV
 *    Tipo,Id,Nombre,Denominacion,Entidades Relacionadas
