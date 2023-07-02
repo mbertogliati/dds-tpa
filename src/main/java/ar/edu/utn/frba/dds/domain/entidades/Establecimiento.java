@@ -19,10 +19,10 @@ public class Establecimiento {
   private Denominacion denominacion;
   @Getter @Setter
   private String nombre;
-  @Getter
-  private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
   @Getter @Setter
   private Ubicacion ubicacion;
+  @Getter @Setter
+  private Entidad entidad;
 
   public Establecimiento(String nombre, String denominacion){
     this.nombre = nombre;
@@ -33,22 +33,4 @@ public class Establecimiento {
     this.nombre = nombre;
     this.denominacion = denominacion;
   }
-
-  public void agregarServicio(Servicio servicio){
-    this.serviciosPrestados.add(new ServicioPrestado(servicio, this.ubicacion));
-  }
-
-  public void eliminarServicioPrestado(ServicioPrestado servicioPrestado){
-    this.serviciosPrestados.removeIf(servicioPres -> servicioPres.getId() == servicioPrestado.getId());
-  }
-
-  public void eliminarServicio(Servicio servicio){
-    this.serviciosPrestados.removeIf(servicioPres -> servicioPres.getServicio().getId() == servicio.getId());
-  }
-
-  public List<ServicioPrestado> serviciosPrestadosDelServicio(Servicio servicio){
-    return this.serviciosPrestados.stream().filter(servicioPrestado -> servicioPrestado.getServicio().getId() == servicio.getId()).toList();
-  }
-
-
 }

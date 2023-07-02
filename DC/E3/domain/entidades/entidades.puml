@@ -10,7 +10,7 @@
 
 OrganismoControl -->"*" EntidadPrestadora
 EntidadPrestadora -->"*" Entidad
-Entidad -->"*" Establecimiento
+Entidad <-- Establecimiento
 
 Entidad --> Denominacion
 Establecimiento --> Denominacion

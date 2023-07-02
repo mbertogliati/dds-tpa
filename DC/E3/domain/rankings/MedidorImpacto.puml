@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface MedidorImpacto{
+ + medirImpactoDe(entidad: Entidad, incidentes: List<IncidentePorComunidad>): Double
+}
+
+@enduml

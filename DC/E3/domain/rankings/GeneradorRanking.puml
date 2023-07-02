@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface GeneradorRanking{
+ + generarRanking(incidentes: List<IncidentePorComunidad>): Ranking
+}
+
+@enduml

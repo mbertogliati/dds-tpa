@@ -14,6 +14,7 @@ package Servicios{
 
 package Incidentes{
 !include incidentes/incidentes.puml
+IncidentePorComunidad --> ServicioPrestado
 }
 
 package Utilidades{
@@ -32,17 +33,26 @@ Persona --> Ubicacion
 
 package Entidades{
 OrganismoControl --> Persona
-EntidadPrestadora --> Persona
+EntidadPrestadora -> Persona
 EntidadPrestadora --> InformacionAdpater
 
-Entidad --> "*" Ubicacion
-Establecimiento -->"*" Ubicacion
-Establecimiento -->"*" ServicioPrestado
+Entidad --> Ubicacion
 
+Establecimiento -->"*" Ubicacion
+Establecimiento <-- ServicioPrestado
 
 interface InformacionAdpater
 }
+package Rankings{
+!include rankings/rankings.puml
+IncidentePorComunidad <.. GeneradorRanking
+Entidad <-- Ranking
 
+
+IncidentePorComunidad <.. MedidorImpacto
+Entidad <.. MedidorImpacto
+
+}
 
 
 

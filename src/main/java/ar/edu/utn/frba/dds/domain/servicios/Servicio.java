@@ -1,7 +1,5 @@
 package ar.edu.utn.frba.dds.domain.servicios;
 
-import ar.edu.utn.frba.dds.domain.utilidades.Etiqueta;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

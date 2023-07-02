@@ -1,9 +1,6 @@
 package ar.edu.utn.frba.dds.notificaciones;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.comunidades.Usuario;
-import ar.edu.utn.frba.dds.notificaciones.NoExisteMetodoExcepcion;
-import ar.edu.utn.frba.dds.notificaciones.email.ApacheCommonsEmail;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +12,7 @@ public class TestNotificador {
 
     @BeforeEach
     public void init(){
-        this.persona = new Persona("Matias", "Cotens", new Usuario("userMatias", "passMatias"));
+        this.persona = new Persona("Matias", "Cotens");
         this.persona.setEmail("mcotens@gmail.com");
         this.notificable = new EjemploNotificable();
     }

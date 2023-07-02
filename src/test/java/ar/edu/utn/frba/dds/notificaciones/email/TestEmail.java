@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.notificaciones.email;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.comunidades.Usuario;
 import ar.edu.utn.frba.dds.notificaciones.EjemploNotificable;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
 import ar.edu.utn.frba.dds.notificaciones.Notificador;
@@ -17,10 +16,8 @@ public class TestEmail {
     public void init(){
         this.persona = new Persona(
                 "Matias",
-                "Cotens",
-                new Usuario(
-                        "userMatias",
-                        "passMatias"));
+                "Cotens"
+        );
         this.persona.setEmail("mcotens@gmail.com");
         this.notificable = new EjemploNotificable();
     }

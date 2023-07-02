@@ -1,8 +1,8 @@
-package ar.edu.utn.frba.dds.domain.utilidades;
+package ar.edu.utn.frba.dds.domain.comunidades;
 
-import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.Getter;
 
 public class Rol {

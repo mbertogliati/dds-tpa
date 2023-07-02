@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.domain.entidades;
 
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
-import ar.edu.utn.frba.dds.domain.utilidades.Etiqueta;
+import ar.edu.utn.frba.dds.domain.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,8 +24,8 @@ public class EntidadTests {
     private Entidad entidad1;
     private Entidad entidad2;
     private Entidad entidad3;
-    private ControlEntidades organismoControl1;
-    private ControlEntidades organismoControl2;
+    //private ControlEntidades organismoControl1;
+    //private ControlEntidades organismoControl2;
     private Establecimiento sucursal1;
     private Establecimiento sucursal2;
     private Establecimiento estacion1;
@@ -40,69 +40,51 @@ public class EntidadTests {
     }
 
     @Test
-    @DisplayName("Se pueden agregar establecimientos a una entidad")
+    @DisplayName("Se pueden generar establecimientos asociados a una entidad")
     public void agregarEstablecimientos(){
-        entidad1.agregarEstablecimiento(sucursal1);
-        entidad1.agregarEstablecimiento(sucursal2);
+        sucursal1.setEntidad(entidad1);
+        sucursal2.setEntidad(entidad2);
 
-        Assertions.assertEquals(2, entidad1.getEstablecimientos().size());
+
+        Assertions.assertEquals(entidad1, sucursal1.getEntidad());
+        Assertions.assertEquals(entidad2, sucursal2.getEntidad());
     }
 
     @Test
-    @DisplayName("Se pueden eliminar establecimientos de una entidad")
-    public void eliminarEstablecimientos(){
-        entidad1.agregarEstablecimiento(sucursal1);
-        entidad1.agregarEstablecimiento(sucursal2);
-
-        entidad1.eliminarEstablecimiento(sucursal1);
-
-        Assertions.assertEquals(1, entidad1.getEstablecimientos().size());
-    }
-
-    @Test
-    @DisplayName("Se pueden agregar servicios a un establecimiento")
+    @DisplayName("Se pueden generar servicios prestados en un establecimiento")
     public void agregarServicios(){
-        sucursal1.agregarServicio(banioHombreBebe);
-        sucursal1.agregarServicio(banioMujerDiscapRampa);
+        ServicioPrestado servicioPrestado1 = new ServicioPrestado(banioHombreBebe);
+        servicioPrestado1.setEstablecimiento(sucursal1);
+        ServicioPrestado servicioPrestado2 = new ServicioPrestado(escaleraMolinete);
+        servicioPrestado2.setEstablecimiento(sucursal2);
 
-        Assertions.assertEquals(2,sucursal1.getServiciosPrestados().size());
+        Assertions.assertEquals(servicioPrestado1.getUbicacion(),sucursal1.getUbicacion());
+        Assertions.assertEquals(servicioPrestado2.getUbicacion(),sucursal2.getUbicacion());
     }
 
-    @Test
-    @DisplayName("Se pueden eliminar servicios de un establecimiento")
-    public void eliminarServicios(){
-        sucursal1.agregarServicio(banioHombreBebe);
-        sucursal1.agregarServicio(banioMujerDiscapRampa);
-        sucursal1.agregarServicio(escaleraMolinete);
-
-        sucursal1.eliminarServicio(banioMujerDiscapRampa);
-
-        Assertions.assertEquals(2,sucursal1.getServiciosPrestados().size());
-    }
 
     @Test
-    @DisplayName("Se puede asignar una ubicacion a los establecimientos de una entidad y consultar sus ubicaciones")
+    @DisplayName("Se puede asignar una ubicacion a los establecimientos de una entidad")
     public void asignarUbicacionAEntidad() {
-        //arrange
-        Entidad entidad = new Entidad("entidad prestadora", new Denominacion("entidad"));
+
 
         Establecimiento establecimiento1 = new Establecimiento("estación 1", new Denominacion("estación"));
         establecimiento1.setUbicacion(new Ubicacion((float)-34.77995323941093, (float)-58.39850705828568));
-        entidad.agregarEstablecimiento(establecimiento1);
+        establecimiento1.setEntidad(entidad1);
 
         Establecimiento establecimiento2 = new Establecimiento("estación 2", new Denominacion("estación"));
-        establecimiento1.setUbicacion(new Ubicacion((float)-34.60364737571995, (float)-58.38158957545822));
-        entidad.agregarEstablecimiento(establecimiento2);
+        establecimiento2.setUbicacion(new Ubicacion((float)-34.60364737571995, (float)-58.38158957545822));
+        establecimiento2.setEntidad(entidad2);
 
         Establecimiento establecimiento3 = new Establecimiento("estación 3", new Denominacion("estación"));
-        establecimiento1.setUbicacion(new Ubicacion((float)-34.568478432086074, (float)-58.47965135917718));
-        entidad.agregarEstablecimiento(establecimiento3);
+        establecimiento3.setUbicacion(new Ubicacion((float)-34.568478432086074, (float)-58.47965135917718));
+        establecimiento3.setEntidad(entidad3);
 
-        //act
-        List<Ubicacion> ubicacionesDeEntidad = entidad.getUbicaciones();
 
         //assert
-        Assertions.assertEquals(3, ubicacionesDeEntidad.size());
+        Assertions.assertEquals(entidad1, establecimiento1.getEntidad());
+        Assertions.assertEquals(entidad2, establecimiento2.getEntidad());
+        Assertions.assertEquals(entidad3, establecimiento3.getEntidad());
     }
 
     private void iniciarEstablecimientos() {
@@ -134,10 +116,10 @@ public class EntidadTests {
         entidad2.setId(1);
         this.entidad3 = new Entidad("Primera entidad de transporte", new Denominacion("transporte"));
         entidad3.setId(2);
-        this.organismoControl1 = new ControlEntidades("Primer organismo de control transporte", new Denominacion("controlTransporte"));
-        organismoControl1.setId(3);
-        this.organismoControl2 = new ControlEntidades("Primer organismo de control banco", new Denominacion("controlBanco"));
-        organismoControl2.setId(4);
+        //this.organismoControl1 = new ControlEntidades("Primer organismo de control transporte", new Denominacion("controlTransporte"));
+        //organismoControl1.setId(3);
+        //this.organismoControl2 = new ControlEntidades("Primer organismo de control banco", new Denominacion("controlBanco"));
+        //organismoControl2.setId(4);
     }
 
     private void iniciarServicios(){

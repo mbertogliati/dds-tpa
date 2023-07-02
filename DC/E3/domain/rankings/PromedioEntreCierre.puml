@@ -2,7 +2,7 @@
 'https://plantuml.com/class-diagram
 
 class PromedioEntreCierre{
-    +ordenar(List<Entidad> entidades): List<Entidad>
+    + generarRanking(incidentes: List<IncidentePorComunidad>): Ranking
 }
 
 @enduml

@@ -1,22 +1,12 @@
 package ar.edu.utn.frba.dds.notificaciones.wpp;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.comunidades.Usuario;
 import ar.edu.utn.frba.dds.notificaciones.EjemploNotificable;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
 import ar.edu.utn.frba.dds.notificaciones.Notificador;
-import ar.edu.utn.frba.dds.notificaciones.email.AdapterMAIL;
-import ar.edu.utn.frba.dds.notificaciones.email.ApacheCommonsEmail;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
-import java.util.Arrays;
-
-import static org.mockito.Mockito.*;
 
 public class TestWPP {
     Persona persona;
@@ -24,7 +14,7 @@ public class TestWPP {
 
     @BeforeEach
     public void init(){
-        this.persona = new Persona("Matias", "Cotens", new Usuario("userMatias", "passMatias"));
+        this.persona = new Persona("Matias", "Cotens");
         this.persona.setEmail("mcotens@gmail.com");
         this.notificable = new EjemploNotificable();
     }

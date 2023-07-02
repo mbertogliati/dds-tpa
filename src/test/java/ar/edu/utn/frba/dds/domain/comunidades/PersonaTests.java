@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
-import ar.edu.utn.frba.dds.domain.entidades.Denominacion;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
@@ -18,7 +17,7 @@ public class PersonaTests {
   @DisplayName("Se puede asignar una ubicacion actual a una persona")
   public void setUbicacionActualAPersona(){
     //arrange
-    Persona persona = new Persona("Nombre", "Apellido", new Usuario("username", "password"));
+    Persona persona = new Persona("Nombre", "Apellido");
     Ubicacion ubicacion = new Ubicacion(1.5f, 1.5f);
 
     //act
@@ -37,7 +36,7 @@ public class PersonaTests {
     Municipio municipio2 = new Municipio(2, "Lanús");
     Localidad localidad1 = new Localidad(1, "Temperley");
 
-    Persona persona = new Persona("Nombre", "Apellido", new Usuario("username", "password"));
+    Persona persona = new Persona("Nombre", "Apellido");
     Ubicacion ubicacion1 = new Ubicacion(provincia, municipio1, localidad1);
     Ubicacion ubicacion2 = new Ubicacion(provincia, municipio2);
 
@@ -48,19 +47,18 @@ public class PersonaTests {
     servicio1.setId(2);
     Establecimiento establecimiento = new Establecimiento("estab 1", "sucursal");
     establecimiento.setUbicacion(ubicacion1);
-    establecimiento.agregarServicio(servicio1);
-    entidad.agregarEstablecimiento(establecimiento);
+    ServicioPrestado servicioPrestado = new ServicioPrestado(servicio1);
+    servicioPrestado.setEstablecimiento(establecimiento);
+    establecimiento.setEntidad(entidad);
 
     Establecimiento establecimiento2 = new Establecimiento("estab 2", "sucursal");
     establecimiento2.setUbicacion(ubicacion2);
-    establecimiento2.agregarServicio(servicio2);
+    ServicioPrestado servicioPrestado2 = new ServicioPrestado(servicio2);
+    servicioPrestado2.setEstablecimiento(establecimiento2);
 
     persona.agregarEntidadInteres(entidad);
     persona.agregarServicioInteres(servicio1);
     persona.agregarServicioInteres(servicio2);
-
-    ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
-    ServicioPrestado servicioPrestado2 = establecimiento2.getServiciosPrestados().get(0);
 
     Assertions.assertTrue(persona.servicioPrestadoEsDeInteres(servicioPrestado));
     Assertions.assertFalse(persona.servicioPrestadoEsDeInteres(servicioPrestado2));

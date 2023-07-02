@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class GradoDeImpacto{
+ - medidorImpacto : MedidorImpacto
+ + generarRanking(incidentes: List<IncidentePorComunidad>): Ranking
+}
+
+@enduml

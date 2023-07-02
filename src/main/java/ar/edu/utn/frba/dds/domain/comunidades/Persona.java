@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Persona {
-  @Getter
+  @Getter @Setter
   private Usuario usuario;
   @Getter @Setter
   private String nombre;
@@ -36,10 +36,9 @@ public class Persona {
   @Getter @Setter
   private Ubicacion ubicacionActual;
 
-  public Persona(String nombre, String apellido, Usuario usuario) {
+  public Persona(String nombre, String apellido) {
     this.nombre = nombre;
     this.apellido = apellido;
-    this.usuario = usuario;
     this.email = "";
     this.whatsapp = 0;
     this.ubicacionActual = new Ubicacion(0.0f, 0.0f);
