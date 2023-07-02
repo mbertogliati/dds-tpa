@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.domain.rankings;
+package ar.edu.utn.frba.dds.rankings;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
@@ -9,21 +9,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-public class MasIncidentesEnSemana implements GeneradorRanking {
+public class MasIncidentesEnSemana implements GeneradorPuntos {
     @Override
-    public Ranking generarRanking(List<IncidentePorComunidad> incidentesPorComunidad) {
-        Ranking ranking = new Ranking();
-
-
-        CantidadDeIncidentesPorEntidad(incidentesPorComunidad).forEach((entidad, cantidad) -> {
-            ranking.agregarEntidad(entidad, (double) cantidad);
-        });
-
-        ranking.setFechaHoraCreacion(LocalDateTime.now());
-        ranking.setDescripcion("Ranking de entidades con mas incidentes en la semana");
-
-        return ranking;
+    public Map<Entidad,Double> generarPuntos(List<IncidentePorComunidad> incidentesPorComunidad) {
+        return CantidadDeIncidentesPorEntidad(incidentesPorComunidad).entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> (double) e.getValue()));
     }
 
     private List<Incidente> ordenarIncidentes(List<IncidentePorComunidad> incidentes){
@@ -54,7 +46,7 @@ public class MasIncidentesEnSemana implements GeneradorRanking {
 
         });
 
-        Map<Entidad,Integer> diccionarioCantidadIncidentes = new HashMap<Entidad, Integer>();
+        Map<Entidad,Integer> diccionarioCantidadIncidentes = new HashMap<>();
 
         diccionarioIncidentes.forEach((entidad, incidentesDeEntidad) -> {
             diccionarioCantidadIncidentes.put(entidad, incidentesDeEntidad.size());

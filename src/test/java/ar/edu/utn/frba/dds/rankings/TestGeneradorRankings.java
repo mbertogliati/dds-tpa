@@ -4,10 +4,6 @@ import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
-import ar.edu.utn.frba.dds.domain.rankings.GeneradorRanking;
-import ar.edu.utn.frba.dds.domain.rankings.MasIncidentesEnSemana;
-import ar.edu.utn.frba.dds.domain.rankings.PromedioEntreAperturaYCierre;
-import ar.edu.utn.frba.dds.domain.rankings.Ranking;
 import ar.edu.utn.frba.dds.domain.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
@@ -108,7 +104,9 @@ public class TestGeneradorRankings {
     @Test
     @DisplayName("Test PromedioEntreAperturaYCierre")
     public void promedioAperturaCierre(){
-        generadorRanking = new PromedioEntreAperturaYCierre();
+        generadorRanking = new GeneradorRanking();
+        generadorRanking.setDescripcion("Promedio entre apertura y cierre");
+        generadorRanking.setGeneradorPuntos(new PromedioEntreAperturaYCierre());
 
         incidentePC1_BBVA.setFechaHoraCierre(LocalDateTime.parse("2020-01-01 04:00",formatter));
         incidentePC1_BBVA_2.setFechaHoraCierre(LocalDateTime.parse("2020-01-01 15:00",formatter));
@@ -147,7 +145,9 @@ public class TestGeneradorRankings {
     @Test
     @DisplayName("Test MasIncidentesEnSemana")
     public void masIncidentesEnSemana(){
-        generadorRanking = new MasIncidentesEnSemana();
+        generadorRanking = new GeneradorRanking();
+        generadorRanking.setDescripcion("Ranking de Entidades con más incidentes en semana");
+        generadorRanking.setGeneradorPuntos(new MasIncidentesEnSemana());
 
         //incidente4BK.setFechaHoraApertura(LocalDateTime.parse("2020-01-03 00:00",formatter));
 

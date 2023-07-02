@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.domain.rankings;
+package ar.edu.utn.frba.dds.rankings;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;

@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.domain.rankings;
+package ar.edu.utn.frba.dds.rankings;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import lombok.Getter;
@@ -53,8 +53,14 @@ public class Ranking {
         listaEntidades.add(entidad);
         diccionarioPuntos.put(entidad,puntos);
 
-        listaEntidades.sort((e1,e2) -> diccionarioPuntos.get(e2).compareTo(diccionarioPuntos.get(e1)));
+        entidades = Collections.unmodifiableList(listaEntidades);
+    }
 
+    public void ordernar(){
+        List<Entidad> listaEntidades = new ArrayList<Entidad>(entidades);
+        listaEntidades.sort((e1,e2) -> diccionarioPuntos.get(e2).compareTo(diccionarioPuntos.get(e1)));
         entidades = Collections.unmodifiableList(listaEntidades);
     }
 }
+
+
