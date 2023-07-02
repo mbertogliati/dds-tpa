@@ -42,49 +42,68 @@ public class EntidadTests {
     @Test
     @DisplayName("Se pueden generar establecimientos asociados a una entidad")
     public void agregarEstablecimientos(){
-        sucursal1.setEntidad(entidad1);
-        sucursal2.setEntidad(entidad2);
+        entidad1.agregarEstablecimiento(sucursal1);
+        entidad1.agregarEstablecimiento(sucursal2);
 
-
-        Assertions.assertEquals(entidad1, sucursal1.getEntidad());
-        Assertions.assertEquals(entidad2, sucursal2.getEntidad());
+        Assertions.assertEquals(2, entidad1.getEstablecimientos().size());
     }
 
     @Test
-    @DisplayName("Se pueden generar servicios prestados en un establecimiento")
+    @DisplayName("Se pueden eliminar establecimientos de una entidad")
+    public void eliminarEstablecimientos(){
+        entidad1.agregarEstablecimiento(sucursal1);
+        entidad1.agregarEstablecimiento(sucursal2);
+
+        entidad1.eliminarEstablecimiento(sucursal1);
+
+        Assertions.assertEquals(1, entidad1.getEstablecimientos().size());
+    }
+
+    @Test
+    @DisplayName("Se pueden agregar servicios a un establecimiento")
     public void agregarServicios(){
-        ServicioPrestado servicioPrestado1 = new ServicioPrestado(banioHombreBebe);
-        servicioPrestado1.setEstablecimiento(sucursal1);
-        ServicioPrestado servicioPrestado2 = new ServicioPrestado(escaleraMolinete);
-        servicioPrestado2.setEstablecimiento(sucursal2);
+        sucursal1.agregarServicio(banioHombreBebe);
+        sucursal1.agregarServicio(banioMujerDiscapRampa);
 
-        Assertions.assertEquals(servicioPrestado1.getUbicacion(),sucursal1.getUbicacion());
-        Assertions.assertEquals(servicioPrestado2.getUbicacion(),sucursal2.getUbicacion());
+        Assertions.assertEquals(2,sucursal1.getServiciosPrestados().size());
+    }
+
+    @Test
+    @DisplayName("Se pueden eliminar servicios de un establecimiento")
+    public void eliminarServicios(){
+        sucursal1.agregarServicio(banioHombreBebe);
+        sucursal1.agregarServicio(banioMujerDiscapRampa);
+        sucursal1.agregarServicio(escaleraMolinete);
+
+        sucursal1.eliminarServicio(banioMujerDiscapRampa);
+
+        Assertions.assertEquals(2,sucursal1.getServiciosPrestados().size());
     }
 
 
     @Test
-    @DisplayName("Se puede asignar una ubicacion a los establecimientos de una entidad")
+    @DisplayName("Se puede asignar una ubicacion a los establecimientos de una entidad y consultar sus ubicaciones")
     public void asignarUbicacionAEntidad() {
-
+        //arrange
+        Entidad entidad = new Entidad("entidad prestadora", new Denominacion("entidad"));
 
         Establecimiento establecimiento1 = new Establecimiento("estación 1", new Denominacion("estación"));
         establecimiento1.setUbicacion(new Ubicacion((float)-34.77995323941093, (float)-58.39850705828568));
-        establecimiento1.setEntidad(entidad1);
+        entidad.agregarEstablecimiento(establecimiento1);
 
         Establecimiento establecimiento2 = new Establecimiento("estación 2", new Denominacion("estación"));
         establecimiento2.setUbicacion(new Ubicacion((float)-34.60364737571995, (float)-58.38158957545822));
-        establecimiento2.setEntidad(entidad2);
+        entidad.agregarEstablecimiento(establecimiento2);
 
         Establecimiento establecimiento3 = new Establecimiento("estación 3", new Denominacion("estación"));
         establecimiento3.setUbicacion(new Ubicacion((float)-34.568478432086074, (float)-58.47965135917718));
-        establecimiento3.setEntidad(entidad3);
+        entidad.agregarEstablecimiento(establecimiento3);
 
+        //act
+        List<Ubicacion> ubicacionesDeEntidad = entidad.getUbicaciones();
 
         //assert
-        Assertions.assertEquals(entidad1, establecimiento1.getEntidad());
-        Assertions.assertEquals(entidad2, establecimiento2.getEntidad());
-        Assertions.assertEquals(entidad3, establecimiento3.getEntidad());
+        Assertions.assertEquals(3, ubicacionesDeEntidad.size());
     }
 
     private void iniciarEstablecimientos() {

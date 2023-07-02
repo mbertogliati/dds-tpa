@@ -30,7 +30,7 @@ public class PersonaTests {
 
   @Test
   @DisplayName("Se puede consultar si un servicio prestado es de interés para una persona")
-  public void consultaInteresPersona(){
+  public void consultaInteresPersona() {
     Provincia provincia = new Provincia(1, "Buenos Aires");
     Municipio municipio1 = new Municipio(1, "Lomas de Zamora");
     Municipio municipio2 = new Municipio(2, "Lanús");
@@ -47,14 +47,13 @@ public class PersonaTests {
     servicio1.setId(2);
     Establecimiento establecimiento = new Establecimiento("estab 1", "sucursal");
     establecimiento.setUbicacion(ubicacion1);
-    ServicioPrestado servicioPrestado = new ServicioPrestado(servicio1);
-    servicioPrestado.setEstablecimiento(establecimiento);
     establecimiento.setEntidad(entidad);
+    ServicioPrestado servicioPrestado = establecimiento.agregarServicio(servicio1);
+    entidad.agregarEstablecimiento(establecimiento);
 
     Establecimiento establecimiento2 = new Establecimiento("estab 2", "sucursal");
     establecimiento2.setUbicacion(ubicacion2);
-    ServicioPrestado servicioPrestado2 = new ServicioPrestado(servicio2);
-    servicioPrestado2.setEstablecimiento(establecimiento2);
+    ServicioPrestado servicioPrestado2 = establecimiento2.agregarServicio(servicio2);
 
     persona.agregarEntidadInteres(entidad);
     persona.agregarServicioInteres(servicio1);

@@ -54,15 +54,12 @@ public class IncidenteTests {
         santaFe = new Provincia(2, "Santa Fe");
         ubicacion2 = new Ubicacion(santaFe);
 
-        entidad = new Entidad("entidad 1", "entidad");
         establecimiento = new Establecimiento("esta 1", "establecimiento");
-        establecimiento.setEntidad(entidad);
+        entidad = new Entidad("entidad 1", "entidad");
 
-
-        servicioPrestado1 = new ServicioPrestado(servicio1);
-        servicioPrestado2 = new ServicioPrestado(servicio2);
-        servicioPrestado1.setEstablecimiento(establecimiento);
-        servicioPrestado2.setEstablecimiento(establecimiento);
+        establecimiento.agregarServicio(servicio1);
+        establecimiento.agregarServicio(servicio2);
+        entidad.agregarEstablecimiento(establecimiento);
     }
 
     @Test
@@ -78,7 +75,7 @@ public class IncidenteTests {
         comunidad.agregarPersona(persona1);
         comunidad.agregarPersona(persona2);
 
-        ServicioPrestado servicioPrestado = servicioPrestado1;
+        ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
         Incidente incidente = new Incidente();
         incidente.agregarIncidenteComunidad(persona1);
@@ -106,7 +103,7 @@ public class IncidenteTests {
         comunidad.agregarPersona(persona1);
         comunidad.agregarPersona(persona2);
 
-        ServicioPrestado servicioPrestado = servicioPrestado1;
+        ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
         Incidente incidente = new Incidente();
         incidente.agregarIncidenteComunidad(persona1);
