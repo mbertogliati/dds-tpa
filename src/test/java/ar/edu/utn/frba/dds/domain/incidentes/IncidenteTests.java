@@ -30,6 +30,7 @@ public class IncidenteTests {
     private Entidad entidad;
     private Establecimiento establecimiento;
 
+
     @BeforeEach
     public void init(){
         persona1 = new Persona("Nombre", "Apellido", new Usuario("username", "password"));

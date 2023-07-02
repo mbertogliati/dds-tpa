@@ -202,4 +202,6 @@ public class EntidadTests {
         serviciosIniciales.add(banioMujerDiscapRampa);
         serviciosIniciales.add(escMecanicaMolinete);
     }
+
+
 }

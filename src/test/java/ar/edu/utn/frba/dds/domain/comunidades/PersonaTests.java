@@ -61,6 +61,8 @@ public class PersonaTests {
 
     ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
     ServicioPrestado servicioPrestado2 = establecimiento2.getServiciosPrestados().get(0);
+    servicioPrestado.setEstablecimiento(establecimiento);
+    servicioPrestado2.setEstablecimiento(establecimiento2);
 
     Assertions.assertTrue(persona.servicioPrestadoEsDeInteres(servicioPrestado));
     Assertions.assertFalse(persona.servicioPrestadoEsDeInteres(servicioPrestado2));

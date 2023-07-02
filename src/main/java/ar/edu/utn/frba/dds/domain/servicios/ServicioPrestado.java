@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.domain.servicios;
 
+import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +11,12 @@ public class ServicioPrestado {
   @Getter
   private Servicio servicio;
   @Getter @Setter
-  private Ubicacion ubicacion;
+  private Establecimiento establecimiento;
 
   public ServicioPrestado(Servicio servicio, Ubicacion ubicacion){
     this.servicio = servicio;
-    this.ubicacion = ubicacion;
+  }
+  public Ubicacion getUbicacion(){
+    return this.establecimiento.getUbicacion();
   }
 }

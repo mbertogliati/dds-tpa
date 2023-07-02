@@ -18,6 +18,8 @@ public class Establecimiento {
   @Getter
   private Denominacion denominacion;
   @Getter @Setter
+  private Entidad entidad;
+  @Getter @Setter
   private String nombre;
   @Getter
   private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
