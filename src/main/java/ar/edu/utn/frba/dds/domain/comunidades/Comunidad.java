@@ -5,6 +5,8 @@ import ar.edu.utn.frba.dds.domain.incidentes.IncidenteAbierto;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidenteCerrado;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +40,7 @@ public class Comunidad {
       this.incidentes.stream().filter(ipc -> ipc.getIncidente().equals(incidente)).forEach(ipc -> {
         ipc.setEstaCerrado(true);
         ipc.setAutorCierre(persona);
-        ipc.setFechaCierre(new Date());
+        ipc.setFechaHoraCierre(LocalDateTime.now());
       });
     }
     notificarMiembros(new IncidenteCerrado(incidente));

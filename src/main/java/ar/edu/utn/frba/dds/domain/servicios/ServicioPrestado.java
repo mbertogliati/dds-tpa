@@ -13,10 +13,10 @@ public class ServicioPrestado {
   @Getter @Setter
   private Establecimiento establecimiento;
 
-  public ServicioPrestado(Servicio servicio, Ubicacion ubicacion){
+  public ServicioPrestado(Servicio servicio) {
     this.servicio = servicio;
   }
   public Ubicacion getUbicacion(){
-    return this.establecimiento.getUbicacion();
+    return establecimiento.getUbicacion();
   }
 }

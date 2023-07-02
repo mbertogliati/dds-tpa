@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class GeneradorRanking{
+ - descripcion: String
+ - generadorPuntos: EstrategiaCalculoPuntos
+ + generarRanking(incidentes: List<IncidentePorComunidad>): Ranking
+}
+
+@enduml

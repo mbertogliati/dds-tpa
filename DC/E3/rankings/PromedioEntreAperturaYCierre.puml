@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class PromedioEntreAperturaYCierre{
+   + calcularPuntos(incidentes: List<IncidentePorComunidad>): Map<Entidad,Double>
+   - tiempoHastaCierreEnMinutos(incidente: IncidentePorComunidad):Long
+   - agregarTiempo(diccionario: Map<Entidad,List<Long>> ,entidad: Entidad,tiempo: Long):void
+}
+
+@enduml

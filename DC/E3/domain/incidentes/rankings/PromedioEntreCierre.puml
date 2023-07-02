@@ -1,8 +1,0 @@
-@startuml
-'https://plantuml.com/class-diagram
-
-class PromedioEntreCierre{
-    +ordenar(List<Entidad> entidades): List<Entidad>
-}
-
-@enduml

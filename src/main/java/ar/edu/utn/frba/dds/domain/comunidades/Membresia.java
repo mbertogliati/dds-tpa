@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
-import ar.edu.utn.frba.dds.domain.utilidades.Rol;
 import lombok.Getter;
 import lombok.Setter;
 

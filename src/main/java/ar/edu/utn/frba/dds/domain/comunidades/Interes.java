@@ -20,13 +20,9 @@ public class Interes {
   private List<Servicio> servicios = new ArrayList<>();
 
   public boolean servicioPrestadoEsDeInteres(ServicioPrestado servicioPrestado){
-    if(this.servicios.stream().map(s -> s.getId()).toList().contains(servicioPrestado.getServicio().getId())){
-      //El servicio está en la lista de ineteres
-      //Ahora verifico si la ubicacion del servicioPrestado coincide con alguna de las entidades de interés
-      List<List<Establecimiento>> listaDeListas = this.entidades.stream().map(e -> e.getEstablecimientos()).toList();
-      return listaDeListas.stream().flatMap(List::stream).collect(Collectors.toList()).stream().map(e -> e.getUbicacion()).anyMatch(ubi -> ubi.coincideCon(servicioPrestado.getUbicacion()));
-    }
-    return false;
+    return servicios.contains(servicioPrestado.getServicio())
+            && entidades.contains(servicioPrestado.getEstablecimiento().getEntidad());
+
   }
 
   public void agregarServicio(Servicio servicio){
