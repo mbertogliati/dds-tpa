@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.domain.rankings;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
+import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
+import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,9 +12,18 @@ import java.util.Map;
 
 public class MasIncidentesEnSemana implements GeneradorRanking {
     @Override
-    public List<Entidad> ordenar(List<Entidad> entidades) {
-        //TODO: IMPLEMENTAR ORDENAMIENTO
-        return entidades;
+    public Ranking generarRanking(List<IncidentePorComunidad> incidentesPorComunidad) {
+        Ranking ranking = new Ranking();
+
+
+        CantidadDeIncidentesPorEntidad(incidentesPorComunidad).forEach((entidad, cantidad) -> {
+            ranking.agregarEntidad(entidad, (double) cantidad);
+        });
+
+        ranking.setFechaHoraCreacion(LocalDateTime.now());
+        ranking.setDescripcion("Ranking de entidades con mas incidentes en la semana");
+
+        return ranking;
     }
 
     private List<Incidente> ordenarIncidentes(List<IncidentePorComunidad> incidentes){
