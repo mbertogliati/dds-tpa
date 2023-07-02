@@ -49,6 +49,4 @@ public class Establecimiento {
   public List<ServicioPrestado> serviciosPrestadosDelServicio(Servicio servicio){
     return this.serviciosPrestados.stream().filter(servicioPrestado -> servicioPrestado.getServicio().getId() == servicio.getId()).toList();
   }
-
-
 }
