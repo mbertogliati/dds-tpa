@@ -40,6 +40,8 @@ Entidad --> Ubicacion
 
 Establecimiento -->"*" Ubicacion
 Establecimiento <-- ServicioPrestado
+Establecimiento -->"*" ServicioPrestado
+
 
 interface InformacionAdpater
 }
