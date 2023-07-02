@@ -5,18 +5,17 @@ import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GradoDeImpacto implements GeneradorPuntos {
+public class GradoDeImpacto implements EstrategiaCalculoPuntos {
 
     @Getter @Setter
     private MedidorImpacto medidorImpacto;
 
     @Override
-    public Map<Entidad,Double> generarPuntos(List<IncidentePorComunidad> incidentes) {
+    public Map<Entidad,Double> calcularPuntos(List<IncidentePorComunidad> incidentes) {
 
         Map<Entidad,Double> diccionarioImpactos = new HashMap<>();
 

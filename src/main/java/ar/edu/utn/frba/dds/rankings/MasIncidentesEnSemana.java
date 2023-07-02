@@ -4,18 +4,22 @@ import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class MasIncidentesEnSemana implements GeneradorPuntos {
+public class MasIncidentesEnSemana implements EstrategiaCalculoPuntos {
     @Override
-    public Map<Entidad,Double> generarPuntos(List<IncidentePorComunidad> incidentesPorComunidad) {
-        return CantidadDeIncidentesPorEntidad(incidentesPorComunidad).entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> (double) e.getValue()));
+    public Map<Entidad,Double> calcularPuntos(List<IncidentePorComunidad> incidentesPorComunidad) {
+        Map<Entidad,List<Incidente>> diccionarioIncidentesPorEntidad = incidentes24HorasPorEntidad(incidentesPorComunidad);
+        Map<Entidad,Double> diccionarioCantidadIncidentes = new HashMap<>();
+
+        diccionarioIncidentesPorEntidad.forEach((entidad, incidentesDeEntidad) -> {
+            diccionarioCantidadIncidentes.put(entidad, (double) incidentesDeEntidad.size());
+        });
+
+        return diccionarioCantidadIncidentes;
     }
 
     private List<Incidente> ordenarIncidentes(List<IncidentePorComunidad> incidentes){
@@ -25,7 +29,7 @@ public class MasIncidentesEnSemana implements GeneradorPuntos {
                 .toList());
     }
 
-    private Map<Entidad,Integer> CantidadDeIncidentesPorEntidad(List<IncidentePorComunidad> incidentesPorComunidad){
+    private Map<Entidad,List<Incidente>> incidentes24HorasPorEntidad(List<IncidentePorComunidad> incidentesPorComunidad){
         List<Incidente> incidentes = ordenarIncidentes(incidentesPorComunidad);
         Map<Entidad,List<Incidente>> diccionarioIncidentes = new HashMap<Entidad, List<Incidente>>();
 
@@ -46,12 +50,8 @@ public class MasIncidentesEnSemana implements GeneradorPuntos {
 
         });
 
-        Map<Entidad,Integer> diccionarioCantidadIncidentes = new HashMap<>();
+        return diccionarioIncidentes;
 
-        diccionarioIncidentes.forEach((entidad, incidentesDeEntidad) -> {
-            diccionarioCantidadIncidentes.put(entidad, incidentesDeEntidad.size());
-        });
 
-        return diccionarioCantidadIncidentes;
     }
 }

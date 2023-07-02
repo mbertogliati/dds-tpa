@@ -43,16 +43,7 @@ Establecimiento <-- ServicioPrestado
 
 interface InformacionAdpater
 }
-package Rankings{
-!include rankings/rankings.puml
-IncidentePorComunidad <.. GeneradorRanking
-Entidad <-- Ranking
 
-
-IncidentePorComunidad <.. MedidorImpacto
-Entidad <.. MedidorImpacto
-
-}
 
 
 

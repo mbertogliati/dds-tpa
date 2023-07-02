@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Ranking{
+ - listaEntidades: ReadOnlyList<Entidad>
+ - diccionarioPuntos: Map<Entidad, Double>
+ - descripcion: String
+ - fechaHoraCreacion: DateTime
+
+ + contieneEntidad(entidad: Entidad): Boolean
+ + toString(): String
+ + puntosDe(entidad: Entidad) : Double
+ + agregarEntidad(entidad: Entidad, puntos: Double)
+ + ordenar(): void
+}
+
+@enduml

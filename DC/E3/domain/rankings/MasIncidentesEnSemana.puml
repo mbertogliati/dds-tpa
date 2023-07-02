@@ -1,8 +1,0 @@
-@startuml
-'https://plantuml.com/class-diagram
-
-class MasIncidentesEnSemana{
-+ generarRanking(incidentes: List<IncidentePorComunidad>): Ranking
-}
-
-@enduml

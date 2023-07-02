@@ -1,8 +1,0 @@
-@startuml
-'https://plantuml.com/class-diagram
-
-class PromedioEntreCierre{
-    + generarRanking(incidentes: List<IncidentePorComunidad>): Ranking
-}
-
-@enduml

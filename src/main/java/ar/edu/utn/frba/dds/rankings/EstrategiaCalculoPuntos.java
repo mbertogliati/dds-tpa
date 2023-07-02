@@ -6,6 +6,6 @@ import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
 import java.util.List;
 import java.util.Map;
 
-public interface GeneradorPuntos {
-    public Map<Entidad,Double> generarPuntos(List<IncidentePorComunidad> incidentes);
+public interface EstrategiaCalculoPuntos {
+    public Map<Entidad,Double> calcularPuntos(List<IncidentePorComunidad> incidentes);
 }

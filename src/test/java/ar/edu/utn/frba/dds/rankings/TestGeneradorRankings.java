@@ -104,8 +104,7 @@ public class TestGeneradorRankings {
     @Test
     @DisplayName("Test PromedioEntreAperturaYCierre")
     public void promedioAperturaCierre(){
-        generadorRanking = new GeneradorRanking();
-        generadorRanking.setDescripcion("Promedio entre apertura y cierre");
+        generadorRanking = new GeneradorRanking("Ranking de Entidades con Mayor Promedio entre apertura y cierre");
         generadorRanking.setGeneradorPuntos(new PromedioEntreAperturaYCierre());
 
         incidentePC1_BBVA.setFechaHoraCierre(LocalDateTime.parse("2020-01-01 04:00",formatter));
@@ -145,8 +144,7 @@ public class TestGeneradorRankings {
     @Test
     @DisplayName("Test MasIncidentesEnSemana")
     public void masIncidentesEnSemana(){
-        generadorRanking = new GeneradorRanking();
-        generadorRanking.setDescripcion("Ranking de Entidades con más incidentes en semana");
+        generadorRanking = new GeneradorRanking("Ranking de Entidades con más incidentes en semana");
         generadorRanking.setGeneradorPuntos(new MasIncidentesEnSemana());
 
         //incidente4BK.setFechaHoraApertura(LocalDateTime.parse("2020-01-03 00:00",formatter));
