@@ -2,13 +2,13 @@
 'https://plantuml.com/class-diagram
 skinparam linetype ortho
 package Rankings{
-    !include GeneradorRanking.puml
-    !include EstrategiaCalculoPuntos.puml
-    !include MedidorImpacto.puml
-    !include GradoDeImpacto.puml
-    !include PromedioEntreAperturaYCierre.puml
-    !include MasIncidentesEnSemana.puml
-    !include Ranking.puml
+    !include rankings/GeneradorRanking.puml
+    !include rankings/EstrategiaCalculoPuntos.puml
+    !include rankings/MedidorImpacto.puml
+    !include rankings/GradoDeImpacto.puml
+    !include rankings/PromedioEntreAperturaYCierre.puml
+    !include rankings/MasIncidentesEnSemana.puml
+    !include rankings/Ranking.puml
 
 
     GeneradorRanking ..> Ranking

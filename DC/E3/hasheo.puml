@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+package Hasheo{
+!include hasheo/EstrategiaHash.puml
+!include hasheo/HashPBKDF2.puml
+
+HashPBKDF2 ..|> EstrategiaHash
+}
+@enduml

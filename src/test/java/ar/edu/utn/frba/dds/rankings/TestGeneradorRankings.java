@@ -73,15 +73,15 @@ public class TestGeneradorRankings {
         servicioPrestado4BK.setEstablecimiento(estacion3BK);
 
 
-        incidente1BBVA.getServicioPrestados().add(servicioPrestado1BBVA);
-        incidente1BBVA_2.getServicioPrestados().add(servicioPrestado1BBVA);
+        incidente1BBVA.getServiciosAfectados().add(servicioPrestado1BBVA);
+        incidente1BBVA_2.getServiciosAfectados().add(servicioPrestado1BBVA);
 
-        incidente2MC.getServicioPrestados().add(servicioPrestado2MC);
-        incidente6MC.getServicioPrestados().add(servicioPrestado2MC);
+        incidente2MC.getServiciosAfectados().add(servicioPrestado2MC);
+        incidente6MC.getServiciosAfectados().add(servicioPrestado2MC);
 
-        incidente3BK.getServicioPrestados().add(servicioPrestado3BK);
-        incidente4BK.getServicioPrestados().add(servicioPrestado4BK);
-        incidente4BK_2.getServicioPrestados().add(servicioPrestado4BK);
+        incidente3BK.getServiciosAfectados().add(servicioPrestado3BK);
+        incidente4BK.getServiciosAfectados().add(servicioPrestado4BK);
+        incidente4BK_2.getServiciosAfectados().add(servicioPrestado4BK);
 
 
 

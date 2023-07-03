@@ -3,13 +3,15 @@
 
 class Establecimiento{
     - entidad: Entidad
+    - nombre: String
+    - id: int
     - denominacion : Denominacion
     - serviciosPrestados : List<ServicioPrestado>
     - ubicacion : Ubicacion
 
-    + agregarServicio(nuevo: ServicioPrestado)
+    + agregarServicio(nuevo: Servicio)
+    + eliminarServicio(servicio: Servicio)
     + eliminarServicio(servicio: ServicioPrestado)
-    - eliminarServicioPorID(idBuscada: int)
 }
 
 @enduml

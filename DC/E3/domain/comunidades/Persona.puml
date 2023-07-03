@@ -3,25 +3,34 @@
 
 skinparam linetype ortho
 
-class Persona{
-    -usuario: Usuario
-    -nombre: String
-    -apellido: String
-    -email: String
-    -whatsapp: int
-    -interes: Interes
-    -ubicacion: Ubicacion
-    -membresias: List<Membresia>
-    -metodoNotificacion: String
-    -tiempoNotificacion: TiempoNotificacion
 
-    +setUbicacion(Ubicacion ubicacion)
-    +enviarNotificacion(Notificable notificable)
-    +setTiempoNotificacion(TiempoNotificacion tiempo)
-    +getMetodoNotificacion(): String
-    +setMetodoNotificacion(metodo: String)
-    +agregarServicio(servicio: Servicio)
-    +eliminarServicio(servicio: Servicio)
-    +agregarEntidad(entidad: Entidad)
-}
+class Persona {
+  - apellido: String
+  - email: String
+  - interes: Interes
+  - membresias: List<Membresia>
+  - metodoNotificacion: String
+  - nombre: String
+  - tiempoNotificacion: TiempoNotificacion
+  - ubicacionActual: Ubicacion
+  - usuario: Usuario
+  - whatsapp: int
+
+  + agregarEntidadDeInteres(Entidad): void
+  + agregarEntidadInteres(Entidad): void
+  + agregarMembresia(Membresia): void
+  + agregarMembresiaDirecto(Membresia): void
+  + agregarServicioDeInteres(Servicio): void
+  + agregarServicioInteres(Servicio): void
+  + cerrarIncidente(Incidente): void
+  + eliminarEntidadDeInteres(Entidad): void
+  + eliminarEntidadInteres(Entidad): void
+  + eliminarMembresia(Membresia): void
+  + eliminarMembresiaDirecto(Membresia): void
+  + eliminarMembresiaPorComunidad(Comunidad): void
+  + eliminarServicioDeInteres(Servicio): void
+  + eliminarServicioInteres(Servicio): void
+  + enviarNotificacion(Notificable): void
+  + servicioPrestadoEsDeInteres(ServicioPrestado): boolean
+  }
 @enduml

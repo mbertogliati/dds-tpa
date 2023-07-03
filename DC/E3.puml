@@ -1,8 +1,8 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-!include domain/domain.puml
-!include rankings/rankings.puml
+!include E3/domain.puml
+!include E3/rankings.puml
 
 IncidentePorComunidad <.. EstrategiaCalculoPuntos
 Entidad <.. EstrategiaCalculoPuntos

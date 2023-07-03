@@ -2,11 +2,11 @@
 'https://plantuml.com/class-diagram
 
 
-!include Denominacion.puml
-!include Entidad.puml
-!include EntidadPrestadora.puml
-!include Establecimiento.puml
-!include OrganismoControl.puml
+!include entidades/Denominacion.puml
+!include entidades/Entidad.puml
+!include entidades/EntidadPrestadora.puml
+!include entidades/Establecimiento.puml
+!include entidades/OrganismoControl.puml
 
 OrganismoControl -->"*" EntidadPrestadora
 EntidadPrestadora -->"*" Entidad

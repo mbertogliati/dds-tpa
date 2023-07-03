@@ -10,12 +10,11 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Incidente implements Notificable {
     @Getter
-    private List<ServicioPrestado> servicioPrestados;
+    private List<ServicioPrestado> serviciosAfectados;
     @Getter @Setter
     private String observaciones;
     @Getter @Setter
@@ -24,7 +23,7 @@ public class Incidente implements Notificable {
     private Persona autorApertura;
 
     public Incidente(){
-        this.servicioPrestados = new ArrayList<>();
+        this.serviciosAfectados = new ArrayList<>();
     }
 
     public void agregarIncidenteComunidad(Persona persona){
@@ -33,7 +32,7 @@ public class Incidente implements Notificable {
 
     @Override
     public String getInfo() {
-        List<String> servicios = this.servicioPrestados.stream().map(s -> s.getServicio()).map(s -> s.getStringEtiquetas()).toList();
+        List<String> servicios = this.serviciosAfectados.stream().map(s -> s.getServicio()).map(s -> s.getStringEtiquetas()).toList();
         String respuesta = "";
         for (String texto : servicios){
             respuesta = respuesta + texto + " | ";
@@ -42,6 +41,6 @@ public class Incidente implements Notificable {
     }
 
     public Entidad obtenerEntidad(){
-        return getServicioPrestados().get(0).getEstablecimiento().getEntidad();
+        return getServiciosAfectados().get(0).getEstablecimiento().getEntidad();
     }
 }

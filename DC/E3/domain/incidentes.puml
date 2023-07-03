@@ -1,9 +1,9 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-!include Incidente.puml
-!include IncidentePorComunidad.puml
-!include RevisionIncidente.puml
+!include incidentes/Incidente.puml
+!include incidentes/IncidentePorComunidad.puml
+!include incidentes/RevisionIncidente.puml
 
 IncidentePorComunidad --> Incidente
 

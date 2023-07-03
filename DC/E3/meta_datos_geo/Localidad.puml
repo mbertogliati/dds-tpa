@@ -1,7 +1,9 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-!include Ubicacion.puml
-
+class Localidad {
+  - id: int
+  - nombre: String
+}
 
 @enduml

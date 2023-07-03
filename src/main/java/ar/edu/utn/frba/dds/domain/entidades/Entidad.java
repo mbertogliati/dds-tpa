@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;
 
+//TODO: Decidir si necesitamos el atributo establecimientos y evitar la lógica de listas
 public class Entidad {
   @Getter @Setter
   private int id;

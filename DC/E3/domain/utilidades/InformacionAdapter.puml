@@ -1,6 +1,8 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-
+interface InformacionAdapter{
+    + obtenerInformacion(entidad: Entidad): String
+}
 
 @enduml

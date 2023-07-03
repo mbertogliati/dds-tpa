@@ -5,7 +5,9 @@ class Rol{
     -id: int
     -permisos: List<Permiso>
 
-    +tienePermiso(permiso: Permiso)
+    +agregarPermiso(permiso: Permiso)
+    +eliminarPermiso(permiso: Permiso)
+    -eliminarPermisoPorID(id: int)
 }
 
 @enduml

@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Municipio {
+  - id: int
+  - localidades: List<Localidad>
+  - nombre: String
+}
+
+@enduml

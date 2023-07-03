@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.List;
 
+//TODO: OrganismoControl y EntidadPrestadora son muy parecidas. Hay que fijarse como impacta eso.
 public class OrganismoControl {
     @Getter @Setter
     private List<EntidadPrestadora> entidades;

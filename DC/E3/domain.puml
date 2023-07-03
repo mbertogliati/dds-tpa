@@ -5,24 +5,24 @@ skinparam PackageBorderThickness 4
 skinparam PackageBorderColor DarkSlateGray
 
 package Entidades{
-!include entidades/entidades.puml
+!include domain/entidades.puml
 }
 
 package Servicios{
-!include servicios/servicios.puml
+!include domain/servicios.puml
 }
 
 package Incidentes{
-!include incidentes/incidentes.puml
+!include domain/incidentes.puml
 IncidentePorComunidad --> ServicioPrestado
 }
 
 package Utilidades{
-!include utilidades/utilidades.puml
+!include domain/utilidades.puml
 }
 
 package Comunidades{
-!include comunidades/comunidades.puml
+!include domain/comunidades.puml
 Comunidad -->"*" Servicio
 Comunidad --> "1..*" IncidentePorComunidad
 Comunidad ..> Incidente
@@ -34,7 +34,13 @@ Persona --> Ubicacion
 package Entidades{
 OrganismoControl --> Persona
 EntidadPrestadora -> Persona
-EntidadPrestadora --> InformacionAdpater
+
+Persona ..> Entidad
+Persona ..> Servicio
+Persona ..> Incidente
+
+EntidadPrestadora --> InformacionAdapter
+OrganismoControl --> InformacionAdapter
 
 Entidad --> Ubicacion
 
@@ -42,11 +48,13 @@ Establecimiento -->"*" Ubicacion
 Establecimiento <-- ServicioPrestado
 Establecimiento -->"*" ServicioPrestado
 
+Entidad "*"<-- Interes
+Servicio "*"<-- Interes
+ServicioPrestado <.. Interes
 
-interface InformacionAdpater
+
+
 }
-
-
 
 
 @enduml

@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam linetype ortho
+
+!include comunidades/Comunidad.puml
+!include comunidades/Interes.puml
+!include comunidades/Membresia.puml
+!include comunidades/Persona.puml
+!include comunidades/Usuario.puml
+!include comunidades/Rol.puml
+!include comunidades/Permiso.puml
+
+!include comunidades/notificacionesPersona/ListadoNotificables.puml
+!include comunidades/notificacionesPersona/NotificacionAlMomento.puml
+!include comunidades/notificacionesPersona/NotificacionSinApuro.puml
+!include comunidades/notificacionesPersona/TiempoNotificacion.puml
+!include comunidades/notificacionesPersona/Horario.puml
+
+Persona-->"1..*" Notificable
+Persona --> TiempoNotificacion
+Persona --> Interes
+Persona --> "1..*" Membresia
+Persona --> Usuario
+
+Membresia --> Persona
+Membresia --> Comunidad
+Membresia --> Rol
+
+Rol -->"*" Permiso
+
+Comunidad --> "1..*" Membresia
+
+
+
+NotificacionSinApuro ..|> TiempoNotificacion
+NotificacionSinApuro --> ListadoNotificables
+NotificacionSinApuro -->"*" Horario
+NotificacionAlMomento ..|> TiempoNotificacion
+
+
+
+@enduml

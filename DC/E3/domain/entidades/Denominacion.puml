@@ -5,7 +5,6 @@ class Denominacion{
     - id: int
     - descripcion: String
 
-    + getDescripcion(): String
 }
 
 

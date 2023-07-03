@@ -7,8 +7,11 @@ class Interes{
     -entidades: List<Entidad>
     -servicios: List<Servicio>
 
-    +serviciosDeInteres(ubi: Ubicacion): List<Servicio>
-    -entidadesDeUbicacion(ubi: Ubicacion): List<Entidad>
+    +agregarEntidad(entidad: Entidad)
+    +agregarServicio(servicio: Servicio)
+    +eliminarEntidad(entidad: Entidad)
+    +eliminarServicio(servicio: Servicio)
+    +servicioPrestadoEsDeInteres(servicioPrestado: ServicioPrestado): Boolean
 }
 
 @enduml

@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
 import lombok.Getter;
 import lombok.Setter;
 
+//TODO: Decidir si necesitamos el atributo serviciosPrestados y evitar la lógica de listas
 public class Establecimiento {
   @Getter @Setter
   private int id;

@@ -37,7 +37,7 @@ public class MasIncidentesEnSemana implements EstrategiaCalculoPuntos {
            if(diccionarioIncidentes.containsKey(incidenteActual.obtenerEntidad())){
                 List<Incidente> listaIncidentes = diccionarioIncidentes.get(incidenteActual.obtenerEntidad());
                if (! listaIncidentes.stream().anyMatch(i ->
-                       i.getServicioPrestados().equals(incidenteActual.getServicioPrestados()) &&
+                       i.getServiciosAfectados().equals(incidenteActual.getServiciosAfectados()) &&
                        i.getFechaHoraApertura()
                                .plusDays(1)
                                .isAfter(incidenteActual.getFechaHoraApertura()))

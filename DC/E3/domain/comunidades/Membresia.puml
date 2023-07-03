@@ -9,8 +9,6 @@ class Membresia{
     -rolComunidad: Rol
     -afectado: boolean
 
-    +setRol(Rol rol)
-    +setAfectado(boolean valor)
     +isAfectado(): boolean
 }
 

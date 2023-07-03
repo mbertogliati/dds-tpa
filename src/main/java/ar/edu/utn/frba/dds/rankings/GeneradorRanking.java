@@ -7,6 +7,8 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//TODO: Evaluar si esta clase tiene que ser estatica con instancias bien conocidas
+//Ej La clase Icono en el enunciado de tendenciasMusicales
 public class GeneradorRanking {
 
     @Getter @Setter

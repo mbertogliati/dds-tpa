@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.importadorEntidades;
 
-import ar.edu.utn.frba.dds.domain.entidades.ControlEntidades;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

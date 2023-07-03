@@ -4,8 +4,9 @@
 class IncidentePorComunidad {
     - incidente: Incidente
     - estaCerrado: boolean
-    - fechaCierre: DateTime
+    - fechaHoraCierre: LocalDateTime
     - autorCierre: Persona
+
 }
 
 @enduml
