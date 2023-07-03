@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface DistanciaEntrePuntos{
+    + distanciaEntre(ubicacion1: Ubicacion, ubicacion2: Ubicacion): double
+}
+
+@enduml

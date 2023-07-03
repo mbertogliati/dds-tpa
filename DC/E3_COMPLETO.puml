@@ -1,0 +1,37 @@
+@startuml
+
+skinparam linetype ortho
+
+'https://plantuml.com/class-diagram
+'Para que las flechas hagan caso a veces hay que repetir
+!include E3/notificaciones.puml
+!include E3/domain.puml
+'!include E3/hasheo.puml
+'!include E3/importadorEntidades.puml
+!include E3/meta_datos_geo.puml
+!include E3/notificaciones.puml
+!include E3/rankings.puml
+!include E3/validacion.puml
+
+Persona ..> Notificable
+TiempoNotificacion ..> Notificable
+ListadoNotificables -->"*" Notificable
+ListadoNotificables ..|> Notificable
+
+
+StrategyNotificacion ..> Persona
+
+IncidentePorComunidad <.. EstrategiaCalculoPuntos
+Entidad <.. EstrategiaCalculoPuntos
+
+Entidad "*"<-- Ranking
+
+IncidentePorComunidad <.. MedidorImpacto
+Entidad <.. MedidorImpacto
+
+ValidadorUsuario ..> Usuario
+Ubicacion --> Provincia
+Ubicacion --> Localidad
+Ubicacion --> Municipio
+Ubicacion --> AdapterMetadatosGeograficos
+@enduml

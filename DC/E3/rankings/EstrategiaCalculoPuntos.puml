@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface EstrategiaCalculoPuntos{
+    + calcularPuntos(List<IncidentePorComunidad>): Map<Entidad,Double>
+
+}
+
+@enduml

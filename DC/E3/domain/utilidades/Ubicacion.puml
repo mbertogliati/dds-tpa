@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Ubicacion{
+    -latitud: float
+    -longitud: float
+    -provincia: Provincia
+    -localidad: Localidad
+    -municipio: Municipio
+    -adapterMetadatosGeograficos: AdapterMetadatosGeograficos
+
+    +coincideCon(ubicacion: Ubicacion): boolean
+    +cargarMetadatosGeograficos(): void
+    +estaCercaDe(ubicacion: Ubicacion): boolean
+}
+@enduml

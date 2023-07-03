@@ -9,9 +9,9 @@ public class Municipio {
   @Getter
   private int id;
   @Getter
-  public String nombre;
+  private String nombre;
   @Getter @Setter
-  List<Localidad> localidades;
+  private List<Localidad> localidades;
 
   public Municipio(int id, String nombre){
     this.id = id;

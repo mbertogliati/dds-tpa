@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.domain.entidades;
 
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
-import ar.edu.utn.frba.dds.domain.utilidades.Etiqueta;
+import ar.edu.utn.frba.dds.domain.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,8 +24,8 @@ public class EntidadTests {
     private Entidad entidad1;
     private Entidad entidad2;
     private Entidad entidad3;
-    private ControlEntidades organismoControl1;
-    private ControlEntidades organismoControl2;
+    //private ControlEntidades organismoControl1;
+    //private ControlEntidades organismoControl2;
     private Establecimiento sucursal1;
     private Establecimiento sucursal2;
     private Establecimiento estacion1;
@@ -40,7 +40,7 @@ public class EntidadTests {
     }
 
     @Test
-    @DisplayName("Se pueden agregar establecimientos a una entidad")
+    @DisplayName("Se pueden generar establecimientos asociados a una entidad")
     public void agregarEstablecimientos(){
         entidad1.agregarEstablecimiento(sucursal1);
         entidad1.agregarEstablecimiento(sucursal2);
@@ -80,6 +80,7 @@ public class EntidadTests {
         Assertions.assertEquals(2,sucursal1.getServiciosPrestados().size());
     }
 
+
     @Test
     @DisplayName("Se puede asignar una ubicacion a los establecimientos de una entidad y consultar sus ubicaciones")
     public void asignarUbicacionAEntidad() {
@@ -91,11 +92,11 @@ public class EntidadTests {
         entidad.agregarEstablecimiento(establecimiento1);
 
         Establecimiento establecimiento2 = new Establecimiento("estación 2", new Denominacion("estación"));
-        establecimiento1.setUbicacion(new Ubicacion((float)-34.60364737571995, (float)-58.38158957545822));
+        establecimiento2.setUbicacion(new Ubicacion((float)-34.60364737571995, (float)-58.38158957545822));
         entidad.agregarEstablecimiento(establecimiento2);
 
         Establecimiento establecimiento3 = new Establecimiento("estación 3", new Denominacion("estación"));
-        establecimiento1.setUbicacion(new Ubicacion((float)-34.568478432086074, (float)-58.47965135917718));
+        establecimiento3.setUbicacion(new Ubicacion((float)-34.568478432086074, (float)-58.47965135917718));
         entidad.agregarEstablecimiento(establecimiento3);
 
         //act
@@ -134,10 +135,10 @@ public class EntidadTests {
         entidad2.setId(1);
         this.entidad3 = new Entidad("Primera entidad de transporte", new Denominacion("transporte"));
         entidad3.setId(2);
-        this.organismoControl1 = new ControlEntidades("Primer organismo de control transporte", new Denominacion("controlTransporte"));
-        organismoControl1.setId(3);
-        this.organismoControl2 = new ControlEntidades("Primer organismo de control banco", new Denominacion("controlBanco"));
-        organismoControl2.setId(4);
+        //this.organismoControl1 = new ControlEntidades("Primer organismo de control transporte", new Denominacion("controlTransporte"));
+        //organismoControl1.setId(3);
+        //this.organismoControl2 = new ControlEntidades("Primer organismo de control banco", new Denominacion("controlBanco"));
+        //organismoControl2.setId(4);
     }
 
     private void iniciarServicios(){
@@ -202,4 +203,6 @@ public class EntidadTests {
         serviciosIniciales.add(banioMujerDiscapRampa);
         serviciosIniciales.add(escMecanicaMolinete);
     }
+
+
 }

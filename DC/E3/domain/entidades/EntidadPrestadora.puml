@@ -1,0 +1,14 @@
+@startuml
+
+skinparam linetype ortho
+
+class EntidadPrestadora {
+  - entidades: List<Entidad>
+  - generadorInformacion: InformacionAdapter
+  - informado: Persona
+  - nombre: String
+
+  + enviarInformacion(): void
+}
+
+@enduml

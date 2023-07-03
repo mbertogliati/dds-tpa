@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam linetype ortho
+
+class Membresia{
+    -usuario: Persona
+    -comunidad: Comunidad
+    -rolComunidad: Rol
+    -afectado: boolean
+
+    +isAfectado(): boolean
+}
+
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+skinparam linetype ortho
+
+class Incidente {
+  - autorApertura: Persona
+  - fechaHoraApertura: LocalDateTime
+  - observaciones: String
+  - servicioPrestados: List<ServicioPrestado>
+
+  + agregarIncidenteComunidad(Persona): void
+}
+
+@enduml

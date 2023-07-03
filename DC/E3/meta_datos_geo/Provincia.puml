@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Provincia {
+  - id: int
+  - municipios: List<Municipio>
+  - nombre: String
+}
+
+@enduml

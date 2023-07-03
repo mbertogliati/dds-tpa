@@ -1,0 +1,9 @@
+@startuml
+
+class EstrategiaValidacionNoEstaEnLista {
+  - obtenerListaString: ObtenerListaString
+  + validar(String): boolean
+}
+
+@enduml
+

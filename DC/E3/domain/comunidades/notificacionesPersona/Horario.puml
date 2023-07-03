@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+enum Horario{
+    - A1
+    - A130
+    - A2
+    - A230
+    - A3
+    - A330
+    - A4
+    - A430
+}
+
+@enduml

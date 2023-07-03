@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Etiqueta{
+    -id: int
+    -tipo: String
+    -valor: String
+}
+
+@enduml

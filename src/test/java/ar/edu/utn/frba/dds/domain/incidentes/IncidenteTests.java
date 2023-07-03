@@ -1,15 +1,13 @@
 package ar.edu.utn.frba.dds.domain.incidentes;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Comunidad;
-import ar.edu.utn.frba.dds.domain.comunidades.Membresia;
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.comunidades.Usuario;
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.NotificacionAlMomento;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
-import ar.edu.utn.frba.dds.domain.utilidades.Etiqueta;
+import ar.edu.utn.frba.dds.domain.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
 import org.junit.jupiter.api.Assertions;
@@ -23,6 +21,8 @@ public class IncidenteTests {
     private Comunidad comunidad;
     private Servicio servicio1;
     private Servicio servicio2;
+    private ServicioPrestado servicioPrestado1;
+    private ServicioPrestado servicioPrestado2;
     private Ubicacion ubicacion1;
     private Ubicacion ubicacion2;
     private Provincia buenosAires;
@@ -30,10 +30,11 @@ public class IncidenteTests {
     private Entidad entidad;
     private Establecimiento establecimiento;
 
+
     @BeforeEach
     public void init(){
-        persona1 = new Persona("Nombre", "Apellido", new Usuario("username", "password"));
-        persona2 = new Persona("Nombre2", "Apellido2", new Usuario("username", "password"));
+        persona1 = new Persona("Nombre", "Apellido");
+        persona2 = new Persona("Nombre2", "Apellido2");
 
         comunidad = new Comunidad("Comunidad 1");
 
@@ -76,7 +77,7 @@ public class IncidenteTests {
 
         ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
-        Incidente incidente = new Incidente(persona1, servicioPrestado);
+        Incidente incidente = new Incidente();
         incidente.agregarIncidenteComunidad(persona1);
 
         Assertions.assertEquals(1, comunidad.getIncidentes().size());
@@ -93,7 +94,7 @@ public class IncidenteTests {
         persona2.setWhatsapp(1144199146);
         persona2.setTiempoNotificacion(new NotificacionAlMomento());
 
-        Persona persona3 = new Persona("Nombre", "Apellido", new Usuario("username", "password"));
+        Persona persona3 = new Persona("Nombre", "Apellido");
         persona3.setMetodoNotificacion("MAIL");
         persona3.setEmail("mcotens@gmail.com");
         persona3.setTiempoNotificacion(new NotificacionAlMomento());
@@ -104,7 +105,7 @@ public class IncidenteTests {
 
         ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
-        Incidente incidente = new Incidente(persona1, servicioPrestado);
+        Incidente incidente = new Incidente();
         incidente.agregarIncidenteComunidad(persona1);
 
         Assertions.assertEquals(1, comunidad.getIncidentes().size());

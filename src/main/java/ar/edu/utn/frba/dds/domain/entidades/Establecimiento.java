@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
 import lombok.Getter;
 import lombok.Setter;
 
+//TODO: Decidir si necesitamos el atributo serviciosPrestados y evitar la lógica de listas
 public class Establecimiento {
   @Getter @Setter
   private int id;
@@ -23,6 +24,8 @@ public class Establecimiento {
   private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
   @Getter @Setter
   private Ubicacion ubicacion;
+  @Getter @Setter
+  private Entidad entidad;
 
   public Establecimiento(String nombre, String denominacion){
     this.nombre = nombre;
@@ -34,8 +37,11 @@ public class Establecimiento {
     this.denominacion = denominacion;
   }
 
-  public void agregarServicio(Servicio servicio){
-    this.serviciosPrestados.add(new ServicioPrestado(servicio, this.ubicacion));
+  public ServicioPrestado agregarServicio(Servicio servicio){
+    ServicioPrestado servicioPrestado = new ServicioPrestado(servicio);
+    servicioPrestado.setEstablecimiento(this);
+    this.serviciosPrestados.add(servicioPrestado);
+    return servicioPrestado;
   }
 
   public void eliminarServicioPrestado(ServicioPrestado servicioPrestado){

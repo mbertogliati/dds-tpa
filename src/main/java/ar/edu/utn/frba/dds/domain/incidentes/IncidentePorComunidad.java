@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.domain.comunidades.Persona;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class IncidentePorComunidad {
     @Getter
@@ -12,7 +12,7 @@ public class IncidentePorComunidad {
     @Getter @Setter
     private boolean estaCerrado = false;
     @Getter @Setter
-    private Date fechaCierre = null;
+    private LocalDateTime fechaHoraCierre = null;
     @Getter @Setter
     private Persona autorCierre = null;
 

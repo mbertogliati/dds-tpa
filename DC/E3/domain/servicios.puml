@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!include servicios/Servicio.puml
+!include servicios/ServicioPrestado.puml
+
+ServicioPrestado --> Servicio
+Servicio -->"*" Etiqueta
+
+@enduml
