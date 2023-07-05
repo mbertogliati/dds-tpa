@@ -19,6 +19,10 @@ public class Notificador {
         //estrategias.put("MAIL", new StrategyMAIL());
     }
 
+    public static void agregarEstrategia(String nombre, StrategyNotificacion estrategia){
+        estrategias.put(nombre, estrategia);
+    }
+
     public static void notificar(Notificable notificable, Persona persona) {
         String metodo = persona.getMetodoNotificacion();
         if(estrategias.containsKey(metodo)){

@@ -9,6 +9,10 @@ public class StrategyMAIL implements StrategyNotificacion {
 
     /*public StrategyMAIL() {//TODO: Debe recibir la estrategia por parametro ya sea en el constructor o en el setter
         this.adapter = new ApacheCommonsEmail();
+    }*/
+
+    public void setAdapter(AdapterMAIL adapter){
+        this.adapter = adapter;
     }
 
     @Override
