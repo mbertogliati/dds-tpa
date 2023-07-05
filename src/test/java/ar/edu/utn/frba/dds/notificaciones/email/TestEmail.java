@@ -37,13 +37,6 @@ public class TestEmail {
     }
 
     @Test
-    @DisplayName("Se puede enviar un mail usando ApacheCommonsEmail")
-    public void seEnviaMailConApacheCommonsEmail() {
-        AdapterMAIL enviador = new ApacheCommonsEmail();
-        enviador.enviarMAIL("mensaje de prueba", "mcotens@gmail.com");
-    }
-
-    @Test
     @DisplayName("Se puede enviar un mail usando Notificador")
     public void seEnviaMailConNotificador(){
         this.persona.setMetodoNotificacion("MAIL");

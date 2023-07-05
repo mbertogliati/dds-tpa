@@ -19,12 +19,12 @@ public class Ubicacion {
   @Getter
   private Localidad localidad;
   @Setter
-  private AdapterMetadatosGeograficos adapterMetadatosGeograficos;
+  private AdapterProveedorMetadatosGeograficos adapterProveedorMetadatosGeograficos;
 
   public Ubicacion(float latitud, float longitud) {
     this.latitud = latitud;
     this.longitud = longitud;
-    this.adapterMetadatosGeograficos = null;
+    this.adapterProveedorMetadatosGeograficos = null;
     this.localidad = null;
     this.municipio = null;
     this.provincia = null;
@@ -45,8 +45,8 @@ public class Ubicacion {
   }
 
   public void cargarMetadatosGeograficos() throws IOException {
-    if (this.adapterMetadatosGeograficos != null) {
-      var metadatos = this.adapterMetadatosGeograficos.obtenerMetadatoGeografico(this.latitud, this.longitud);
+    if (this.adapterProveedorMetadatosGeograficos != null) {
+      var metadatos = this.adapterProveedorMetadatosGeograficos.obtenerMetadatoGeografico(this.latitud, this.longitud);
       this.provincia = metadatos.getProvincia();
       this.municipio = metadatos.getMunicipio();
       this.localidad = metadatos.getLocalidad();

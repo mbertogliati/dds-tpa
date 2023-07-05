@@ -1,6 +1,6 @@
 package integration_tests;
 
-import ar.edu.utn.frba.dds.meta_datos_geo.AdapterMetadatosGeograficos;
+import ar.edu.utn.frba.dds.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
 import ar.edu.utn.frba.dds.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.meta_datos_geo.MetadatoGeografico;
@@ -17,7 +17,7 @@ public class IntegrationTestServicioGeoRef {
     testDepartamentosMunicipiosYLocalidadesDeProvincia(servicioGeoRef);
   }
 
-  public static void testObtenerMetadatoGeografico(AdapterMetadatosGeograficos servicioGeoRef) {
+  public static void testObtenerMetadatoGeografico(AdapterProveedorMetadatosGeograficos servicioGeoRef) {
     try {
       System.out.println("Cargando metadatos geográficos con servicioGeoRef.obtenerMetadatoGeografico():");
 
@@ -44,7 +44,7 @@ public class IntegrationTestServicioGeoRef {
     }
   }
 
-  public static void testProvincias(AdapterMetadatosGeograficos servicioGeoRef) {
+  public static void testProvincias(AdapterProveedorMetadatosGeograficos servicioGeoRef) {
     try {
       System.out.println("Cargando listado de provincias con servicioGeoRef.testProvincias():");
       List<Provincia> provincias = servicioGeoRef.provincias();
@@ -54,7 +54,7 @@ public class IntegrationTestServicioGeoRef {
     }
   }
 
-  public static void testDepartamentosMunicipiosYLocalidadesDeProvincia(AdapterMetadatosGeograficos servicioGeoRef) {
+  public static void testDepartamentosMunicipiosYLocalidadesDeProvincia(AdapterProveedorMetadatosGeograficos servicioGeoRef) {
     try {
       System.out.println("Cargando una provincia:");
       List<Provincia> provincias = servicioGeoRef.provincias();

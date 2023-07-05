@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.utilidades;
 
-import ar.edu.utn.frba.dds.meta_datos_geo.AdapterMetadatosGeograficos;
+import ar.edu.utn.frba.dds.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
 import ar.edu.utn.frba.dds.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.meta_datos_geo.MetadatoGeografico;
@@ -8,7 +8,6 @@ import ar.edu.utn.frba.dds.meta_datos_geo.Municipio;
 import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -34,10 +33,10 @@ public class UbicacionTests {
     @DisplayName("Se puede crear una ubicacion y asignar un adapter de metadatos geográficos")
     public void crearUbicacionYCargarMetadatosGeograficos() throws IOException {
         //arrange
-        AdapterMetadatosGeograficos adapter = mock(AdapterMetadatosGeograficos.class);
+        AdapterProveedorMetadatosGeograficos adapter = mock(AdapterProveedorMetadatosGeograficos.class);
         when(adapter.obtenerMetadatoGeografico(anyFloat(), anyFloat())).thenReturn(this.BuildFakeMetadatoGeografico());
         Ubicacion unaUbicacion = new Ubicacion(-20.5f, 1.7f);
-        unaUbicacion.setAdapterMetadatosGeograficos(adapter);
+        unaUbicacion.setAdapterProveedorMetadatosGeograficos(adapter);
 
         //act
         unaUbicacion.cargarMetadatosGeograficos();

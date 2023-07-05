@@ -14,7 +14,7 @@ skinparam linetype ortho
 !include comunidades/notificacionesPersona/ListadoNotificables.puml
 !include comunidades/notificacionesPersona/NotificacionAlMomento.puml
 !include comunidades/notificacionesPersona/NotificacionSinApuro.puml
-!include comunidades/notificacionesPersona/TiempoNotificacion.puml
+!include comunidades/notificacionesPersona/EstrategiaMomentoNotificacion.puml
 !include comunidades/notificacionesPersona/Horario.puml
 
 Persona --> EstrategiaMomentoNotificacion
