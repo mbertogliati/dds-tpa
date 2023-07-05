@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.meta_datos_geo.geo_ref;
 
-import ar.edu.utn.frba.dds.meta_datos_geo.AdapterMetadatosGeograficos;
+import ar.edu.utn.frba.dds.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
 import ar.edu.utn.frba.dds.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.meta_datos_geo.MetadatoGeografico;
@@ -18,7 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ServicioGeoRef implements AdapterMetadatosGeograficos {
+public class ServicioGeoRef implements AdapterProveedorMetadatosGeograficos {
   private static ServicioGeoRef instancia;
   private static final String urlApi = "https://apis.datos.gob.ar/georef/api/";
   private final GeoRefService geoRefService;

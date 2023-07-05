@@ -11,7 +11,7 @@ class Persona {
   - membresias: List<Membresia>
   - metodoNotificacion: String
   - nombre: String
-  - tiempoNotificacion: TiempoNotificacion
+  - estrategiaMomentoNotificacion: EstrategiaMomentoNotificacion
   - ubicacionActual: Ubicacion
   - usuario: Usuario
   - whatsapp: int

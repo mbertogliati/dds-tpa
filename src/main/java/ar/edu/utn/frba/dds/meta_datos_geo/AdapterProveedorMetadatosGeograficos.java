@@ -3,8 +3,7 @@ package ar.edu.utn.frba.dds.meta_datos_geo;
 import java.io.IOException;
 import java.util.List;
 
-//TODO: Este Adapter intenta abstraernos de los MetadatosGeograficos concretos pero al mismo tiempo nos obliga a implementar un metodo que devuelve un MetadatoGeografico(???
-public interface AdapterMetadatosGeograficos {
+public interface AdapterProveedorMetadatosGeograficos {
   //Este metodo
   MetadatoGeografico obtenerMetadatoGeografico(float latitud, float longitud) throws IOException;
   Provincia obtenerProvincia(float latitud, float longitud) throws IOException;

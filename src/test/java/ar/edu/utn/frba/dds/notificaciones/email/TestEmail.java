@@ -4,6 +4,9 @@ import ar.edu.utn.frba.dds.domain.comunidades.Persona;
 import ar.edu.utn.frba.dds.notificaciones.EjemploNotificable;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
 import ar.edu.utn.frba.dds.notificaciones.Notificador;
+import ar.edu.utn.frba.dds.notificaciones.wpp.AdapterWPP;
+import ar.edu.utn.frba.dds.notificaciones.wpp.StrategyWPP;
+import ar.edu.utn.frba.dds.notificaciones.wpp.TestWPP;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,12 @@ import org.junit.jupiter.api.Test;
 public class TestEmail {
     Persona persona;
     Notificable notificable;
+
+    class AdapterMAILMock implements AdapterMAIL{
+        public void enviarMAIL(String mensaje, String mail) {
+            System.out.println("Se envió el mensaje: '" + mensaje + "'.\n Al mail: '" + mail + "'.");
+        }
+    }
 
     @BeforeEach
     public void init(){
@@ -20,6 +29,11 @@ public class TestEmail {
         );
         this.persona.setEmail("mcotens@gmail.com");
         this.notificable = new EjemploNotificable();
+
+        var mockMail = new AdapterMAILMock();
+        var strategy = new StrategyMAIL();
+        strategy.setAdapter(mockMail);
+        Notificador.agregarEstrategia("MAIL",strategy);
     }
 
     @Test

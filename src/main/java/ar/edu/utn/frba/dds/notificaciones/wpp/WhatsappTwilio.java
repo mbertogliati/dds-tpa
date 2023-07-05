@@ -11,9 +11,6 @@ public class WhatsappTwilio implements AdapterWPP {
 
     @Override
     public void enviarWPP(String mensaje, int telefono) {
-        /*
-        IMPLEMENTACIÓN REAL COMENTADA PARA NO CONSUMIR LÍMITE DE WHATSAPPTWILIO EN TESTS
-
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
         Message notificacion = Message.creator(
@@ -23,7 +20,6 @@ public class WhatsappTwilio implements AdapterWPP {
         ).create();
 
         System.out.println(notificacion.getSid());
-        */
         System.out.println("Se envió el mensaje: '" + mensaje + "'.\n Al número: '" + String.valueOf(telefono) + "'.");
     }
 }

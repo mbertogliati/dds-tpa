@@ -7,7 +7,7 @@ import ar.edu.utn.frba.dds.notificaciones.wpp.AdapterWPP;
 public class StrategyMAIL implements StrategyNotificacion {
     private AdapterMAIL adapter;
 
-    public StrategyMAIL() {
+    /*public StrategyMAIL() {//TODO: Debe recibir la estrategia por parametro ya sea en el constructor o en el setter
         this.adapter = new ApacheCommonsEmail();
     }
 
