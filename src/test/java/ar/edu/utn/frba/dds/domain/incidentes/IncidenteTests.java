@@ -60,6 +60,16 @@ public class IncidenteTests {
         establecimiento.agregarServicio(servicio1);
         establecimiento.agregarServicio(servicio2);
         entidad.agregarEstablecimiento(establecimiento);
+
+        var mockWpp = new AdapterWPPMock();
+        var strategy = new StrategyWPP();
+        strategy.setAdapter(mockWpp);
+        Notificador.agregarEstrategia("WPP",strategy);
+
+        var mockMail = new AdapterMAILMock();
+        var strategyMail = new StrategyMAIL();
+        strategyMail.setAdapter(mockMail);
+        Notificador.agregarEstrategia("MAIL",strategyMail);
     }
 
     @Test
