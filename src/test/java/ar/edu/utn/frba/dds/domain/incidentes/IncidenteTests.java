@@ -10,6 +10,13 @@ import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
+import ar.edu.utn.frba.dds.notificaciones.Notificador;
+import ar.edu.utn.frba.dds.notificaciones.email.AdapterMAIL;
+import ar.edu.utn.frba.dds.notificaciones.email.StrategyMAIL;
+import ar.edu.utn.frba.dds.notificaciones.email.TestEmail;
+import ar.edu.utn.frba.dds.notificaciones.wpp.AdapterWPP;
+import ar.edu.utn.frba.dds.notificaciones.wpp.StrategyWPP;
+import ar.edu.utn.frba.dds.notificaciones.wpp.TestWPP;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +37,17 @@ public class IncidenteTests {
     private Entidad entidad;
     private Establecimiento establecimiento;
 
+    class AdapterWPPMock implements AdapterWPP {
+        public void enviarWPP(String mensaje, int telefono) {
+            System.out.println("Se envió el mensaje: '" + mensaje + "'.\n Al número: '" + String.valueOf(telefono) + "'.");
+        }
+    }
+
+    class AdapterMAILMock implements AdapterMAIL {
+        public void enviarMAIL(String mensaje, String mail) {
+            System.out.println("Se envió el mensaje: '" + mensaje + "'.\n Al mail: '" + mail + "'.");
+        }
+    }
 
     @BeforeEach
     public void init(){
