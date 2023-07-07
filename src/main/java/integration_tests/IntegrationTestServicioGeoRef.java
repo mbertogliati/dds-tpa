@@ -1,5 +1,6 @@
 package integration_tests;
 
+import ar.edu.utn.frba.dds.domain.utilidades.Coordenada;
 import ar.edu.utn.frba.dds.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
 import ar.edu.utn.frba.dds.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
@@ -22,7 +23,7 @@ public class IntegrationTestServicioGeoRef {
       System.out.println("Cargando metadatos geográficos con servicioGeoRef.obtenerMetadatoGeografico():");
 
       //Uri: https://apis.datos.gob.ar/georef/api/ubicacion?lat=-27.2741&lon=-66.7529
-      MetadatoGeografico metadato = servicioGeoRef.obtenerMetadatoGeografico(-27.2741f, -66.7529f);
+      MetadatoGeografico metadato = servicioGeoRef.obtenerMetadatoGeografico(new Coordenada(-27.2741f, -66.7529f));
 
       if (metadato.getProvincia() != null) {
         System.out.println("\tProvincia: " + metadato.getProvincia().getNombre());

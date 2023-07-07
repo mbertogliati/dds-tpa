@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +34,7 @@ public class UbicacionTests {
     public void crearUbicacionYCargarMetadatosGeograficos() throws IOException {
         //arrange
         AdapterProveedorMetadatosGeograficos adapter = mock(AdapterProveedorMetadatosGeograficos.class);
-        when(adapter.obtenerMetadatoGeografico(anyFloat(), anyFloat())).thenReturn(this.BuildFakeMetadatoGeografico());
+        when(adapter.obtenerMetadatoGeografico(isA(Coordenada.class))).thenReturn(this.BuildFakeMetadatoGeografico());
         Ubicacion unaUbicacion = new Ubicacion(-20.5f, 1.7f);
         unaUbicacion.setAdapterProveedorMetadatosGeograficos(adapter);
 
@@ -43,9 +43,9 @@ public class UbicacionTests {
 
         //assert
         Assertions.assertNotNull(unaUbicacion);
-        Assertions.assertNotNull(unaUbicacion.getProvincia());
-        Assertions.assertNotNull(unaUbicacion.getMunicipio());
-        Assertions.assertNotNull(unaUbicacion.getLocalidad());
+        Assertions.assertNotNull(unaUbicacion.getMetadato().getProvincia());
+        Assertions.assertNotNull(unaUbicacion.getMetadato().getMunicipio());
+        Assertions.assertNotNull(unaUbicacion.getMetadato().getLocalidad());
     }
 
     @Test
@@ -59,9 +59,7 @@ public class UbicacionTests {
 
         //assert
         Assertions.assertNotNull(unaUbicacion);
-        Assertions.assertNull(unaUbicacion.getProvincia());
-        Assertions.assertNull(unaUbicacion.getMunicipio());
-        Assertions.assertNull(unaUbicacion.getLocalidad());
+        Assertions.assertNull(unaUbicacion.getMetadato());
     }
 
     @Test
@@ -71,19 +69,19 @@ public class UbicacionTests {
         Ubicacion unaUbicacion = new Ubicacion(-20.5f, 1.7f);
 
         //act
-        unaUbicacion.setLatitudLongitud(1.5f, 1.2f);
+        unaUbicacion.getCoordenada().setLatitudLongitud(1.5f, 1.2f);
 
         //assert
         Assertions.assertNotNull(unaUbicacion);
-        Assertions.assertEquals(1.5f, unaUbicacion.getLatitud());
-        Assertions.assertEquals(1.2f, unaUbicacion.getLongitud());
+        Assertions.assertEquals(1.5f, unaUbicacion.getCoordenada().getLatitud());
+        Assertions.assertEquals(1.2f, unaUbicacion.getCoordenada().getLongitud());
     }
 
 
     private MetadatoGeografico BuildFakeMetadatoGeografico() {
-        Provincia provincia = new Provincia(1, "Buenos Aires");
-        Municipio municipio = new Municipio(2, "CABA");
-        Departamento departamento = new Departamento(4, "Departamento de Pikachu");
+        Provincia provincia = new Provincia("1", "Buenos Aires");
+        Municipio municipio = new Municipio("2", "CABA");
+        Departamento departamento = new Departamento("4", "Departamento de Pikachu");
         Localidad localidad = new Localidad("3", "Lugano");
         return new MetadatoGeografico(provincia, municipio, departamento, localidad);
     }

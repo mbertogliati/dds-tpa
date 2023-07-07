@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.domain.utilidades;
 
 public class DistanciaEnMetros implements DistanciaEntrePuntos{
     @Override
-    public double distanciaEntre(Ubicacion ubicacionA, Ubicacion ubicacionB) {
-        return org.apache.lucene.util.SloppyMath.haversinMeters(ubicacionA.getLatitud(), ubicacionA.getLongitud(), ubicacionB.getLatitud(), ubicacionB.getLongitud());
+    public double distanciaEntre(Coordenada coordA, Coordenada coordB) {
+        return org.apache.lucene.util.SloppyMath.haversinMeters(coordA.getLatitud(), coordA.getLongitud(), coordB.getLatitud(), coordB.getLongitud());
     }
 }

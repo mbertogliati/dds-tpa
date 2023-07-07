@@ -1,15 +1,16 @@
 package ar.edu.utn.frba.dds.meta_datos_geo;
 
+import ar.edu.utn.frba.dds.domain.utilidades.Coordenada;
 import java.io.IOException;
 import java.util.List;
 
 public interface AdapterProveedorMetadatosGeograficos {
   //Este metodo
-  MetadatoGeografico obtenerMetadatoGeografico(float latitud, float longitud) throws IOException;
-  Provincia obtenerProvincia(float latitud, float longitud) throws IOException;
-  Departamento obtenerDepartamento(float latitud, float longitud) throws  IOException;
-  Localidad obtenerLocalidad(float latitud, float longitud) throws IOException;
-  Municipio obtenerMunicipio(float latitud, float longitud) throws IOException;
+  MetadatoGeografico obtenerMetadatoGeografico(Coordenada coordenada) throws IOException;
+  Provincia obtenerProvincia(Coordenada coordenada) throws IOException;
+  Departamento obtenerDepartamento(Coordenada coordenada) throws  IOException;
+  Localidad obtenerLocalidad(Coordenada coordenada) throws IOException;
+  Municipio obtenerMunicipio(Coordenada coordenada) throws IOException;
   List<Provincia> provincias() throws IOException;
   List<Municipio> municipiosDeProvincia(Provincia provincia) throws IOException;
   List<Departamento> departamentosDeProvincia(Provincia provincia) throws IOException;

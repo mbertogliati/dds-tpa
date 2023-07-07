@@ -1,15 +1,16 @@
 package ar.edu.utn.frba.dds.meta_datos_geo;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 
-public class Departamento {
-  @Getter
-  private int id;
-  @Getter
-  private String nombre;
+public class Departamento extends EntidadGeografica {
+  @Getter @Setter
+  private List<Localidad> localidades;
 
-  public Departamento(int id, String nombre) {
-    this.id = id;
-    this.nombre = nombre;
+  public Departamento(String id, String nombre) {
+    super(id, nombre);
+    this.localidades = new ArrayList<Localidad>();
   }
 }

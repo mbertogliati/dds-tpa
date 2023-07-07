@@ -60,19 +60,19 @@ public class Entidad {
     return establecimientos.get(establecimientos.size() - 1);
   }
 
-  private List<Establecimiento> getEstablecimientosEnLocacion(Ubicacion ubicacion){
+  private List<Establecimiento> getEstablecimientosEnLocacion(Ubicacion ubicacion) {
     List<Establecimiento> listaRetornar = new ArrayList<>();
 
-    if(ubicacion.getProvincia() != null){
-      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getUbicacion().getProvincia().getId() == ubicacion.getProvincia().getId()).toList());
+    if(ubicacion.getMetadato().getProvincia() != null){
+      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getUbicacion().getMetadato().getProvincia().getId() == ubicacion.getMetadato().getProvincia().getId()).toList());
     }
 
-    if(ubicacion.getMunicipio() != null){
-      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getUbicacion().getMunicipio().getId() == ubicacion.getMunicipio().getId()).toList());
+    if(ubicacion.getMetadato().getMunicipio() != null){
+      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getUbicacion().getMetadato().getMunicipio().getId() == ubicacion.getMetadato().getMunicipio().getId()).toList());
     }
 
-    if(ubicacion.getLocalidad() != null){
-      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getUbicacion().getLocalidad().getId() == ubicacion.getLocalidad().getId()).toList());
+    if(ubicacion.getMetadato().getLocalidad() != null){
+      listaRetornar.addAll(this.establecimientos.stream().filter(est -> est.getUbicacion().getMetadato().getLocalidad().getId() == ubicacion.getMetadato().getLocalidad().getId()).toList());
     }
 
     return listaRetornar;

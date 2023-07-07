@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.meta_datos_geo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import ar.edu.utn.frba.dds.domain.utilidades.Coordenada;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.GeoRefService;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.ServicioGeoRef;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.EntidadGeoRef;
@@ -42,7 +43,7 @@ public class TestServicioGeoRef {
     ServicioGeoRef servicioGeoRef = new ServicioGeoRef(geoRefServiceMock);
 
     //act
-    Provincia unaProvincia = servicioGeoRef.obtenerProvincia(latitud, longitud);
+    Provincia unaProvincia = servicioGeoRef.obtenerProvincia(new Coordenada(latitud, longitud));
 
     //assert
     assertEquals("Buenos Aires", unaProvincia.getNombre());
@@ -63,7 +64,7 @@ public class TestServicioGeoRef {
     ServicioGeoRef servicioGeoRef = new ServicioGeoRef(geoRefServiceMock);
 
     //act
-    Localidad unaLocalidad = servicioGeoRef.obtenerLocalidad(latitud, longitud);
+    Localidad unaLocalidad = servicioGeoRef.obtenerLocalidad(new Coordenada(latitud, longitud));
 
     //assert
     assertEquals("Lugano", unaLocalidad.getNombre());
@@ -85,7 +86,7 @@ public class TestServicioGeoRef {
     ServicioGeoRef servicioGeoRef = new ServicioGeoRef(geoRefServiceMock);
 
     //act
-    Municipio unMunicipio = servicioGeoRef.obtenerMunicipio(latitud, longitud);
+    Municipio unMunicipio = servicioGeoRef.obtenerMunicipio(new Coordenada(latitud, longitud));
 
     //assert
     assertEquals("CABA", unMunicipio.getNombre());

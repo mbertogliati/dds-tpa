@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.meta_datos_geo.geo_ref;
 
+import ar.edu.utn.frba.dds.domain.utilidades.Coordenada;
 import ar.edu.utn.frba.dds.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
 import ar.edu.utn.frba.dds.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
@@ -47,8 +48,8 @@ public class ServicioGeoRef implements AdapterProveedorMetadatosGeograficos {
     return instancia;
   }
 
-  public MetadatoGeografico obtenerMetadatoGeografico(float latitud, float longitud) throws IOException {
-    ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
+  public MetadatoGeografico obtenerMetadatoGeografico(Coordenada coordenada) throws IOException {
+    ResponseUbicacion response = getResponseUbicacion(coordenada);
 
     Provincia provincia = null;
     Municipio municipio = null;
@@ -56,11 +57,11 @@ public class ServicioGeoRef implements AdapterProveedorMetadatosGeograficos {
     Departamento departamento = null;
 
     if (response.ubicacion.provincia != null) {
-      provincia = new Provincia(Integer.parseInt(response.ubicacion.provincia.id), response.ubicacion.provincia.nombre);
+      provincia = new Provincia(response.ubicacion.provincia.id, response.ubicacion.provincia.nombre);
     }
 
     if (response.ubicacion.municipio != null) {
-      municipio = new Municipio(Integer.parseInt(response.ubicacion.municipio.id), response.ubicacion.municipio.nombre);
+      municipio = new Municipio(response.ubicacion.municipio.id, response.ubicacion.municipio.nombre);
     }
 
     if (response.ubicacion.localidad != null) {
@@ -68,31 +69,31 @@ public class ServicioGeoRef implements AdapterProveedorMetadatosGeograficos {
     }
 
     if (response.ubicacion.departamento != null) {
-      departamento = new Departamento(Integer.parseInt(response.ubicacion.departamento.id), response.ubicacion.departamento.nombre);
+      departamento = new Departamento(response.ubicacion.departamento.id, response.ubicacion.departamento.nombre);
     }
 
     return new MetadatoGeografico(provincia, municipio, departamento, localidad);
   }
 
-  public Provincia obtenerProvincia(float latitud, float longitud) throws IOException {
-    ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
-    return new Provincia(Integer.parseInt(response.ubicacion.provincia.id), response.ubicacion.provincia.nombre);
+  public Provincia obtenerProvincia(Coordenada coordenada) throws IOException {
+    ResponseUbicacion response = getResponseUbicacion(coordenada);
+    return new Provincia(response.ubicacion.provincia.id, response.ubicacion.provincia.nombre);
   }
-  public Departamento obtenerDepartamento(float latitud, float longitud) throws  IOException {
-    ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
-    return new Departamento(Integer.parseInt(response.ubicacion.departamento.id), response.ubicacion.departamento.nombre);
+  public Departamento obtenerDepartamento(Coordenada coordenada) throws  IOException {
+    ResponseUbicacion response = getResponseUbicacion(coordenada);
+    return new Departamento(response.ubicacion.departamento.id, response.ubicacion.departamento.nombre);
   }
-  public Localidad obtenerLocalidad(float latitud, float longitud) throws IOException {
-    ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
+  public Localidad obtenerLocalidad(Coordenada coordenada) throws IOException {
+    ResponseUbicacion response = getResponseUbicacion(coordenada);
     return new Localidad(response.ubicacion.localidad.id, response.ubicacion.localidad.nombre);
   }
-  public Municipio obtenerMunicipio(float latitud, float longitud) throws IOException {
-    ResponseUbicacion response = getResponseUbicacion(latitud, longitud);
-    return new Municipio(Integer.parseInt(response.ubicacion.municipio.id), response.ubicacion.municipio.nombre);
+  public Municipio obtenerMunicipio(Coordenada coordenada) throws IOException {
+    ResponseUbicacion response = getResponseUbicacion(coordenada);
+    return new Municipio(response.ubicacion.municipio.id, response.ubicacion.municipio.nombre);
   }
 
-  private ResponseUbicacion getResponseUbicacion(float latitud, float longitud) throws IOException {
-    Call<ResponseUbicacion> requestBuscada = this.geoRefService.ubicacion(latitud, longitud);
+  private ResponseUbicacion getResponseUbicacion(Coordenada coordenada) throws IOException {
+    Call<ResponseUbicacion> requestBuscada = this.geoRefService.ubicacion(coordenada.getLatitud(), coordenada.getLongitud());
     Response<ResponseUbicacion> responseBuscada = requestBuscada.execute();
     return responseBuscada.body();
   }
@@ -100,19 +101,19 @@ public class ServicioGeoRef implements AdapterProveedorMetadatosGeograficos {
   public List<Provincia> provincias() throws IOException {
     Call<ListadoDeProvincias> requestBuscada = this.geoRefService.provincias("id, nombre");
     Response<ListadoDeProvincias> responseBuscada = requestBuscada.execute();
-    return responseBuscada.body().provincias.stream().map(prov -> new Provincia(Integer.parseInt(prov.id), prov.nombre)).toList();
+    return responseBuscada.body().provincias.stream().map(prov -> new Provincia(prov.id, prov.nombre)).toList();
   }
   public List<Municipio> municipiosDeProvincia(Provincia provincia) throws IOException {
     Call<ListadoDeMunicipios> requestBuscada = this.geoRefService.municipios(String.valueOf(provincia.getId()), "id, nombre");
     Response<ListadoDeMunicipios> responseBuscada = requestBuscada.execute();
     ListadoDeMunicipios lista = responseBuscada.body();
-    return lista.municipios.stream().map(mun -> new Municipio(Integer.parseInt(mun.id), mun.nombre)).toList();
+    return lista.municipios.stream().map(mun -> new Municipio(mun.id, mun.nombre)).toList();
   }
   public List<Departamento> departamentosDeProvincia(Provincia provincia) throws IOException {
     Call<ListadoDeDepartamentos> requestBuscada = this.geoRefService.departamentos(String.valueOf(provincia.getId()), "id, nombre");
     Response<ListadoDeDepartamentos> responseBuscada = requestBuscada.execute();
     ListadoDeDepartamentos lista = responseBuscada.body();
-    return lista.departamentos.stream().map(dep -> new Departamento(Integer.parseInt(dep.id), dep.nombre)).toList();
+    return lista.departamentos.stream().map(dep -> new Departamento(dep.id, dep.nombre)).toList();
   }
 
   public List<Localidad> localidadesDeProvincia(Provincia provincia) throws IOException {

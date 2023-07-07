@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
+import ar.edu.utn.frba.dds.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.meta_datos_geo.Municipio;
 import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
@@ -24,20 +25,21 @@ public class PersonaTests {
     persona.setUbicacionActual(ubicacion);
 
     //assert
-    Assertions.assertEquals(1.5f, persona.getUbicacionActual().getLatitud());
-    Assertions.assertEquals(1.5f, persona.getUbicacionActual().getLongitud());
+    Assertions.assertEquals(1.5f, persona.getUbicacionActual().getCoordenada().getLatitud());
+    Assertions.assertEquals(1.5f, persona.getUbicacionActual().getCoordenada().getLongitud());
   }
 
   @Test
   @DisplayName("Se puede consultar si un servicio prestado es de interés para una persona")
   public void consultaInteresPersona() {
-    Provincia provincia = new Provincia(1, "Buenos Aires");
-    Municipio municipio1 = new Municipio(1, "Lomas de Zamora");
-    Municipio municipio2 = new Municipio(2, "Lanús");
+    Provincia provincia = new Provincia("1", "Buenos Aires");
+    Departamento departamento = new Departamento("4", "Departamento de San Agustín");
+    Municipio municipio1 = new Municipio("1", "Lomas de Zamora");
+    Municipio municipio2 = new Municipio("2", "Lanús");
     Localidad localidad1 = new Localidad("1", "Temperley");
 
     Persona persona = new Persona("Nombre", "Apellido");
-    Ubicacion ubicacion1 = new Ubicacion(provincia, municipio1, localidad1);
+    Ubicacion ubicacion1 = new Ubicacion(provincia, municipio1, departamento, localidad1);
     Ubicacion ubicacion2 = new Ubicacion(provincia, municipio2);
 
     Entidad entidad = new Entidad("entidad 1", "Banco");

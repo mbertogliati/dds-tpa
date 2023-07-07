@@ -21,4 +21,14 @@ public class MetadatoGeografico {
     this.departamento = departamento;
     this.localidad = localidad;
   }
+
+  public boolean esIgual(MetadatoGeografico metadato) {
+    if (metadato == null) {
+      return false;
+    }
+    return this.provincia.esIgual(metadato.getProvincia())
+        && this.municipio.esIgual(metadato.getMunicipio())
+        && this.departamento.esIgual(metadato.getDepartamento())
+        && this.localidad.esIgual(metadato.getLocalidad());
+  }
 }

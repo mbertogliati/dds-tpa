@@ -66,10 +66,10 @@ public class IncidenteTests {
         servicio2.agregarEtiqueta(new Etiqueta("tipo", "baño"));
         servicio2.agregarEtiqueta(new Etiqueta("genero", "mujer"));
 
-        buenosAires = new Provincia(1, "Buenos Aires");
+        buenosAires = new Provincia("1", "Buenos Aires");
         ubicacion1 = new Ubicacion(buenosAires);
 
-        santaFe = new Provincia(2, "Santa Fe");
+        santaFe = new Provincia("2", "Santa Fe");
         ubicacion2 = new Ubicacion(santaFe);
 
         establecimiento = new Establecimiento("esta 1", "establecimiento");
