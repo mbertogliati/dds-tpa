@@ -23,9 +23,7 @@ public class GeneradorRanking {
     public Ranking generarRanking(List<IncidentePorComunidad> incidentes) {
         Ranking ranking = new Ranking();
 
-        generadorPuntos.calcularPuntos(incidentes).forEach((entidad, cantidad) -> {
-            ranking.agregarEntidad(entidad, (double) cantidad);
-        });
+        generadorPuntos.calcularPuntos(incidentes).forEach(ranking::agregarEntidad);
 
         ranking.ordernar();
         ranking.setFechaHoraCreacion(LocalDateTime.now());

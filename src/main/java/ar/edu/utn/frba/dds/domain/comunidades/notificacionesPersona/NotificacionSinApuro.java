@@ -7,7 +7,7 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 
-public class NotificacionSinApuro implements TiempoNotificacion{
+public class NotificacionSinApuro implements EstrategiaMomentoNotificacion {
     private ListadoNotificables notificablesSinNotificar;
     private Map<DayOfWeek, List<Horario>> fechas;
 

@@ -2,8 +2,7 @@
 'https://plantuml.com/class-diagram
 
 class Ranking{
- - listaEntidades: ReadOnlyList<Entidad>
- - diccionarioPuntos: Map<Entidad, Double>
+ - puntosPorEntidad: List<PuntosPorEntidad>
  - descripcion: String
  - fechaHoraCreacion: DateTime
 

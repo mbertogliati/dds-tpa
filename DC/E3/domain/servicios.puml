@@ -3,6 +3,7 @@
 
 !include servicios/Servicio.puml
 !include servicios/ServicioPrestado.puml
+!include servicios/Etiqueta.puml
 
 ServicioPrestado --> Servicio
 Servicio -->"*" Etiqueta

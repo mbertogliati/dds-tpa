@@ -13,10 +13,8 @@ import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.notificaciones.Notificador;
 import ar.edu.utn.frba.dds.notificaciones.email.AdapterMAIL;
 import ar.edu.utn.frba.dds.notificaciones.email.StrategyMAIL;
-import ar.edu.utn.frba.dds.notificaciones.email.TestEmail;
 import ar.edu.utn.frba.dds.notificaciones.wpp.AdapterWPP;
 import ar.edu.utn.frba.dds.notificaciones.wpp.StrategyWPP;
-import ar.edu.utn.frba.dds.notificaciones.wpp.TestWPP;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -95,10 +93,10 @@ public class IncidenteTests {
     public void abrirIncidenteNotificaMiembros(){
         persona1.setMetodoNotificacion("MAIL");
         persona1.setEmail("mcotens@gmail.com");
-        persona1.setTiempoNotificacion(new NotificacionAlMomento());
+        persona1.setEstrategiaMomentoNotificacion(new NotificacionAlMomento());
         persona2.setMetodoNotificacion("WPP");
         persona2.setWhatsapp(1144199146);
-        persona2.setTiempoNotificacion(new NotificacionAlMomento());
+        persona2.setEstrategiaMomentoNotificacion(new NotificacionAlMomento());
 
         comunidad.agregarPersona(persona1);
         comunidad.agregarPersona(persona2);
@@ -116,16 +114,16 @@ public class IncidenteTests {
     public void cerrarIncidenteNotificaMiembros(){
         persona1.setMetodoNotificacion("MAIL");
         persona1.setEmail("mcotens@gmail.com");
-        persona1.setTiempoNotificacion(new NotificacionAlMomento());
+        persona1.setEstrategiaMomentoNotificacion(new NotificacionAlMomento());
 
         persona2.setMetodoNotificacion("WPP");
         persona2.setWhatsapp(1144199146);
-        persona2.setTiempoNotificacion(new NotificacionAlMomento());
+        persona2.setEstrategiaMomentoNotificacion(new NotificacionAlMomento());
 
         Persona persona3 = new Persona("Nombre", "Apellido");
         persona3.setMetodoNotificacion("MAIL");
         persona3.setEmail("mcotens@gmail.com");
-        persona3.setTiempoNotificacion(new NotificacionAlMomento());
+        persona3.setEstrategiaMomentoNotificacion(new NotificacionAlMomento());
 
         //Solo la persona 1 y 2 son miembros, entonces la persona 3 no deberia ser notificada
         comunidad.agregarPersona(persona1);

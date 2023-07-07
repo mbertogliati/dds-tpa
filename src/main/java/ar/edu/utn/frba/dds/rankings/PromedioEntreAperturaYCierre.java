@@ -9,19 +9,19 @@ import java.util.*;
 
 public class PromedioEntreAperturaYCierre implements EstrategiaCalculoPuntos {
     @Override
-    public Map<Entidad,Double> calcularPuntos(List<IncidentePorComunidad> incidentes) {
+    public List<PuntosPorEntidad> calcularPuntos(List<IncidentePorComunidad> incidentes) {
 
         Map<Entidad,List<Long>> diccionarioTiemposDeCierre = new HashMap<>();
         incidentes.stream().forEach(incidentePorComunidad -> {
             agregarTiempo(diccionarioTiemposDeCierre,incidentePorComunidad.getIncidente().obtenerEntidad(), tiempoHastaCierreEnMinutos(incidentePorComunidad));
         });
 
-        Map<Entidad,Double> diccionarioPromedios = new HashMap<>();
+        List<PuntosPorEntidad> puntos = new ArrayList<>();
         diccionarioTiemposDeCierre.forEach((entidad, tiempos) -> {
-            diccionarioPromedios.put(entidad, tiempos.stream().mapToLong(tiempo -> tiempo).average().getAsDouble());
+            puntos.add(new PuntosPorEntidad( entidad, tiempos.stream().mapToLong(tiempo -> tiempo).average().getAsDouble()));
         });
 
-        return diccionarioPromedios;
+        return puntos;
     }
     private Long tiempoHastaCierreEnMinutos(IncidentePorComunidad incidentePorComunidad){
         return ChronoUnit.MINUTES.between(

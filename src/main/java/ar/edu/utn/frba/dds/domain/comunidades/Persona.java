@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
-import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.TiempoNotificacion;
+import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.EstrategiaMomentoNotificacion;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
@@ -30,7 +30,7 @@ public class Persona {
   @Getter @Setter
   private String metodoNotificacion;
   @Getter @Setter
-  private TiempoNotificacion tiempoNotificacion;
+  private EstrategiaMomentoNotificacion estrategiaMomentoNotificacion;
   @Getter
   private List<Membresia> membresias = new ArrayList<>();
   @Getter @Setter
@@ -63,7 +63,7 @@ public class Persona {
   }
 
   public void enviarNotificacion(Notificable notificable) {
-    this.tiempoNotificacion.notificar(notificable, this);
+    this.estrategiaMomentoNotificacion.notificar(notificable, this);
   }
 
   public void cerrarIncidente(Incidente incidente){

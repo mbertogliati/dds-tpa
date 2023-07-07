@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,15 +16,15 @@ public class GradoDeImpacto implements EstrategiaCalculoPuntos {
     private MedidorImpacto medidorImpacto;
 
     @Override
-    public Map<Entidad,Double> calcularPuntos(List<IncidentePorComunidad> incidentes) {
+    public List<PuntosPorEntidad> calcularPuntos(List<IncidentePorComunidad> incidentes) {
 
-        Map<Entidad,Double> diccionarioImpactos = new HashMap<>();
+        List<PuntosPorEntidad> puntos = new ArrayList<PuntosPorEntidad>();
 
         incidentes.forEach(incidentePorComunidad -> {
             Entidad entidad = incidentePorComunidad.getIncidente().obtenerEntidad();
-            diccionarioImpactos.put(entidad, medidorImpacto.medirImpactoDe(entidad, incidentes));
+            puntos.add(new PuntosPorEntidad(entidad, medidorImpacto.medirImpactoDe(entidad, incidentes)));
         });
 
-        return diccionarioImpactos;
+        return puntos;
     }
 }

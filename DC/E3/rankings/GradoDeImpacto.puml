@@ -3,7 +3,7 @@
 
 class GradoDeImpacto{
  - medidorImpacto : MedidorImpacto
- + calcularPuntos(incidentes: List<IncidentePorComunidad>): Map<Entidad,Double>
+ + calcularPuntos(incidentes: List<IncidentePorComunidad>): List<PuntosPorEntidad>
 }
 
 @enduml

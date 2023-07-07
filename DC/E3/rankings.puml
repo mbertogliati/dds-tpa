@@ -9,6 +9,7 @@ package Rankings{
     !include rankings/PromedioEntreAperturaYCierre.puml
     !include rankings/MasIncidentesEnSemana.puml
     !include rankings/Ranking.puml
+    !include rankings/PuntosPorEntidad.puml
 
 
     GeneradorRanking ..> Ranking
@@ -17,5 +18,8 @@ package Rankings{
     PromedioEntreAperturaYCierre ..|> EstrategiaCalculoPuntos
     GradoDeImpacto ..|> EstrategiaCalculoPuntos
     GradoDeImpacto --> MedidorImpacto
+
+    Ranking -->"*" PuntosPorEntidad
+    EstrategiaCalculoPuntos ..> PuntosPorEntidad
 }
 @enduml

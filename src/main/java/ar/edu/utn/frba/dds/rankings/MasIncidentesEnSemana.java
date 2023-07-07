@@ -11,15 +11,15 @@ import java.util.Map;
 
 public class MasIncidentesEnSemana implements EstrategiaCalculoPuntos {
     @Override
-    public Map<Entidad,Double> calcularPuntos(List<IncidentePorComunidad> incidentesPorComunidad) {
+    public List<PuntosPorEntidad> calcularPuntos(List<IncidentePorComunidad> incidentesPorComunidad) {
         Map<Entidad,List<Incidente>> diccionarioIncidentesPorEntidad = incidentes24HorasPorEntidad(incidentesPorComunidad);
-        Map<Entidad,Double> diccionarioCantidadIncidentes = new HashMap<>();
+        List<PuntosPorEntidad> puntos = new ArrayList<>();
 
         diccionarioIncidentesPorEntidad.forEach((entidad, incidentesDeEntidad) -> {
-            diccionarioCantidadIncidentes.put(entidad, (double) incidentesDeEntidad.size());
+            puntos.add(new PuntosPorEntidad( entidad, (double) incidentesDeEntidad.size()));
         });
 
-        return diccionarioCantidadIncidentes;
+        return puntos;
     }
 
     private List<Incidente> ordenarIncidentes(List<IncidentePorComunidad> incidentes){

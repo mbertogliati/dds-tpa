@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface EstrategiaCalculoPuntos {
-    public Map<Entidad,Double> calcularPuntos(List<IncidentePorComunidad> incidentes);
+    public List<PuntosPorEntidad> calcularPuntos(List<IncidentePorComunidad> incidentes);
 }

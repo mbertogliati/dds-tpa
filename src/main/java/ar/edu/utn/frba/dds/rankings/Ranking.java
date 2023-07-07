@@ -9,20 +9,18 @@ import java.util.*;
 
 public class Ranking {
     @Getter
-    private List<Entidad> entidades;
-    private Map<Entidad,Double> diccionarioPuntos;
+    private List<PuntosPorEntidad> puntosPorEntidad;
     @Getter @Setter
     private LocalDateTime fechaHoraCreacion;
     @Getter @Setter
     private String descripcion;
 
     public Ranking(){
-        entidades = Collections.unmodifiableList(new ArrayList<Entidad>());
-        diccionarioPuntos = new HashMap<Entidad,Double>();
+        puntosPorEntidad = Collections.unmodifiableList(new ArrayList<PuntosPorEntidad>());
     }
 
     public boolean contieneEntidad(Entidad entidad){
-        return entidades.contains(entidad);
+        return puntosPorEntidad.stream().anyMatch(puntosPorEntidad -> puntosPorEntidad.getEntidad().equals(entidad));
     }
 
     public String toString(){
@@ -31,35 +29,40 @@ public class Ranking {
                 "Hora de creacion: " + fechaHoraCreacion.getHour() + ":" + fechaHoraCreacion.getMinute() + "\n" +
                 "Entidades: \n";
         StringBuilder entidadesString = new StringBuilder();
-        for (int i = 0; i < entidades.size(); i++) {
+        PuntosPorEntidad puntosActuales;
+        for (int i = 0; i < puntosPorEntidad.size(); i++) {
+            puntosActuales = puntosPorEntidad.get(i);
             entidadesString
                     .append(i+1)
                     .append(". ")
-                    .append(entidades.get(i).getNombre())
+                    .append(puntosActuales.getEntidad().getNombre())
                     .append(" - ")
-                    .append(puntosDe(entidades.get(i)))
+                    .append(puntosActuales.getPuntos())
                     .append("\n");
         }
         return cabecera + entidadesString;
     }
 
     public Double puntosDe(Entidad entidad){
-        return diccionarioPuntos.get(entidad);
+        return puntosPorEntidad.stream()
+                .filter(puntosPorEntidad -> puntosPorEntidad.getEntidad().equals(entidad))
+                .findFirst()
+                .get()
+                .getPuntos();
     }
 
-    public void agregarEntidad(Entidad entidad, Double puntos){
-        List<Entidad> listaEntidades = new ArrayList<Entidad>(entidades);
-        listaEntidades.remove(entidad); //Chequea automaticamente si esta o no
-        listaEntidades.add(entidad);
-        diccionarioPuntos.put(entidad,puntos);
+    public void agregarEntidad(PuntosPorEntidad puntosPorEntidad){
+        List<PuntosPorEntidad> nuevosPuntosPorEntidad = new ArrayList<PuntosPorEntidad>(this.puntosPorEntidad);
+        nuevosPuntosPorEntidad.remove(puntosPorEntidad); //Chequea automaticamente si esta o no
+        nuevosPuntosPorEntidad.add(puntosPorEntidad);
 
-        entidades = Collections.unmodifiableList(listaEntidades);
+        this.puntosPorEntidad = Collections.unmodifiableList(nuevosPuntosPorEntidad);
     }
 
     public void ordernar(){
-        List<Entidad> listaEntidades = new ArrayList<Entidad>(entidades);
-        listaEntidades.sort((e1,e2) -> diccionarioPuntos.get(e2).compareTo(diccionarioPuntos.get(e1)));
-        entidades = Collections.unmodifiableList(listaEntidades);
+        List<PuntosPorEntidad> listaEntidades = new ArrayList<PuntosPorEntidad>(puntosPorEntidad);
+        listaEntidades.sort((p1,p2) -> p2.getPuntos().compareTo(p1.getPuntos()));
+        puntosPorEntidad = Collections.unmodifiableList(listaEntidades);
     }
 }
 

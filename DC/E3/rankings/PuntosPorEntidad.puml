@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class PuntosPorEntidad{
+   - entidad: Entidad
+   - puntos: Double
+}
+
+@enduml

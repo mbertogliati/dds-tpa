@@ -1,6 +1,7 @@
 @startuml
 
 skinparam linetype ortho
+skinparam ranksep 50
 
 'https://plantuml.com/class-diagram
 'Para que las flechas hagan caso a veces hay que repetir
@@ -14,7 +15,6 @@ skinparam linetype ortho
 !include E3/validacion.puml
 
 Persona ..> Notificable
-TiempoNotificacion ..> Notificable
 ListadoNotificables -->"*" Notificable
 ListadoNotificables ..|> Notificable
 
@@ -23,6 +23,8 @@ StrategyNotificacion ..> Persona
 
 IncidentePorComunidad <.. EstrategiaCalculoPuntos
 Entidad <.. EstrategiaCalculoPuntos
+
+Entidad <-- PuntosPorEntidad
 
 Entidad "*"<-- Ranking
 
