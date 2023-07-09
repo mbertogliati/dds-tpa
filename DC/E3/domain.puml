@@ -27,6 +27,8 @@ Comunidad -->"*" Servicio
 Comunidad --> "1..*" IncidentePorComunidad
 Comunidad ..> Incidente
 
+Membresia -->"*" Servicio
+
 Persona --> Ubicacion
 
 }

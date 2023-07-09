@@ -7,9 +7,9 @@ class Membresia{
     -usuario: Persona
     -comunidad: Comunidad
     -rolComunidad: Rol
-    -afectado: boolean
+    -serviciosObservados: List<Servicio>
 
-    +isAfectado(): boolean
+    +estaAfectado(servicio: Servicio): boolean
 }
 
 @enduml

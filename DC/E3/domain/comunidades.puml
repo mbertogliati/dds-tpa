@@ -15,7 +15,6 @@ skinparam linetype ortho
 !include comunidades/notificacionesPersona/NotificacionAlMomento.puml
 !include comunidades/notificacionesPersona/NotificacionSinApuro.puml
 !include comunidades/notificacionesPersona/EstrategiaMomentoNotificacion.puml
-!include comunidades/notificacionesPersona/Horario.puml
 
 Persona --> EstrategiaMomentoNotificacion
 Persona --> Interes
@@ -34,9 +33,6 @@ Comunidad --> "1..*" Membresia
 
 NotificacionSinApuro ..|> EstrategiaMomentoNotificacion
 NotificacionSinApuro --> ListadoNotificables
-NotificacionSinApuro -->"*" Horario
 NotificacionAlMomento ..|> EstrategiaMomentoNotificacion
-
-
 
 @enduml

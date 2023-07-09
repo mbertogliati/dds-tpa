@@ -3,7 +3,7 @@
 
 class NotificacionSinApuro{
     -notificablesSinNotificar: ListadoNotificables
-    -fechas: Map<DayOfWeek, List<Horario>>
+    -fechas: Map<DayOfWeek, List<LocalTime>>
 
     +notificar(notificable Notificable, persona: Persona)
 }
