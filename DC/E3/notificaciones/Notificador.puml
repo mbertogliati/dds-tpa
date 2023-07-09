@@ -4,6 +4,7 @@
 class Notificador{
     {static}-estrategias: Map<String, StrategyNotificacion>
     {static}+notificar(notificable: Notificable, persona: Persona)
+    {static}+agregarEstrategia(nombre: String, estrategia: StrategyNotificacion)
 }
 
 @enduml
