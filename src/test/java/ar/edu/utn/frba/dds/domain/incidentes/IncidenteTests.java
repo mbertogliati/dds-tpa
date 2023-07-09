@@ -103,8 +103,8 @@ public class IncidenteTests {
 
         ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
-        Incidente incidente = new Incidente();
-        incidente.agregarIncidenteComunidad(persona1);
+        Incidente incidente = new Incidente(persona1);
+        incidente.agregarIncidenteComunidad();
 
         Assertions.assertEquals(1, comunidad.getIncidentes().size());
     }
@@ -131,8 +131,8 @@ public class IncidenteTests {
 
         ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
-        Incidente incidente = new Incidente();
-        incidente.agregarIncidenteComunidad(persona1);
+        Incidente incidente = new Incidente(persona1);
+        incidente.agregarIncidenteComunidad();
 
         Assertions.assertEquals(1, comunidad.getIncidentes().size());
 
