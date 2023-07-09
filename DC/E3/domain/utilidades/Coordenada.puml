@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Coordenada {
+    - latitud: float
+    - longitud: float
+}
+@enduml

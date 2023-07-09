@@ -1,0 +1,100 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!include domain/comunidades/Comunidad.puml
+!include domain/comunidades/Interes.puml
+!include domain/comunidades/Membresia.puml
+!include domain/comunidades/Persona.puml
+!include domain/comunidades/Usuario.puml
+!include domain/utilidades/Ubicacion.puml
+!include domain/utilidades/DistanciaEntrePuntos.puml
+!include domain/utilidades/DistanciaEnMetros.puml
+!include domain/incidentes/IncidentePorComunidad.puml
+!include notificaciones/Notificador.puml
+
+Comunidad --> "1..*" Membresia
+Comunidad --> IncidentePorComunidad
+IncidentePorComunidad --> Incidente
+IncidentePorComunidad --> Persona
+Membresia --> Persona
+Membresia --> Comunidad
+Persona --> Ubicacion
+Persona --> Interes
+Persona --> "1..*" Membresia
+Persona --> Usuario
+DistanciaEnMetros ---|> DistanciaEntrePuntos
+
+class ReceptorCoordenadaPersona {
+    - personas: List<Persona>
+    - detectorIncidentesCercanos: DetectorIncidentesCercanos
+
+    + recibirCoordenada(float latitud, float longitud, id: String)
+}
+ReceptorCoordenadaPersona "1" ---> "*" Persona
+ReceptorCoordenadaPersona  ---> DetectorIncidentesCercanos
+
+class DetectorIncidentesCercanos {
+    - adapterCalculadoraDistancia: DistanciaEntrePuntos
+    + setAdapterCalculadoraDistancia(unaCalculadora: DistanciaEntrePuntos)
+    + evaluarSolicitudDeRevision(unaPersona: Persona)
+    - incidentesPorComunidadCercanos(coordenada: Coordenada, comunidad: Comunidad): List<IncidentePorComunidad>
+}
+DetectorIncidentesCercanos ...> Notificador
+DetectorIncidentesCercanos ---> DistanciaEntrePuntos
+DetectorIncidentesCercanos ...> RevisionIncidente
+
+interface Notificable {
+    + getInfo() : String
+}
+
+class Incidente {
+    - autorApertura: Persona
+    - fechaHoraApertura: LocalDateTime
+    - observaciones: String
+    - servicioPrestados: List<ServicioPrestado>
+
+    + agregarIncidenteComunidad(Persona): void
+    ---
+    +getInfo(): String
+}
+Incidente ---|> Notificable
+Incidente "1" ---> "*" ServicioPrestado
+
+class RevisionIncidente {
+    -incidente: Incidente
+    ---
+    +getInfo(): String
+}
+RevisionIncidente ---|> Notificable
+
+class ServicioPrestado{
+    -id: int
+    -servicio: Servicio
+    -establecimiento: Establecimiento
+
+    +getUbicacion(): Ubicacion
+}
+ServicioPrestado ---> Establecimiento
+
+class Establecimiento{
+    - entidad: Entidad
+    - nombre: String
+    - id: int
+    - denominacion : Denominacion
+    - serviciosPrestados : List<ServicioPrestado>
+    - ubicacion : Ubicacion
+
+    + agregarServicio(nuevo: Servicio)
+    + eliminarServicio(servicio: Servicio)
+    + eliminarServicio(servicio: ServicioPrestado)
+}
+Establecimiento ---> Ubicacion
+
+Ubicacion ---> Coordenada
+
+class Coordenada {
+    - latitud: float
+    - longitud: float
+}
+
+@enduml
