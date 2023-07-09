@@ -3,9 +3,11 @@
 
 class NotificacionSinApuro{
     -notificablesSinNotificar: ListadoNotificables
-    -fechas: Map<DayOfWeek, List<Horario>>
+    -fechas: Map<DayOfWeek, List<LocalTime>>
+    -persona: Persona
 
     +notificar(notificable Notificable, persona: Persona)
+    +enviarNotificaciones(): void
 }
 
 @enduml

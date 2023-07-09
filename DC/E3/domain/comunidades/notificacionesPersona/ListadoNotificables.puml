@@ -6,7 +6,9 @@ class ListadoNotificables{
 
     +agregarNotificables(Notificable notificable)
     +vaciarNotificables()
+    +estaVacio(): Boolean
     +getInfo(): String
+
 }
 
 @enduml
