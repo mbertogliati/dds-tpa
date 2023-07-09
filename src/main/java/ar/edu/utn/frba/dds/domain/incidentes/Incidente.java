@@ -22,12 +22,17 @@ public class Incidente implements Notificable {
     @Getter
     private Persona autorApertura;
 
-    public Incidente(){
+    public Incidente() {
         this.serviciosAfectados = new ArrayList<>();
     }
 
-    public void agregarIncidenteComunidad(Persona persona){
-        persona.getMembresias().stream().map(m -> m.getComunidad()).forEach(c -> c.agregarIncidente(this));
+    public Incidente(Persona autor){
+        this.autorApertura = autor;
+        this.serviciosAfectados = new ArrayList<>();
+    }
+
+    public void agregarIncidenteComunidad() {
+        this.autorApertura.getMembresias().stream().map(m -> m.getComunidad()).forEach(c -> c.agregarIncidente(this));
     }
 
     @Override
