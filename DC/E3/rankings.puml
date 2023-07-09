@@ -7,14 +7,14 @@ package Rankings{
     !include rankings/MedidorImpacto.puml
     !include rankings/GradoDeImpacto.puml
     !include rankings/PromedioEntreAperturaYCierre.puml
-    !include rankings/MasIncidentesEnSemana.puml
+    !include rankings/MasIncidentes.puml
     !include rankings/Ranking.puml
     !include rankings/PuntosPorEntidad.puml
 
 
     GeneradorRanking ..> Ranking
     GeneradorRanking --> EstrategiaCalculoPuntos
-    MasIncidentesEnSemana ..|> EstrategiaCalculoPuntos
+    MasIncidentes ..|> EstrategiaCalculoPuntos
     PromedioEntreAperturaYCierre ..|> EstrategiaCalculoPuntos
     GradoDeImpacto ..|> EstrategiaCalculoPuntos
     GradoDeImpacto --> MedidorImpacto

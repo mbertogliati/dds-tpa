@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MasIncidentesEnSemana implements EstrategiaCalculoPuntos {
+public class MasIncidentes implements EstrategiaCalculoPuntos {
     @Override
     public List<PuntosPorEntidad> calcularPuntos(List<IncidentePorComunidad> incidentesPorComunidad) {
         Map<Entidad,List<Incidente>> diccionarioIncidentesPorEntidad = incidentes24HorasPorEntidad(incidentesPorComunidad);

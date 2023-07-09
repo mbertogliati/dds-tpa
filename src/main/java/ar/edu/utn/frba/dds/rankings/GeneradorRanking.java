@@ -13,14 +13,8 @@ public class GeneradorRanking {
 
     @Getter @Setter
     private EstrategiaCalculoPuntos generadorPuntos;
-    @Getter @Setter
-    private String descripcion;
 
-    public GeneradorRanking(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Ranking generarRanking(List<IncidentePorComunidad> incidentes) {
+    public Ranking generarRanking(List<IncidentePorComunidad> incidentes, String descripcion) {
         Ranking ranking = new Ranking();
 
         generadorPuntos.calcularPuntos(incidentes).forEach(ranking::agregarEntidad);

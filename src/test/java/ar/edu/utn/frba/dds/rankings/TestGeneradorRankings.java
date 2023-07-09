@@ -104,7 +104,7 @@ public class TestGeneradorRankings {
     @Test
     @DisplayName("Test PromedioEntreAperturaYCierre")
     public void promedioAperturaCierre(){
-        generadorRanking = new GeneradorRanking("Ranking de Entidades con Mayor Promedio entre apertura y cierre");
+        generadorRanking = new GeneradorRanking();
         generadorRanking.setGeneradorPuntos(new PromedioEntreAperturaYCierre());
 
         incidentePC1_BBVA.setFechaHoraCierre(LocalDateTime.parse("2020-01-01 04:00",formatter));
@@ -125,7 +125,7 @@ public class TestGeneradorRankings {
                 incidentePC4_BK,
                 incidentePC1_BBVA_2,
                 incidentePC6_MC
-                )));
+                )), "Entidades con mayor promedio de tiempo de cierre de incidentes");
 
         System.out.print(ranking);
         Assertions.assertEquals(3, ranking.getPuntosPorEntidad().size());
@@ -144,8 +144,8 @@ public class TestGeneradorRankings {
     @Test
     @DisplayName("Test MasIncidentesEnSemana")
     public void masIncidentesEnSemana(){
-        generadorRanking = new GeneradorRanking("Ranking de Entidades con más incidentes en semana");
-        generadorRanking.setGeneradorPuntos(new MasIncidentesEnSemana());
+        generadorRanking = new GeneradorRanking();
+        generadorRanking.setGeneradorPuntos(new MasIncidentes());
 
         //incidente4BK.setFechaHoraApertura(LocalDateTime.parse("2020-01-03 00:00",formatter));
 
@@ -157,7 +157,7 @@ public class TestGeneradorRankings {
                 incidentePC4_BK_2,
                 incidentePC1_BBVA_2,
                 incidentePC6_MC
-        )));
+        )), "Entidades con mayor cantidad de incidentes abiertos");
 
         System.out.print(ranking);
         Assertions.assertEquals(3, ranking.getPuntosPorEntidad().size());
