@@ -15,8 +15,6 @@ public class Notificador {
 
     static {
         estrategias = new HashMap<String, StrategyNotificacion>();
-        //estrategias.put("WPP", new StrategyWPP());
-        //estrategias.put("MAIL", new StrategyMAIL());
     }
 
     public static void agregarEstrategia(String nombre, StrategyNotificacion estrategia){

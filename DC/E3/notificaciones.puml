@@ -14,17 +14,17 @@ package Notificaciones{
     !include notificaciones/wpp/StrategyWPP.puml
     !include notificaciones/wpp/WhatsappTwilio.puml
 
-    Notificador -->"*" StrategyNotificacion
-    Notificador ..> Notificable
+    Notificador -down->"*" StrategyNotificacion
+    Notificador .right.> Notificable
 
-    StrategyWPP ..|> StrategyNotificacion
-    StrategyMAIL ..|> StrategyNotificacion
+    StrategyWPP .right.|> StrategyNotificacion
+    StrategyMAIL .left.|> StrategyNotificacion
 
     StrategyMAIL --> AdapterMAIL
     StrategyWPP --> AdapterWPP
 
-    StrategyMAIL --> ApacheCommonsEmail
-    StrategyWPP --> WhatsappTwilio
+    ApacheCommonsEmail .left.|> AdapterMAIL
+    WhatsappTwilio .right.|> AdapterWPP
 }
 
 @enduml

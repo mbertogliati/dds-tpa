@@ -4,6 +4,7 @@
 class StrategyWPP {
   - adapter: AdapterWPP
   + enviarNotificacion(String, Persona): void
+  + setAdapter(AdapterWPP adapter): void
 }
 
 @enduml
