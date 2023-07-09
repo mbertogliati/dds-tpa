@@ -3,7 +3,6 @@
 
 class MasIncidentes{
 + calcularPuntos(incidentes: List<IncidentePorComunidad>): List<PuntosPorEntidad>
-- ordenarIncidentes(incidentes: List<IncidentePorComunidad>): List<Incidente>
 - incidentes24HorasPorEntidad(incidentes: List<IncidentePorComunidad>): Map<Entidad,List<Incidente>>
 }
 

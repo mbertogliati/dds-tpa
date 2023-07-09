@@ -13,7 +13,7 @@ package Rankings{
 
 
     GeneradorRanking ..> Ranking
-    GeneradorRanking --> EstrategiaCalculoPuntos
+    GeneradorRanking -up-> EstrategiaCalculoPuntos
     MasIncidentes ..|> EstrategiaCalculoPuntos
     PromedioEntreAperturaYCierre ..|> EstrategiaCalculoPuntos
     GradoDeImpacto ..|> EstrategiaCalculoPuntos

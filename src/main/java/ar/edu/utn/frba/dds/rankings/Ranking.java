@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 
 public class Ranking {
     @Getter
@@ -63,6 +64,16 @@ public class Ranking {
         List<PuntosPorEntidad> listaEntidades = new ArrayList<PuntosPorEntidad>(puntosPorEntidad);
         listaEntidades.sort((p1,p2) -> p2.getPuntos().compareTo(p1.getPuntos()));
         puntosPorEntidad = Collections.unmodifiableList(listaEntidades);
+    }
+    public Ranking filtrar(Function<PuntosPorEntidad,Boolean> filtro){
+        Ranking rankingFiltrado = new Ranking();
+        rankingFiltrado.setFechaHoraCreacion(fechaHoraCreacion);
+        rankingFiltrado.setDescripcion(descripcion);
+        rankingFiltrado.puntosPorEntidad = Collections.unmodifiableList(puntosPorEntidad.stream()
+                .filter(filtro::apply)
+                .toList());
+        rankingFiltrado.ordernar();
+        return rankingFiltrado;
     }
 }
 

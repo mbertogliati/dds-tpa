@@ -22,15 +22,8 @@ public class MasIncidentes implements EstrategiaCalculoPuntos {
         return puntos;
     }
 
-    private List<Incidente> ordenarIncidentes(List<IncidentePorComunidad> incidentes){
-        return new ArrayList<>(incidentes.stream()
-                .map(IncidentePorComunidad::getIncidente)
-                .sorted((i1,i2) -> i1.getFechaHoraApertura().compareTo(i2.getFechaHoraApertura()))
-                .toList());
-    }
-
     private Map<Entidad,List<Incidente>> incidentes24HorasPorEntidad(List<IncidentePorComunidad> incidentesPorComunidad){
-        List<Incidente> incidentes = ordenarIncidentes(incidentesPorComunidad);
+        List<Incidente> incidentes = incidentesPorComunidad.stream().map(IncidentePorComunidad::getIncidente).toList();
         Map<Entidad,List<Incidente>> diccionarioIncidentes = new HashMap<Entidad, List<Incidente>>();
 
         incidentes.forEach(incidenteActual -> {
