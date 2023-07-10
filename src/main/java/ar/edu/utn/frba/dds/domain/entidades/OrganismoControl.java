@@ -5,20 +5,30 @@ import ar.edu.utn.frba.dds.domain.utilidades.InformacionAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-//TODO: OrganismoControl y EntidadPrestadora son muy parecidas. Hay que fijarse como impacta eso.
-public class OrganismoControl {
-    @Getter @Setter
-    private List<EntidadPrestadora> entidades;
+public class OrganismoControl implements Informable{
+    @Getter
+    private List<EntidadPrestadora> entidadesPrestadoras;
     @Getter @Setter
     private String nombre;
     @Getter @Setter
-    private Persona informado;
-    @Getter @Setter
-    private InformacionAdapter generadorInformacion;
+    private Persona personaAInformar;
 
-    public void enviarInformacion(){}
+    public OrganismoControl(String nombre){
+        this.nombre = nombre;
+        this.entidadesPrestadoras = new ArrayList<>();
+    }
 
+    public List<Entidad> getEntidades(){
+        Set<Entidad> entidades = new HashSet<Entidad>();
+        for(EntidadPrestadora entidadPrestadora : entidadesPrestadoras){
+            entidades.addAll(entidadPrestadora.getEntidades());
+        }
+        return entidades.stream().toList();
+    }
 
 }

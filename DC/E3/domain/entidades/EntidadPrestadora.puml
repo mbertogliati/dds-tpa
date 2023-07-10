@@ -4,11 +4,9 @@ skinparam linetype ortho
 
 class EntidadPrestadora {
   - entidades: List<Entidad>
-  - generadorInformacion: InformacionAdapter
-  - informado: Persona
+  - personaAInformar: Persona
   - nombre: String
 
-  + enviarInformacion(): void
 }
 
 @enduml

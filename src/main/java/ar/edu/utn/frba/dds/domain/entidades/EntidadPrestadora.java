@@ -5,17 +5,19 @@ import ar.edu.utn.frba.dds.domain.utilidades.InformacionAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class EntidadPrestadora {
+public class EntidadPrestadora implements Informable{
     @Getter @Setter
-    private List<Entidad> entidades;
+    private List<Entidad> entidades = new ArrayList<>();
     @Getter @Setter
     private String nombre;
     @Getter @Setter
-    private Persona informado;
-    @Getter @Setter
-    private InformacionAdapter generadorInformacion;
+    private Persona personaAInformar;
 
-    public void enviarInformacion(){}
+    public EntidadPrestadora(String nombre){
+        this.nombre = nombre;
+    }
+
 }

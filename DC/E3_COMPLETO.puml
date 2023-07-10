@@ -35,5 +35,8 @@ ValidadorUsuario ..> Usuario
 Ubicacion --> Provincia
 Ubicacion --> Localidad
 Ubicacion --> Municipio
-Ubicacion --> AdapterMetadatosGeograficos
+Ubicacion --> AdapterProveedorMetadatosGeograficos
+
+Informe --> Informable
+Informe ..|> Notificable
 @enduml

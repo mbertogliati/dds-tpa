@@ -11,6 +11,7 @@ class Ranking{
  + puntosDe(entidad: Entidad) : Double
  + agregarEntidad(entidad: Entidad, puntos: Double)
  + ordenar(): void
+ + filtrar(filtro: PuntosPorEntidad -> Boolean): Ranking
 }
 
 @enduml

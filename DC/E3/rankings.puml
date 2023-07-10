@@ -10,6 +10,7 @@ package Rankings{
     !include rankings/MasIncidentes.puml
     !include rankings/Ranking.puml
     !include rankings/PuntosPorEntidad.puml
+    !include rankings/Informe.puml
 
 
     GeneradorRanking ..> Ranking
@@ -21,5 +22,8 @@ package Rankings{
 
     Ranking -->"*" PuntosPorEntidad
     EstrategiaCalculoPuntos ..> PuntosPorEntidad
+
+    Informe -->"*" Ranking
+    Informe ..> PuntosPorEntidad
 }
 @enduml

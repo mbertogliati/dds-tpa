@@ -2,7 +2,7 @@
 'https://plantuml.com/class-diagram
 skinparam linetype ortho
 package "Metadatos Geograficos" {
-    !include meta_datos_geo/AdapterMetadatosGeograficos.puml
+    !include meta_datos_geo/AdapterProveedorMetadatosGeograficos.puml
     !include meta_datos_geo/MetadatoGeografico.puml
     !include meta_datos_geo/EntidadGeografica.puml
     !include meta_datos_geo/Provincia.puml

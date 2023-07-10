@@ -7,6 +7,7 @@
 !include entidades/EntidadPrestadora.puml
 !include entidades/Establecimiento.puml
 !include entidades/OrganismoControl.puml
+!include entidades/Informable.puml
 
 OrganismoControl -->"*" EntidadPrestadora
 EntidadPrestadora -->"*" Entidad
@@ -15,6 +16,9 @@ Entidad -->"*" Establecimiento
 
 Entidad --> Denominacion
 Establecimiento --> Denominacion
+
+EntidadPrestadora ..|> Informable
+OrganismoControl ..|> Informable
 
 
 
