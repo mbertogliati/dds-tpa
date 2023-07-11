@@ -1,12 +1,11 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class Ubicacion{
+class Ubicacion {
     - coordenada: Coordenada
     - metadato: MetadatoGeografico
     -adapterMetadatosGeograficos: AdapterMetadatosGeograficos
 
     + cargarMetadatosGeograficos(): void
-    + estaCercaDe(ubicacion: Ubicacion): boolean
 }
 @enduml

@@ -1,30 +1,31 @@
-package ar.edu.utn.frba.dds.domain.incidentes;
+package ar.edu.utn.frba.dds.domain.utilidades;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.utilidades.Coordenada;
-import ar.edu.utn.frba.dds.domain.utilidades.DistanciaEntrePuntos;
+import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
+import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
+import ar.edu.utn.frba.dds.domain.incidentes.RevisionIncidente;
 import ar.edu.utn.frba.dds.notificaciones.Notificador;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-public class DetectorIncidentesCercanos {
+public class EvaluadorSolicitudRevision {
   @Setter
-  private DistanciaEntrePuntos adapterCalculadoraDistancia;
+  private AdapterCalculadoraDistancia adapterCalculadoraDistancia;
 
   @Getter @Setter
-  private int RadioCercania = 500;
+  private int rangoCercaniaEnMetros = 500;
 
-  public DetectorIncidentesCercanos() {
+  public EvaluadorSolicitudRevision() {
     this.adapterCalculadoraDistancia = null;
   }
 
-  public DetectorIncidentesCercanos(DistanciaEntrePuntos calculadoraDistancia) {
+  public EvaluadorSolicitudRevision(AdapterCalculadoraDistancia calculadoraDistancia) {
     this.adapterCalculadoraDistancia = calculadoraDistancia;
   }
 
-  public void evaluarSolicitudDeRevision(Persona unaPersona) {
+  public void evaluarSolicitudRevision(Persona unaPersona) {
     List<Comunidad> comunidades = unaPersona.getMembresias().stream()
         .map(m -> m.getComunidad())
         .toList();
@@ -33,24 +34,24 @@ public class DetectorIncidentesCercanos {
       Coordenada coordenadaReferencia = unaPersona.getUbicacionActual().getCoordenada();
       List<IncidentePorComunidad> incidentesCercanos = this.obtenerIncidentesPorComunidadCercanos(coordenadaReferencia, unaComunidad);
       if (incidentesCercanos.size() > 0) {
-        this.notificarIncidentesCercanos(unaPersona, incidentesCercanos);
+        this.notificarIncidentes(unaPersona, incidentesCercanos);
       }
     }
   }
 
-  private List<IncidentePorComunidad> obtenerIncidentesPorComunidadCercanos(Coordenada unaCoordenada, Comunidad comunidad) {
+  private List<IncidentePorComunidad> obtenerIncidentesPorComunidadCercanos(Coordenada coordenada, Comunidad comunidad) {
     return comunidad.getIncidentes()
         .stream()
         .filter(i -> i.getIncidente().getServiciosAfectados().stream().anyMatch(
-            s -> this.adapterCalculadoraDistancia.distanciaEntre(s.getUbicacion().getCoordenada(), unaCoordenada) < this.RadioCercania
+            s -> this.adapterCalculadoraDistancia.distanciaEntre(s.getUbicacion().getCoordenada(), coordenada) <= this.rangoCercaniaEnMetros
         )).toList();
   }
 
-  private void notificarIncidentesCercanos(Persona unaPersona, List<IncidentePorComunidad> incidentesCercanos) {
-    for(IncidentePorComunidad incidentePorComunidad : incidentesCercanos) {
+  private void notificarIncidentes(Persona persona, List<IncidentePorComunidad> incidentes) {
+    for(IncidentePorComunidad incidentePorComunidad : incidentes) {
       Incidente infoIncidente = incidentePorComunidad.getIncidente();
       RevisionIncidente nuevaRevisionIncidente = new RevisionIncidente(infoIncidente);
-      Notificador.notificar(nuevaRevisionIncidente, unaPersona);
+      Notificador.notificar(nuevaRevisionIncidente, persona);
     }
   }
 }

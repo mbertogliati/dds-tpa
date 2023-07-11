@@ -70,9 +70,9 @@ class Persona{
 }
 Persona-->"1..*" Notificable
 Persona --> TiempoNotificacion
-Persona ..> DistanciaEntrePuntos
+Persona ..> AdapterCalculadoraDistancia
 
-interface DistanciaEntrePuntos{
+interface AdapterCalculadoraDistancia {
     +distanciaEntre(Ubicacion ubicacionA, Ubicacion ubicacionB): double
 }
 

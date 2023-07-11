@@ -37,11 +37,4 @@ public class Ubicacion {
       this.metadato = this.adapterProveedorMetadatosGeograficos.obtenerMetadatoGeografico(this.coordenada);
     }
   }
-
-  public boolean estaCercaDe(Ubicacion ubicacion) {
-    DistanciaEntrePuntos medidorDistancia = new DistanciaEnMetros();
-
-    //CONSIDERO CERCA A 500 METROS
-    return medidorDistancia.distanciaEntre(this.coordenada, ubicacion.getCoordenada()) < 500;
-  }
 }

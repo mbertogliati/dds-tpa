@@ -3,9 +3,9 @@
 
 !include utilidades/Ubicacion.puml
 !include utilidades/InformacionAdapter.puml
-!include utilidades/DistanciaEnMetros.puml
-!include utilidades/DistanciaEntrePuntos.puml
+!include utilidades/CalculadoraDistanciaEnMetros.puml
+!include utilidades/AdapterCalculadoraDistancia.puml
 
-DistanciaEntrePuntos ..> Ubicacion
-DistanciaEnMetros ..|> DistanciaEntrePuntos
+AdapterCalculadoraDistancia ..> Ubicacion
+CalculadoraDistanciaEnMetros ..|> AdapterCalculadoraDistancia
 @enduml
