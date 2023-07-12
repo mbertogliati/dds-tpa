@@ -14,7 +14,7 @@ public class TestWPP {
 
     class AdapterWPPMock implements AdapterWPP {
         public void enviarWPP(String mensaje, int telefono) {
-            System.out.println("Se envió el mensaje: '" + mensaje + "'.\n Al número: '" + String.valueOf(telefono) + "'.");
+            System.out.println("\nSe envió el mensaje: '" + mensaje + "'.\n Al número: '" + String.valueOf(telefono) + "'.");
         }
     }
 

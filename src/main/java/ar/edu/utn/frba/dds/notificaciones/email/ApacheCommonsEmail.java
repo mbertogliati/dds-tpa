@@ -24,6 +24,8 @@ public class ApacheCommonsEmail implements AdapterMAIL{
             email.setMsg(mensaje);
             email.addTo(destinatario);
             email.send();
+            System.out.println("Se envió el mensaje: "+mensaje);
+            System.out.println("Al mail: "+ destinatario);
         } catch (EmailException e){
             System.out.println("Ocurrió un error al enviar el mail.");
         }

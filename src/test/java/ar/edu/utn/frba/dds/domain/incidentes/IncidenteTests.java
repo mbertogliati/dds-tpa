@@ -37,13 +37,13 @@ public class IncidenteTests {
 
     class AdapterWPPMock implements AdapterWPP {
         public void enviarWPP(String mensaje, int telefono) {
-            System.out.println("Se envió el mensaje: '" + mensaje + "'.\n Al número: '" + String.valueOf(telefono) + "'.");
+            System.out.println("\nSe envió el mensaje: '" + mensaje + "'.\n Al número: '" + String.valueOf(telefono) + "'.");
         }
     }
 
     class AdapterMAILMock implements AdapterMAIL {
         public void enviarMAIL(String mensaje, String mail) {
-            System.out.println("Se envió el mensaje: '" + mensaje + "'.\n Al mail: '" + mail + "'.");
+            System.out.println("\nSe envió el mensaje: '" + mensaje + "'.\n Al mail: '" + mail + "'.");
         }
     }
 
@@ -104,6 +104,8 @@ public class IncidenteTests {
         ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
         Incidente incidente = new Incidente(persona1);
+        incidente.agregarServiciosPrestados(servicioPrestado);
+
         incidente.agregarIncidenteComunidad();
 
         Assertions.assertEquals(1, comunidad.getIncidentes().size());
@@ -132,6 +134,40 @@ public class IncidenteTests {
         ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
 
         Incidente incidente = new Incidente(persona1);
+        incidente.agregarServiciosPrestados(servicioPrestado);
+        incidente.agregarIncidenteComunidad();
+
+        Assertions.assertEquals(1, comunidad.getIncidentes().size());
+
+        persona2.cerrarIncidente(incidente);
+
+        Assertions.assertEquals(1, comunidad.getIncidentes().size());
+    }
+
+    @Test
+    @DisplayName("Se pueden consultar incidentes por estado")
+    public void sePuedeConsultarIncidentesPorEstado(){
+        persona1.setMetodoNotificacion("MAIL");
+        persona1.setEmail("mcotens@gmail.com");
+        persona1.setEstrategiaMomentoNotificacion(new NotificacionAlMomento());
+
+        persona2.setMetodoNotificacion("WPP");
+        persona2.setWhatsapp(1144199146);
+        persona2.setEstrategiaMomentoNotificacion(new NotificacionAlMomento());
+
+        Persona persona3 = new Persona("Nombre", "Apellido");
+        persona3.setMetodoNotificacion("MAIL");
+        persona3.setEmail("mcotens@gmail.com");
+        persona3.setEstrategiaMomentoNotificacion(new NotificacionAlMomento());
+
+        //Solo la persona 1 y 2 son miembros, entonces la persona 3 no deberia ser notificada
+        comunidad.agregarPersona(persona1);
+        comunidad.agregarPersona(persona2);
+
+        ServicioPrestado servicioPrestado = establecimiento.getServiciosPrestados().get(0);
+
+        Incidente incidente = new Incidente(persona1);
+        incidente.agregarServiciosPrestados(servicioPrestado);
         incidente.agregarIncidenteComunidad();
 
         Assertions.assertEquals(1, comunidad.getIncidentes().size());
@@ -143,4 +179,7 @@ public class IncidenteTests {
         Assertions.assertEquals(1, comunidad.getIncidentes().stream().filter(ipc -> ipc.isEstaCerrado()).toList().size());
         Assertions.assertEquals(0, comunidad.getIncidentes().stream().filter(ipc -> !(ipc.isEstaCerrado())).toList().size());
     }
+
+
+
 }

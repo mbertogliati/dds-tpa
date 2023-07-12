@@ -36,5 +36,6 @@ public class TestNotificador {
         });
 
         Assertions.assertEquals("No existe el método de notificación indicado", thrown.getMessage());
+        System.out.println("No existe el método de notificación indicado");
     }
 }

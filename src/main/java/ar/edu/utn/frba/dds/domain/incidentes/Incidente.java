@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Incidente implements Notificable {
@@ -29,6 +30,10 @@ public class Incidente implements Notificable {
     public Incidente(Persona autor){
         this.autorApertura = autor;
         this.serviciosAfectados = new ArrayList<>();
+    }
+
+    public void agregarServiciosPrestados(ServicioPrestado ... servicioPrestados){
+        Collections.addAll(this.serviciosAfectados, servicioPrestados);
     }
 
     public void agregarIncidenteComunidad() {

@@ -17,7 +17,7 @@ public class TestEmail {
 
     class AdapterMAILMock implements AdapterMAIL{
         public void enviarMAIL(String mensaje, String mail) {
-            System.out.println("Se envió el mensaje: '" + mensaje + "'.\n Al mail: '" + mail + "'.");
+            System.out.println("\nSe envió el mensaje: '" + mensaje + "'.\n Al mail: '" + mail + "'.");
         }
     }
 

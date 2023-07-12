@@ -18,7 +18,6 @@ public class StrategyMAIL implements StrategyNotificacion {
     @Override
     public void enviarNotificacion(String mensaje, Persona persona) {
         this.adapter.enviarMAIL(mensaje, persona.getEmail());
-        System.out.println("Se envió el mensaje: "+mensaje);
-        System.out.println("Al mail: "+persona.getEmail());
+        /**/
     }
 }
