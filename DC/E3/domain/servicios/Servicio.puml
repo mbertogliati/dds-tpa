@@ -5,10 +5,10 @@ class Servicio{
     - id: int
     - etiquetas: List<Etiqueta>
 
+    + getStringEtiquetas(): String
     + agregarEtiqueta(nuevaEtiqueta: Etiqueta)
     + eliminarEtiqueta(EtiquetaServicio: Etiqueta)
     - eliminarEtiquetaPorID(idBuscada: int)
-
 }
 
 @enduml

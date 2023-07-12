@@ -7,6 +7,9 @@ class EntidadPrestadora {
   - personaAInformar: Persona
   - nombre: String
 
+  + getPersonaInformada() : Persona
+  + getEntidades() : List<Entidad>
+  + getNombre() : String
 }
 
 @enduml

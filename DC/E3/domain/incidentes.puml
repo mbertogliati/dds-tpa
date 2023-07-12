@@ -4,10 +4,14 @@
 !include incidentes/Incidente.puml
 !include incidentes/IncidentePorComunidad.puml
 !include incidentes/RevisionIncidente.puml
+!include incidentes/IncidenteAbierto.puml
+!include incidentes/IncidenteCerrado.puml
 
 IncidentePorComunidad --> Incidente
 
 RevisionIncidente --> Incidente
+IncidenteAbierto --> Incidente
+IncidenteCerrado --> Incidente
 
 
 @enduml

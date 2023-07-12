@@ -31,10 +31,6 @@ public class Entidad {
     this.denominacion = denominacion;
   }
 
-  public void agregarEstablecimiento(Establecimiento establecimiento, int posicion){
-    this.establecimientos.add(posicion, establecimiento);
-  }
-
   public List<Ubicacion> getUbicaciones(){
     return this.establecimientos.stream().map(e -> e.getUbicacion()).toList();
   }
@@ -50,6 +46,10 @@ public class Entidad {
 
   private void eliminarEstablecimientoPorID(int id){
     this.establecimientos.stream().filter(establecimiento -> establecimiento.getId() == id).toList().forEach(est -> establecimientos.remove(est));
+  }
+
+  public void agregarEstablecimiento(Establecimiento establecimiento, int posicion){
+    this.establecimientos.add(posicion, establecimiento);
   }
 
   public Establecimiento getPrimero(){

@@ -10,7 +10,10 @@ class Incidente {
   - observaciones: String
   - servicioPrestados: List<ServicioPrestado>
 
-  + agregarIncidenteComunidad(Persona): void
+  + agregarIncidenteComunidad(): void
+  + getInfo(): String
+  + obtenerEntidad(): Entidad
+  + agregarServiciosPrestados(List<ServicioPrestado>): void
 }
 
 @enduml

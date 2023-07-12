@@ -4,11 +4,11 @@
 class ListadoNotificables{
     -notificables: List<Notificable>
 
-    +agregarNotificables(Notificable notificable)
+    +agregarNotificables(List<Notificable> notificables)
+    -obtenerNotificablesDelDia(): List<Notificable>
     +vaciarNotificables()
     +estaVacio(): Boolean
     +getInfo(): String
-
 }
 
 @enduml

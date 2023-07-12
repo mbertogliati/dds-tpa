@@ -11,7 +11,7 @@ class Establecimiento{
 
     + agregarServicio(nuevo: Servicio)
     + eliminarServicio(servicio: Servicio)
-    + eliminarServicio(servicio: ServicioPrestado)
+    + eliminarServicioPrestado(servicio: ServicioPrestado)
 }
 
 @enduml
