@@ -23,6 +23,16 @@ public class Membresia {
     serviciosObservados = new ArrayList<>();
   }
 
+  public void agregarServicioObservado(Servicio servicio){
+    this.serviciosObservados.add(servicio);
+  }
+
+  public void agregarServicioAfectado(Servicio servicio){
+    if(this.serviciosObservados.contains(servicio)){
+      this.serviciosObservados.remove(servicio);
+    }
+  }
+
   public boolean estaAfectado(Servicio servicio){
     return !serviciosObservados.contains(servicio);
   }
