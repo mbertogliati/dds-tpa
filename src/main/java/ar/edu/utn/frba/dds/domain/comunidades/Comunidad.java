@@ -42,8 +42,8 @@ public class Comunidad {
         ipc.setAutorCierre(persona);
         ipc.setFechaHoraCierre(LocalDateTime.now());
       });
+      notificarMiembros(new IncidenteCerrado(incidente));
     }
-    notificarMiembros(new IncidenteCerrado(incidente));
   }
 
   public void agregarIncidente(Incidente incidente){

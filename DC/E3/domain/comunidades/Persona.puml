@@ -22,7 +22,6 @@ class Persona {
   + agregarMembresiaDirecto(Membresia): void
   + agregarServicioDeInteres(Servicio): void
   + agregarServicioInteres(Servicio): void
-  + cerrarIncidente(Incidente): void
   + eliminarEntidadDeInteres(Entidad): void
   + eliminarEntidadInteres(Entidad): void
   + eliminarMembresia(Membresia): void
