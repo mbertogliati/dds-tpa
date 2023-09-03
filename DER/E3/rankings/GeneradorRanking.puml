@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class GeneradorRanking{
+ - generadorPuntos: EstrategiaCalculoPuntos
+ + generarRanking(incidentes: List<IncidentePorComunidad>,descripcion: String): Ranking
+}
+
+@enduml

@@ -3,14 +3,27 @@ package ar.edu.utn.frba.dds.domain.servicios;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
+@Table(name = "servicios")
+@Getter
+@Setter
 public class Servicio {
-  @Getter @Setter
+  @Id
+  @GeneratedValue
   private int id;
-  @Getter
+
+  @ManyToMany
   private List<Etiqueta> etiquetas = new ArrayList<>();
+
+  public Servicio(){}
 
   public Servicio(Etiqueta ... etiquetas){
     Collections.addAll(this.etiquetas, etiquetas);

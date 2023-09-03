@@ -1,5 +1,8 @@
 package ar.edu.utn.frba.dds.rankings;
 
+//TODO: PERSISTIR LOS RANKINGS/INFORMES?
+//TODO: REVISAR UBICACION/PROVINCIA/GEOREF Y TODO ESO
+
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import lombok.Getter;
 import lombok.Setter;

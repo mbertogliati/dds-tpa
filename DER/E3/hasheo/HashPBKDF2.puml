@@ -1,0 +1,9 @@
+@startuml
+
+
+class HashPBKDF2 {
+  - costo: int
+  + hashear(String): String
+}
+
+@enduml

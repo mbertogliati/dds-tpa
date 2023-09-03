@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface ValidadorUsuario << interface >> {
+  + validar(Usuario, String): boolean
+}
+
+@enduml

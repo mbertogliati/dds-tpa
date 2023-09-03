@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract EntidadGeografica {
+  - id: String
+  - nombre: String
+  + esIgual(unaEntidad: EntidadGeografica) : boolean
+}
+
+@enduml

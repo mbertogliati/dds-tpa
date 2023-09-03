@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class StrategyMAIL {
+  - adapter: AdapterMAIL
+  + enviarNotificacion(String, Persona): void
+  + setAdapter(AdapterMAIL adapter): void
+}
+
+@enduml

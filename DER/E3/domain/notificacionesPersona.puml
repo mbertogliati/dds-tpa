@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam linetype ortho
+
+!include comunidades/Persona.puml
+
+!include comunidades/notificacionesPersona/ListadoNotificables.puml
+!include comunidades/notificacionesPersona/NotificacionAlMomento.puml
+!include comunidades/notificacionesPersona/NotificacionSinApuro.puml
+!include comunidades/notificacionesPersona/EstrategiaMomentoNotificacion.puml
+
+Persona -right-> EstrategiaMomentoNotificacion
+
+NotificacionSinApuro ..|> EstrategiaMomentoNotificacion
+NotificacionSinApuro --> ListadoNotificables
+NotificacionAlMomento ..|> EstrategiaMomentoNotificacion
+
+@enduml

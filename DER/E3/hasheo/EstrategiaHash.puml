@@ -1,0 +1,8 @@
+@startuml
+
+
+interface EstrategiaHash << interface >> {
+  + hashear(String): String
+}
+
+@enduml

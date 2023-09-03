@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+    class EvaluadorSolicitudRevision {
+        - adapterCalculadoraDistancia: AdapterCalculadoraDistancia
+        - rangoCercaniaEnMetros: int
+        + evaluarSolicitudRevision(persona: Persona)
+        - obtenerIncidentesPorComunidadCercanos(coordenada: Coordenada, comunidad: Comunidad): List<IncidentePorComunidad>
+        - notificarIncidentes(persona: Persona, incidentes: List<IncidentePorComunidad>)
+    }
+@enduml
