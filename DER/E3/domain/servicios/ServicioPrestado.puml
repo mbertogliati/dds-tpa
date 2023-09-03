@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ServicioPrestado{
+    -id: int
+    -servicio: Servicio
+    -establecimiento: Establecimiento
+
+    +getUbicacion(): Ubicacion
+}
+
+@enduml

@@ -1,0 +1,59 @@
+@startuml
+    'https://plantuml.com/class-diagram
+
+    package "Domain" #DDDDDD {
+        !include domain/comunidades/Comunidad.puml
+        !include domain/comunidades/Interes.puml
+        !include domain/comunidades/Membresia.puml
+        !include domain/comunidades/Persona.puml
+        !include domain/comunidades/Usuario.puml
+        !include domain/entidades/Establecimiento.puml
+        !include domain/incidentes/Incidente.puml
+        !include domain/incidentes/IncidentePorComunidad.puml
+        !include domain/incidentes/RevisionIncidente.puml
+        !include domain/servicios/ServicioPrestado.puml
+        !include domain/utilidades/Coordenada.puml
+        !include domain/utilidades/CalculadoraDistanciaEnMetros.puml
+        !include domain/utilidades/AdapterCalculadoraDistancia.puml
+        !include domain/utilidades/Ubicacion.puml
+        !include domain/utilidades/EvaluadorSolicitudRevision.puml
+    }
+
+    package "Notificaciones" #DDDDDD {
+        !include notificaciones/Notificable.puml
+        !include notificaciones/Notificador.puml
+    }
+
+    package "Acceso a datos" #DDDDDD {
+        !include acceso_datos/repositorios/RepositorioPersona.puml
+    }
+
+    package "Controladores" #DDDDDD {
+        !include controladores/utilidades/ReceptorCoordenadaPersona.puml
+    }
+
+    Comunidad --> "1..*" Membresia
+    Comunidad --> IncidentePorComunidad
+    EvaluadorSolicitudRevision ---> AdapterCalculadoraDistancia
+    EvaluadorSolicitudRevision ...> Notificador
+    EvaluadorSolicitudRevision ...> RevisionIncidente
+    CalculadoraDistanciaEnMetros ---|> AdapterCalculadoraDistancia
+    Establecimiento ---> Ubicacion
+    Incidente "1" ---> "*" ServicioPrestado
+    Incidente ---|> Notificable
+    IncidentePorComunidad --> Incidente
+    IncidentePorComunidad --> Persona
+    Membresia --> Comunidad
+    Membresia --> Persona
+    Persona --> "1..*" Membresia
+    Persona --> Interes
+    Persona --> Ubicacion
+    Persona --> Usuario
+    RevisionIncidente ---|> Notificable
+    ServicioPrestado ---> Establecimiento
+    Ubicacion ---> Coordenada
+    ReceptorCoordenadaPersona ---> RepositorioPersona
+    ReceptorCoordenadaPersona  ---> EvaluadorSolicitudRevision
+    RepositorioPersona ...> Persona
+
+@enduml

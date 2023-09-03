@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class OrganismoControl{
+    - entidadesPrestadoras: List<EntidadPrestadora>
+    - nombre : String
+    - personaAInformar: Persona
+
+    + getEntidades(): List<Entidad>
+}
+
+@enduml

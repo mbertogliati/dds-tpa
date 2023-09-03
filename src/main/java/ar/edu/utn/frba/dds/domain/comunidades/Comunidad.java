@@ -12,20 +12,40 @@ import java.util.Date;
 import java.util.List;
 
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
+@Table(name = "comunidades")
+@Getter
+@Setter
 public class Comunidad {
-  @Getter @Setter
+  @Id
+  @GeneratedValue
   private int id;
-  @Getter @Setter
+
+  @Column(name = "detalle")
   private String detalle;
-  @Getter
+
+  @ManyToMany
   private List<Servicio> servicios = new ArrayList<>();
-  @Getter
+
+  @OneToMany(mappedBy = "comunidad")
   private List<Membresia> membresias = new ArrayList<>();
-  @Getter
+
+  @OneToMany
+  @JoinColumn(name = "comunidad_id", referencedColumnName = "id")
   private List<IncidentePorComunidad> incidentes = new ArrayList<>();
+
+  public Comunidad(){}
 
   public Comunidad(String detalle){
     this.detalle = detalle;

@@ -1,0 +1,5 @@
+@startuml
+interface StrategyNotificacion << interface >> {
+  + enviarNotificacion(String, Persona): void
+}
+@enduml

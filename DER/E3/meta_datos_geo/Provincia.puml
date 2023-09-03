@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Provincia {
+  - departamentos: List<Departamento>
+  - municipios: List<Municipio>
+}
+
+@enduml

@@ -11,30 +11,56 @@ import java.util.List;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
+@Table(name = "personas")
+@Getter
+@Setter
 public class Persona {
-  @Getter @Setter
+  @Id
+  @GeneratedValue
+  private int id;
+
+  @Transient
   private Usuario usuario;
-  @Getter @Setter
+
+  @Column(name = "nombre")
   private String nombre;
-  @Getter @Setter
+
+  @Column(name = "apellido")
   private String apellido;
-  @Getter @Setter
+
+  @Column(name = "email")
   private String email;
-  @Getter @Setter
+
+  @Column(name = "whatsapp")
   private int whatsapp;
-  @Getter @Setter
+
+  @Transient
   private Interes interes;
-  @Getter @Setter
+
+  @Column(name = "metodoNotificacion")
   private String metodoNotificacion;
-  @Getter @Setter
+
+  @Transient
   private EstrategiaMomentoNotificacion estrategiaMomentoNotificacion;
-  @Getter
+
+  @OneToMany(mappedBy = "persona")
   private List<Membresia> membresias = new ArrayList<>();
-  @Getter @Setter
+
+  @Transient
   private Ubicacion ubicacionActual;
+
+  public Persona(){}
 
   public Persona(String nombre, String apellido) {
     this.nombre = nombre;

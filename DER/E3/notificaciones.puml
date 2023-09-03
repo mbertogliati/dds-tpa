@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam linetype ortho
+package Notificaciones{
+
+    !include notificaciones/EjemploNotificable.puml
+    !include notificaciones/Notificable.puml
+    !include notificaciones/Notificador.puml
+    !include notificaciones/StrategyNotificacion.puml
+    !include notificaciones/email/AdapterMAIL.puml
+    !include notificaciones/email/ApacheCommonsEmail.puml
+    !include notificaciones/email/StrategyMAIL.puml
+    !include notificaciones/wpp/AdapterWPP.puml
+    !include notificaciones/wpp/StrategyWPP.puml
+    !include notificaciones/wpp/WhatsappTwilio.puml
+
+    Notificador -down->"*" StrategyNotificacion
+    Notificador .right.> Notificable
+
+    StrategyWPP .right.|> StrategyNotificacion
+    StrategyMAIL .left.|> StrategyNotificacion
+
+    StrategyMAIL --> AdapterMAIL
+    StrategyWPP --> AdapterWPP
+
+    ApacheCommonsEmail .left.|> AdapterMAIL
+    WhatsappTwilio .right.|> AdapterWPP
+}
+
+@enduml

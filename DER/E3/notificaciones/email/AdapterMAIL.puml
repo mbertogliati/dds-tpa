@@ -1,0 +1,5 @@
+@startuml
+interface AdapterMAIL << interface >> {
+  + enviarMAIL(String, String): void
+}
+@enduml

@@ -2,6 +2,15 @@ package ar.edu.utn.frba.dds.domain.entidades;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
 import ar.edu.utn.frba.dds.domain.utilidades.InformacionAdapter;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,14 +19,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name = "organismosDeControl")
+@Getter
+@Setter
 public class OrganismoControl implements Informable{
-    @Getter
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @OneToMany
+    @JoinColumn(name = "organismo_control_id", referencedColumnName = "id")
     private List<EntidadPrestadora> entidadesPrestadoras;
-    @Getter @Setter
+
+    @Column(name = "nombre")
     private String nombre;
-    @Getter @Setter
+
+    @Transient
     private Persona personaAInformar;
 
+    public OrganismoControl(){
+
+    }
     public OrganismoControl(String nombre){
         this.nombre = nombre;
         this.entidadesPrestadoras = new ArrayList<>();

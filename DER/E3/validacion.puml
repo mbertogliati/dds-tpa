@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/class-diagram
+package Validacion{
+    !include validacion/EstrategiaDeValidacionNoEstaEnLista.puml
+    !include validacion/EstrategiaValidacion.puml
+    !include validacion/EstrategiaValidacionRegExp.puml
+    !include validacion/ObtenerListaString.puml
+    !include validacion/ValidadorUsuario.puml
+    !include validacion/ValidadorUsuarioConcreto.puml
+
+    EstrategiaValidacionRegExp ..|> EstrategiaValidacion
+    EstrategiaValidacionNoEstaEnLista ..|> EstrategiaValidacion
+
+    EstrategiaValidacionNoEstaEnLista --> ObtenerListaString
+    ValidadorUsuarioConcreto ..|> ValidadorUsuario
+    ValidadorUsuarioConcreto -->"*" EstrategiaValidacion
+}
+@enduml

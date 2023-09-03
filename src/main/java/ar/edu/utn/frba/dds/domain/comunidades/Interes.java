@@ -10,13 +10,29 @@ import java.util.stream.Collectors;
 
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
+@Table(name = "intereses")
+@Getter
+@Setter
 public class Interes {
-  @Getter
+  @Id
+  @GeneratedValue
+  private int id;
+
+  @ManyToMany
   private List<Entidad> entidades = new ArrayList<>();
-  @Getter
+
+  @ManyToMany
   private List<Servicio> servicios = new ArrayList<>();
 
   public boolean servicioPrestadoEsDeInteres(ServicioPrestado servicioPrestado){

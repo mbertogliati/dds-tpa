@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam linetype ortho
+package Rankings{
+    !include rankings/GeneradorRanking.puml
+    !include rankings/EstrategiaCalculoPuntos.puml
+    !include rankings/MedidorImpacto.puml
+    !include rankings/GradoDeImpacto.puml
+    !include rankings/PromedioEntreAperturaYCierre.puml
+    !include rankings/MasIncidentes.puml
+    !include rankings/Ranking.puml
+    !include rankings/PuntosPorEntidad.puml
+    !include rankings/Informe.puml
+
+
+    GeneradorRanking ..> Ranking
+    GeneradorRanking -up-> EstrategiaCalculoPuntos
+    MasIncidentes ..|> EstrategiaCalculoPuntos
+    PromedioEntreAperturaYCierre ..|> EstrategiaCalculoPuntos
+    GradoDeImpacto ..|> EstrategiaCalculoPuntos
+    GradoDeImpacto --> MedidorImpacto
+
+    Ranking -->"*" PuntosPorEntidad
+    EstrategiaCalculoPuntos ..> PuntosPorEntidad
+
+    Informe -->"*" Ranking
+    Informe ..> PuntosPorEntidad
+}
+@enduml
