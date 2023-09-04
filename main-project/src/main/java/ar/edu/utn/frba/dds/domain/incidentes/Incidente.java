@@ -5,6 +5,14 @@ import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,15 +20,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+@Entity
+@Table(name = "incidentes")
+@Getter @Setter
 public class Incidente implements Notificable {
-    @Getter
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @ManyToMany
     private List<ServicioPrestado> serviciosAfectados;
-    @Getter @Setter
+
+    @Column(name = "observaciones")
     private String observaciones;
-    @Getter @Setter
+
+    @Column(name = "fecha_hora_apertura", columnDefinition = "TIMESTAMP")
     private LocalDateTime fechaHoraApertura;
-    @Getter
+
+    @ManyToOne
+    @JoinColumn(name = "autor_apertura_id", referencedColumnName = "id")
     private Persona autorApertura;
 
     public Incidente() {

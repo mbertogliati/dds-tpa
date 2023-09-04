@@ -7,6 +7,7 @@ import java.io.IOException;
 import lombok.Getter;
 import lombok.Setter;
 
+
 public class Ubicacion {
   @Getter @Setter
   private Coordenada coordenada;

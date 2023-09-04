@@ -5,21 +5,33 @@ import java.util.Comparator;
 import java.util.List;
 
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-//TODO: Decidir si necesitamos el atributo establecimientos y evitar la lógica de listas
+
+@Entity
+@Table(name = "entidades")
+@Setter
+@Getter
 public class Entidad {
-  @Getter @Setter
+  @Id
+  @GeneratedValue
   private int id;
-  @Getter
+
+  @OneToMany(mappedBy = "entidad")
   private List<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
-  @Getter
+
+  @Column(name = "nombre")
   private String nombre;
-  @Getter
+
+  @Transient
   private Denominacion denominacion;
-  @Getter @Setter
+
+  @Transient
   private Ubicacion ubicacion;
+
+  public Entidad(){}
 
   public Entidad(String nombre, String denominacion) {
     this.nombre = nombre;
