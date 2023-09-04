@@ -6,11 +6,9 @@ interface AdapterProveedorMetadatosGeograficos << interface >> {
   + obtenerProvincia(coordenada: Coordenada): Provincia
   + obtenerDepartamento(coordenada: Coordenada): Departamento
   + obtenerLocalidad(coordenada: Coordenada): Localidad
-  + obtenerMunicipio(coordenada: Coordenada): Municipio
   + provincias() : List<Provincia>
   + departamentosDeProvincia(unaProvincia: Provincia): List<Departamento>
-  + localidadesDeProvincia(unaProvincia: Provincia): List<Localidad>
-  + municipiosDeProvincia(unaProvincia: Provincia): List<Municipio>
+  + localidadesDeDepartamento(unDepartamento: Departamento, unaProvincia: Provincia): List<Localidad>
 }
 
 @enduml

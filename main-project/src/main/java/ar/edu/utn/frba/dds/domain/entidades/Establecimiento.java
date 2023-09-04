@@ -22,7 +22,6 @@ import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
-//TODO: Decidir si necesitamos el atributo serviciosPrestados y evitar la lógica de listas
 @Entity
 @Table(name = "establecimientos")
 @Getter

@@ -7,17 +7,13 @@ public class MetadatoGeografico {
   Provincia provincia;
 
   @Getter
-  Municipio municipio;
-
-  @Getter
   Departamento departamento;
 
   @Getter
   Localidad localidad;
 
-  public MetadatoGeografico(Provincia provincia, Municipio municipio, Departamento departamento, Localidad localidad) {
+  public MetadatoGeografico(Provincia provincia, Departamento departamento, Localidad localidad) {
     this.provincia = provincia;
-    this.municipio = municipio;
     this.departamento = departamento;
     this.localidad = localidad;
   }
@@ -26,9 +22,8 @@ public class MetadatoGeografico {
     if (metadato == null) {
       return false;
     }
-    return this.provincia.esIgual(metadato.getProvincia())
-        && this.municipio.esIgual(metadato.getMunicipio())
-        && this.departamento.esIgual(metadato.getDepartamento())
-        && this.localidad.esIgual(metadato.getLocalidad());
+    return this.provincia.getId() == metadato.getProvincia().getId()
+        && this.departamento.getId() == metadato.getDepartamento().getId()
+        && this.localidad.getId() == metadato.getLocalidad().getId();
   }
 }

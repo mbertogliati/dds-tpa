@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ParametroProvincia;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ParametroUbicacion;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.ResponseUbicacion;
 import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.api_models.UbicacionGeoRef;
+import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class TestServicioGeoRef {
 
     //assert
     assertEquals("Buenos Aires", unaProvincia.getNombre());
+    System.out.println(unaProvincia.getNombre());
   }
   @Test
   @DisplayName("Se obtiene la localidad correcta al buscar por latitud y longitud")
@@ -68,6 +70,7 @@ public class TestServicioGeoRef {
 
     //assert
     assertEquals("Lugano", unaLocalidad.getNombre());
+    System.out.println(unaLocalidad.getNombre());
   }
   @Test
   @DisplayName("Se obtiene el municipio correcto al buscar por latitud y longitud")
@@ -84,12 +87,6 @@ public class TestServicioGeoRef {
     when(responseUbicacionMock.execute()).thenReturn(Response.success(this.BuildFakeResponseUbicacion(latitud, longitud, "Buenos Aires", "CABA", "Lugano")));
     when(geoRefServiceMock.ubicacion(latitud, longitud)).thenReturn(responseUbicacionMock);
     ServicioGeoRef servicioGeoRef = new ServicioGeoRef(geoRefServiceMock);
-
-    //act
-    Municipio unMunicipio = servicioGeoRef.obtenerMunicipio(new Coordenada(latitud, longitud));
-
-    //assert
-    assertEquals("CABA", unMunicipio.getNombre());
   }
 
   @Test

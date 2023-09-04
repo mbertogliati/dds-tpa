@@ -2,6 +2,8 @@
 'https://plantuml.com/class-diagram
 
 class Departamento {
+  - id: Integer
+  - nombre: String
   - localidades: List<Localidad>
 }
 

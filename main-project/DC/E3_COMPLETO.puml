@@ -34,7 +34,6 @@ Entidad <.. MedidorImpacto
 ValidadorUsuario ..> Usuario
 Ubicacion --> Provincia
 Ubicacion --> Localidad
-Ubicacion --> Municipio
 Ubicacion --> AdapterProveedorMetadatosGeograficos
 
 Informe --> Informable

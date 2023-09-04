@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
 import ar.edu.utn.frba.dds.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.meta_datos_geo.MetadatoGeografico;
-import ar.edu.utn.frba.dds.meta_datos_geo.Municipio;
 import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
@@ -44,7 +43,6 @@ public class UbicacionTests {
         //assert
         Assertions.assertNotNull(unaUbicacion);
         Assertions.assertNotNull(unaUbicacion.getMetadato().getProvincia());
-        Assertions.assertNotNull(unaUbicacion.getMetadato().getMunicipio());
         Assertions.assertNotNull(unaUbicacion.getMetadato().getLocalidad());
     }
 
@@ -80,9 +78,8 @@ public class UbicacionTests {
 
     private MetadatoGeografico BuildFakeMetadatoGeografico() {
         Provincia provincia = new Provincia("1", "Buenos Aires");
-        Municipio municipio = new Municipio("2", "CABA");
         Departamento departamento = new Departamento("4", "Departamento de Pikachu");
         Localidad localidad = new Localidad("3", "Lugano");
-        return new MetadatoGeografico(provincia, municipio, departamento, localidad);
+        return new MetadatoGeografico(provincia, departamento, localidad);
     }
 }

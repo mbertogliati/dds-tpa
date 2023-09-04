@@ -9,5 +9,5 @@ public class ParametroLocalidad {
   @SerializedName("max")
   public int max;
   @SerializedName("provincia")
-  public List<String> provincia;
+  public String provincia;
 }

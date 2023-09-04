@@ -23,14 +23,11 @@ public class Ubicacion {
   }
 
   //Constructores de provincia, municipio o localidad para seleccionar de un menú (sin lat/long)
-  public Ubicacion(Provincia provincia, Municipio municipio, Departamento departamento, Localidad localidad) {
-    this.metadato = new MetadatoGeografico(provincia, municipio, departamento, localidad);
-  }
-  public Ubicacion(Provincia provincia, Municipio municipio) {
-    this.metadato = new MetadatoGeografico(provincia, municipio, null, null);
+  public Ubicacion(Provincia provincia, Departamento departamento, Localidad localidad) {
+    this.metadato = new MetadatoGeografico(provincia, departamento, localidad);
   }
   public Ubicacion(Provincia provincia) {
-    this.metadato = new MetadatoGeografico(provincia, null, null, null);
+    this.metadato = new MetadatoGeografico(provincia, null, null);
   }
 
   public void cargarMetadatosGeograficos() throws IOException {

@@ -6,12 +6,12 @@ import java.util.List;
 public class ListadoDeLocalidades {
   @SerializedName("cantidad")
   public int cantidad;
-  @SerializedName("total")
-  public int total;
   @SerializedName("inicio")
   public int inicio;
-  @SerializedName("parametros")
-  public ParametroLocalidad parametros;
   @SerializedName("localidades")
   public List<EntidadGeoRef> localidades;
+  @SerializedName("parametros")
+  public ParametroLocalidad parametros;
+  @SerializedName("total")
+  public int total;
 }

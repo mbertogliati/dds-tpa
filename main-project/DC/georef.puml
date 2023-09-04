@@ -1,47 +1,39 @@
 @startuml
 skinparam linetype ortho
 
-
-Provincia --> "1..*" Municipio
-Municipio --> "1..*" Localidad
-Localidad --> Municipio
-Municipio --> Provincia
-
 class Provincia{
     -id: String
     -nombre: String
-    -municipios: List<Municipio>
+    -departamentos: List<Departamento>
 }
 
-class Municipio{
+class Departamento{
     -id: String
     -nombre: String
-    -provincia: Provincia
     -localidades: List<Localidad>
 }
 
 class Localidad{
     -id: String
     -nombre: String
-    -municipio: Municipio
 }
 
 interface LocalizacionAdapter{
     + provincia(lat: float, long: float): Provincia
     + localidad(lat: float, long: float): Localidad
-    + municipio(lat: float, long: float): Municipio
+    + departamento(lat: float, long: float): Departamento
     + provincias(): List<Provincia>
-    + municipiosDeProvincia(provincia Provincia): List<Municipio>
-    + departamentosDeProvincia(provincia Provincia): List<Localidad>
+    + departamentosDeProvincia(provincia Provincia): List<Departamento>
+    + localidadesDeDepartamento(departamento: Departamento, provincia Provincia): List<Localidad>
 }
 LocalizacionAdapter ..> Provincia
 LocalizacionAdapter ..> Localidad
-LocalizacionAdapter ..> Municipio
+LocalizacionAdapter ..> Departamento
 
 interface GeoRefService{
     + provincias(campos: String): ListadoDeProvincias
-    + municipios(idProvincia: int, campos: String): ListadoDeMunicipios
-    + localidades(idProvincia: int, campos: String): ListadoDeLocalidades
+    + departamentos(idProvincia: int, campos: String): ListadoDeDepartamentos
+    + localidades(idProvincia: int, idDepartamento: String, campos: String): ListadoDeLocalidades
     + ubicacion(lat: float, long: float): ResponseUbicacion
 }
 
@@ -56,13 +48,13 @@ class ServicioGeoRef{
     {static}+instancia() : ServicioGeoRef
     + provincia(lat: float, long: float): Provincia
     + localidad(lat: float, long: float): Localidad
-    + municipio(lat: float, long: float): Municipio
+    + departamento(lat: float, long: float): Departamento
     + provincias(): List<Provincia>
-    + municipiosDeProvincia(provincia Localizacion): List<Municipio>
-    + departamentosDeProvincia(provincia Localizacion): List<Localidad>
+    + departamentosDeProvincia(provincia Provincia): List<Departamento>
+    + localidadesDeDepartamento(departamento: Departamento, provincia Provincia): List<Localidad>
     -generarLocalizacionDep(lista: ListadoDeLocalidades): List<Localidad>
     -generarLocalizacionProv(lista: ListadoDeProvincias): List<Provincia>
-    -generarLocalizacionMuni(lista: ListadoDeMunicipios): List<Municipio>
+    -generarLocalizacionMuni(lista: ListadoDeDepartamentos): List<Departamento>
 }
 
 class ResponseUbicacion{
@@ -95,12 +87,12 @@ class ListadoDeLocalidades{
     + total: int
     + inicio: int
     + parametros: Parametro
-    + localidades: List<Localidad>
+    + localidades: List<LocalidadGeoref>
 }
-ListadoDeLocalidades --> "1..*" DepartamentoGeoref
+ListadoDeLocalidades --> "1..*" LocalidadGeoref
 ListadoDeLocalidades --> Parametro
 ListadoDeProvincias --> Parametro
-ListadoDeMunicipios ---> Parametro
+ListadoDeDepartamentos ---> Parametro
 class ListadoDeProvincias{
     + cantidad: int
     + total: int
@@ -109,14 +101,14 @@ class ListadoDeProvincias{
     + provincias: List<ProvinciaGeoref>
 }
 ListadoDeProvincias --> "1..*" ProvinciaGeoref
-class ListadoDeMunicipios{
+class ListadoDeDepartamentos{
     + cantidad: int
     + total: int
     + inicio: int
     + parametros: Parametro
-    + municipios: List<MunicipioGeoref>
+    + municipios: List<DepartamentoGeoref>
 }
-ListadoDeMunicipios --> "1..*" MunicipioGeoref
+ListadoDeDepartamentos --> "1..*" DepartamentoGeoref
 
 class DepartamentoGeoref{
     +id: String
@@ -126,13 +118,16 @@ class ProvinciaGeoref{
     +id: String
     +nombre: String
 }
-class MunicipioGeoref{
+class LocalidadGeoref{
     +id: String
     +nombre: String
 }
 
 GeoRefService ..> ListadoDeLocalidades
 GeoRefService ..> ListadoDeProvincias
-GeoRefService ..> ListadoDeMunicipios
+GeoRefService ..> ListadoDeDepartamentos
+
+Provincia --> "*" Departamento
+Departamento --> "*" Localidad
 
 @enduml

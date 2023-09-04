@@ -10,7 +10,7 @@ public class ApacheCommonsEmail implements AdapterMAIL{
     private int smtpPort = 587;
     private String username = "sistemaserviciosddsutn@gmail.com";
     private String password = "AYEGZh6tCRKfg3Tp";
-    //TODO: Mockear en test
+
     @Override
     public void enviarMAIL(String mensaje, String destinatario) {
         try{

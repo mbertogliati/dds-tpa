@@ -7,10 +7,6 @@ import ar.edu.utn.frba.dds.notificaciones.wpp.AdapterWPP;
 public class StrategyMAIL implements StrategyNotificacion {
     private AdapterMAIL adapter;
 
-    /*public StrategyMAIL() {//TODO: Debe recibir la estrategia por parametro ya sea en el constructor o en el setter
-        this.adapter = new ApacheCommonsEmail();
-    }*/
-
     public void setAdapter(AdapterMAIL adapter){
         this.adapter = adapter;
     }
@@ -18,6 +14,5 @@ public class StrategyMAIL implements StrategyNotificacion {
     @Override
     public void enviarNotificacion(String mensaje, Persona persona) {
         this.adapter.enviarMAIL(mensaje, persona.getEmail());
-        /**/
     }
 }
