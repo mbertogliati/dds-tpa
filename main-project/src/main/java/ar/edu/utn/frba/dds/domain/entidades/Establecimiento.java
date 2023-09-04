@@ -7,7 +7,6 @@ import java.util.List;
 
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
-import ar.edu.utn.frba.dds.meta_datos_geo.Municipio;
 import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
 import javax.persistence.Column;
 import javax.persistence.Entity;
