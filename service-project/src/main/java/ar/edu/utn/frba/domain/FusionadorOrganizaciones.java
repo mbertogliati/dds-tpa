@@ -5,8 +5,8 @@ import ar.edu.utn.frba.domain.calculadorGradoConfianza.GradoCofianzaPromedioPond
 import ar.edu.utn.frba.domain.criterios.*;
 
 public class FusionadorOrganizaciones {
-    private CriterioFusion criterioFusion;
-    private CalculadorGradoConfianza calculadorGradoConfianza;
+    private final CriterioFusion criterioFusion;
+    private final CalculadorGradoConfianza calculadorGradoConfianza;
     public FusionadorOrganizaciones() {
         CriterioAnd criterioAnd = new CriterioAnd();
         criterioAnd.agregarCriterios(
