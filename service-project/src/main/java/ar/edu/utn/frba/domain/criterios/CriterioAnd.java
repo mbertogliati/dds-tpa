@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.domain.criterios;
 
-import ar.edu.utn.frba.domain.Organizacion;
+import ar.edu.utn.frba.domain.entidades.Organizacion;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;

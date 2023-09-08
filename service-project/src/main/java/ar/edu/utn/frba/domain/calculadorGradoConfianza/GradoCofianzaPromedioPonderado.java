@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.domain.calculadorGradoConfianza;
 
-import ar.edu.utn.frba.domain.Organizacion;
+import ar.edu.utn.frba.domain.entidades.Organizacion;
 
 public class GradoCofianzaPromedioPonderado implements CalculadorGradoConfianza{
     @Override

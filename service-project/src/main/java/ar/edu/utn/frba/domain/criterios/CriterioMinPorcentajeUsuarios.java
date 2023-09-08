@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.domain.criterios;
 
-import ar.edu.utn.frba.domain.Organizacion;
+import ar.edu.utn.frba.domain.entidades.Organizacion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +14,18 @@ public class CriterioMinPorcentajeUsuarios implements CriterioFusion {
     @Override
     public boolean esFusionable(Organizacion org1, Organizacion org2) {
         long cant = org1.getUsuarios().stream()
-                .filter(usaurio -> org2.getUsuarios().contains(usaurio))
+                .filter(usuario -> org2.getUsuarios().contains(usuario))
                 .count();
-        return (double) cant / org1.getUsuarios().size() >= porcentajeMinimo
+
+        boolean resultado = (double) cant / org1.getUsuarios().size() >= porcentajeMinimo
                 && (double) cant / org2.getUsuarios().size() >= porcentajeMinimo;
+        if(!resultado){
+            this.notificarError(org1, org2);
+        }
+        return resultado;
+    }
+
+    private void notificarError(Organizacion org1, Organizacion org2){
+        System.out.println("No se pueden fusionar las organizaciones: " + org1.getId().toString() + " y " + org2.getId().toString() + ".\nMotivo: NO CUMPLE EL PORCENTAJE MÍNIMO DE USUARIOS.");
     }
 }

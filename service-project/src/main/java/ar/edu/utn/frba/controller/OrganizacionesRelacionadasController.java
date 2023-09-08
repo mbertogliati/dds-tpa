@@ -1,7 +1,8 @@
 package ar.edu.utn.frba.controller;
 
-import ar.edu.utn.frba.domain.Organizacion;
-import ar.edu.utn.frba.domain.OrganizacionesRelacionadas;
+import ar.edu.utn.frba.domain.criterios.CriterioOr;
+import ar.edu.utn.frba.domain.entidades.Organizacion;
+import ar.edu.utn.frba.domain.entidades.OrganizacionesRelacionadas;
 import ar.edu.utn.frba.domain.RelacionadorOrganizaciones;
 import ar.edu.utn.frba.domain.calculadorGradoConfianza.CalculadorGradoConfianza;
 import ar.edu.utn.frba.domain.calculadorGradoConfianza.GradoCofianzaPromedioPonderado;
@@ -36,14 +37,20 @@ public class OrganizacionesRelacionadasController implements Handler {
     this.jsonMapper = new JsonMapper();
     this.jsonMapper.registerModule(new JavaTimeModule());
 
-    CriterioAnd criterioAnd = new CriterioAnd();
-    criterioAnd.agregarCriterios(
-        new CriterioMinCantMeses(6L),
+    CriterioOr criterioOr = new CriterioOr();
+    criterioOr.agregarCriterios(
         new CriterioMinPorcentajeUsuarios(0.05),
         new CriterioMinPorcentajeEstablecimientos(0.75),
         new CriterioMinPorcentajeServicios(0.75),
         new CriterioIgualGradoConfianza()
     );
+
+    CriterioAnd criterioAnd = new CriterioAnd();
+    criterioAnd.agregarCriterios(
+        criterioOr,
+        new CriterioMinCantMeses(6L)
+    );
+
     this.criterioFusion = criterioAnd;
     this.calculadorGradoConfianza = new GradoCofianzaPromedioPonderado();
 

@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.domain;
+package ar.edu.utn.frba.domain.entidades;
 
 import ar.edu.utn.frba.serializers.CustomDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

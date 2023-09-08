@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.domain;
+package ar.edu.utn.frba.domain.entidades;
 
 import lombok.Getter;
 import lombok.Setter;
