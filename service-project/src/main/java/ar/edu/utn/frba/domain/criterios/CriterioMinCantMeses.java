@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.domain.criterios;
 
 import ar.edu.utn.frba.domain.Organizacion;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ public class CriterioMinCantMeses implements CriterioFusion { //en Segundos
     }
     @Override
     public boolean esFusionable(Organizacion org1, Organizacion org2) {
-    return org1.getUltIntentoFusion().plusMonths(cantMinimaMeses).isAfter(LocalDateTime.now())
-        && org2.getUltIntentoFusion().plusMonths(cantMinimaMeses).isAfter(LocalDateTime.now());
+    return org1.getUltIntentoFusion().plusMonths(cantMinimaMeses).isAfter(LocalDate.now())
+        && org2.getUltIntentoFusion().plusMonths(cantMinimaMeses).isAfter(LocalDate.now());
     }
 }

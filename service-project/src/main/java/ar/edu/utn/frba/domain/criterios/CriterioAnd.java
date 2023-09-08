@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.domain.criterios;
 
 import ar.edu.utn.frba.domain.Organizacion;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,11 @@ import java.util.List;
 @Setter
 public class CriterioAnd implements CriterioFusion{
     private List<CriterioFusion> criterios;
+
+    public CriterioAnd(){
+        this.criterios = new ArrayList<CriterioFusion>();
+    }
+
     public void agregarCriterios(CriterioFusion...criterios){
         this.criterios.addAll(List.of(criterios));
     }

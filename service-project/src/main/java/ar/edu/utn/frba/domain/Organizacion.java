@@ -1,9 +1,11 @@
 package ar.edu.utn.frba.domain;
 
+import ar.edu.utn.frba.serializers.CustomDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.datatype.jsr310.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,5 +17,6 @@ public class Organizacion {
     private Set<Long> servicios = new HashSet<>();
     private Double gradoConfianza;
     private Set<Long> usuarios = new HashSet<>();
-    private LocalDateTime ultIntentoFusion;
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private LocalDate ultIntentoFusion;
 }
