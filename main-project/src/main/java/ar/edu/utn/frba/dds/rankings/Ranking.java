@@ -1,8 +1,13 @@
 package ar.edu.utn.frba.dds.rankings;
 
-//TODO: PERSISTIR LOS RANKINGS/INFORMES?
-
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,12 +15,23 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 
+@Entity
+@Table(name = "rankings")
+@Getter
+@Setter
 public class Ranking {
-    @Getter
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @OneToMany
+    @JoinColumn(name = "ranking_id", referencedColumnName = "id")
     private List<PuntosPorEntidad> puntosPorEntidad;
-    @Getter @Setter
+
+    @Column(name = "fecha_hora_creacion", columnDefinition = "TIMESTAMP")
     private LocalDateTime fechaHoraCreacion;
-    @Getter @Setter
+
+    @Column(name = "descripcion")
     private String descripcion;
 
     public Ranking(){

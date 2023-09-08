@@ -33,7 +33,8 @@ public class Membresia {
   @JoinColumn(name = "comunidad_id", referencedColumnName = "id")
   private Comunidad comunidad;
 
-  @Transient
+  @ManyToOne
+  @JoinColumn(name = "rolComunidad_id", referencedColumnName = "id")
   private Rol rolComunidad;
 
   @ManyToMany

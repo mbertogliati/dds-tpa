@@ -30,7 +30,8 @@ public class Establecimiento {
   @GeneratedValue
   private int id;
 
-  @Transient
+  @ManyToOne
+  @JoinColumn(name = "denominacion_id", referencedColumnName = "id")
   private Denominacion denominacion;
 
   @Column(name = "nombre")

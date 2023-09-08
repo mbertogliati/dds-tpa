@@ -1,10 +1,15 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
+import ar.edu.utn.frba.dds.converters.EstrategiaMomentoNotificacionConverter;
+import ar.edu.utn.frba.dds.domain.FechasDeSemana;
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.EstrategiaMomentoNotificacion;
+import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.ListadoNotificables;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +17,14 @@ import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.Getter;
@@ -30,7 +39,8 @@ public class Persona {
   @GeneratedValue
   private int id;
 
-  @Transient
+  @OneToOne
+  @JoinColumn(name = "usuario_id", referencedColumnName = "id")
   private Usuario usuario;
 
   @Column(name = "nombre")
@@ -45,20 +55,32 @@ public class Persona {
   @Column(name = "whatsapp")
   private int whatsapp;
 
-  @Transient
+  @OneToOne
+  @JoinColumn(name = "interes_id", referencedColumnName = "id")
   private Interes interes;
 
   @Column(name = "metodoNotificacion")
   private String metodoNotificacion;
 
-  @Transient
+  //TODO: hacer bien la persistencia de estas estrategias
+  @Convert(converter = EstrategiaMomentoNotificacionConverter.class)
+  @Column(name = "momentoNotificacion")
   private EstrategiaMomentoNotificacion estrategiaMomentoNotificacion;
 
   @OneToMany(mappedBy = "persona")
   private List<Membresia> membresias = new ArrayList<>();
 
+  //No persistimos la ubicación, para modificarla con el "gps" de la persona en tiempo de ejecución
   @Transient
   private Ubicacion ubicacionActual;
+
+  @OneToOne
+  @JoinColumn(name = "notificablesSinNotificar_id", referencedColumnName = "id")
+  private ListadoNotificables notificablesSinNotificar;
+
+  @ManyToMany
+  private List<FechasDeSemana> fechas;
+
 
   public Persona(){}
 
@@ -69,6 +91,14 @@ public class Persona {
     this.whatsapp = 0;
     this.ubicacionActual = new Ubicacion(0.0f, 0.0f);
     this.interes = new Interes();
+  }
+
+  public void agregarFechaDeNotificacion(FechasDeSemana fecha){
+    this.fechas.add(fecha);
+  }
+
+  public void eliminarFechaDeNotificacion(FechasDeSemana fecha){
+    this.fechas.remove(fecha);
   }
 
   public void agregarEntidadInteres(Entidad entidad){

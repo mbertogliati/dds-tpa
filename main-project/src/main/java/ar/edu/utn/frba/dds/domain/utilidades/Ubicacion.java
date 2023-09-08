@@ -4,16 +4,32 @@ import ar.edu.utn.frba.dds.meta_datos_geo.*;
 
 import java.io.IOException;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
-
+@Getter
+@Setter
+@Entity
+@Table(name = "ubicaciones")
 public class Ubicacion {
-  @Getter @Setter
+  @Id
+  @GeneratedValue
+  private  int id;
+
+  @Embedded
   private Coordenada coordenada;
-  @Getter @Setter
+
+  @Embedded
   MetadatoGeografico metadato;
-  @Setter
+
+  //TODO: que hacemos con esto en la persistencia?? Habria que guardarlo?
+  @Transient
   private AdapterProveedorMetadatosGeograficos adapterProveedorMetadatosGeograficos;
 
   public Ubicacion(float latitud, float longitud) {
@@ -29,6 +45,8 @@ public class Ubicacion {
   public Ubicacion(Provincia provincia) {
     this.metadato = new MetadatoGeografico(provincia, null, null);
   }
+
+  public Ubicacion() {}
 
   public void cargarMetadatosGeograficos() throws IOException {
     if (this.adapterProveedorMetadatosGeograficos != null) {

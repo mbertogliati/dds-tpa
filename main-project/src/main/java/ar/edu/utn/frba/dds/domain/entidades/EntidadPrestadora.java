@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -32,7 +33,8 @@ public class EntidadPrestadora implements Informable{
     @Column(name = "nombre")
     private String nombre;
 
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "personaAInformar_id", referencedColumnName = "id")
     private Persona personaAInformar;
 
     public EntidadPrestadora(){}

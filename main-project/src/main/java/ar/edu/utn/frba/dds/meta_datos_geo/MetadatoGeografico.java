@@ -1,16 +1,28 @@
 package ar.edu.utn.frba.dds.meta_datos_geo;
 
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Embeddable
 public class MetadatoGeografico {
-  @Getter
+  @ManyToOne
+  @JoinColumn(name = "provincia_id", referencedColumnName = "id")
   Provincia provincia;
 
-  @Getter
+  @ManyToOne
+  @JoinColumn(name = "departamento_id", referencedColumnName = "id")
   Departamento departamento;
 
-  @Getter
+  @ManyToOne
+  @JoinColumn(name = "localidad_id", referencedColumnName = "id")
   Localidad localidad;
+
+  public MetadatoGeografico(){}
 
   public MetadatoGeografico(Provincia provincia, Departamento departamento, Localidad localidad) {
     this.provincia = provincia;

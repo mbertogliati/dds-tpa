@@ -7,25 +7,15 @@ import ar.edu.utn.frba.dds.notificaciones.Notificador;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
 public class NotificacionSinApuro implements EstrategiaMomentoNotificacion {
-    @Getter
-    private ListadoNotificables notificablesSinNotificar;
-
-    @Getter
-    private Map<DayOfWeek, List<LocalTime>> fechas;
-
     @Setter
     private Persona persona;
 
     public NotificacionSinApuro() {
-        this.notificablesSinNotificar = new ListadoNotificables();
-        this.fechas = new HashMap<DayOfWeek, List<LocalTime>>();
     }
 
     @Override
@@ -33,13 +23,13 @@ public class NotificacionSinApuro implements EstrategiaMomentoNotificacion {
         if(this.persona == null) {
             this.persona = persona;
         }
-        this.notificablesSinNotificar.agregarNotificables(notificable);
+        this.persona.getNotificablesSinNotificar().agregarNotificables(notificable);
     }
 
     public void enviarNotificaciones() {
-        if(!this.notificablesSinNotificar.estaVacio()) {
-            Notificador.notificar(this.notificablesSinNotificar, this.persona);
-            this.notificablesSinNotificar.vaciarNotificables();
+        if(!this.persona.getNotificablesSinNotificar().estaVacio()) {
+            Notificador.notificar(this.persona.getNotificablesSinNotificar(), this.persona);
+            this.persona.getNotificablesSinNotificar().vaciarNotificables();
         }
     }
 }

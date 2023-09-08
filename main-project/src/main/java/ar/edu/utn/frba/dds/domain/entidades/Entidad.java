@@ -25,7 +25,8 @@ public class Entidad {
   @Column(name = "nombre")
   private String nombre;
 
-  @Transient
+  @ManyToOne
+  @JoinColumn(name = "denominacion_id", referencedColumnName = "id")
   private Denominacion denominacion;
 
   @Transient
