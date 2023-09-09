@@ -13,12 +13,12 @@ public class CriterioMinPorcentajeUsuarios implements CriterioFusion {
     }
     @Override
     public boolean esFusionable(Organizacion org1, Organizacion org2) {
-        long cant = org1.getUsuarios().stream()
-                .filter(usuario -> org2.getUsuarios().contains(usuario))
+        long cant = org1.getMiembros().stream()
+                .filter(usuario -> org2.getMiembros().contains(usuario))
                 .count();
 
-        boolean resultado = (double) cant / org1.getUsuarios().size() >= porcentajeMinimo
-                && (double) cant / org2.getUsuarios().size() >= porcentajeMinimo;
+        boolean resultado = (double) cant / org1.getMiembros().size() >= porcentajeMinimo
+                && (double) cant / org2.getMiembros().size() >= porcentajeMinimo;
         if(!resultado){
             this.notificarError(org1, org2);
         }

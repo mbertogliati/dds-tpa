@@ -23,8 +23,8 @@ public class FusionadorOrganizaciones {
             orgFusionada.getServicios().addAll(org1.getServicios());
             orgFusionada.getServicios().addAll(org2.getServicios());
 
-            orgFusionada.getUsuarios().addAll(org1.getUsuarios());
-            orgFusionada.getUsuarios().addAll(org2.getUsuarios());
+            orgFusionada.getMiembros().addAll(org1.getMiembros());
+            orgFusionada.getMiembros().addAll(org2.getMiembros());
 
             orgFusionada.setGradoConfianza(calculadorGradoConfianza.calcularGradoConfianza(org1, org2));
 
