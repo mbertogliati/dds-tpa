@@ -21,11 +21,11 @@ public class PersonaTests {
     Ubicacion ubicacion = new Ubicacion(1.5f, 1.5f);
 
     //act
-    persona.setUbicacionActual(ubicacion);
+    persona.setUltimaUbicacion(ubicacion);
 
     //assert
-    Assertions.assertEquals(1.5f, persona.getUbicacionActual().getCoordenada().getLatitud());
-    Assertions.assertEquals(1.5f, persona.getUbicacionActual().getCoordenada().getLongitud());
+    Assertions.assertEquals(1.5f, persona.getUltimaUbicacion().getCoordenada().getLatitud());
+    Assertions.assertEquals(1.5f, persona.getUltimaUbicacion().getCoordenada().getLongitud());
   }
 
   @Test

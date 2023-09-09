@@ -3,6 +3,7 @@
 
 class Servicio{
     - id: int
+    - nombre: String
     - etiquetas: List<Etiqueta>
 
     + getStringEtiquetas(): String

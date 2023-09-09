@@ -29,7 +29,7 @@ public class Entidad {
   @JoinColumn(name = "denominacion_id", referencedColumnName = "id")
   private Denominacion denominacion;
 
-  @Transient
+  @Embedded
   private Ubicacion ubicacion;
 
   public Entidad(){}

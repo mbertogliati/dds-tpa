@@ -8,16 +8,9 @@ import java.util.List;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,7 +33,7 @@ public class Establecimiento {
   @OneToMany(mappedBy = "establecimiento")
   private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
 
-  @Transient
+  @Embedded
   private Ubicacion ubicacion;
 
   @ManyToOne

@@ -8,25 +8,15 @@ import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.notificaciones.Notificable;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -70,9 +60,8 @@ public class Persona {
   @OneToMany(mappedBy = "persona")
   private List<Membresia> membresias = new ArrayList<>();
 
-  //No persistimos la ubicación, para modificarla con el "gps" de la persona en tiempo de ejecución
-  @Transient
-  private Ubicacion ubicacionActual;
+  @Embedded
+  private Ubicacion ultimaUbicacion;
 
   @OneToOne
   @JoinColumn(name = "notificablesSinNotificar_id", referencedColumnName = "id")
@@ -89,7 +78,7 @@ public class Persona {
     this.apellido = apellido;
     this.email = "";
     this.whatsapp = 0;
-    this.ubicacionActual = new Ubicacion(0.0f, 0.0f);
+    this.ultimaUbicacion = new Ubicacion(0.0f, 0.0f);
     this.interes = new Interes();
   }
 
@@ -143,7 +132,7 @@ public class Persona {
   }
 
   public void setUbicacion(float lat, float lon){
-    this.ubicacionActual = new Ubicacion(lat, lon);
+    this.ultimaUbicacion = new Ubicacion(lat, lon);
   }
 
   public void agregarMembresia(Membresia membresia) {

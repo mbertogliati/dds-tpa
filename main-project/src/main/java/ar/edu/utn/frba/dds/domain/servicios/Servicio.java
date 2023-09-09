@@ -3,11 +3,8 @@ package ar.edu.utn.frba.dds.domain.servicios;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +16,9 @@ public class Servicio {
   @Id
   @GeneratedValue
   private int id;
+
+  @Column(name = "nombre")
+  private String nombre;
 
   @ManyToMany
   private List<Etiqueta> etiquetas = new ArrayList<>();

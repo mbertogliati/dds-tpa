@@ -31,7 +31,7 @@ public class EvaluadorSolicitudRevision {
         .toList();
 
     for (Comunidad unaComunidad : comunidades) {
-      Coordenada coordenadaReferencia = unaPersona.getUbicacionActual().getCoordenada();
+      Coordenada coordenadaReferencia = unaPersona.getUltimaUbicacion().getCoordenada();
       List<IncidentePorComunidad> incidentesCercanos = this.obtenerIncidentesPorComunidadCercanos(coordenadaReferencia, unaComunidad);
       if (incidentesCercanos.size() > 0) {
         this.notificarIncidentes(unaPersona, incidentesCercanos);
