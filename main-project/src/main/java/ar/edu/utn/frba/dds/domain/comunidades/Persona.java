@@ -4,6 +4,9 @@ import ar.edu.utn.frba.dds.converters.EstrategiaMomentoNotificacionConverter;
 import ar.edu.utn.frba.dds.domain.FechasDeSemana;
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.EstrategiaMomentoNotificacion;
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.ListadoNotificables;
+import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.NotificableConFecha;
+import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.NotificacionAlMomento;
+import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.NotificacionSinApuro;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
@@ -52,7 +55,6 @@ public class Persona {
   @Column(name = "metodoNotificacion")
   private String metodoNotificacion;
 
-  //TODO: hacer bien la persistencia de estas estrategias
   @Convert(converter = EstrategiaMomentoNotificacionConverter.class)
   @Column(name = "momentoNotificacion")
   private EstrategiaMomentoNotificacion estrategiaMomentoNotificacion;

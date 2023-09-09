@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -29,8 +30,7 @@ public class ListadoNotificables implements Notificable {
     @GeneratedValue
     private int id;
 
-    @OneToMany
-    @JoinColumn(name = "listadoNotificable_id", referencedColumnName = "id")
+    @ManyToMany
     private List<NotificableConFecha> notificables;
 
     public ListadoNotificables() {
@@ -72,6 +72,7 @@ public class ListadoNotificables implements Notificable {
         for(Notificable notificable : this.obtenerNotificablesDelDia()) {
             info = info + notificable.getInfo() + "\n";
         }
+        this.vaciarNotificables();
         return info;
     }
 
