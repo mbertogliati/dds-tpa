@@ -35,7 +35,7 @@ public class AceptarFusionController implements Handler {
     this.jsonMapper = new JsonMapper();
     this.jsonMapper.registerModule(new JavaTimeModule());
 
-
+    //TODO: Esto tiene que ser un and
     CriterioOr criterioOr = new CriterioOr();
     criterioOr.agregarCriterios(
         new CriterioMinPorcentajeUsuarios(0.05),

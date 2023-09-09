@@ -36,7 +36,7 @@ public class OrganizacionesRelacionadasController implements Handler {
 
     this.jsonMapper = new JsonMapper();
     this.jsonMapper.registerModule(new JavaTimeModule());
-
+    //TODO: Logica repetida
     CriterioOr criterioOr = new CriterioOr();
     criterioOr.agregarCriterios(
         new CriterioMinPorcentajeUsuarios(0.05),
