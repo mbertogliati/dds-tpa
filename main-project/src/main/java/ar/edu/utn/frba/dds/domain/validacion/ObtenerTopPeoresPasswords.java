@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObtenerTopPeoresPasswords implements ObtenerListaString {
-  private final String archivo = "src/main/java/ar/edu/utn/frba/dds/validacion/10000WorstPasswords.txt";
+  private final String archivo = "src/main/java/ar/edu/utn/frba/dds/domain/validacion/10000WorstPasswords.txt";
   private List<String> lista = new ArrayList<>();
   private static ObtenerTopPeoresPasswords instancia = null;
 
