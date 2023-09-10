@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.controller;
 
 import ar.edu.utn.frba.domain.criterios.CriterioOr;
+import ar.edu.utn.frba.domain.entidades.IdDeOrganizacionesRelacionadas;
 import ar.edu.utn.frba.domain.entidades.Organizacion;
 import ar.edu.utn.frba.domain.entidades.OrganizacionesRelacionadas;
 import ar.edu.utn.frba.domain.RelacionadorOrganizaciones;
@@ -13,6 +14,7 @@ import ar.edu.utn.frba.domain.criterios.CriterioMinCantMeses;
 import ar.edu.utn.frba.domain.criterios.CriterioMinPorcentajeEstablecimientos;
 import ar.edu.utn.frba.domain.criterios.CriterioMinPorcentajeServicios;
 import ar.edu.utn.frba.domain.criterios.CriterioMinPorcentajeUsuarios;
+import ar.edu.utn.frba.exceptions.ErrorDeCriteriosException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -59,24 +61,33 @@ public class OrganizacionesRelacionadasController implements Handler {
   @Override
   public void handle(Context context) throws Exception {
     try {
-      List<Organizacion> listado = this.objectMapper.readValue(context.body(), new TypeReference<List<Organizacion>>() {
-      });
+
+      List<Organizacion> listado = this.objectMapper.readValue(context.body(), new TypeReference<List<Organizacion>>() {});
+
       List<OrganizacionesRelacionadas> propuestas = this.relacionadorOrganizaciones.getPosiblesFusiones(listado, criterioFusion);
-      String json = this.jsonMapper.writeValueAsString(propuestas);
+
+      List<IdDeOrganizacionesRelacionadas> idsPropuestas = propuestas.stream().map(OrganizacionesRelacionadas::getIds).toList();
+
+      String json = this.jsonMapper.writeValueAsString(idsPropuestas);
+
       context.result(json);
+
     } catch(UnrecognizedPropertyException upe) {
       System.out.println("Exception en processing");
       System.out.println(upe.getMessage());
       System.out.println(upe.getPropertyName());
-      throw new BadRequestResponse("Propiedad no reconocida:" + upe.getPropertyName());
+      throw new BadRequestResponse("Propiedad no reconocida: " + upe.getPropertyName());
+
     } catch(JsonMappingException jme) {
       System.out.println("Exception en mapping");
       System.out.println(jme.getMessage());
       throw new BadRequestResponse("Formato de JSON inválido.");
+
     } catch(JsonProcessingException jpe) {
       System.out.println("Exception en processing");
       System.out.println(jpe.getMessage());
       throw new BadRequestResponse("Error general al procesar formato JSON.");
+
     }
   }
 }

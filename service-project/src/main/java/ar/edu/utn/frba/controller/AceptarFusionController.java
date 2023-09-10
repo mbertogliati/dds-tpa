@@ -12,9 +12,14 @@ import ar.edu.utn.frba.domain.criterios.CriterioMinCantMeses;
 import ar.edu.utn.frba.domain.criterios.CriterioMinPorcentajeEstablecimientos;
 import ar.edu.utn.frba.domain.criterios.CriterioMinPorcentajeServicios;
 import ar.edu.utn.frba.domain.criterios.CriterioMinPorcentajeUsuarios;
+import ar.edu.utn.frba.exceptions.ErrorDeCriteriosException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 
@@ -51,12 +56,35 @@ public class AceptarFusionController implements Handler {
 
   @Override
   public void handle(Context context) throws Exception {
-    OrganizacionesRelacionadas relacion = this.objectMapper.readValue(context.body(), OrganizacionesRelacionadas.class);
+    try{
 
-    PropuestaFusion propuesta = this.fusionadorOrganizaciones.fusionar(relacion, criterioFusion, calculadorGradoConfianza);
+      OrganizacionesRelacionadas relacion = this.objectMapper.readValue(context.body(), OrganizacionesRelacionadas.class);
 
-    String json = this.jsonMapper.writeValueAsString(propuesta);
+      PropuestaFusion propuesta = this.fusionadorOrganizaciones.fusionar(relacion, criterioFusion, calculadorGradoConfianza);
 
-    context.json(json);
+      String json = this.jsonMapper.writeValueAsString(propuesta);
+
+      context.json(json);
+
+    } catch(UnrecognizedPropertyException upe) {
+      System.out.println("Exception en processing");
+      System.out.println(upe.getMessage());
+      System.out.println(upe.getPropertyName());
+      throw new BadRequestResponse("Propiedad no reconocida: " + upe.getPropertyName());
+
+    } catch(JsonMappingException jme) {
+      System.out.println("Exception en mapping");
+      System.out.println(jme.getMessage());
+      throw new BadRequestResponse("Formato de JSON inválido.");
+
+    } catch(JsonProcessingException jpe) {
+      System.out.println("Exception en processing");
+      System.out.println(jpe.getMessage());
+      throw new BadRequestResponse("Error general al procesar formato JSON.");
+
+    } catch(ErrorDeCriteriosException e){
+
+      context.json(e.getError());
+    }
   }
 }

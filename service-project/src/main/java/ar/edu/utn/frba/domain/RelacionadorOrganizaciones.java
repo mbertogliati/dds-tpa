@@ -3,6 +3,7 @@ package ar.edu.utn.frba.domain;
 import ar.edu.utn.frba.domain.criterios.CriterioFusion;
 import ar.edu.utn.frba.domain.entidades.Organizacion;
 import ar.edu.utn.frba.domain.entidades.OrganizacionesRelacionadas;
+import ar.edu.utn.frba.exceptions.ErrorDeCriteriosException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,9 +53,13 @@ public class RelacionadorOrganizaciones {
   private OrganizacionesRelacionadas relacionar(Organizacion org1, Organizacion org2, CriterioFusion criterio){
     OrganizacionesRelacionadas relacionadas = null;
 
-    if(criterio.esFusionable(org1, org2)){
+    try{
+      criterio.esFusionable(org1, org2);
       relacionadas = new OrganizacionesRelacionadas(org1, org2);
+    } catch(ErrorDeCriteriosException e){
+
     }
+
 
     return relacionadas;
   }

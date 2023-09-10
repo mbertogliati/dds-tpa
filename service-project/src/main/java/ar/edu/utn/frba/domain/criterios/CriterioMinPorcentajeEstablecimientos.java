@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.domain.criterios;
 
 import ar.edu.utn.frba.domain.entidades.Organizacion;
+import ar.edu.utn.frba.exceptions.ErrorDeCriteriosException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,10 @@ public class CriterioMinPorcentajeEstablecimientos implements CriterioFusion{
     }
 
     private void notificarError(Organizacion org1, Organizacion org2){
-        System.out.println("No se pueden fusionar las organizaciones: " + org1.getId().toString() + " y " + org2.getId().toString() + ".\nMotivo: NO CUMPLE EL PORCENTAJE MÍNIMO DE ESTABLECIMIENTOS.");
+        String tipoError = "No se pueden fusionar las organizaciones: " + org1.getId().toString() + " y " + org2.getId().toString() + ".";
+        String mensaje = "No cumple con el porcentaje minimo de coincidencias de establecimientos.";
+        System.out.println(tipoError);
+        System.out.println(mensaje);
+        throw new ErrorDeCriteriosException(tipoError, mensaje);
     }
 }

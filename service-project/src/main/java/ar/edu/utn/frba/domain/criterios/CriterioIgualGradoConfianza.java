@@ -2,6 +2,7 @@ package ar.edu.utn.frba.domain.criterios;
 
 import ar.edu.utn.frba.domain.entidades.Organizacion;
 
+import ar.edu.utn.frba.exceptions.ErrorDeCriteriosException;
 import java.util.Objects;
 
 public class CriterioIgualGradoConfianza implements CriterioFusion{
@@ -15,6 +16,10 @@ public class CriterioIgualGradoConfianza implements CriterioFusion{
     }
 
     private void notificarError(Organizacion org1, Organizacion org2){
-        System.out.println("No se pueden fusionar las organizaciones: " + org1.getId().toString() + " y " + org2.getId().toString() + ".\nMotivo: DISTINTO GRADO DE CONFIANZA.");
+        String tipoError = "No se pueden fusionar las organizaciones: " + org1.getId().toString() + " y " + org2.getId().toString() + ".";
+        String mensaje = "Distinto grado de confianza.";
+        System.out.println(tipoError);
+        System.out.println(mensaje);
+        throw new ErrorDeCriteriosException(tipoError, mensaje);
     }
 }

@@ -15,4 +15,11 @@ public class OrganizacionesRelacionadas {
   }
 
   public OrganizacionesRelacionadas(){}
+
+  public IdDeOrganizacionesRelacionadas getIds(){
+    IdDeOrganizacionesRelacionadas respuesta = new IdDeOrganizacionesRelacionadas();
+    respuesta.setIdOrg1(this.organizacion1.getId());
+    respuesta.setIdOrg2(this.organizacion2.getId());
+    return respuesta;
+  }
 }

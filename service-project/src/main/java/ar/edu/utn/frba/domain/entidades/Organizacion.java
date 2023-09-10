@@ -4,6 +4,7 @@ import ar.edu.utn.frba.serializers.CustomDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.HashSet;
@@ -21,9 +22,13 @@ public class Organizacion {
     private Set<UltimoIntentoFusion> ultimosIntentosDeFusion = new HashSet<>();
 
     public LocalDateTime obtenerFechaIntentoCon(Organizacion unaOrganizacion) {
-        return this.ultimosIntentosDeFusion
-            .stream()
-            .filter(f -> f.getOrganizacionId() == unaOrganizacion.getId()).findFirst().get()
-            .getFechaIntento();
+        try {
+            return this.ultimosIntentosDeFusion
+                .stream()
+                .filter(f -> f.getOrganizacionId() == unaOrganizacion.getId()).findFirst().get()
+                .getFechaIntento();
+        }catch(NoSuchElementException e){
+            return null;
+        }
     }
 }
