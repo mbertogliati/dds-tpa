@@ -84,6 +84,7 @@ public class AceptarFusionController implements Handler {
 
     } catch(ErrorDeCriteriosException e){
 
+      context.status(400);
       context.json(e.getError());
     }
   }
