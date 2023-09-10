@@ -1,19 +1,15 @@
 package ar.edu.utn.frba.dds.notificaciones;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.notificaciones.email.AdapterMAIL;
-import ar.edu.utn.frba.dds.notificaciones.email.StrategyMAIL;
-import ar.edu.utn.frba.dds.notificaciones.wpp.AdapterWPP;
-import ar.edu.utn.frba.dds.notificaciones.wpp.StrategyWPP;
+import ar.edu.utn.frba.dds.domain.notificaciones.EjemploNotificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificador;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class TestNotificador {
     Persona persona;

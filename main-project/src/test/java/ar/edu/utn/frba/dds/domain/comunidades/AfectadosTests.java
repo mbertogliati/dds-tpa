@@ -2,15 +2,11 @@ package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
-import ar.edu.utn.frba.dds.domain.incidentes.IncidenteTests;
 import ar.edu.utn.frba.dds.domain.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
-import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
-import ar.edu.utn.frba.dds.notificaciones.Notificador;
-import ar.edu.utn.frba.dds.notificaciones.email.StrategyMAIL;
-import ar.edu.utn.frba.dds.notificaciones.wpp.StrategyWPP;
+import ar.edu.utn.frba.dds.domain.meta_datos_geo.Provincia;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

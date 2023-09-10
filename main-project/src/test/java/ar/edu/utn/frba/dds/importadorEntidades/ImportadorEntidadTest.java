@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.importadorEntidades;
 
 import ar.edu.utn.frba.dds.domain.entidades.OrganismoControl;
+import ar.edu.utn.frba.dds.domain.importadorEntidades.ImportadorEntidadAdapter;
+import ar.edu.utn.frba.dds.domain.importadorEntidades.ImportadorEntidadCSV;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

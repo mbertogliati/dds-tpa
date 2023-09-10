@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.domain.incidentes;
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
-import ar.edu.utn.frba.dds.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

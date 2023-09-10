@@ -1,12 +1,12 @@
 package integration_tests;
 
 import ar.edu.utn.frba.dds.domain.utilidades.Coordenada;
-import ar.edu.utn.frba.dds.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
-import ar.edu.utn.frba.dds.meta_datos_geo.Departamento;
-import ar.edu.utn.frba.dds.meta_datos_geo.Localidad;
-import ar.edu.utn.frba.dds.meta_datos_geo.MetadatoGeografico;
-import ar.edu.utn.frba.dds.meta_datos_geo.Provincia;
-import ar.edu.utn.frba.dds.meta_datos_geo.geo_ref.ServicioGeoRef;
+import ar.edu.utn.frba.dds.domain.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
+import ar.edu.utn.frba.dds.domain.meta_datos_geo.Departamento;
+import ar.edu.utn.frba.dds.domain.meta_datos_geo.Localidad;
+import ar.edu.utn.frba.dds.domain.meta_datos_geo.MetadatoGeografico;
+import ar.edu.utn.frba.dds.domain.meta_datos_geo.Provincia;
+import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.ServicioGeoRef;
 import java.util.List;
 
 public class IntegrationTestServicioGeoRef {

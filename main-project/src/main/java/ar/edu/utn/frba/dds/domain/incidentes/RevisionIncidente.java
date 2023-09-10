@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.incidentes;
 
-import ar.edu.utn.frba.dds.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 import lombok.Getter;
 
 public class RevisionIncidente implements Notificable {

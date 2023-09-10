@@ -1,12 +1,9 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.converters.EstrategiaMomentoNotificacionConverter;
-import ar.edu.utn.frba.dds.domain.FechasDeSemana;
+import ar.edu.utn.frba.dds.domain.utilidades.FechasDeSemana;
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.EstrategiaMomentoNotificacion;
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.ListadoNotificables;
-import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.NotificableConFecha;
-import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.NotificacionAlMomento;
-import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.NotificacionSinApuro;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
@@ -16,7 +13,7 @@ import java.util.List;
 
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
-import ar.edu.utn.frba.dds.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 
 import javax.persistence.*;
 

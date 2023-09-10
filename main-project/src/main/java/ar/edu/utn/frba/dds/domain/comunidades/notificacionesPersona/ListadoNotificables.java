@@ -1,23 +1,15 @@
 package ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona;
 
-import ar.edu.utn.frba.dds.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 

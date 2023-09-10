@@ -8,10 +8,9 @@ import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import ar.edu.utn.frba.dds.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

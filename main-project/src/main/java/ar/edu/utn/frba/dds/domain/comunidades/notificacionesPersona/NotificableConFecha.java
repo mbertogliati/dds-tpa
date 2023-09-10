@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona;
 
-import ar.edu.utn.frba.dds.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;

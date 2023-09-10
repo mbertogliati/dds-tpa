@@ -2,6 +2,8 @@ package ar.edu.utn.frba.dds.hasheo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import ar.edu.utn.frba.dds.domain.hasheo.EstrategiaHash;
+import ar.edu.utn.frba.dds.domain.hasheo.HashPBKDF2;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,12 +1,11 @@
 package ar.edu.utn.frba.dds.notificaciones.email;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.notificaciones.EjemploNotificable;
-import ar.edu.utn.frba.dds.notificaciones.Notificable;
-import ar.edu.utn.frba.dds.notificaciones.Notificador;
-import ar.edu.utn.frba.dds.notificaciones.wpp.AdapterWPP;
-import ar.edu.utn.frba.dds.notificaciones.wpp.StrategyWPP;
-import ar.edu.utn.frba.dds.notificaciones.wpp.TestWPP;
+import ar.edu.utn.frba.dds.domain.notificaciones.EjemploNotificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificador;
+import ar.edu.utn.frba.dds.domain.notificaciones.email.AdapterMAIL;
+import ar.edu.utn.frba.dds.domain.notificaciones.email.StrategyMAIL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ public class TestEmail {
     Persona persona;
     Notificable notificable;
 
-    class AdapterMAILMock implements AdapterMAIL{
+    class AdapterMAILMock implements AdapterMAIL {
         public void enviarMAIL(String mensaje, String mail) {
             System.out.println("\nSe envió el mensaje: '" + mensaje + "'.\n Al mail: '" + mail + "'.");
         }

@@ -5,7 +5,7 @@ import ar.edu.utn.frba.dds.domain.comunidades.Persona;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.domain.incidentes.RevisionIncidente;
-import ar.edu.utn.frba.dds.notificaciones.Notificador;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificador;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
