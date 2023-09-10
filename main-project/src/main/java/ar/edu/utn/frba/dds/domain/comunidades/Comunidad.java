@@ -4,16 +4,15 @@ import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidenteAbierto;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidenteCerrado;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -28,7 +27,7 @@ import lombok.Setter;
 @Setter
 public class Comunidad {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @Column(name = "detalle")

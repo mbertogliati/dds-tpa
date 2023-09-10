@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.domain.rankings;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

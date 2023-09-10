@@ -1,10 +1,9 @@
 package ar.edu.utn.frba.dds.domain.notificaciones;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
 public class Notificador {
     @Getter

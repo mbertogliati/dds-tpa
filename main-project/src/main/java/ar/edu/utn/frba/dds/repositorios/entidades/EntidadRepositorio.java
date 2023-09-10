@@ -1,10 +1,9 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
+
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
-import ar.edu.utn.frba.dds.domain.servicios.Servicio;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
-import java.util.List;
 
 public class EntidadRepositorio {
 
@@ -39,8 +38,8 @@ public class EntidadRepositorio {
     transaction.commit();
   }
 
-  public List<Servicio> buscarTodos() {
-    return entityManager.createQuery("FROM " + Servicio.class.getName(), Servicio.class)
+  public List<Entidad> buscarTodos() {
+    return entityManager.createQuery("FROM " + Entidad.class.getName(), Entidad.class)
         .getResultList();
   }
 }

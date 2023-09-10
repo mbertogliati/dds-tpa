@@ -3,8 +3,14 @@ package ar.edu.utn.frba.dds.domain.servicios;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.*;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +20,7 @@ import lombok.Setter;
 @Setter
 public class Servicio {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @Column(name = "nombre")

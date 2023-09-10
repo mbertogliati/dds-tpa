@@ -2,10 +2,11 @@ package ar.edu.utn.frba.dds.domain.rankings;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
-
-
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PromedioEntreAperturaYCierre implements EstrategiaCalculoPuntos {
     @Override

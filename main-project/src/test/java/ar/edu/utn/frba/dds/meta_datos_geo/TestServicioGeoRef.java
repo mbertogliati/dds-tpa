@@ -2,10 +2,11 @@ package ar.edu.utn.frba.dds.meta_datos_geo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.Provincia;
-import ar.edu.utn.frba.dds.domain.utilidades.Coordenada;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.GeoRefService;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.ServicioGeoRef;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.EntidadGeoRef;
@@ -14,6 +15,7 @@ import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.ParametroPro
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.ParametroUbicacion;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.ResponseUbicacion;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.UbicacionGeoRef;
+import ar.edu.utn.frba.dds.domain.utilidades.Coordenada;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +24,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static org.mockito.Mockito.*;
 
 public class TestServicioGeoRef {
   @BeforeEach

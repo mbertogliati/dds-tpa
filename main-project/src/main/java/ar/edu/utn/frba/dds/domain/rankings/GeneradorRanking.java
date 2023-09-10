@@ -1,11 +1,10 @@
 package ar.edu.utn.frba.dds.domain.rankings;
 
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 public class GeneradorRanking {
 

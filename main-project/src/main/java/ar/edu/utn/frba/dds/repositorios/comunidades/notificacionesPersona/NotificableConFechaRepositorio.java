@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades.notificacionesPersona;
 
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.NotificableConFecha;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import java.util.List;
 
 public class NotificableConFechaRepositorio {
   private EntityManager entityManager;

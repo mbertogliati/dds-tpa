@@ -3,21 +3,20 @@ package ar.edu.utn.frba.dds.domain.comunidades;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.mapping.Join;
 
 @Entity
 @Table(name = "usuarios")
 @Getter @Setter
 public class Usuario {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @Column(name = "usuario")

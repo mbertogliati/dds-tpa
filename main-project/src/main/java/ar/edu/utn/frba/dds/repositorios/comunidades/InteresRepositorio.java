@@ -1,9 +1,10 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
+
 import ar.edu.utn.frba.dds.domain.comunidades.Interes;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import java.util.List;
 
 public class InteresRepositorio {
   private EntityManager entityManager;

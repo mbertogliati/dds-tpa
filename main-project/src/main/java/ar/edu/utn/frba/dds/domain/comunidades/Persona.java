@@ -1,22 +1,30 @@
 package ar.edu.utn.frba.dds.domain.comunidades;
 
 import ar.edu.utn.frba.dds.converters.EstrategiaMomentoNotificacionConverter;
-import ar.edu.utn.frba.dds.domain.utilidades.FechasDeSemana;
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.EstrategiaMomentoNotificacion;
 import ar.edu.utn.frba.dds.domain.comunidades.notificacionesPersona.ListadoNotificables;
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
 import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
+import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 import ar.edu.utn.frba.dds.domain.servicios.Servicio;
-
+import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.domain.utilidades.FechasDeSemana;
+import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import java.util.ArrayList;
 import java.util.List;
-
-import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
-import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
-import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
-
-import javax.persistence.*;
-
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +34,7 @@ import lombok.Setter;
 @Setter
 public class Persona {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @OneToOne

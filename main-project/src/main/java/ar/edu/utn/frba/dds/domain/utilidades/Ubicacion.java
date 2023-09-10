@@ -5,11 +5,13 @@ import ar.edu.utn.frba.dds.domain.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.MetadatoGeografico;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.Provincia;
-
 import java.io.IOException;
-
-import javax.persistence.*;
-
+import javax.persistence.AssociationOverride;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,11 +1,9 @@
 package db;
 
 import ar.edu.utn.frba.dds.domain.entidades.Entidad;
-import org.junit.jupiter.api.Test;
-
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
-
 import javax.persistence.EntityTransaction;
+import org.junit.jupiter.api.Test;
 
 public class TestDB implements WithSimplePersistenceUnit {
 

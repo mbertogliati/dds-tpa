@@ -2,13 +2,12 @@ package ar.edu.utn.frba.dds.domain.rankings;
 
 import ar.edu.utn.frba.dds.domain.entidades.Informable;
 import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Informe implements Notificable {
     @Getter @Setter

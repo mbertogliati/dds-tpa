@@ -1,5 +1,9 @@
 package ar.edu.utn.frba.dds.domain.utilidades;
 
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.Localidad;
@@ -9,10 +13,6 @@ import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class UbicacionTests {
 

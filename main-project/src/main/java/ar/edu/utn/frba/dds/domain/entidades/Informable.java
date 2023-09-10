@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.domain.entidades;
 
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-
 import java.util.List;
 
 public interface Informable {

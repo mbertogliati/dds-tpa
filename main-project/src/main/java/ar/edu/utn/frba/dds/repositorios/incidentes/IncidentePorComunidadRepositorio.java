@@ -1,9 +1,10 @@
 package ar.edu.utn.frba.dds.repositorios.incidentes;
+
 import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import java.util.List;
 
 public class IncidentePorComunidadRepositorio {
 

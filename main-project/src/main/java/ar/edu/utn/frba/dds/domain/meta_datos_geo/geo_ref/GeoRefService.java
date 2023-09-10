@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref;
 
+import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.ListadoDeDepartamentos;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.ListadoDeLocalidades;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.ListadoDeProvincias;
-import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.ListadoDeDepartamentos;
 import ar.edu.utn.frba.dds.domain.meta_datos_geo.geo_ref.api_models.ResponseUbicacion;
 import retrofit2.Call;
 import retrofit2.http.GET;
