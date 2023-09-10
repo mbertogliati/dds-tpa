@@ -2,7 +2,6 @@ package ar.edu.utn.frba.domain.criterios;
 
 import ar.edu.utn.frba.domain.entidades.Organizacion;
 import ar.edu.utn.frba.exceptions.ErrorDeCriteriosException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +31,7 @@ public class CriterioMinCantMeses implements CriterioFusion { //en Segundos
     }
 
     private void notificarError(Organizacion org1, Organizacion org2){
-        String tipoError = "No se pueden fusionar las organizaciones: " + org1.getId().toString() + " y " + org2.getId().toString() + ".";
+        String tipoError = "No se pueden fusionar las organizaciones: " + org1.getIdOrganizacion().toString() + " y " + org2.getIdOrganizacion().toString() + ".";
         String mensaje = "No cumple con el tiempo minimo desde el ultimo intento de fusion.";
         System.out.println(tipoError);
         System.out.println(mensaje);

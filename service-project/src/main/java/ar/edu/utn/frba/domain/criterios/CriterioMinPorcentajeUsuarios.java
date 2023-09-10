@@ -27,7 +27,7 @@ public class CriterioMinPorcentajeUsuarios implements CriterioFusion {
     }
 
     private void notificarError(Organizacion org1, Organizacion org2){
-        String tipoError = "No se pueden fusionar las organizaciones: " + org1.getId().toString() + " y " + org2.getId().toString() + ".";
+        String tipoError = "No se pueden fusionar las organizaciones: " + org1.getIdOrganizacion().toString() + " y " + org2.getIdOrganizacion().toString() + ".";
         String mensaje = "No cumple con el porcentaje minimo de coincidencias de usuarios.";
         System.out.println(tipoError);
         System.out.println(mensaje);

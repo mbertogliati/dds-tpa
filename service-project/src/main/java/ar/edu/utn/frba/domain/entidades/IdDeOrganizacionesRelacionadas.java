@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class IdDeOrganizacionesRelacionadas {
-  private Long idOrg1;
-  private Long idOrg2;
+  private Long idOrganizacion1;
+  private Long idOrganizacion2;
 }

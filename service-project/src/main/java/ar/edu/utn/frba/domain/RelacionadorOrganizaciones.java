@@ -18,18 +18,18 @@ public class RelacionadorOrganizaciones {
     for(int i = 0; i < organizaciones.size() - 1; i++){
 
       Organizacion organizacion1 = organizaciones.get(i);
-      if(posiblesFusiones.stream().allMatch(pf -> pf.getOrganizacion1().getId() != organizacion1.getId() && pf.getOrganizacion2().getId() != organizacion1.getId())){
+      if(posiblesFusiones.stream().allMatch(pf -> pf.getOrganizacion1().getIdOrganizacion() != organizacion1.getIdOrganizacion() && pf.getOrganizacion2().getIdOrganizacion() != organizacion1.getIdOrganizacion())){
         //Si la primer organizacion de la relación no está en las posibles fusiones
 
         for(int j = i + 1; j < organizaciones.size(); j++){
-          if(!posiblesFusiones.stream().allMatch(pf -> pf.getOrganizacion1().getId() != organizacion1.getId() && pf.getOrganizacion2().getId() != organizacion1.getId())){
+          if(!posiblesFusiones.stream().allMatch(pf -> pf.getOrganizacion1().getIdOrganizacion() != organizacion1.getIdOrganizacion() && pf.getOrganizacion2().getIdOrganizacion() != organizacion1.getIdOrganizacion())){
             //Si la primer organización de la relación ahora está en las posibles fusiones, salgo del for
             break;
           }
 
           Organizacion organizacion2 = organizaciones.get(j);
 
-          if(posiblesFusiones.stream().allMatch(pf -> pf.getOrganizacion1().getId() != organizacion1.getId() && pf.getOrganizacion2().getId() != organizacion2.getId())){
+          if(posiblesFusiones.stream().allMatch(pf -> pf.getOrganizacion1().getIdOrganizacion() != organizacion1.getIdOrganizacion() && pf.getOrganizacion2().getIdOrganizacion() != organizacion2.getIdOrganizacion())){
             //Si la segunda organizacion de la relación no está en las posibles fusiones
 
             OrganizacionesRelacionadas relacion = this.relacionar(organizaciones.get(i), organizaciones.get(j), criterio);

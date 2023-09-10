@@ -18,8 +18,8 @@ public class OrganizacionesRelacionadas {
 
   public IdDeOrganizacionesRelacionadas getIds(){
     IdDeOrganizacionesRelacionadas respuesta = new IdDeOrganizacionesRelacionadas();
-    respuesta.setIdOrg1(this.organizacion1.getId());
-    respuesta.setIdOrg2(this.organizacion2.getId());
+    respuesta.setIdOrganizacion1(this.organizacion1.getIdOrganizacion());
+    respuesta.setIdOrganizacion2(this.organizacion2.getIdOrganizacion());
     return respuesta;
   }
 }

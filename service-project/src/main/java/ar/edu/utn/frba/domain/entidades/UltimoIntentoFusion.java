@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UltimoIntentoFusion {
-  public Long organizacionId;
+  public Long idOrganizacion;
   @JsonSerialize(using = CustomDateSerializer.class)
   private LocalDateTime fechaIntento;
 }

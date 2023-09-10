@@ -30,8 +30,8 @@ public class FusionadorOrganizaciones {
 
             propuesta = new PropuestaFusion();
 
-            propuesta.setIdOrganizacion1(org1.getId());
-            propuesta.setIdOrganizacion2(org2.getId());
+            propuesta.setIdOrganizacion1(org1.getIdOrganizacion());
+            propuesta.setIdOrganizacion2(org2.getIdOrganizacion());
             propuesta.setOrganizacionFusionada(orgFusionada);
         }
 

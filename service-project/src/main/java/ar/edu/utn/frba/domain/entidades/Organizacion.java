@@ -1,8 +1,5 @@
 package ar.edu.utn.frba.domain.entidades;
 
-import ar.edu.utn.frba.serializers.CustomDateSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import lombok.Getter;
@@ -13,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Organizacion {
-    private Long id;
+    private Long idOrganizacion;
     private Set<Long> establecimientos = new HashSet<>();
     private Set<Long> servicios = new HashSet<>();
     private Double gradoConfianza;
@@ -25,7 +22,7 @@ public class Organizacion {
         try {
             return this.ultimosIntentosDeFusion
                 .stream()
-                .filter(f -> f.getOrganizacionId() == unaOrganizacion.getId()).findFirst().get()
+                .filter(f -> f.getIdOrganizacion() == unaOrganizacion.getIdOrganizacion()).findFirst().get()
                 .getFechaIntento();
         }catch(NoSuchElementException e){
             return null;
