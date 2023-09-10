@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.controller;
 
 import ar.edu.utn.frba.domain.FusionadorOrganizaciones;
-import ar.edu.utn.frba.domain.criterios.CriterioOr;
 import ar.edu.utn.frba.domain.entidades.OrganizacionesRelacionadas;
 import ar.edu.utn.frba.domain.entidades.PropuestaFusion;
 import ar.edu.utn.frba.domain.calculadorGradoConfianza.CalculadorGradoConfianza;
@@ -35,19 +34,13 @@ public class AceptarFusionController implements Handler {
     this.jsonMapper = new JsonMapper();
     this.jsonMapper.registerModule(new JavaTimeModule());
 
-    //TODO: Esto tiene que ser un and
-    CriterioOr criterioOr = new CriterioOr();
-    criterioOr.agregarCriterios(
+    CriterioAnd criterioAnd = new CriterioAnd();
+    criterioAnd.agregarCriterios(
+        new CriterioMinCantMeses(6L),
         new CriterioMinPorcentajeUsuarios(0.05),
         new CriterioMinPorcentajeEstablecimientos(0.75),
         new CriterioMinPorcentajeServicios(0.75),
         new CriterioIgualGradoConfianza()
-    );
-
-    CriterioAnd criterioAnd = new CriterioAnd();
-    criterioAnd.agregarCriterios(
-        criterioOr,
-        new CriterioMinCantMeses(6L)
     );
 
     this.criterioFusion = criterioAnd;
