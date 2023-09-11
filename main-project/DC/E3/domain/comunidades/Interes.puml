@@ -4,6 +4,7 @@
 skinparam linetype ortho
 
 class Interes{
+    -id: int
     -entidades: List<Entidad>
     -servicios: List<Servicio>
 

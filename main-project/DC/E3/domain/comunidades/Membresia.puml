@@ -4,6 +4,7 @@
 skinparam linetype ortho
 
 class Membresia{
+    -id: int
     -usuario: Persona
     -comunidad: Comunidad
     -rolComunidad: Rol

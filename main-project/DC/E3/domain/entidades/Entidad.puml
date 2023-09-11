@@ -3,9 +3,9 @@
 skinparam linetype ortho
 
 class Entidad {
+  - id: int
   - denominacion: Denominacion
   - establecimientos: List<Establecimiento>
-  - id: int
   - nombre: String
   - ubicacion: Ubicacion
 

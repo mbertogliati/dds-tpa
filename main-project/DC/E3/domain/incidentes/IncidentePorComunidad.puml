@@ -2,11 +2,11 @@
 'https://plantuml.com/class-diagram
 
 class IncidentePorComunidad {
+    - id: int
     - incidente: Incidente
     - estaCerrado: boolean
     - fechaHoraCierre: LocalDateTime
     - autorCierre: Persona
-
 }
 
 @enduml

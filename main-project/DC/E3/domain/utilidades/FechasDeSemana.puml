@@ -1,0 +1,7 @@
+@startuml
+class FechasDeSemana{
+    -id: int
+    -dia: DayOfWeek
+    -horario: LocalTime
+}
+@enduml

@@ -3,6 +3,7 @@
 skinparam linetype ortho
 
 class EntidadPrestadora {
+  - id: int
   - entidades: List<Entidad>
   - personaAInformar: Persona
   - nombre: String
