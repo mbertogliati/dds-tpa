@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class OrganismoControl implements Informable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "organismo_control_id", referencedColumnName = "id")
     private List<EntidadPrestadora> entidadesPrestadoras;
 
@@ -38,7 +39,7 @@ public class OrganismoControl implements Informable{
     private Persona personaAInformar;
 
     public OrganismoControl(){
-
+        this.entidadesPrestadoras = new ArrayList<EntidadPrestadora>();
     }
     public OrganismoControl(String nombre){
         this.nombre = nombre;

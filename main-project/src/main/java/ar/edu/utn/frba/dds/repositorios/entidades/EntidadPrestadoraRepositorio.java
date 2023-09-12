@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.FlushModeType;
 import javax.persistence.TypedQuery;
 
 public class EntidadPrestadoraRepositorio {

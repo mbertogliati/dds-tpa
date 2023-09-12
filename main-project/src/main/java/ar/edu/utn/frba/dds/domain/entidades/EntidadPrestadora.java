@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.domain.entidades;
 import ar.edu.utn.frba.dds.domain.comunidades.Persona;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class EntidadPrestadora implements Informable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "entidad_prestadora_id", referencedColumnName = "id")
     private List<Entidad> entidades = new ArrayList<>();
 
