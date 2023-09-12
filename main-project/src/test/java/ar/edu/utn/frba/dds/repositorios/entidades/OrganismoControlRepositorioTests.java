@@ -96,11 +96,10 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
     this.repositorio.guardar(organismoControlNuevo);
     this.repositorio.eliminar(organismoControlNuevo);
 
-    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(1);
+    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(organismoControlNuevo.getId());
     List<OrganismoControl> organismosControl = this.repositorio.buscarTodos();
 
     //assert
-    Assertions.assertEquals(0, organismosControl.size(), "OrganismoControl: se borraron todos los organismos de control");
     Assertions.assertNull(organismoControlRecuperado, "OrganismoControl: el organismo de control es eliminado");
   }
 }

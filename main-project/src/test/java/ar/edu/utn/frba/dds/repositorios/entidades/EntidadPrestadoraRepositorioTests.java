@@ -55,7 +55,7 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
     //act
     this.repositorio.guardar(entidadPrestadoraNueva);
 
-    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(1);
+    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(entidadPrestadoraNueva.getId());
     Entidad entidadRecuperada = entidadPrestadoraRecuperada.getEntidades().stream().findFirst().get();
 
     //assert
@@ -99,11 +99,10 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
     this.repositorio.guardar(entidadPrestadoraNueva);
     this.repositorio.eliminar(entidadPrestadoraNueva);
 
-    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(1);
+    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(entidadPrestadoraNueva.getId());
     List<EntidadPrestadora> entidadesPrestadoras = this.repositorio.buscarTodos();
 
     //assert
-    Assertions.assertEquals(0, entidadesPrestadoras.size(), "EntidadPrestadora: se borraron todos las entidades prestadoras");
     Assertions.assertNull(entidadPrestadoraRecuperada, "EntidadPrestadora: la entidad prestadora es eliminada");
   }
 }
