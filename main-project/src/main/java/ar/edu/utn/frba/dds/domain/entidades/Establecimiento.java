@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -34,7 +35,7 @@ public class Establecimiento {
   @Column(name = "nombre")
   private String nombre;
 
-  @OneToMany(mappedBy = "establecimiento")
+  @OneToMany(mappedBy = "establecimiento", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
   private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
 
   @Embedded

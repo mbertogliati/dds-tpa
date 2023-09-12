@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.domain.utilidades.FechasDeSemana;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
@@ -64,7 +65,7 @@ public class Persona {
   @Column(name = "momentoNotificacion")
   private EstrategiaMomentoNotificacion estrategiaMomentoNotificacion;
 
-  @OneToMany(mappedBy = "persona")
+  @OneToMany(mappedBy = "persona", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
   private List<Membresia> membresias = new ArrayList<>();
 
   @Embedded

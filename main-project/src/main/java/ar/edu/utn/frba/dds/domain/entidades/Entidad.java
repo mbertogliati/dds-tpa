@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.domain.entidades;
 import ar.edu.utn.frba.dds.domain.utilidades.Ubicacion;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -26,7 +27,7 @@ public class Entidad {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @OneToMany(mappedBy = "entidad")
+  @OneToMany(mappedBy = "entidad", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
   private List<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
 
   @Column(name = "nombre")

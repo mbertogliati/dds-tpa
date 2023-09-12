@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,10 +37,10 @@ public class Comunidad {
   @ManyToMany
   private List<Servicio> servicios = new ArrayList<>();
 
-  @OneToMany(mappedBy = "comunidad")
+  @OneToMany(mappedBy = "comunidad", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
   private List<Membresia> membresias = new ArrayList<>();
 
-  @OneToMany
+  @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
   @JoinColumn(name = "comunidad_id", referencedColumnName = "id")
   private List<IncidentePorComunidad> incidentes = new ArrayList<>();
 
