@@ -14,6 +14,7 @@ import ar.edu.utn.frba.domain.criterios.CriterioMinCantMeses;
 import ar.edu.utn.frba.domain.criterios.CriterioMinPorcentajeEstablecimientos;
 import ar.edu.utn.frba.domain.criterios.CriterioMinPorcentajeServicios;
 import ar.edu.utn.frba.domain.criterios.CriterioMinPorcentajeUsuarios;
+import ar.edu.utn.frba.exceptions.Error;
 import ar.edu.utn.frba.exceptions.ErrorDeCriteriosException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -60,6 +61,7 @@ public class OrganizacionesRelacionadasController implements Handler {
 
   @Override
   public void handle(Context context) throws Exception {
+    Error posibleError = null;
     try {
 
       List<Organizacion> listado = this.objectMapper.readValue(context.body(), new TypeReference<List<Organizacion>>() {});
@@ -76,18 +78,21 @@ public class OrganizacionesRelacionadasController implements Handler {
       System.out.println("Exception en processing");
       System.out.println(upe.getMessage());
       System.out.println(upe.getPropertyName());
-      throw new BadRequestResponse("Propiedad no reconocida: " + upe.getPropertyName());
+      posibleError = new Error("JSON Parse Error", "Propiedad no reconocida: " + upe.getPropertyName());
 
     } catch(JsonMappingException jme) {
       System.out.println("Exception en mapping");
       System.out.println(jme.getMessage());
-      throw new BadRequestResponse("Formato de JSON inválido.");
+      posibleError = new Error("JSON Parse Error", "El formato especificado no es compatible.");
 
     } catch(JsonProcessingException jpe) {
       System.out.println("Exception en processing");
       System.out.println(jpe.getMessage());
-      throw new BadRequestResponse("Error general al procesar formato JSON.");
-
+      posibleError = new Error("JSON Parse Error", "No se pudo parsear el JSON.");
+    }
+    if(posibleError != null){
+      context.status(400);
+      context.json(posibleError);
     }
   }
 }

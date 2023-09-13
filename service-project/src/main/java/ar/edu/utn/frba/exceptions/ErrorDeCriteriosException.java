@@ -5,10 +5,10 @@ import lombok.Setter;
 
 public class ErrorDeCriteriosException extends RuntimeException {
   @Getter @Setter
-  private ErrorCriterio error;
+  private Error error;
 
   public ErrorDeCriteriosException(String tipoError, String mensaje){
-    this.error = new ErrorCriterio();
+    this.error = new Error();
     this.error.setTipoError(tipoError);
     this.error.setMensaje(mensaje);
   }
