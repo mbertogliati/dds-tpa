@@ -29,7 +29,7 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
     //act
     this.repositorio.guardar(organismoControlNuevo);
 
-    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(1);
+    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(organismoControlNuevo.getId());
 
     //assert
     Assertions.assertTrue(organismoControlNuevo.getId() > 0, "OrganismoControl: genera id correctamente");
@@ -52,7 +52,7 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
     //act
     this.repositorio.guardar(organismoControlNuevo);
 
-    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(1);
+    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(organismoControlNuevo.getId());
     EntidadPrestadora entidadPrestadoraRecuperada = organismoControlRecuperado.getEntidadesPrestadoras().stream().findFirst().get();
 
     //assert
@@ -75,10 +75,10 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
 
     //act
     this.repositorio.guardar(organismoControlNuevo);
-    OrganismoControl organismoControlAModificar = this.repositorio.buscarPorId(1);
+    OrganismoControl organismoControlAModificar = this.repositorio.buscarPorId(organismoControlNuevo.getId());
     organismoControlAModificar.setNombre("Test Organismo Control Actualizado");
     this.repositorio.actualizar(organismoControlAModificar);
-    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(1);
+    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(organismoControlAModificar.getId());
 
     //assert
     Assertions.assertEquals("Test Organismo Control Actualizado", organismoControlRecuperado.getNombre(), "OrganismoControl: nombre guardado correctamente");
@@ -97,7 +97,6 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
     this.repositorio.eliminar(organismoControlNuevo);
 
     OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(organismoControlNuevo.getId());
-    List<OrganismoControl> organismosControl = this.repositorio.buscarTodos();
 
     //assert
     Assertions.assertNull(organismoControlRecuperado, "OrganismoControl: el organismo de control es eliminado");

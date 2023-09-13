@@ -32,7 +32,7 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
     //act
     this.repositorio.guardar(entidadPrestadoraNueva);
 
-    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(1);
+    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(entidadPrestadoraNueva.getId());
 
     //assert
     Assertions.assertTrue(entidadPrestadoraNueva.getId() > 0, "EntidadPrestadora: genera id correctamente");
@@ -78,10 +78,10 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
 
     //act
     this.repositorio.guardar(entidadPrestadoraNueva);
-    EntidadPrestadora entidadPrestadoraAModificar = this.repositorio.buscarPorId(1);
+    EntidadPrestadora entidadPrestadoraAModificar = this.repositorio.buscarPorId(entidadPrestadoraNueva.getId());
     entidadPrestadoraAModificar.setNombre("Test Entidad Prestadora Actualizada");
     this.repositorio.actualizar(entidadPrestadoraAModificar);
-    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(1);
+    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(entidadPrestadoraAModificar.getId());
 
     //assert
     Assertions.assertEquals("Test Entidad Prestadora Actualizada", entidadPrestadoraRecuperada.getNombre(), "EntidadPrestadora: nombre guardado correctamente");
