@@ -16,6 +16,8 @@ class Persona {
   - ubicacionActual: Ubicacion
   - usuario: Usuario
   - whatsapp: int
+  -notificablesSinNotificar: ListadoNotificables
+  -fechas: List<FechasDeSemana>
 
   + agregarEntidadDeInteres(Entidad): void
   + agregarEntidadInteres(Entidad): void
