@@ -53,6 +53,8 @@ public class AceptarFusionController implements Handler {
     this.calculadorGradoConfianza = new GradoCofianzaPromedioPonderado();
 
     this.fusionadorOrganizaciones = new FusionadorOrganizaciones();
+    this.fusionadorOrganizaciones.setCriterioFusion(criterioFusion);
+    this.fusionadorOrganizaciones.setCalculadorGradoConfianza(calculadorGradoConfianza);
   }
 
   @Override
@@ -62,7 +64,7 @@ public class AceptarFusionController implements Handler {
 
       OrganizacionesRelacionadas relacion = this.objectMapper.readValue(context.body(), OrganizacionesRelacionadas.class);
 
-      PropuestaFusion propuesta = this.fusionadorOrganizaciones.fusionar(relacion, criterioFusion, calculadorGradoConfianza);
+      PropuestaFusion propuesta = this.fusionadorOrganizaciones.fusionar(relacion);
 
       String json = this.jsonMapper.writeValueAsString(propuesta);
 

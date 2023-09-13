@@ -1,0 +1,12 @@
+@startuml
+
+    !include domain/comunidades/notificacionesPersona/EstrategiaMomentoNotificacion.puml
+    !include domain/comunidades/notificacionesPersona/NotificacionAlMomento.puml
+    !include domain/comunidades/notificacionesPersona/NotificacionSinApuro.puml
+
+    !include domain/comunidades/Persona.puml
+
+    NotificacionAlMomento .down.|> EstrategiaMomentoNotificacion
+    NotificacionSinApuro .up.|> EstrategiaMomentoNotificacion
+    Persona -left-> EstrategiaMomentoNotificacion
+@enduml

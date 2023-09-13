@@ -30,7 +30,7 @@ public class Interes {
   private List<ServicioPrestado> servicios = new ArrayList<>();
 
   public boolean servicioPrestadoEsDeInteres(ServicioPrestado servicioPrestado){
-    return servicios.contains(servicioPrestado.getServicio())
+    return servicios.contains(servicioPrestado)
             && entidades.contains(servicioPrestado.getEstablecimiento().getEntidad());
 
   }
@@ -56,6 +56,6 @@ public class Interes {
   }
 
   private void eliminarEntidadPorID(int id){
-    servicios.stream().filter(entidad -> entidad.getId() == id).toList().forEach(entidad -> entidades.remove(entidad));
+    entidades.stream().filter(entidad -> entidad.getId() == id).toList().forEach(entidad -> entidades.remove(entidad));
   }
 }

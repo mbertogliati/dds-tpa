@@ -4,15 +4,20 @@ import ar.edu.utn.frba.domain.criterios.CriterioFusion;
 import ar.edu.utn.frba.domain.entidades.Organizacion;
 import ar.edu.utn.frba.domain.entidades.OrganizacionesRelacionadas;
 import ar.edu.utn.frba.exceptions.ErrorDeCriteriosException;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class RelacionadorOrganizaciones {
-
+  private  CriterioFusion criterioFusion;
   public RelacionadorOrganizaciones() {
   }
 
-  public List<OrganizacionesRelacionadas> getPosiblesFusiones(List<Organizacion> organizaciones, CriterioFusion criterio){
+  public List<OrganizacionesRelacionadas> getPosiblesFusiones(List<Organizacion> organizaciones){
     List<OrganizacionesRelacionadas> posiblesFusiones = new ArrayList<OrganizacionesRelacionadas>();
 
     for(int i = 0; i < organizaciones.size() - 1; i++){
@@ -32,7 +37,7 @@ public class RelacionadorOrganizaciones {
           if(posiblesFusiones.stream().allMatch(pf -> pf.getOrganizacion1().getIdOrganizacion() != organizacion1.getIdOrganizacion() && pf.getOrganizacion2().getIdOrganizacion() != organizacion2.getIdOrganizacion())){
             //Si la segunda organizacion de la relación no está en las posibles fusiones
 
-            OrganizacionesRelacionadas relacion = this.relacionar(organizaciones.get(i), organizaciones.get(j), criterio);
+            OrganizacionesRelacionadas relacion = this.relacionar(organizaciones.get(i), organizaciones.get(j), criterioFusion);
 
             if(relacion != null){
               //Si la relacion se pudo realizar
