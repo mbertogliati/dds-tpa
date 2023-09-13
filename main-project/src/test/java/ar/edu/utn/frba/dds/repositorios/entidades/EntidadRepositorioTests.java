@@ -10,10 +10,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class EntidadRepositorioTests implements WithSimplePersistenceUnit {
-  private EntidadRepositorio repositorio;
+  private EntidadRepositorio repositorioEntidad;
   @BeforeEach
   public void init() throws IOException {
-    this.repositorio = new EntidadRepositorio(entityManager());
+    this.repositorioEntidad = new EntidadRepositorio(entityManager());
   }
 
   @Test
@@ -24,9 +24,9 @@ public class EntidadRepositorioTests implements WithSimplePersistenceUnit {
     entidadNueva.setNombre("Test Entidad");
 
     //act
-    this.repositorio.guardar(entidadNueva);
+    this.repositorioEntidad.guardar(entidadNueva);
 
-    Entidad entidadRecuperada = this.repositorio.buscarPorId(entidadNueva.getId());
+    Entidad entidadRecuperada = this.repositorioEntidad.buscarPorId(entidadNueva.getId());
 
     //assert
     Assertions.assertTrue(entidadNueva.getId() > 0, "Entidad: genera id correctamente");
@@ -47,9 +47,9 @@ public class EntidadRepositorioTests implements WithSimplePersistenceUnit {
     entidadNueva.getEstablecimientos().add(establecimientoNuevo);
 
     //act
-    this.repositorio.guardar(entidadNueva);
+    this.repositorioEntidad.guardar(entidadNueva);
 
-    Entidad entidadRecuperada = this.repositorio.buscarPorId(entidadNueva.getId());
+    Entidad entidadRecuperada = this.repositorioEntidad.buscarPorId(entidadNueva.getId());
     Establecimiento establecimientoRecuperado = entidadRecuperada.getEstablecimientos().stream().findFirst().get();
 
     //assert
@@ -70,11 +70,11 @@ public class EntidadRepositorioTests implements WithSimplePersistenceUnit {
     entidadNueva.setNombre("Test Entidad");
 
     //act
-    this.repositorio.guardar(entidadNueva);
-    Entidad entidadAModificar = this.repositorio.buscarPorId(entidadNueva.getId());
+    this.repositorioEntidad.guardar(entidadNueva);
+    Entidad entidadAModificar = this.repositorioEntidad.buscarPorId(entidadNueva.getId());
     entidadAModificar.setNombre("Test Entidad Actualizada");
-    this.repositorio.actualizar(entidadAModificar);
-    Entidad entidadRecuperada = this.repositorio.buscarPorId(entidadAModificar.getId());
+    this.repositorioEntidad.actualizar(entidadAModificar);
+    Entidad entidadRecuperada = this.repositorioEntidad.buscarPorId(entidadAModificar.getId());
 
     //assert
     Assertions.assertEquals("Test Entidad Actualizada", entidadRecuperada.getNombre(), "Entidad: nombre guardado correctamente");
@@ -89,10 +89,10 @@ public class EntidadRepositorioTests implements WithSimplePersistenceUnit {
     entidadNueva.setNombre("Test Entidad");
 
     //act
-    this.repositorio.guardar(entidadNueva);
-    this.repositorio.eliminar(entidadNueva);
+    this.repositorioEntidad.guardar(entidadNueva);
+    this.repositorioEntidad.eliminar(entidadNueva);
 
-    Entidad entidadRecuperada = this.repositorio.buscarPorId(entidadNueva.getId());
+    Entidad entidadRecuperada = this.repositorioEntidad.buscarPorId(entidadNueva.getId());
 
     //assert
     Assertions.assertNull(entidadRecuperada, "Entidad: la entidad es eliminada");

@@ -13,13 +13,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistenceUnit {
-  private EntidadPrestadoraRepositorio repositorio;
+  private EntidadPrestadoraRepositorio repositorioEntidadPrestadora;
 
   @BeforeEach
   public void init() throws IOException {
-    EntityManager entityManager = entityManager();
-    entityManager.setFlushMode(FlushModeType.COMMIT);
-    this.repositorio = new EntidadPrestadoraRepositorio(entityManager);
+    this.repositorioEntidadPrestadora = new EntidadPrestadoraRepositorio(entityManager());
   }
 
   @Test
@@ -30,9 +28,9 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
     entidadPrestadoraNueva.setNombre("Test Entidad Prestadora");
 
     //act
-    this.repositorio.guardar(entidadPrestadoraNueva);
+    this.repositorioEntidadPrestadora.guardar(entidadPrestadoraNueva);
 
-    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(entidadPrestadoraNueva.getId());
+    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorioEntidadPrestadora.buscarPorId(entidadPrestadoraNueva.getId());
 
     //assert
     Assertions.assertTrue(entidadPrestadoraNueva.getId() > 0, "EntidadPrestadora: genera id correctamente");
@@ -53,9 +51,9 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
     entidadPrestadoraNueva.getEntidades().add(entidadNueva);
 
     //act
-    this.repositorio.guardar(entidadPrestadoraNueva);
+    this.repositorioEntidadPrestadora.guardar(entidadPrestadoraNueva);
 
-    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(entidadPrestadoraNueva.getId());
+    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorioEntidadPrestadora.buscarPorId(entidadPrestadoraNueva.getId());
     Entidad entidadRecuperada = entidadPrestadoraRecuperada.getEntidades().stream().findFirst().get();
 
     //assert
@@ -77,11 +75,11 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
     entidadPrestadoraNueva.setNombre("Test Entidad Prestadora");
 
     //act
-    this.repositorio.guardar(entidadPrestadoraNueva);
-    EntidadPrestadora entidadPrestadoraAModificar = this.repositorio.buscarPorId(entidadPrestadoraNueva.getId());
+    this.repositorioEntidadPrestadora.guardar(entidadPrestadoraNueva);
+    EntidadPrestadora entidadPrestadoraAModificar = this.repositorioEntidadPrestadora.buscarPorId(entidadPrestadoraNueva.getId());
     entidadPrestadoraAModificar.setNombre("Test Entidad Prestadora Actualizada");
-    this.repositorio.actualizar(entidadPrestadoraAModificar);
-    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(entidadPrestadoraAModificar.getId());
+    this.repositorioEntidadPrestadora.actualizar(entidadPrestadoraAModificar);
+    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorioEntidadPrestadora.buscarPorId(entidadPrestadoraAModificar.getId());
 
     //assert
     Assertions.assertEquals("Test Entidad Prestadora Actualizada", entidadPrestadoraRecuperada.getNombre(), "EntidadPrestadora: nombre guardado correctamente");
@@ -96,11 +94,11 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
     entidadPrestadoraNueva.setNombre("Test Entidad Prestadora");
 
     //act
-    this.repositorio.guardar(entidadPrestadoraNueva);
-    this.repositorio.eliminar(entidadPrestadoraNueva);
+    this.repositorioEntidadPrestadora.guardar(entidadPrestadoraNueva);
+    this.repositorioEntidadPrestadora.eliminar(entidadPrestadoraNueva);
 
-    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorio.buscarPorId(entidadPrestadoraNueva.getId());
-    List<EntidadPrestadora> entidadesPrestadoras = this.repositorio.buscarTodos();
+    EntidadPrestadora entidadPrestadoraRecuperada = this.repositorioEntidadPrestadora.buscarPorId(entidadPrestadoraNueva.getId());
+    List<EntidadPrestadora> entidadesPrestadoras = this.repositorioEntidadPrestadora.buscarTodos();
 
     //assert
     Assertions.assertNull(entidadPrestadoraRecuperada, "EntidadPrestadora: la entidad prestadora es eliminada");

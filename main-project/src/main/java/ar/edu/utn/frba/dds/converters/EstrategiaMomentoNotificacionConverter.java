@@ -10,6 +10,9 @@ import javax.persistence.Converter;
 public class EstrategiaMomentoNotificacionConverter implements AttributeConverter<EstrategiaMomentoNotificacion, String> {
   @Override
   public String convertToDatabaseColumn(EstrategiaMomentoNotificacion medioDeNotificacion) {
+    if(medioDeNotificacion == null)
+      return null;
+
     String medioEnBase = null;
 
     if(medioDeNotificacion.getClass().getName().equals("NotificacionAlMomento")) {
@@ -18,12 +21,15 @@ public class EstrategiaMomentoNotificacionConverter implements AttributeConverte
     else if(medioDeNotificacion.getClass().getName().equals("NotificacionSinApuro")) {
       medioEnBase = "sinApuro";
     }
+
     return medioEnBase;
   }
 
   @Override
   public EstrategiaMomentoNotificacion convertToEntityAttribute(String s) {
     EstrategiaMomentoNotificacion medio = null;
+
+    if(s == null) return null;
 
     if(s.equals("alMomento")) {
       medio = new NotificacionAlMomento();

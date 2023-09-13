@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.domain.entidades.OrganismoControl;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.io.IOException;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,11 +11,11 @@ import org.junit.jupiter.api.Test;
 
 public class OrganismoControlRepositorioTests implements WithSimplePersistenceUnit {
 
-  private OrganismoControlRepositorio repositorio;
+  private OrganismoControlRepositorio repositorioOrganismoControl;
 
   @BeforeEach
   public void init() throws IOException {
-    this.repositorio = new OrganismoControlRepositorio(entityManager());
+    this.repositorioOrganismoControl = new OrganismoControlRepositorio(entityManager());
   }
 
   @Test
@@ -27,9 +26,9 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
     organismoControlNuevo.setNombre("Test Organismo Control");
 
     //act
-    this.repositorio.guardar(organismoControlNuevo);
+    this.repositorioOrganismoControl.guardar(organismoControlNuevo);
 
-    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(organismoControlNuevo.getId());
+    OrganismoControl organismoControlRecuperado = this.repositorioOrganismoControl.buscarPorId(organismoControlNuevo.getId());
 
     //assert
     Assertions.assertTrue(organismoControlNuevo.getId() > 0, "OrganismoControl: genera id correctamente");
@@ -50,9 +49,9 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
     organismoControlNuevo.getEntidadesPrestadoras().add(entidadPrestadoraNueva);
 
     //act
-    this.repositorio.guardar(organismoControlNuevo);
+    this.repositorioOrganismoControl.guardar(organismoControlNuevo);
 
-    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(organismoControlNuevo.getId());
+    OrganismoControl organismoControlRecuperado = this.repositorioOrganismoControl.buscarPorId(organismoControlNuevo.getId());
     EntidadPrestadora entidadPrestadoraRecuperada = organismoControlRecuperado.getEntidadesPrestadoras().stream().findFirst().get();
 
     //assert
@@ -74,11 +73,11 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
     organismoControlNuevo.setNombre("Test Organismo Control");
 
     //act
-    this.repositorio.guardar(organismoControlNuevo);
-    OrganismoControl organismoControlAModificar = this.repositorio.buscarPorId(organismoControlNuevo.getId());
+    this.repositorioOrganismoControl.guardar(organismoControlNuevo);
+    OrganismoControl organismoControlAModificar = this.repositorioOrganismoControl.buscarPorId(organismoControlNuevo.getId());
     organismoControlAModificar.setNombre("Test Organismo Control Actualizado");
-    this.repositorio.actualizar(organismoControlAModificar);
-    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(organismoControlAModificar.getId());
+    this.repositorioOrganismoControl.actualizar(organismoControlAModificar);
+    OrganismoControl organismoControlRecuperado = this.repositorioOrganismoControl.buscarPorId(organismoControlAModificar.getId());
 
     //assert
     Assertions.assertEquals("Test Organismo Control Actualizado", organismoControlRecuperado.getNombre(), "OrganismoControl: nombre guardado correctamente");
@@ -93,10 +92,10 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
     organismoControlNuevo.setNombre("Test Organismo Control");
 
     //act
-    this.repositorio.guardar(organismoControlNuevo);
-    this.repositorio.eliminar(organismoControlNuevo);
+    this.repositorioOrganismoControl.guardar(organismoControlNuevo);
+    this.repositorioOrganismoControl.eliminar(organismoControlNuevo);
 
-    OrganismoControl organismoControlRecuperado = this.repositorio.buscarPorId(organismoControlNuevo.getId());
+    OrganismoControl organismoControlRecuperado = this.repositorioOrganismoControl.buscarPorId(organismoControlNuevo.getId());
 
     //assert
     Assertions.assertNull(organismoControlRecuperado, "OrganismoControl: el organismo de control es eliminado");
