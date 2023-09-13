@@ -25,7 +25,7 @@ public class EntidadPrestadora implements Informable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
     @JoinColumn(name = "entidad_prestadora_id", referencedColumnName = "id")
     private List<Entidad> entidades = new ArrayList<>();
 

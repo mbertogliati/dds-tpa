@@ -27,7 +27,7 @@ public class OrganismoControl implements Informable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
     @JoinColumn(name = "organismo_control_id", referencedColumnName = "id")
     private List<EntidadPrestadora> entidadesPrestadoras;
 

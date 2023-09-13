@@ -24,6 +24,9 @@ public class PersonaRepositorioTests implements WithSimplePersistenceUnit {
     //arrange
     Persona personaNueva = new Persona();
     personaNueva.setNombre("Test Persona");
+    personaNueva.setEmail("email@email.com");
+    personaNueva.setWhatsapp(12340);
+    personaNueva.setApellido("Test");
 
     //act
     this.repositorioPersona.guardar(personaNueva);
@@ -42,8 +45,12 @@ public class PersonaRepositorioTests implements WithSimplePersistenceUnit {
     //arrange
     Persona personaNueva = new Persona();
     personaNueva.setNombre("Test Persona");
+    personaNueva.setEmail("email@email.com");
+    personaNueva.setWhatsapp(12340);
+    personaNueva.setApellido("Test");
 
     Membresia membresiaNueva = new Membresia();
+    membresiaNueva.setPersona(personaNueva);
     personaNueva.getMembresias().add(membresiaNueva);
 
     //act
