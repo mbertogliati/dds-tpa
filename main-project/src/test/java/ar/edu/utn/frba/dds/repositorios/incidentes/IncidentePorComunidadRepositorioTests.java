@@ -48,7 +48,7 @@ public class IncidentePorComunidadRepositorioTests implements WithSimplePersiste
   public void ejecutaActualizarCorrectamente_ConIncidentePorComunidadSimple(){
     //arrange
     IncidentePorComunidad incidentePorComunidad = new IncidentePorComunidad();
-    incidentePorComunidad.setFechaHoraCierre(this.obtenerFechaYHora("1000-01-01 00:00"));
+    incidentePorComunidad.setFechaHoraCierre(this.obtenerFechaYHora("2000-01-01 00:00"));
 
     //act
     this.repositorioIncidentePorComunidad.guardar(incidentePorComunidad);
@@ -58,7 +58,7 @@ public class IncidentePorComunidadRepositorioTests implements WithSimplePersiste
     IncidentePorComunidad incidentePorComunidadRecuperado = this.repositorioIncidentePorComunidad.buscarPorId(incidentePorComunidadAModificar.getId());
 
     //assert
-    Assertions.assertEquals(this.obtenerFechaYHora("1000-01-01 00:00"), incidentePorComunidadRecuperado.getFechaHoraCierre(), "Incidente: fecha hora cierre guardado correctamente");
+    Assertions.assertEquals(this.obtenerFechaYHora("2000-01-01 00:00"), incidentePorComunidadRecuperado.getFechaHoraCierre(), "Incidente: fecha hora cierre guardado correctamente");
   }
 
 
