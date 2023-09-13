@@ -5,29 +5,29 @@ import ar.edu.utn.frba.dds.domain.servicios.Servicio;
 import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "intereses")
+@Embeddable
 @Getter
 @Setter
 public class Interes {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-
   @ManyToMany
+  @JoinTable(name = "interes_entidades")
   private List<Entidad> entidades = new ArrayList<>();
 
   @ManyToMany
-  private List<Servicio> servicios = new ArrayList<>();
+  @JoinTable(name = "interes_serviciosPrestados")
+  private List<ServicioPrestado> servicios = new ArrayList<>();
 
   public boolean servicioPrestadoEsDeInteres(ServicioPrestado servicioPrestado){
     return servicios.contains(servicioPrestado.getServicio())
@@ -35,11 +35,11 @@ public class Interes {
 
   }
 
-  public void agregarServicio(Servicio servicio){
+  public void agregarServicio(ServicioPrestado servicio){
     this.servicios.add(servicio);
   }
 
-  public void eliminarServicio(Servicio servicio){
+  public void eliminarServicio(ServicioPrestado servicio){
     this.eliminarServicioPorID(servicio.getId());
   }
 

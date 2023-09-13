@@ -54,8 +54,7 @@ public class Persona {
   @Column(name = "whatsapp")
   private int whatsapp;
 
-  @OneToOne
-  @JoinColumn(name = "interes_id", referencedColumnName = "id")
+  @Embedded
   private Interes interes;
 
   @Column(name = "metodoNotificacion")
@@ -71,8 +70,7 @@ public class Persona {
   @Embedded
   private Ubicacion ultimaUbicacion;
 
-  @OneToOne
-  @JoinColumn(name = "notificablesSinNotificar_id", referencedColumnName = "id")
+  @Embedded
   private ListadoNotificables notificablesSinNotificar;
 
   @ManyToMany
@@ -104,10 +102,10 @@ public class Persona {
   public void eliminarEntidadInteres(Entidad entidad){
     this.interes.eliminarEntidad(entidad);
   }
-  public void agregarServicioInteres(Servicio servicio){
+  public void agregarServicioInteres(ServicioPrestado servicio){
     this.interes.agregarServicio(servicio);
   }
-  public void eliminarServicioInteres(Servicio servicio){
+  public void eliminarServicioInteres(ServicioPrestado servicio){
     this.interes.eliminarServicio(servicio);
   }
 
@@ -123,7 +121,7 @@ public class Persona {
     this.membresias.stream().map(m -> m.getComunidad()).filter(c -> c.tieneIncidente(incidente)).forEach(c -> c.cerrarIncidente(incidente, this));
   }
 
-  public void agregarServicioDeInteres(Servicio servicio) {
+  public void agregarServicioDeInteres(ServicioPrestado servicio) {
     this.interes.agregarServicio(servicio);
   }
 
@@ -131,7 +129,7 @@ public class Persona {
     this.interes.agregarEntidad(entidad);
   }
 
-  public void eliminarServicioDeInteres(Servicio servicio) {
+  public void eliminarServicioDeInteres(ServicioPrestado servicio) {
     this.interes.eliminarServicio(servicio);
   }
 

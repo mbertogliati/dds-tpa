@@ -4,25 +4,23 @@ import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "listadosNotificables")
 @Getter
 @Setter
+@Embeddable
 public class ListadoNotificables implements Notificable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     @ManyToMany
+    @JoinTable(name = "persona_notificablesSinNotificar")
     private List<NotificableConFecha> notificables;
 
     public ListadoNotificables() {

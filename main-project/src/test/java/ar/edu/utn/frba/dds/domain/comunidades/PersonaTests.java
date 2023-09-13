@@ -55,8 +55,8 @@ public class PersonaTests {
     ServicioPrestado servicioPrestado2 = establecimiento2.agregarServicio(servicio2);
 
     persona.agregarEntidadInteres(entidad);
-    persona.agregarServicioInteres(servicio1);
-    persona.agregarServicioInteres(servicio2);
+    persona.agregarServicioInteres(servicioPrestado);
+    persona.agregarServicioInteres(servicioPrestado2);
 
     Assertions.assertTrue(persona.servicioPrestadoEsDeInteres(servicioPrestado));
     Assertions.assertFalse(persona.servicioPrestadoEsDeInteres(servicioPrestado2));
