@@ -5,10 +5,15 @@ import ar.edu.utn.frba.domain.criterios.*;
 import ar.edu.utn.frba.domain.entidades.Organizacion;
 import ar.edu.utn.frba.domain.entidades.OrganizacionesRelacionadas;
 import ar.edu.utn.frba.domain.entidades.PropuestaFusion;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class FusionadorOrganizaciones {
-
-    public PropuestaFusion fusionar(OrganizacionesRelacionadas relacion, CriterioFusion criterioFusion, CalculadorGradoConfianza calculadorGradoConfianza){
+    private CriterioFusion criterioFusion;
+    private CalculadorGradoConfianza calculadorGradoConfianza;
+    public PropuestaFusion fusionar(OrganizacionesRelacionadas relacion){
         PropuestaFusion propuesta = null;
 
         Organizacion org1 = relacion.getOrganizacion1();
