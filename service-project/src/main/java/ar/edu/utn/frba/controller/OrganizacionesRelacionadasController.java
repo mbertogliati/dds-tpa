@@ -57,6 +57,7 @@ public class OrganizacionesRelacionadasController implements Handler {
     this.calculadorGradoConfianza = new GradoCofianzaPromedioPonderado();
 
     this.relacionadorOrganizaciones = new RelacionadorOrganizaciones();
+    this.relacionadorOrganizaciones.setCriterioFusion(criterioFusion);
   }
 
   @Override
@@ -66,7 +67,7 @@ public class OrganizacionesRelacionadasController implements Handler {
 
       List<Organizacion> listado = this.objectMapper.readValue(context.body(), new TypeReference<List<Organizacion>>() {});
 
-      List<OrganizacionesRelacionadas> propuestas = this.relacionadorOrganizaciones.getPosiblesFusiones(listado, criterioFusion);
+      List<OrganizacionesRelacionadas> propuestas = this.relacionadorOrganizaciones.getPosiblesFusiones(listado);
 
       List<IdDeOrganizacionesRelacionadas> idsPropuestas = propuestas.stream().map(OrganizacionesRelacionadas::getIds).toList();
 
