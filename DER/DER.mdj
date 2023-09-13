@@ -181,8 +181,7 @@
 							},
 							"name": "descripcion",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						}
 					]
 				},
@@ -243,8 +242,7 @@
 							},
 							"name": "nombre",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -433,8 +431,7 @@
 							},
 							"name": "nombre",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -614,8 +611,7 @@
 							},
 							"name": "nombre",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -817,8 +813,7 @@
 							},
 							"name": "nombre",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -939,8 +934,7 @@
 							},
 							"name": "tipo",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -950,8 +944,7 @@
 							},
 							"name": "valor",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						}
 					]
 				},
@@ -981,8 +974,7 @@
 							},
 							"name": "dia",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -991,8 +983,7 @@
 								"$ref": "AAAAAAGKgcqBmeNYHa0="
 							},
 							"name": "horario",
-							"type": "TIME",
-							"nullable": true
+							"type": "TIME"
 						}
 					]
 				},
@@ -1153,7 +1144,7 @@
 								"reference": {
 									"$ref": "AAAAAAGKgcqBmeNmU0Y="
 								},
-								"cardinality": "0..*"
+								"cardinality": "1..*"
 							},
 							"end2": {
 								"_type": "ERDRelationshipEnd",
@@ -1163,8 +1154,7 @@
 								},
 								"reference": {
 									"$ref": "AAAAAAGKgcqBmeNh7ew="
-								},
-								"cardinality": "0..1"
+								}
 							}
 						},
 						{
@@ -1192,8 +1182,7 @@
 								},
 								"reference": {
 									"$ref": "AAAAAAGKgcqBmOMQnvA="
-								},
-								"cardinality": "0..1"
+								}
 							}
 						},
 						{
@@ -1244,8 +1233,7 @@
 								"$ref": "AAAAAAGKgcqBmeNmU0Y="
 							},
 							"name": "esta_cerrado",
-							"type": "BIT",
-							"nullable": true
+							"type": "BIT"
 						},
 						{
 							"_type": "ERDColumn",
@@ -1282,8 +1270,7 @@
 							"foreignKey": true,
 							"referenceTo": {
 								"$ref": "AAAAAAGKgcqBmeNiIX4="
-							},
-							"nullable": true
+							}
 						},
 						{
 							"_type": "ERDColumn",
@@ -1296,8 +1283,7 @@
 							"foreignKey": true,
 							"referenceTo": {
 								"$ref": "AAAAAAGKgcqBmOMRX20="
-							},
-							"nullable": true
+							}
 						}
 					]
 				},
@@ -1775,8 +1761,7 @@
 							},
 							"name": "nombre",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2119,8 +2104,7 @@
 							},
 							"name": "nombre",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2368,8 +2352,7 @@
 							},
 							"name": "apellido",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2390,8 +2373,7 @@
 							},
 							"name": "momentoNotificacion",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2401,8 +2383,7 @@
 							},
 							"name": "metodoNotificacion",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2412,8 +2393,7 @@
 							},
 							"name": "nombre",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2603,7 +2583,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGKgcqBmuPp4x0="
 							},
-							"name": "Persona_id",
+							"name": "persona_id",
 							"type": "INT",
 							"foreignKey": true,
 							"referenceTo": {
@@ -2652,8 +2632,7 @@
 							},
 							"name": "nombre",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						}
 					]
 				},
@@ -2740,8 +2719,7 @@
 								"$ref": "AAAAAAGKgcqBm+P5wQ4="
 							},
 							"name": "puntos",
-							"type": "DOUBLE",
-							"nullable": true
+							"type": "DOUBLE"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2951,8 +2929,7 @@
 							},
 							"name": "nombre",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						}
 					]
 				},
@@ -3210,8 +3187,7 @@
 							},
 							"name": "clave",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
@@ -3221,8 +3197,7 @@
 							},
 							"name": "usuario",
 							"type": "VARCHAR",
-							"length": "255",
-							"nullable": true
+							"length": "255"
 						},
 						{
 							"_type": "ERDColumn",
