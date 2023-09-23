@@ -8,11 +8,9 @@ function cargarTemplate(nombreTemplate, idElemento) {
 }
 
 function resaltarElementoActivo(idElementoActivo) {
-    // Remove "active" class from all nav items
     const elementosNav = document.querySelectorAll('.nav-item');
     elementosNav.forEach(item => item.classList.remove('active'));
 
-    // Add "active" class to the specified navigation item
     const elementoActivo = document.getElementById(idElementoActivo);
     if (elementoActivo != null) {
         elementoActivo.classList.add('active');
