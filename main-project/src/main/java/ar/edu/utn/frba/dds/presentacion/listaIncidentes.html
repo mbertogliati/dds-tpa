@@ -16,21 +16,20 @@
 <div id="navbar"></div>
 
 <div class="container mt-4 mb-4">
-    <!-- Incident List Table -->
     <div class="row justify-content-center mt-4">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <h2 class="mb-3">Listado de Incidentes</h2>
             <form method="POST" action="#">
                 <div class="row">
-                    <label for="estado" class="form-label">Buscar incidente por estado</label>
+                    <label for="estado" class="form-label">Buscar incidente por estado</label> <!-- TODO: IMPLEMENTAR BUSCADOR POR ESTADO -->
                 </div>
                 <div class="mb-3 row">
-                    <div class="col-sm-10">
+                    <div class="col-md-6 col-sm-8">
                         <select class="form-select mb-3" name="estado" id="estado" required>
                             <option>Estado</option>
                             <option value="abierto">Abierto</option>
                             <option value="cerrado">Cerrado</option>
-                            <option value="en-revision">En revisión</option>
+                            <option value="para-revision">Para revisión</option>
                         </select>
                     </div>
                     <div class="col-sm-2">
@@ -39,156 +38,128 @@
                 </div>
             </form>
             <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
+                <table class="table align-middle table-sm table-striped table-hover">
+                    <thead class="table-dark">
                     <tr>
-                        <th>Comunidad</th>
-                        <th>Entidad</th>
-                        <th>Establecimiento</th>
-                        <th>Servicio</th>
-                        <th>Estado</th>
+                        <th scope="col">Servicio</th>
+                        <th scope="col">Entidad</th>
+                        <th scope="col">Establecimiento</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col" class="text-center">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     <tr>
-                        <td>Comunidad 1</td>
+                        <td>Servicio 1</td>
                         <td>Entidad 1</td>
                         <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
                         <td>Abierto</td>
-                    </tr>
-                    <tr>
-                        <td>Comunidad 1</td>
-                        <td>Entidad 1</td>
-                        <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
-                        <td>Abierto</td>
-                    </tr>
-                    <tr>
-                        <td>Comunidad 1</td>
-                        <td>Entidad 1</td>
-                        <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
-                        <td>Abierto</td>
-                    </tr>
-                    <tr>
-                        <td>Comunidad 1</td>
-                        <td>Entidad 1</td>
-                        <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
-                        <td>Abierto</td>
-                    </tr>
-                    <tr>
-                        <td>Comunidad 1</td>
-                        <td>Entidad 1</td>
-                        <td>Establecimiento 1</td>
-                        <td>Servicio 1</td>
-                        <td>Abierto</td>
+                        <td class="text-center"><a href="cierreIncidente.html" class="btn btn-sm btn-danger">Cerrar</a></td><!-- TODO: IMPLEMENTAR QUE SE CIERRE EL INCIDENTE CONCRETO DESDE ACA -->
                     </tr>
                     </tbody>
                 </table>
