@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apertura Incidentes</title>
+
+    <!-- Bootstrap CSS Link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS file -->
+    <link href="./css/generales.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column">
+
+<div id="navbar"></div>
+
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="mb-3">Apertura de Incidentes</h2>
+            <hr>
+            <form action="#" method="POST">
+                <div class="mb-3">
+                    <label for="observaciones" class="form-label">Observaciones</label>
+                    <textarea type="textbox" class="form-control" id="observaciones" name="observaciones"></textarea>
+                </div>
+
+                <!-- Bloques dinamicos -->
+                <div id="bloquesDinamicos">
+                    <!-- Bloque inicial -->
+                    <div class="dynamic-block mb-3">
+                        <hr>
+                        <h5 id="titulo-servicio">Servicio 1</h5>
+                        <select class="form-select mb-3" name="provincia[]" required>
+                            <option>Provincia</option>
+                            <option value="provincia1">Provincia 1</option>
+                            <option value="provincia2">Provincia 2</option>
+                            <option value="provincia3">Provincia 3</option>
+                        </select>
+                        <select class="form-select mb-3" name="departamento[]" required>
+                            <option>Departamento</option>
+                            <option value="departamento1">Departamento 1</option>
+                            <option value="departamento2">Departamento 2</option>
+                            <option value="departamento3">Departamento 3</option>
+                        </select>
+                        <select class="form-select mb-3" name="localidad[]" required>
+                            <option>Localidad</option>
+                            <option value="localidad1">Localidad 1</option>
+                            <option value="localidad2">Localidad 2</option>
+                            <option value="localidad3">Localidad 3</option>
+                        </select>
+                        <select class="form-select mb-3" name="entidad[]" required>
+                            <option>Entidad</option>
+                            <option value="entidad1">Entidad 1</option>
+                            <option value="entidad2">Entidad 2</option>
+                            <option value="entidad3">Entidad 3</option>
+                        </select>
+                        <select class="form-select mb-3" name="establecimiento[]" required>
+                            <option>Establecimiento</option>
+                            <option value="establecimiento1">Establecimiento 1</option>
+                            <option value="establecimiento2">Establecimiento 2</option>
+                            <option value="establecimiento3">Establecimiento 3</option>
+                        </select>
+                        <select class="form-select mb-3" name="servicio[]" required>
+                            <option>Servicio</option>
+                            <option value="servicio1">Servicio 1</option>
+                            <option value="servicio2">Servicio 2</option>
+                            <option value="servicio3">Servicio 3</option>
+                        </select>
+                    </div>
+                    <!-- End of initial block -->
+                </div>
+                <hr>
+                <div class="text-center">
+                    <a class="btn btn-sm btn-danger" id="remove-block" href="#">Eliminar último servicio</a>
+                    <a class="btn btn-sm btn-success" id="add-block" href="#">Agregar servicio</a>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Abrir incidente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="footer" class="mt-auto"></div>
+
+<!-- Bootstrap JavaScript y Popper.js Links -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@2.9.4/dist/umd/popper.min.js"></script>
+
+<!-- JS files -->
+<script src="js/manejoTemplates.js"></script>
+<script src="js/manejoBloquesFormulario.js"></script>
+
+<!-- Carga de templates -->
+<script>
+    cargarTemplate("./templates/navbar.html", "navbar");
+    cargarTemplate("./templates/footer.html", "footer");
+    resaltarElementoActivo("cargaMasiva");
+</script>
+
+</body>
+</html>
