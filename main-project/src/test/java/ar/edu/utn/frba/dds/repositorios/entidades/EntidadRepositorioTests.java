@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
-import ar.edu.utn.frba.dds.domain.entidades.Entidad;
-import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;

@@ -1,16 +1,16 @@
 package ar.edu.utn.frba.dds.rankings;
 
-import ar.edu.utn.frba.dds.domain.entidades.Entidad;
-import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
-import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
-import ar.edu.utn.frba.dds.domain.incidentes.IncidentePorComunidad;
-import ar.edu.utn.frba.dds.domain.rankings.GeneradorRanking;
-import ar.edu.utn.frba.dds.domain.rankings.MasIncidentes;
-import ar.edu.utn.frba.dds.domain.rankings.PromedioEntreAperturaYCierre;
-import ar.edu.utn.frba.dds.domain.rankings.Ranking;
-import ar.edu.utn.frba.dds.domain.servicios.Etiqueta;
-import ar.edu.utn.frba.dds.domain.servicios.Servicio;
-import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
+import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
+import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
+import ar.edu.utn.frba.dds.modelos.rankings.GeneradorRanking;
+import ar.edu.utn.frba.dds.modelos.rankings.MasIncidentes;
+import ar.edu.utn.frba.dds.modelos.rankings.PromedioEntreAperturaYCierre;
+import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
+import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
+import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
+import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

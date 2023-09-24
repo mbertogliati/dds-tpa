@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
-import ar.edu.utn.frba.dds.domain.comunidades.Membresia;
+import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

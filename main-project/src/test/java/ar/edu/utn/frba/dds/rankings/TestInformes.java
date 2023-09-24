@@ -1,12 +1,12 @@
 package ar.edu.utn.frba.dds.rankings;
 
-import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.entidades.Entidad;
-import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
-import ar.edu.utn.frba.dds.domain.entidades.OrganismoControl;
-import ar.edu.utn.frba.dds.domain.rankings.Informe;
-import ar.edu.utn.frba.dds.domain.rankings.PuntosPorEntidad;
-import ar.edu.utn.frba.dds.domain.rankings.Ranking;
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
+import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
+import ar.edu.utn.frba.dds.modelos.rankings.Informe;
+import ar.edu.utn.frba.dds.modelos.rankings.PuntosPorEntidad;
+import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

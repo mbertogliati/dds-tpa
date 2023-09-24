@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.comunidad;
 
-import ar.edu.utn.frba.dds.domain.comunidades.Comunidad;
-import ar.edu.utn.frba.dds.domain.comunidades.Membresia;
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
+import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.io.IOException;

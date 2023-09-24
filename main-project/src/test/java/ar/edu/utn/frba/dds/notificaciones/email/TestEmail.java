@@ -1,11 +1,11 @@
 package ar.edu.utn.frba.dds.notificaciones.email;
 
-import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.notificaciones.EjemploNotificable;
-import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
-import ar.edu.utn.frba.dds.domain.notificaciones.Notificador;
-import ar.edu.utn.frba.dds.domain.notificaciones.email.AdapterMAIL;
-import ar.edu.utn.frba.dds.domain.notificaciones.email.StrategyMAIL;
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.notificaciones.EjemploNotificable;
+import ar.edu.utn.frba.dds.modelos.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.modelos.notificaciones.Notificador;
+import ar.edu.utn.frba.dds.modelos.notificaciones.email.AdapterMAIL;
+import ar.edu.utn.frba.dds.modelos.notificaciones.email.StrategyMAIL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

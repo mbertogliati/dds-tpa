@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.validacion;
 
-import ar.edu.utn.frba.dds.domain.comunidades.Usuario;
-import ar.edu.utn.frba.dds.domain.validacion.EstrategiaValidacionNoEstaEnLista;
-import ar.edu.utn.frba.dds.domain.validacion.EstrategiaValidacionRegExp;
-import ar.edu.utn.frba.dds.domain.validacion.ObtenerTopPeoresPasswords;
-import ar.edu.utn.frba.dds.domain.validacion.ValidadorUsuarioConcreto;
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
+import ar.edu.utn.frba.dds.modelos.validacion.EstrategiaValidacionNoEstaEnLista;
+import ar.edu.utn.frba.dds.modelos.validacion.EstrategiaValidacionRegExp;
+import ar.edu.utn.frba.dds.modelos.validacion.ObtenerTopPeoresPasswords;
+import ar.edu.utn.frba.dds.modelos.validacion.ValidadorUsuarioConcreto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

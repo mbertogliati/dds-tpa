@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.servicios;
 
-import ar.edu.utn.frba.dds.domain.servicios.Etiqueta;
+import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

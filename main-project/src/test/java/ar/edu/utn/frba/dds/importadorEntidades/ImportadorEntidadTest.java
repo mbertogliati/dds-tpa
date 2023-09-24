@@ -2,9 +2,9 @@ package ar.edu.utn.frba.dds.importadorEntidades;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ar.edu.utn.frba.dds.domain.entidades.OrganismoControl;
-import ar.edu.utn.frba.dds.domain.importadorEntidades.ImportadorEntidadAdapter;
-import ar.edu.utn.frba.dds.domain.importadorEntidades.ImportadorEntidadCSV;
+import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
+import ar.edu.utn.frba.dds.modelos.importadorEntidades.ImportadorEntidadAdapter;
+import ar.edu.utn.frba.dds.modelos.importadorEntidades.ImportadorEntidadCSV;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

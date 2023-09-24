@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.utilidades;
 
-import ar.edu.utn.frba.dds.domain.utilidades.FechasDeSemana;
+import ar.edu.utn.frba.dds.modelos.utilidades.FechasDeSemana;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

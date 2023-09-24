@@ -1,12 +1,10 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
-import ar.edu.utn.frba.dds.domain.entidades.Entidad;
-import ar.edu.utn.frba.dds.domain.entidades.EntidadPrestadora;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.io.IOException;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

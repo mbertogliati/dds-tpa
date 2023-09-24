@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.incidentes;
 
-import ar.edu.utn.frba.dds.domain.incidentes.Incidente;
+import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;

@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
-import ar.edu.utn.frba.dds.domain.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

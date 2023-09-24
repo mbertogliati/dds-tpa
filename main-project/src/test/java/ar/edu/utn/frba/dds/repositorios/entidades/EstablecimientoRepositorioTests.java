@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
-import ar.edu.utn.frba.dds.domain.entidades.Establecimiento;
-import ar.edu.utn.frba.dds.domain.servicios.Servicio;
-import ar.edu.utn.frba.dds.domain.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
+import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
+import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioRepositorio;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.io.IOException;

@@ -1,11 +1,11 @@
 package ar.edu.utn.frba.dds.notificaciones.wpp;
 
-import ar.edu.utn.frba.dds.domain.comunidades.Persona;
-import ar.edu.utn.frba.dds.domain.notificaciones.EjemploNotificable;
-import ar.edu.utn.frba.dds.domain.notificaciones.Notificable;
-import ar.edu.utn.frba.dds.domain.notificaciones.Notificador;
-import ar.edu.utn.frba.dds.domain.notificaciones.wpp.AdapterWPP;
-import ar.edu.utn.frba.dds.domain.notificaciones.wpp.StrategyWPP;
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.notificaciones.EjemploNotificable;
+import ar.edu.utn.frba.dds.modelos.notificaciones.Notificable;
+import ar.edu.utn.frba.dds.modelos.notificaciones.Notificador;
+import ar.edu.utn.frba.dds.modelos.notificaciones.wpp.AdapterWPP;
+import ar.edu.utn.frba.dds.modelos.notificaciones.wpp.StrategyWPP;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

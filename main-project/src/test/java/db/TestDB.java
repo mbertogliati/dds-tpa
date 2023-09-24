@@ -1,6 +1,6 @@
 package db;
 
-import ar.edu.utn.frba.dds.domain.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import javax.persistence.EntityTransaction;
 import org.junit.jupiter.api.Test;

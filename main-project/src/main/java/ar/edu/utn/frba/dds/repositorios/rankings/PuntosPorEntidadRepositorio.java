@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.rankings;
 
-import ar.edu.utn.frba.dds.domain.rankings.PuntosPorEntidad;
+import ar.edu.utn.frba.dds.modelos.rankings.PuntosPorEntidad;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
