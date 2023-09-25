@@ -7,6 +7,6 @@ import org.jetbrains.annotations.NotNull;
 public class LoginController implements Handler {
   @Override
   public void handle(@NotNull Context context) throws Exception {
-
+    context.render("login.hbs");
   }
 }

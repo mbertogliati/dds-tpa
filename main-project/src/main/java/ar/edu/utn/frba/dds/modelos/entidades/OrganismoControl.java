@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "organismosDeControl")
@@ -27,7 +28,7 @@ public class OrganismoControl implements Informable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "organismo_control_id", referencedColumnName = "id")
     private List<EntidadPrestadora> entidadesPrestadoras;
 

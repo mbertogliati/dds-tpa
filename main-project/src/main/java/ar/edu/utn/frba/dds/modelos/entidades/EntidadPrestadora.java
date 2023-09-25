@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "entidadesPrestadoras")
@@ -25,14 +26,14 @@ public class EntidadPrestadora implements Informable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    @OneToMany(cascade = { CascadeType.ALL })
     @JoinColumn(name = "entidad_prestadora_id", referencedColumnName = "id")
     private List<Entidad> entidades = new ArrayList<>();
 
     @Column(name = "nombre")
     private String nombre;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "personaAInformar_id", referencedColumnName = "id")
     private Persona personaAInformar;
 

@@ -1,17 +1,28 @@
 package ar.edu.utn.frba.dds;
 
+import ar.edu.utn.frba.dds.controllers.AdministrarUsuarioController;
 import ar.edu.utn.frba.dds.controllers.AperturaIncidenteController;
+import ar.edu.utn.frba.dds.controllers.CerradorIncidenteController;
+import ar.edu.utn.frba.dds.controllers.CreadorIncidenteController;
 import ar.edu.utn.frba.dds.controllers.CargaMasivaController;
 import ar.edu.utn.frba.dds.controllers.CierreIncidenteController;
 import ar.edu.utn.frba.dds.controllers.IncidentesController;
 import ar.edu.utn.frba.dds.controllers.IndexController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
 import ar.edu.utn.frba.dds.controllers.RankingsController;
+import ar.edu.utn.frba.dds.controllers.RecibirCargaMasiva;
 import ar.edu.utn.frba.dds.controllers.UsuariosController;
+import ar.edu.utn.frba.dds.controllers.VerRankingController;
+import ar.edu.utn.frba.dds.controllers.VerificarLoginController;
+import ar.edu.utn.frba.dds.repositorios.entidades.EntidadRepositorio;
+import ar.edu.utn.frba.dds.repositorios.entidades.EstablecimientoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
+import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.DepartamentoRepositorio;
+import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.LocalidadRepositorio;
+import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
+import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
-import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
@@ -31,13 +42,30 @@ public class WebApp {
     EntityManager entityManager = (new CreadorEntityManager()).entityManagerCreado();
 
     app.get("/", new IndexController());
-    app.get("/incidentes", new IncidentesController(new IncidenteRepositorio(entityManager)));
-    app.get("/aperturaIncidente", new AperturaIncidenteController());
-    app.get("/cierreIncidente", new CierreIncidenteController());
-    app.get("/rankings", new RankingsController());
+
+    app.get("/incidentes", new IncidentesController(entityManager));
+
+    app.get("/aperturaIncidente", new AperturaIncidenteController(entityManager));
+    app.post("/aperturaIncidente", new CreadorIncidenteController(entityManager));
+
+    app.get("/cierreIncidente", new CierreIncidenteController(entityManager));
+    app.post("/cierreIncidente", new CerradorIncidenteController(entityManager));
+
+    app.get("/rankings", new RankingsController(entityManager));
+    app.get("/rankings/{id}", new VerRankingController(entityManager));
+
     app.get("/cargaMasiva", new CargaMasivaController());
-    app.get("/usuarios", new UsuariosController());
+    app.post("/cargaMasiva", new RecibirCargaMasiva(entityManager));
+
     app.get("/login", new LoginController());
+    app.post("/login", new VerificarLoginController(entityManager));
+
+    app.get("/usuarios", new UsuariosController(entityManager));
+    app.get("/usuario/{id}", new AdministrarUsuarioController(entityManager));
+    //TODO: IMPLEMENTAR ALTA, BAJA Y MODIFICACION DE PERSONAS/USUARIOS
+    app.post("/usuario/{id}",new AdministrarUsuarioController(entityManager));
+    app.put("/usuario/{id}",new AdministrarUsuarioController(entityManager));
+    app.delete("/usuario/{id}",new AdministrarUsuarioController(entityManager));
   }
 
   private static Consumer<JavalinConfig> config(){

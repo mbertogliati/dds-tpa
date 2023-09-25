@@ -13,10 +13,10 @@ public interface GeoRefService {
   Call<ListadoDeProvincias> provincias(@Query("campos") String campos);
 
   @GET("departamentos")
-  Call<ListadoDeDepartamentos> departamentos(@Query("provincia") String idProvincia, @Query("campos") String campos);
+  Call<ListadoDeDepartamentos> departamentos(@Query("provincia") String idProvincia, @Query("campos") String campos, @Query("max") String max);
 
   @GET("localidades")
-  Call<ListadoDeLocalidades> localidades(@Query("departamento") String departamento, @Query("provincia") String provincia, @Query("campos") String campos);
+  Call<ListadoDeLocalidades> localidades(@Query("departamento") String departamento, @Query("provincia") String provincia, @Query("campos") String campos, @Query("max") String max);
 
   @GET("ubicacion")
   Call<ResponseUbicacion> ubicacion(@Query("lat") float latitud, @Query("lon") float longitud);

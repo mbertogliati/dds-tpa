@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apertura Incidentes</title>
+
+    <!-- Bootstrap CSS Link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS file -->
+    <link href="/css/generales.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column">
+
+<!-- TODO: IMPLEMENTAR QUE LOS SELECTS SE ACTUALICEN DINAMICAMENTE -->
+<!--TODO: Unificar footer y header para poder reutilizar plantillas-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/"><b>MESTRAPEST</b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Inicio</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownIncidentes" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Incidentes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownIncidentes">
+                        <a class="dropdown-item" href="/incidentes">Listado</a>
+                        <a class="dropdown-item" href="/aperturaIncidente">Apertura</a>
+                        <a class="dropdown-item" href="/cierreIncidente">Cierre</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownEntidades" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Entidades
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownEntidades">
+                        <a class="dropdown-item" href="/rankings">Rankings</a>
+                        <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/usuarios">Usuarios</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Iniciar Sesión</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="mb-3">Apertura de Incidentes</h2>
+            <hr>
+            <form action="/aperturaIncidente" method="POST" id="formGeo">
+                <div class="mb-3">
+                    <label for="observaciones" class="form-label">Observaciones</label>
+                    <textarea type="textbox" class="form-control" id="observaciones" name="observaciones"></textarea>
+                </div>
+
+                <!-- TODO: Mostrar departamentos de provincia, y etc -->
+                <div id="bloquesDinamicos">
+                    <div class="mb-3">
+                        <hr>
+                        <select class="form-select mb-3" name="provincia" required>
+                            <option>Provincia</option>
+                            {{#each provincias}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                        <select class="form-select mb-3" name="departamento" required>
+                            <option>Departamento</option>
+                            {{#each departamentos}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                        <select class="form-select mb-3" name="localidad" required>
+                            <option>Localidad</option>
+                            {{#each localidades}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                        <select class="form-select mb-3" name="entidad" required>
+                            <option>Entidad</option>
+                            {{#each entidades}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                        <select class="form-select mb-3" name="establecimiento" required>
+                            <option>Establecimiento</option>
+                            {{#each establecimientos}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                        <select class="form-select mb-3 dynamic-block" name="servicio[]" required>
+                            <option>Servicio</option>
+                            {{#each servicios}}
+                                <option value="{{id}}">
+                                    {{servicio.nombre}}
+                                    {{#each servicio.etiquetas}}
+                                        - {{tipo}}: {{valor}}
+                                    {{/each}}
+                                </option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <a class="btn btn-sm btn-danger" id="remove-service" href="#">Eliminar último servicio</a>
+                    <a class="btn btn-sm btn-success" id="add-service" href="#">Agregar servicio</a>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Abrir incidente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-secondary text-white text-center py-3">
+    <div class="container">
+        2023 Grupo 19 - UTN FRBA, DDS Miércoles Noche.
+    </div>
+</footer>
+
+<!-- Bootstrap JavaScript y Popper.js Links -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+
+<!-- JS files -->
+<script src="/js/manejoBloquesFormulario.js"></script>
+
+</body>
+</html>

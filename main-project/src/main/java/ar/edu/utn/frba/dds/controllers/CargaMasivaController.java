@@ -7,6 +7,6 @@ import org.jetbrains.annotations.NotNull;
 public class CargaMasivaController implements Handler {
   @Override
   public void handle(@NotNull Context context) throws Exception {
-
+    context.render("cargaMasivaEntidades.hbs");
   }
 }

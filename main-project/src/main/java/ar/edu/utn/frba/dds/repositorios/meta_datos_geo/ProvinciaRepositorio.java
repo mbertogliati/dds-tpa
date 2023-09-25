@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.repositorios.meta_datos_geo;
 
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -17,7 +18,11 @@ public class ProvinciaRepositorio {
   public void guardar(Provincia provincia) {
     EntityTransaction transaction = entityManager.getTransaction();
     transaction.begin();
-    entityManager.persist(provincia);
+    try{
+      entityManager.persist(provincia);
+    }catch(EntityExistsException e){
+      System.out.println(e);
+    }
     transaction.commit();
   }
 

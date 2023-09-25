@@ -9,6 +9,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "provincias")
@@ -21,8 +23,7 @@ public class Provincia {
   @Column(name = "nombre")
   private String nombre;
 
-  @OneToMany
-  @JoinColumn(name = "provincia_id", referencedColumnName = "id")
+  @OneToMany(mappedBy = "provincia")
   private List<Departamento> departamentos;
 
   public Provincia(){}

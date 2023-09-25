@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.rankings;
 
+import ar.edu.utn.frba.dds.CreadorEntityManager;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
@@ -11,6 +12,7 @@ import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
 import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.repositorios.rankings.RankingRepositorio;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -144,7 +146,8 @@ public class TestGeneradorRankings {
 
         Assertions.assertEquals(mcdonalds, ranking.getPuntosPorEntidad().get(2).getEntidad());
         Assertions.assertEquals(60, ranking.puntosDe(mcdonalds));
-
+        //RankingRepositorio repoRankings = new RankingRepositorio(new CreadorEntityManager().entityManager());
+        //repoRankings.guardarRanking(ranking);
     }
 
     @Test
@@ -176,5 +179,8 @@ public class TestGeneradorRankings {
 
         Assertions.assertEquals(bbva, ranking.getPuntosPorEntidad().get(2).getEntidad());
         Assertions.assertEquals(1, ranking.puntosDe(bbva));
+
+        //RankingRepositorio repoRankings = new RankingRepositorio(new CreadorEntityManager().entityManager());
+        //repoRankings.guardarRanking(ranking);
     }
 }

@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "rankings")
@@ -28,6 +30,7 @@ public class Ranking {
 
     @OneToMany
     @JoinColumn(name = "ranking_id", referencedColumnName = "id")
+    @Cascade(CascadeType.ALL)
     private List<PuntosPorEntidad> puntosPorEntidad;
 
     @Column(name = "fecha_hora_creacion", columnDefinition = "TIMESTAMP")
