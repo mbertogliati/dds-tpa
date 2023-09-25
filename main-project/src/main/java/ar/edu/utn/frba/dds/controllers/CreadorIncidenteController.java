@@ -25,6 +25,11 @@ public class CreadorIncidenteController implements Handler {
 
   @Override
   public void handle(@NotNull Context context) throws Exception {
+    if(VerificadorLogueo.noEstaLogueado(context.sessionAttribute("logueado"))){
+      context.redirect("/login");
+      return;
+    }
+
     Map<String, Object> model = new HashMap<>();
 
     String observaciones = context.formParam("observaciones");

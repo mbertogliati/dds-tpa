@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.controllers.CierreIncidenteController;
 import ar.edu.utn.frba.dds.controllers.IncidentesController;
 import ar.edu.utn.frba.dds.controllers.IndexController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
+import ar.edu.utn.frba.dds.controllers.LogoutController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosController;
 import ar.edu.utn.frba.dds.controllers.RankingsController;
 import ar.edu.utn.frba.dds.controllers.RecibirCargaMasiva;
@@ -29,6 +30,7 @@ import io.javalin.rendering.JavalinRenderer;
 import java.io.IOException;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
+import org.eclipse.jetty.server.session.SessionHandler;
 
 public class WebApp {
   public static void main(String[] args) {
@@ -58,6 +60,8 @@ public class WebApp {
 
     app.get("/login", new LoginController());
     app.post("/login", new VerificarLoginController(entityManager));
+
+    app.get("/logout", new LogoutController());
 
     app.get("/usuarios", new UsuariosController(entityManager));
     app.get("/usuario/{id}", new AdministrarUsuarioController(entityManager));

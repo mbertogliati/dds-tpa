@@ -24,6 +24,11 @@ public class CerradorIncidenteController implements Handler {
 
   @Override
   public void handle(@NotNull Context context) throws Exception {
+    if(VerificadorLogueo.noEstaLogueado(context.sessionAttribute("logueado"))){
+      context.redirect("/login");
+      return;
+    }
+
     String idIncidente = context.formParam("incidente");
 
     Incidente incidente = this.repoIncidente.buscarPorId(Integer.parseInt(idIncidente));

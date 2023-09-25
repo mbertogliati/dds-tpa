@@ -28,6 +28,11 @@ public class RecibirCargaMasiva implements Handler {
 
   @Override
   public void handle(@NotNull Context context) throws Exception {
+    if(VerificadorLogueo.noEstaLogueado(context.sessionAttribute("logueado"))){
+      context.redirect("/login");
+      return;
+    }
+
     List<UploadedFile> uploadedFiles = context.uploadedFiles("file");
 
     if (!uploadedFiles.isEmpty()) {

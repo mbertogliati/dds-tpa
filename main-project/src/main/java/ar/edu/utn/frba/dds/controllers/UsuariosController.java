@@ -15,6 +15,11 @@ public class UsuariosController implements Handler {
   }
   @Override
   public void handle(@NotNull Context context) throws Exception {
+    if(VerificadorLogueo.noEstaLogueado(context.sessionAttribute("logueado"))){
+      context.redirect("/login");
+      return;
+    }
+
     Map<String, Object> model = new HashMap<>();
 
     model.put("personas", repoPersona.buscarTodas());
