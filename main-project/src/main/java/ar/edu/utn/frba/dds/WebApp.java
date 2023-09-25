@@ -17,6 +17,7 @@ import ar.edu.utn.frba.dds.controllers.VerRankingController;
 import ar.edu.utn.frba.dds.controllers.VerificarLoginController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosController;
 import com.github.jknack.handlebars.Handlebars;
@@ -71,6 +72,7 @@ public class WebApp {
     app.get("/obtenerEntidades", new ObtenerEntidadesController(entityManager));
     app.get("/obtenerEstablecimientos", new ObtenerEstablecimientosController(entityManager));
     app.get("/obtenerServicios", new ObtenerServiciosController(entityManager));
+    app.get("/obtenerIncidentes", new ObtenerIncidentesController(entityManager));
   }
 
   private static Consumer<JavalinConfig> config(){

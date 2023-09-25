@@ -13,7 +13,6 @@
 </head>
 <body class="d-flex flex-column">
 
-<!-- TODO: IMPLEMENTAR QUE LOS SELECTS SE ACTUALICEN DINAMICAMENTE -->
 <!--TODO: Unificar footer y header para poder reutilizar plantillas-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
@@ -70,7 +69,6 @@
                     <textarea type="textbox" class="form-control" id="observaciones" name="observaciones"></textarea>
                 </div>
 
-                <!-- TODO: Mostrar departamentos de provincia, y etc -->
                 <div id="bloquesDinamicos">
                     <div class="mb-3">
                         <hr>
@@ -88,15 +86,9 @@
                         </select>
                         <select class="form-select mb-3" name="entidad" id="entidad" required>
                             <option>Entidad</option>
-                            {{#each entidades}}
-                                <option value="{{id}}">{{nombre}}</option>
-                            {{/each}}
                         </select>
                         <select class="form-select mb-3" name="establecimiento" id="establecimiento" required>
                             <option>Establecimiento</option>
-                            {{#each establecimientos}}
-                                <option value="{{id}}">{{nombre}}</option>
-                            {{/each}}
                         </select>
                         <input class="form-control mb-3 dynamic-block" type="text" name="servicio[]" autocomplete="off" list="listaServicios">
                     </div>
@@ -128,7 +120,7 @@
 
 <!-- JS files -->
 <script src="/js/manejoBloquesFormulario.js"></script>
-<script src="/js/manejoFormulariosGeograficos.js"></script>
+<script src="/js/manejoFormularioAperturaIncidente.js"></script>
 
 </body>
 </html>
