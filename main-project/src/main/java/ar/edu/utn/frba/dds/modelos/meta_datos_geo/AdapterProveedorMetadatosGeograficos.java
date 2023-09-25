@@ -13,6 +13,8 @@ public interface AdapterProveedorMetadatosGeograficos {
 
   List<Provincia> provincias() throws IOException;
   List<Departamento> departamentosDeProvincia(Provincia provincia) throws IOException;
+  List<Departamento> departamentosDeProvinciaParaTabla(Provincia provincia) throws IOException;
   List<Localidad> localidadesDeDepartamento(Departamento departamento, Provincia provincia) throws IOException;
+  List<Localidad> localidadesDeDepartamentoParaTabla(Departamento departamento, Provincia provincia) throws IOException;
 
 }

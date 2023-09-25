@@ -52,6 +52,9 @@ public class Servicio {
     for (String etiqueta : listaEtiquetas){
       texto = texto + etiqueta + " - ";
     }
+    if(texto != ""){
+      texto = texto.substring(0, texto.length() - 3);
+    }
     return texto;
   }
   private void eliminarEtiquetaPorID(int id){

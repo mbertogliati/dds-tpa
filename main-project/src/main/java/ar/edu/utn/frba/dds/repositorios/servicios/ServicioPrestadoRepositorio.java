@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.servicios;
 
+import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -42,5 +43,12 @@ public class ServicioPrestadoRepositorio {
   public List<ServicioPrestado> buscarTodos() {
     TypedQuery<ServicioPrestado> query = entityManager.createQuery("FROM " + ServicioPrestado.class.getName(), ServicioPrestado.class);
     return query.getResultList();
+  }
+
+  public List<ServicioPrestado> buscarPorEstablecimiento(String idEstablecimiento) {
+    return (List<ServicioPrestado>) entityManager.createQuery(
+            "SELECT s FROM ServicioPrestado s WHERE s.establecimiento.id = :idBuscado")
+        .setParameter("idBuscado", Integer.parseInt(idEstablecimiento))
+        .getResultList();
   }
 }

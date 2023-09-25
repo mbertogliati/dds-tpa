@@ -9,18 +9,16 @@ import ar.edu.utn.frba.dds.controllers.CierreIncidenteController;
 import ar.edu.utn.frba.dds.controllers.IncidentesController;
 import ar.edu.utn.frba.dds.controllers.IndexController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosController;
 import ar.edu.utn.frba.dds.controllers.RankingsController;
 import ar.edu.utn.frba.dds.controllers.RecibirCargaMasiva;
 import ar.edu.utn.frba.dds.controllers.UsuariosController;
 import ar.edu.utn.frba.dds.controllers.VerRankingController;
 import ar.edu.utn.frba.dds.controllers.VerificarLoginController;
-import ar.edu.utn.frba.dds.repositorios.entidades.EntidadRepositorio;
-import ar.edu.utn.frba.dds.repositorios.entidades.EstablecimientoRepositorio;
-import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
-import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.DepartamentoRepositorio;
-import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.LocalidadRepositorio;
-import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
-import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosController;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import io.javalin.Javalin;
@@ -66,6 +64,13 @@ public class WebApp {
     app.post("/usuario/{id}",new AdministrarUsuarioController(entityManager));
     app.put("/usuario/{id}",new AdministrarUsuarioController(entityManager));
     app.delete("/usuario/{id}",new AdministrarUsuarioController(entityManager));
+
+    //CONTROLADORES PARA FORMULARIOS DINAMICOS
+    app.get("/obtenerDepartamentos", new ObtenerDepartamentosController(entityManager));
+    app.get("/obtenerLocalidades", new ObtenerLocalidadesController(entityManager));
+    app.get("/obtenerEntidades", new ObtenerEntidadesController(entityManager));
+    app.get("/obtenerEstablecimientos", new ObtenerEstablecimientosController(entityManager));
+    app.get("/obtenerServicios", new ObtenerServiciosController(entityManager));
   }
 
   private static Consumer<JavalinConfig> config(){

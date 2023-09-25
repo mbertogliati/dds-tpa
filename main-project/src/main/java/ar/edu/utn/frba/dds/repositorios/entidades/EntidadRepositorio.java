@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -40,6 +41,13 @@ public class EntidadRepositorio {
 
   public List<Entidad> buscarTodos() {
     return entityManager.createQuery("FROM " + Entidad.class.getName(), Entidad.class)
+        .getResultList();
+  }
+
+  public List<Entidad> buscarPorLocalidad(String idLocalidad) {
+    return (List<Entidad>) entityManager.createQuery(
+            "SELECT e FROM Entidad e WHERE e.ubicacion.metadato.localidad.id = :idBuscado")
+        .setParameter("idBuscado", idLocalidad)
         .getResultList();
   }
 }

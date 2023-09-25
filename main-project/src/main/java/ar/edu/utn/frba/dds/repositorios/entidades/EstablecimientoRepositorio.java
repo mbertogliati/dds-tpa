@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -42,5 +43,12 @@ public class EstablecimientoRepositorio {
   public List<Establecimiento> buscarTodos() {
     TypedQuery<Establecimiento> query = entityManager.createQuery("FROM " + Establecimiento.class.getName(), Establecimiento.class);
     return query.getResultList();
+  }
+
+  public List<Establecimiento> buscarPorEntidad(String idEntidad) {
+    return (List<Establecimiento>) entityManager.createQuery(
+            "SELECT e FROM Establecimiento e WHERE e.entidad.id = :idBuscado")
+        .setParameter("idBuscado", Integer.parseInt(idEntidad))
+        .getResultList();
   }
 }

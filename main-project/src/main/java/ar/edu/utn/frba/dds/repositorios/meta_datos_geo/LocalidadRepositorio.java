@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.meta_datos_geo;
 
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Localidad;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -66,5 +67,12 @@ public class LocalidadRepositorio {
   public List<Localidad> obtenerTodas() {
     TypedQuery<Localidad> query = entityManager.createQuery("FROM " + Localidad.class.getName(), Localidad.class);
     return query.getResultList();
+  }
+
+  public List<Localidad> buscarPorDepartamento(String idDepartamento) {
+    return (List<Localidad>) entityManager.createQuery(
+            "SELECT l FROM Localidad l WHERE l.departamento.id = :idBuscado")
+        .setParameter("idBuscado", idDepartamento)
+        .getResultList();
   }
 }

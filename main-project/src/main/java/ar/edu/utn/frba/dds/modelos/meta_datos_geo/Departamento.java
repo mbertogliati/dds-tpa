@@ -24,9 +24,7 @@ public class Departamento {
   @Column(name = "nombre")
   private String nombre;
 
-  @OneToMany
-  @JoinColumn(name = "departamento_id", referencedColumnName = "id")
-  @Cascade(CascadeType.ALL)
+  @OneToMany(mappedBy = "departamento")
   private List<Localidad> localidades;
 
   @ManyToOne
@@ -38,5 +36,11 @@ public class Departamento {
   public Departamento(String id, String nombre) {
     this.id = id;
     this.nombre = nombre;
+  }
+
+  public Departamento(String id, String nombre, Provincia provincia) {
+    this.id = id;
+    this.nombre = nombre;
+    this.provincia = provincia;
   }
 }

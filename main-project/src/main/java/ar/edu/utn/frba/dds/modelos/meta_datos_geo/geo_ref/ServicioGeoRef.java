@@ -99,10 +99,22 @@ public class ServicioGeoRef implements AdapterProveedorMetadatosGeograficos {
     ListadoDeDepartamentos lista = responseBuscada.body();
     return lista.departamentos.stream().map(dep -> new Departamento(dep.id, dep.nombre)).toList();
   }
+  public List<Departamento> departamentosDeProvinciaParaTabla(Provincia provincia) throws IOException {
+    Call<ListadoDeDepartamentos> requestBuscada = this.geoRefService.departamentos(String.valueOf(provincia.getId()), "id, nombre", "5000");
+    Response<ListadoDeDepartamentos> responseBuscada = requestBuscada.execute();
+    ListadoDeDepartamentos lista = responseBuscada.body();
+    return lista.departamentos.stream().map(dep -> new Departamento(dep.id, dep.nombre, provincia)).toList();
+  }
   public List<Localidad> localidadesDeDepartamento(Departamento departamento, Provincia provincia) throws IOException {
     Call<ListadoDeLocalidades> requestBuscada = this.geoRefService.localidades(departamento.getNombre(), provincia.getNombre(), "id, nombre", "5000");
     Response<ListadoDeLocalidades> responseBuscada = requestBuscada.execute();
     ListadoDeLocalidades lista = responseBuscada.body();
     return lista.localidades.stream().map(dep -> new Localidad(dep.id, dep.nombre)).toList();
+  }
+  public List<Localidad> localidadesDeDepartamentoParaTabla(Departamento departamento, Provincia provincia) throws IOException {
+    Call<ListadoDeLocalidades> requestBuscada = this.geoRefService.localidades(departamento.getNombre(), provincia.getNombre(), "id, nombre", "5000");
+    Response<ListadoDeLocalidades> responseBuscada = requestBuscada.execute();
+    ListadoDeLocalidades lista = responseBuscada.body();
+    return lista.localidades.stream().map(loc -> new Localidad(loc.id, loc.nombre, departamento)).toList();
   }
 }

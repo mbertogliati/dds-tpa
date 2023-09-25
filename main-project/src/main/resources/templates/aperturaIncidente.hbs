@@ -74,47 +74,31 @@
                 <div id="bloquesDinamicos">
                     <div class="mb-3">
                         <hr>
-                        <select class="form-select mb-3" name="provincia" required>
+                        <select class="form-select mb-3" name="provincia" id="provincia" required>
                             <option>Provincia</option>
                             {{#each provincias}}
                                 <option value="{{id}}">{{nombre}}</option>
                             {{/each}}
                         </select>
-                        <select class="form-select mb-3" name="departamento" required>
+                        <select class="form-select mb-3" name="departamento" id="departamento" required>
                             <option>Departamento</option>
-                            {{#each departamentos}}
-                                <option value="{{id}}">{{nombre}}</option>
-                            {{/each}}
                         </select>
-                        <select class="form-select mb-3" name="localidad" required>
+                        <select class="form-select mb-3" name="localidad" id="localidad" required>
                             <option>Localidad</option>
-                            {{#each localidades}}
-                                <option value="{{id}}">{{nombre}}</option>
-                            {{/each}}
                         </select>
-                        <select class="form-select mb-3" name="entidad" required>
+                        <select class="form-select mb-3" name="entidad" id="entidad" required>
                             <option>Entidad</option>
                             {{#each entidades}}
                                 <option value="{{id}}">{{nombre}}</option>
                             {{/each}}
                         </select>
-                        <select class="form-select mb-3" name="establecimiento" required>
+                        <select class="form-select mb-3" name="establecimiento" id="establecimiento" required>
                             <option>Establecimiento</option>
                             {{#each establecimientos}}
                                 <option value="{{id}}">{{nombre}}</option>
                             {{/each}}
                         </select>
-                        <select class="form-select mb-3 dynamic-block" name="servicio[]" required>
-                            <option>Servicio</option>
-                            {{#each servicios}}
-                                <option value="{{id}}">
-                                    {{servicio.nombre}}
-                                    {{#each servicio.etiquetas}}
-                                        - {{tipo}}: {{valor}}
-                                    {{/each}}
-                                </option>
-                            {{/each}}
-                        </select>
+                        <input class="form-control mb-3 dynamic-block" type="text" name="servicio[]" autocomplete="off" list="listaServicios">
                     </div>
                 </div>
                 <hr>
@@ -136,11 +120,15 @@
     </div>
 </footer>
 
+<datalist id="listaServicios">
+</datalist>
+
 <!-- Bootstrap JavaScript y Popper.js Links -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
 
 <!-- JS files -->
 <script src="/js/manejoBloquesFormulario.js"></script>
+<script src="/js/manejoFormulariosGeograficos.js"></script>
 
 </body>
 </html>

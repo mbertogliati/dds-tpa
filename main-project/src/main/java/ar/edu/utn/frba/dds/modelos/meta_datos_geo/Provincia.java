@@ -31,4 +31,7 @@ public class Provincia {
     this.id = id;
     this.nombre = nombre;
   }
+  public Provincia(String id) {
+    this.id = id;
+  }
 }

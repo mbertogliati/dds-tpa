@@ -34,7 +34,7 @@ public class CreadorIncidenteController implements Handler {
     incidente.setObservaciones(observaciones);
 
     for (int i = 0; i < servicios.size(); i++) {
-      ServicioPrestado servicioPrestado = servicioPrestadoRepositorio.buscarPorId(Integer.parseInt(servicios.get(i)));
+      ServicioPrestado servicioPrestado = servicioPrestadoRepositorio.buscarPorId(obtenerIdServicioPrestado(servicios.get(i)));
       incidente.agregarServiciosPrestados(servicioPrestado);
     }
 
@@ -44,5 +44,10 @@ public class CreadorIncidenteController implements Handler {
 
 
     context.redirect("/incidentes");
+  }
+
+  private Integer obtenerIdServicioPrestado(String texto){
+    int indiceEspacio = texto.indexOf(" ");
+    return Integer.parseInt(texto.substring(0, indiceEspacio));
   }
 }
