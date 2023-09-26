@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.CreadorEntityManager;
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
@@ -30,25 +31,32 @@ public class CreadorIncidenteController implements Handler {
       return;
     }
 
-    Map<String, Object> model = new HashMap<>();
-
-    String observaciones = context.formParam("observaciones");
-    List<String> servicios = context.formParams("servicio[]");
-
+    //INCIDENTE
     Incidente incidente = new Incidente();
+
+    //OBSERVACIONES
+    String observaciones = context.formParam("observaciones");
     incidente.setObservaciones(observaciones);
 
+    //SERVICIOS
+    List<String> servicios = context.formParams("servicio[]");
     for (int i = 0; i < servicios.size(); i++) {
       ServicioPrestado servicioPrestado = servicioPrestadoRepositorio.buscarPorId(obtenerIdServicioPrestado(servicios.get(i)));
       incidente.agregarServiciosPrestados(servicioPrestado);
     }
 
-    //TODO: MANEJAR EL ID DE LA PERSONA POR SESION, Y HACER COMUNIDAD.AGREGARINCIDENTE()
+    //PERSONA
+    Persona persona = context.sessionAttribute("persona");
+    incidente.setAutorApertura(persona);
+    incidente.agregarIncidenteComunidad();
 
+    //PERSISTIR
     incidenteRepositorio.guardar(incidente);
 
+    //TODO: ERROR GRAVE: CUANDO NOTIFICA, GUARDA EN BD NULL PARA EL MOMENTO DE NOTIFICACION. MIENTRAS, PUSE PARA QUE SIEMPRE SEA AL MOMENTO.
+    //TODO: HAY QUE PERSISTIR NOTIFICABLECONFECHA, QUE TIENE UN NOTIFICABLE, PERO NO PERSISTIMOS NOTIFICABLES. REVISAR CÓMO HACEMOS ESO.
 
-    context.redirect("/incidentes");
+    context.redirect("/incidentes?success=abierto");
   }
 
   private Integer obtenerIdServicioPrestado(String texto){

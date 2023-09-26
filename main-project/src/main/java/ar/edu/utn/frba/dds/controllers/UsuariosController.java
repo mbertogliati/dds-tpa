@@ -1,11 +1,16 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 public class UsuariosController implements Handler {
@@ -22,7 +27,16 @@ public class UsuariosController implements Handler {
 
     Map<String, Object> model = new HashMap<>();
 
-    model.put("personas", repoPersona.buscarTodas());
+    String param = context.queryParam("username");
+    List<Persona> listaPersonas;
+
+    if(param != null){
+      listaPersonas = repoPersona.buscarQueTenganUsername(param);
+    }else{
+      listaPersonas = repoPersona.buscarTodas();
+    }
+
+    model.put("personas", listaPersonas);
 
     context.render("usuarios.hbs", model);
   }

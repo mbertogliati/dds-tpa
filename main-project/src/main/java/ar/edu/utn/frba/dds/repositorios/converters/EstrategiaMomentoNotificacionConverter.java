@@ -11,7 +11,7 @@ public class EstrategiaMomentoNotificacionConverter implements AttributeConverte
   @Override
   public String convertToDatabaseColumn(EstrategiaMomentoNotificacion medioDeNotificacion) {
     if(medioDeNotificacion == null)
-      return null;
+      return "alMomento";
 
     String medioEnBase = null;
 
@@ -29,7 +29,7 @@ public class EstrategiaMomentoNotificacionConverter implements AttributeConverte
   public EstrategiaMomentoNotificacion convertToEntityAttribute(String s) {
     EstrategiaMomentoNotificacion medio = null;
 
-    if(s == null) return null;
+    if(s == null) return new NotificacionAlMomento();
 
     if(s.equals("alMomento")) {
       medio = new NotificacionAlMomento();

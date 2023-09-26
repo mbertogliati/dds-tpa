@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -42,5 +43,12 @@ public class UsuarioRepositorio {
   public List<Usuario> buscarTodos() {
     TypedQuery<Usuario> query = entityManager.createQuery("FROM " + Usuario.class.getName(), Usuario.class);
     return query.getResultList();
+  }
+
+  public List<Usuario> buscarPorUsername(String username) {
+    return (List<Usuario>) entityManager.createQuery(
+            "SELECT u FROM Usuario u WHERE u.username = :usuarioBuscado")
+        .setParameter("usuarioBuscado", username)
+        .getResultList();
   }
 }

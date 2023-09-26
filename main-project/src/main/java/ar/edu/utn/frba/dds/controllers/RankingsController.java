@@ -1,9 +1,12 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
 import ar.edu.utn.frba.dds.repositorios.rankings.RankingRepositorio;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.swing.text.html.parser.Entity;
@@ -23,8 +26,18 @@ public class RankingsController implements Handler {
     }
 
     Map<String, Object> model = new HashMap<>();
-    //TODO: No traerse los PuntosPorEntidad
-    model.put("rankings",this.repoRankings.obtenerTodos());
+
+    String param = context.queryParam("fecha");
+    List<Ranking> listaRankings;
+
+    if(param != null){
+      listaRankings = repoRankings.buscarConFechaCreacionPosteriorA(param);
+    }else{
+      listaRankings = repoRankings.obtenerTodos();
+    }
+
+    model.put("rankings", listaRankings);
+
     context.render("rankingsEntidades.hbs", model);
   }
 }

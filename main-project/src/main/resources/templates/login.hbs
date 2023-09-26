@@ -38,6 +38,12 @@
                     Iniciar Sesión
                 </div>
                 <div class="card-body">
+                    {{#with error}}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error.</strong> Los datos ingresados son incorrectos.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {{/with}}
                     <form action="/login" method="post">
                         <div class="mb-3">
                             <label for="username" class="form-label">Nombre de usuario</label>

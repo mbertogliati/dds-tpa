@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -42,5 +43,19 @@ public class PersonaRepositorio {
   public List<Persona> buscarTodas() {
     TypedQuery<Persona> query = entityManager.createQuery("FROM " + Persona.class.getName(), Persona.class);
     return query.getResultList();
+  }
+
+  public List<Persona> buscarPorUsername(String username) {
+    return (List<Persona>) entityManager.createQuery(
+            "SELECT p FROM Persona p WHERE p.usuario.username = :usuarioBuscado")
+        .setParameter("usuarioBuscado", username)
+        .getResultList();
+  }
+
+  public List<Persona> buscarQueTenganUsername(String username) {
+    return entityManager.createQuery(
+            "SELECT p FROM Persona p WHERE p.usuario.username LIKE :usuarioBuscado", Persona.class)
+        .setParameter("usuarioBuscado", "%" + username + "%")
+        .getResultList();
   }
 }

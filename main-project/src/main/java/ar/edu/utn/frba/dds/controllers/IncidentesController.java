@@ -1,9 +1,11 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.CreadorEntityManager;
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
+import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
@@ -35,11 +37,36 @@ public class IncidentesController implements Handler {
 
     Map<String, Object> model = new HashMap<>();
 
-    List<Incidente> incidentesRecuperados = repositorio.buscarTodos();
 
-    model.put("incidentes", incidentesRecuperados);
+    String paramSuccess = context.queryParam("success");
+
+    if(paramSuccess != null){
+      model.put("success", new Success(paramSuccess));
+    }
+
+    List<Incidente> listaIncidentes;
+    String paramEstado = context.queryParam("estado");
+
+    if(paramEstado != null){
+      Persona persona = context.sessionAttribute("persona");
+      listaIncidentes = repositorio.incidentesDeEstado(paramEstado, persona.getId());
+    }else{
+      listaIncidentes = repositorio.buscarTodos();
+    }
+
+    model.put("incidentes", listaIncidentes);
 
     context.render("listaIncidentes.hbs", model);
+  }
+
+  @Getter
+  @Setter
+  private class Success{
+    private String caso;
+
+    public Success(String caso){
+      this.caso = caso;
+    }
   }
 
 }

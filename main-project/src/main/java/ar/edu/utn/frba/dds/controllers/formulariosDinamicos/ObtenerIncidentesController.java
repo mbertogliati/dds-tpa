@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.jetbrains.annotations.NotNull;
@@ -22,11 +23,18 @@ public class ObtenerIncidentesController implements Handler {
     String localidadId = context.queryParam("selectorId");
 
     List<Incidente> incidentes = incidenteRepositorio.buscarPorLocalidad(localidadId);
+    List<Incidente> incidentesAux = new ArrayList<>();
+
+    for (Incidente incidente : incidentes){
+      if(incidentesAux.stream().allMatch(i -> i.getId() != incidente.getId())){
+        incidentesAux.add(incidente);
+      }
+    }
 
     // Genero HTML con las opciones de los departamentos
     StringBuilder htmlOptions = new StringBuilder();
 
-    for (Incidente incidente : incidentes) {
+    for (Incidente incidente : incidentesAux) {
       StringBuilder servicioText = new StringBuilder();
       servicioText.append(incidente.getServiciosAfectados().get(0).getEstablecimiento().getNombre());
 

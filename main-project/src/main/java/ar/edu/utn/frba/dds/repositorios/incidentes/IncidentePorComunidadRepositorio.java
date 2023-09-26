@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.incidentes;
 
+import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -42,5 +43,12 @@ public class IncidentePorComunidadRepositorio {
   public List<IncidentePorComunidad> buscarTodos() {
     TypedQuery<IncidentePorComunidad> query = entityManager.createQuery("FROM " + IncidentePorComunidad.class.getName(), IncidentePorComunidad.class);
     return query.getResultList();
+  }
+
+  public List<IncidentePorComunidad> buscarPorIncidente(String idIncidente) {
+    return (List<IncidentePorComunidad>) entityManager.createQuery(
+            "SELECT i FROM IncidentePorComunidad i WHERE i.incidente.id = :idBuscado")
+        .setParameter("idBuscado", Integer.parseInt(idIncidente))
+        .getResultList();
   }
 }

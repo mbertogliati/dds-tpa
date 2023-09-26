@@ -61,9 +61,15 @@
     <div class="row justify-content-center mt-4">
         <div class="col-md-10">
             <h2 class="mb-3">Listado de Incidentes</h2>
-            <form method="POST" action="#">
+            {{#with success}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Incidente {{caso}} correctamente.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/with}}
+            <form method="GET" action="/incidentes">
                 <div class="row">
-                    <label for="estado" class="form-label">Buscar incidente por estado</label> <!-- TODO: IMPLEMENTAR BUSCADOR POR ESTADO -->
+                    <label for="estado" class="form-label">Buscar incidente por estado</label>
                 </div>
                 <div class="mb-3 row">
                     <div class="col-md-6 col-sm-8">
@@ -71,11 +77,14 @@
                             <option>Estado</option>
                             <option value="abierto">Abierto</option>
                             <option value="cerrado">Cerrado</option>
-                            <option value="para-revision">Para revisión</option>
+                            <option value="paraRevision">Para revisión</option>
                         </select>
                     </div>
                     <div class="col-sm-2">
-                        <button class="btn btn-success">Buscar</button>
+                        <button class="btn btn-primary">Buscar</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="/aperturaIncidente" class="btn btn-success">Abrir incidente</a>
                     </div>
                 </div>
             </form>
@@ -100,7 +109,10 @@
                                     <td rowspan="{{../serviciosAfectados.length}}">{{establecimiento.nombre}}</td>
                                     <td rowspan="{{../serviciosAfectados.length}}">ESTADO MAN</td>
                                     <td rowspan="{{../serviciosAfectados.length}}" class="text-center">
-                                        <a href="/cerrarIncidenteConcreto/{{../this.id}}" class="btn btn-sm btn-danger">Cerrar</a>
+                                        <form action="/cierreIncidente" method="post">
+                                            <input type="hidden" name="incidente" value="{{../this.id}}">
+                                            <button type="submit" class="btn btn-sm btn-danger">Cerrar</button>
+                                        </form>
                                     </td>
                                 {{/if}}
                             </tr>

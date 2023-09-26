@@ -51,7 +51,8 @@ public class Comunidad {
   }
 
   public void notificarMiembros(Notificable notificable){
-    this.membresias.stream().map(m -> m.getPersona()).forEach(p -> p.enviarNotificacion(notificable));
+    this.membresias.stream().map(m -> m.getPersona()).forEach(
+        p -> p.enviarNotificacion(notificable));
   }
 
   public void cerrarIncidente(Incidente incidente, Persona persona){

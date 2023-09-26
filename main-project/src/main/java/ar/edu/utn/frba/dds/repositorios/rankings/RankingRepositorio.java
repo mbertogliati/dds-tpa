@@ -1,6 +1,9 @@
 package ar.edu.utn.frba.dds.repositorios.rankings;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -66,5 +69,12 @@ public class RankingRepositorio {
   public List<Ranking> obtenerTodos() {
     TypedQuery<Ranking> query = entityManager.createQuery("FROM " + Ranking.class.getName(), Ranking.class);
     return query.getResultList();
+  }
+
+  public List<Ranking> buscarConFechaCreacionPosteriorA(String fecha) {
+    return entityManager.createQuery(
+            "SELECT r FROM Ranking r WHERE r.fechaHoraCreacion > :fechaCreacion", Ranking.class)
+        .setParameter("fechaCreacion", LocalDate.parse(fecha).atStartOfDay())
+        .getResultList();
   }
 }

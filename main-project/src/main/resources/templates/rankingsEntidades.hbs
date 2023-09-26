@@ -61,18 +61,18 @@
     <div class="row justify-content-center mt-4">
         <div class="col-md-10">
             <h2 class="mb-3">Listado de Rankings de Entidades</h2>
-            <form method="POST" action="#">
+            <form method="GET" action="/rankings">
                 <div class="row">
                     <div class="col">
-                        <label for="fecha-busqueda" class="form-label">Seleccionar fecha de generación del ranking:</label> <!-- TODO: IMPLEMENTAR BUSCADOR POR FECHA -->
+                        <label for="fecha" class="form-label">Buscar con fecha de generación posterior a:</label>
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <div class="col-sm-4">
-                        <input class="form-control" type="date" name="fecha-busqueda" id="fecha-busqueda">
+                        <input class="form-control" type="date" name="fecha" id="fecha">
                     </div>
                     <div class="col-sm-2">
-                        <button class="btn btn-success">Buscar</button>
+                        <button class="btn btn-primary">Buscar</button>
                     </div>
                 </div>
             </form>
