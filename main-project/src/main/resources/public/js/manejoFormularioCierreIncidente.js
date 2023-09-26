@@ -7,6 +7,12 @@ document.addEventListener("DOMContentLoaded", function() {
     provinciaSelector.addEventListener("change", function(){
         buscarOpciones(provinciaSelector, departamentoSelector,"Departamentos");
     });
+    departamentoSelector.addEventListener("DOMSubtreeModified", function(){
+        buscarOpciones(departamentoSelector, localidadSelector,"Localidades");
+    });
+    localidadSelector.addEventListener("DOMSubtreeModified", function(){
+        buscarOpciones(localidadSelector, incidenteSelector,"Incidentes");
+    });
     departamentoSelector.addEventListener("change", function(){
         buscarOpciones(departamentoSelector, localidadSelector,"Localidades");
     });

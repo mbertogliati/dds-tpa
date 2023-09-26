@@ -13,6 +13,10 @@ body{
     padding-bottom: 200px;
 }
 
+.altura-minima{
+    min-height: calc(100vh - 150px);
+}
+
 .banner h1 {
     font-size: 45px;
     font-weight: bold;
