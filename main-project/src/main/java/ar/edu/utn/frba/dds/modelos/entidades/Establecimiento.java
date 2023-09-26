@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "establecimientos")
@@ -30,6 +31,7 @@ public class Establecimiento {
 
   @ManyToOne
   @JoinColumn(name = "denominacion_id", referencedColumnName = "id")
+  @Cascade(org.hibernate.annotations.CascadeType.ALL)
   private Denominacion denominacion;
 
   @Column(name = "nombre")
@@ -42,7 +44,6 @@ public class Establecimiento {
   private Ubicacion ubicacion;
 
   @ManyToOne
-  @JoinColumn(name = "entidad_id", referencedColumnName = "id")
   private Entidad entidad;
 
   public Establecimiento(){}

@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.modelos.importadorEntidades;
 import ar.edu.utn.frba.dds.modelos.entidades.Denominacion;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
+import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import java.io.IOException;
 import java.io.Reader;
@@ -28,28 +29,29 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
   }
 
   private static final class TipoRecord {
+    public static final String Establecimiento = "Establecimiento";
     public static final String Entidad = "Entidad";
     public static final String Control = "Control";
     public static final String Prestador = "Prestador";
   }
+
+  private Map<Integer, Establecimiento> establecimientos = new HashMap<>();
   private Map<Integer, Entidad> entidades = new HashMap<>();
   private Map<Integer, EntidadPrestadora> entidadesPrestadoras = new HashMap<>();
   List<OrganismoControl> organismosDeControl = new ArrayList<OrganismoControl>();
+
   public List<OrganismoControl> importar(String path) {
-
-    //List<Entidad> entidades = new ArrayList<Entidad>();
-    //List<EntidadPrestadora> entidadesPrestadoras = new ArrayList<EntidadPrestadora>();
-    //List<OrganismoControl> organismosDeControl = new ArrayList<OrganismoControl>();
-
     try (
         Reader reader = Files.newBufferedReader(Paths.get(path));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.EXCEL.withHeader());
     ) {
-
       List<CSVRecord> recordsSinEncabezado = csvParser.stream().filter(csvRecord -> csvRecord.getRecordNumber() > 0).toList();
+      Stream<CSVRecord> streamEstablecimientos = recordsSinEncabezado.stream().filter(csvRecord -> csvRecord.get(PosicionColumnasCSV.TIPO).equals(TipoRecord.Establecimiento));
       Stream<CSVRecord> streamEntidades = recordsSinEncabezado.stream().filter(csvRecord -> csvRecord.get(PosicionColumnasCSV.TIPO).equals(TipoRecord.Entidad));
       Stream<CSVRecord> streamEntidadesPrestadoras = recordsSinEncabezado.stream().filter(csvRecord -> csvRecord.get(PosicionColumnasCSV.TIPO).equals(TipoRecord.Prestador));
       Stream<CSVRecord> streamOrganismosDeControl = recordsSinEncabezado.stream().filter(csvRecord -> csvRecord.get(PosicionColumnasCSV.TIPO).equals(TipoRecord.Control));
+
+      streamEstablecimientos.forEach(this::crearEstablecimiento);
 
       streamEntidades.forEach(this::crearEntidad);
 
@@ -63,12 +65,52 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
     return organismosDeControl;
   }
 
+  private void crearEstablecimiento(CSVRecord csvRecord) {
+    Establecimiento establecimiento = new Establecimiento();
+    establecimiento.setNombre(csvRecord.get(PosicionColumnasCSV.NOMBRE));
+    establecimiento.setDenominacion(new Denominacion(csvRecord.get(PosicionColumnasCSV.DENOMINACION)));
+
+    this.establecimientos.put(Integer.parseInt(csvRecord.get(PosicionColumnasCSV.ID)), establecimiento);
+  }
+
+  private void crearEntidad(CSVRecord csvRecord) {
+    List<Establecimiento> establecimientosRelacionados = this.obtenerEstablecimientosRelacionados(csvRecord.get(PosicionColumnasCSV.ENTIDADES_RELACIONADAS));
+
+    Entidad entidad = new Entidad();
+    entidad.setNombre(csvRecord.get(PosicionColumnasCSV.NOMBRE));
+    entidad.setDenominacion(new Denominacion(csvRecord.get(PosicionColumnasCSV.DENOMINACION)));
+    entidad.setEstablecimientos(establecimientosRelacionados);
+
+    this.entidades.put(Integer.parseInt(csvRecord.get(PosicionColumnasCSV.ID)), entidad);
+  }
+  private List<Establecimiento> obtenerEstablecimientosRelacionados(String idEstablecimientosConcatenadas) {
+    List<Integer> idRelacionados = Arrays.stream(idEstablecimientosConcatenadas.split(",")).mapToInt(Integer::parseInt).boxed().toList();
+    List<Establecimiento> establecimientosAux = new ArrayList<>();
+
+    for(Integer id : idRelacionados) {
+      establecimientosAux.add(this.establecimientos.get(id));
+    }
+
+    return establecimientosAux;
+  }
+
   private void crearEntidadPrestadora(CSVRecord csvRecord) {
     EntidadPrestadora entidadPrestadora = new EntidadPrestadora(csvRecord.get(PosicionColumnasCSV.NOMBRE));
+
     List<Entidad> entidadesRelacionadas = obtenerEntidadesRelacionadas(csvRecord.get(PosicionColumnasCSV.ENTIDADES_RELACIONADAS));
-    //entidadPrestadora.setId(Integer.parseInt(csvRecord.get(PosicionColumnasCSV.ID)));
     entidadPrestadora.setEntidades(entidadesRelacionadas);
+
     entidadesPrestadoras.put(Integer.parseInt(csvRecord.get(PosicionColumnasCSV.ID)), entidadPrestadora);
+  }
+  private List<Entidad> obtenerEntidadesRelacionadas(String idEntidadesConcatenadas) {
+    List<Integer> idRelacionados = Arrays.stream(idEntidadesConcatenadas.split(",")).mapToInt(Integer::parseInt).boxed().toList();
+    List<Entidad> entidadesAux = new ArrayList<>();
+
+    for(Integer id : idRelacionados) {
+      entidadesAux.add(this.entidades.get(id));
+    }
+
+    return entidadesAux;
   }
 
   private void crearOrganismosControl(CSVRecord csvRecord) {
@@ -77,14 +119,6 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
     organismoControl.getEntidadesPrestadoras().addAll(entidadesPrestadorasRelacionadas);
     this.organismosDeControl.add(organismoControl);
   }
-  private List<Entidad> obtenerEntidadesRelacionadas(String idEntidadesConcatenadas) {
-    List<Integer> idRelacionados = Arrays.stream(idEntidadesConcatenadas.split(",")).mapToInt(Integer::parseInt).boxed().toList();
-    List<Entidad> entidadesAux = new ArrayList<>();
-    for(Integer id : idRelacionados) {
-      entidadesAux.add(this.entidades.get(id));
-    }
-    return entidadesAux;
-  }
   private List<EntidadPrestadora> obtenerEntidadesPrestadorasRelacionadas(String idEntidadesConcatenadas) {
     List<Integer> idRelacionados = Arrays.stream(idEntidadesConcatenadas.split(",")).mapToInt(Integer::parseInt).boxed().toList();
     List<EntidadPrestadora> entidadesAux = new ArrayList<>();
@@ -92,14 +126,6 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
       entidadesAux.add(this.entidadesPrestadoras.get(id));
     }
     return entidadesAux;
-  }
-
-  private void crearEntidad(CSVRecord csvRecord) {
-    Entidad entidad = new Entidad();
-    //entidad.setId(Integer.parseInt(csvRecord.get(PosicionColumnasCSV.ID)));
-    entidad.setNombre(csvRecord.get(PosicionColumnasCSV.NOMBRE));
-    entidad.setDenominacion(new Denominacion(csvRecord.get(PosicionColumnasCSV.DENOMINACION)));
-    this.entidades.put(Integer.parseInt(csvRecord.get(PosicionColumnasCSV.ID)), entidad);
   }
 }
 

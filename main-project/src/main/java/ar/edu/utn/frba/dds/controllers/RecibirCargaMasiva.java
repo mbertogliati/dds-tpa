@@ -47,7 +47,9 @@ public class RecibirCargaMasiva implements Handler {
 
       organismosControl.forEach(o ->
       {
-        o.getEntidadesPrestadoras().forEach(e -> repoEntidadPrestadora.guardar(e));
+        o.getEntidadesPrestadoras().forEach(
+            e -> repoEntidadPrestadora.guardar(e)
+        );
         repoOrganismoControl.guardar(o);
       });
 
