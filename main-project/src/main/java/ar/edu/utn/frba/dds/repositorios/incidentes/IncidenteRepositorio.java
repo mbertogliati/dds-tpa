@@ -97,7 +97,7 @@ public class IncidenteRepositorio {
         }
 
         case REVISION -> {
-          //TODO: ESTOY CONSIDERANDO INCIDENTES PARA REVISION LOS QUE SON DE SU INTERÉS. NO SE QUE LE PARECE
+          //TODO: RETORNA LOS QUE SON DE INTERES PARA LA PERSONA, CONSIDERANDOLOS COMO SI FUESEN DE REVISION. DISCUTIR SI DEBERÍAMOS APLICAR LO DE INCIDENTES CERCANOS
           Persona persona = repoPersona.buscarPorId(idPersona);
           if(incidente.getServiciosAfectados().stream().anyMatch(s -> persona.getInteres().servicioPrestadoEsDeInteres(s))){
             incidentesResultado.add(incidente);

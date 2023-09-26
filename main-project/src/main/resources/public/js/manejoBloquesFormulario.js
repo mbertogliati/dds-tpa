@@ -5,12 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function agregarCampoDeServicio() {
         const plantillaCampo = document.querySelector(".dynamic-block");
         const nuevoCampo = plantillaCampo.cloneNode(true);
-
-        // Limpiar el contenido de los campos clonados
-        const selects = nuevoCampo.querySelectorAll("select");
-        selects.forEach((select) => {
-            select.selectedIndex = 0;
-        });
+        nuevoCampo.value = "";
 
         bloquesDinamicos.appendChild(nuevoCampo);
     }

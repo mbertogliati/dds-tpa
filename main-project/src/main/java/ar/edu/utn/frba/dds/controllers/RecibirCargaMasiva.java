@@ -45,13 +45,11 @@ public class RecibirCargaMasiva implements Handler {
 
       List<OrganismoControl> organismosControl = importador.importar(archivo.getPath());
 
-      //TODO: NO ANDA PORQUE ORM TIRA EXCEPTION:
-      /*
       organismosControl.forEach(o ->
       {
         o.getEntidadesPrestadoras().forEach(e -> repoEntidadPrestadora.guardar(e));
         repoOrganismoControl.guardar(o);
-      });*/
+      });
 
 
       archivo.delete();

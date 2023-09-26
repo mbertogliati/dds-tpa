@@ -48,13 +48,11 @@ public class CreadorIncidenteController implements Handler {
     //PERSONA
     Persona persona = context.sessionAttribute("persona");
     incidente.setAutorApertura(persona);
+
     incidente.agregarIncidenteComunidad();
 
     //PERSISTIR
     incidenteRepositorio.guardar(incidente);
-
-    //TODO: ERROR GRAVE: CUANDO NOTIFICA, GUARDA EN BD NULL PARA EL MOMENTO DE NOTIFICACION. MIENTRAS, PUSE PARA QUE SIEMPRE SEA AL MOMENTO.
-    //TODO: HAY QUE PERSISTIR NOTIFICABLECONFECHA, QUE TIENE UN NOTIFICABLE, PERO NO PERSISTIMOS NOTIFICABLES. REVISAR CÓMO HACEMOS ESO.
 
     context.redirect("/incidentes?success=abierto");
   }

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.incidentes;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.notificaciones.Notificable;
@@ -17,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
@@ -39,6 +41,15 @@ public class Incidente implements Notificable {
     @ManyToOne
     @JoinColumn(name = "autor_apertura_id", referencedColumnName = "id")
     private Persona autorApertura;
+
+    @Column(name = "estaCerrado")
+    private Boolean estaCerrado = false;
+
+    public void actualizarEstado(List<IncidentePorComunidad> incPorComunidad){
+        if(incPorComunidad.stream().allMatch(i -> i.isEstaCerrado())){
+            this.estaCerrado = true;
+        }
+    }
 
     public Incidente() {
         this.serviciosAfectados = new ArrayList<>();

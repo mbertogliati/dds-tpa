@@ -10,6 +10,7 @@
 
     <!-- CSS file -->
     <link href="/css/generales.css" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
 </head>
 <body class="d-flex flex-column">
 
@@ -107,11 +108,19 @@
                                 {{#if @first}}
                                     <td rowspan="{{../serviciosAfectados.length}}">{{establecimiento.entidad.nombre}}</td>
                                     <td rowspan="{{../serviciosAfectados.length}}">{{establecimiento.nombre}}</td>
-                                    <td rowspan="{{../serviciosAfectados.length}}">ESTADO MAN</td>
+                                    <td rowspan="{{../serviciosAfectados.length}}">
+                                        {{#if ../estaCerrado}}
+                                            <span class="badge bg-danger">Cerrado</span>
+                                        {{else}}
+                                            <span class="badge bg-success">Abierto</span>
+                                        {{/if}}
+                                    </td>
                                     <td rowspan="{{../serviciosAfectados.length}}" class="text-center">
                                         <form action="/cierreIncidente" method="post">
                                             <input type="hidden" name="incidente" value="{{../this.id}}">
-                                            <button type="submit" class="btn btn-sm btn-danger">Cerrar</button>
+                                            {{#unless ../estaCerrado}}
+                                                <button type="submit" class="btn btn-sm btn-warning">Cerrar</button>
+                                            {{/unless}}
                                         </form>
                                     </td>
                                 {{/if}}

@@ -27,6 +27,15 @@ public class NotificableConFecha {
   @Column(name = "fecha", columnDefinition = "TIMESTAMP")
   private LocalDateTime fecha;
 
-  @Transient
-  private Notificable notificable;
+  @Column(name = "mensaje")
+  private String mensaje;
+
+  public NotificableConFecha(){
+    this.fecha = LocalDateTime.now();
+  }
+
+  public NotificableConFecha(Notificable notificable){
+    this.mensaje = notificable.getInfo();
+    this.fecha = LocalDateTime.now();
+  }
 }

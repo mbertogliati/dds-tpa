@@ -1,7 +1,0 @@
-TIPO,ID,NOMBRE,DENOMINACION,ENTIDADES_RELACIONADAS
-Control,1,CNRT,"","35,36"
-Prestador,35,Trenes Argentinos, "","100"
-Entidad,100,Línea Mitre,Linea de Tren,""
-Prestador,36,Subterráneos de Buenos Aires,"","200,300"
-Entidad,200,Línea B,Linea de Subte,""
-Entidad,300,Línea C,Linea de Subte,""

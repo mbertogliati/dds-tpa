@@ -26,6 +26,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "personas")
@@ -68,14 +69,22 @@ public class Persona {
   @Embedded
   private Ubicacion ultimaUbicacion;
 
-  @Embedded
+  @OneToOne
+  @JoinColumn(name = "listado_id")
+  @Cascade(org.hibernate.annotations.CascadeType.ALL)
   private ListadoNotificables notificablesSinNotificar;
 
   @ManyToMany
   private List<FechasDeSemana> fechas;
 
-
   public Persona(){}
+
+  public ListadoNotificables getNotificablesSinNotificar(){
+    if(this.notificablesSinNotificar == null){
+      this.notificablesSinNotificar = new ListadoNotificables();
+    }
+    return this.notificablesSinNotificar;
+  }
 
   public Persona(String nombre, String apellido) {
     this.nombre = nombre;
@@ -84,6 +93,8 @@ public class Persona {
     this.whatsapp = 0;
     this.ultimaUbicacion = new Ubicacion(0.0f, 0.0f);
     this.interes = new Interes();
+    this.notificablesSinNotificar = new ListadoNotificables();
+    this.fechas = new ArrayList<>();
   }
 
   public void agregarFechaDeNotificacion(FechasDeSemana fecha){

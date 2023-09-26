@@ -5,22 +5,31 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Getter
 @Setter
-@Embeddable
+@Entity
+@Table(name = "listadosNotificables")
 public class ListadoNotificables implements Notificable {
-    @ManyToMany
-    @JoinTable(name = "persona_notificablesSinNotificar")
-    private List<NotificableConFecha> notificables;
+    @Id
+    @GeneratedValue
+    private Integer id;
 
-    public ListadoNotificables() {
-        this.notificables = new ArrayList<NotificableConFecha>();
-    }
+    @ManyToMany
+    @Cascade(CascadeType.ALL)
+    private List<NotificableConFecha> notificables = new ArrayList<>();
+
+    public ListadoNotificables() {}
 
     public void agregarNotificables(Notificable ... notificablesRecibidos) {
         for(Notificable unNotificable : notificablesRecibidos) {
@@ -29,18 +38,17 @@ public class ListadoNotificables implements Notificable {
     }
 
     private NotificableConFecha nuevoNotificable(Notificable notificable){
-        NotificableConFecha resultado = new NotificableConFecha();
+        NotificableConFecha resultado = new NotificableConFecha(notificable);
         resultado.setFecha(LocalDateTime.now());
-        resultado.setNotificable(notificable);
         return resultado;
     }
 
-    private List<Notificable> obtenerNotificablesDelDia() {
-        List<Notificable> filtrados = new ArrayList<Notificable>();
+    private List<String> obtenerNotificablesDelDia() {
+        List<String> filtrados = new ArrayList<String>();
 
         for(NotificableConFecha notificableConFecha : this.notificables){
             if(notificableConFecha.getFecha().plusDays(1).isAfter(LocalDateTime.now())){
-                filtrados.add(notificableConFecha.getNotificable());
+                filtrados.add(notificableConFecha.getMensaje());
             }
         }
 
@@ -54,8 +62,8 @@ public class ListadoNotificables implements Notificable {
     @Override
     public String getInfo() {
         String info = "";
-        for(Notificable notificable : this.obtenerNotificablesDelDia()) {
-            info = info + notificable.getInfo() + "\n";
+        for(String mensaje : this.obtenerNotificablesDelDia()) {
+            info += mensaje + "\n";
         }
         this.vaciarNotificables();
         return info;

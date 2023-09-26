@@ -11,14 +11,14 @@ public class EstrategiaMomentoNotificacionConverter implements AttributeConverte
   @Override
   public String convertToDatabaseColumn(EstrategiaMomentoNotificacion medioDeNotificacion) {
     if(medioDeNotificacion == null)
-      return "alMomento";
+      return null;
 
     String medioEnBase = null;
 
-    if(medioDeNotificacion.getClass().getName().equals("NotificacionAlMomento")) {
+    if(medioDeNotificacion.getClass().getSimpleName().equals("NotificacionAlMomento")) {
       medioEnBase = "alMomento";
     }
-    else if(medioDeNotificacion.getClass().getName().equals("NotificacionSinApuro")) {
+    else if(medioDeNotificacion.getClass().getSimpleName().equals("NotificacionSinApuro")) {
       medioEnBase = "sinApuro";
     }
 
@@ -28,8 +28,6 @@ public class EstrategiaMomentoNotificacionConverter implements AttributeConverte
   @Override
   public EstrategiaMomentoNotificacion convertToEntityAttribute(String s) {
     EstrategiaMomentoNotificacion medio = null;
-
-    if(s == null) return new NotificacionAlMomento();
 
     if(s.equals("alMomento")) {
       medio = new NotificacionAlMomento();

@@ -34,6 +34,7 @@ public class IncidentePorComunidad {
     @ManyToOne
     @JoinColumn(name = "autor_cierre_id", referencedColumnName = "id")
     private Persona autorCierre = null;
+
     public IncidentePorComunidad(){}
     public IncidentePorComunidad(Incidente incidente){
         this.incidente = incidente;
