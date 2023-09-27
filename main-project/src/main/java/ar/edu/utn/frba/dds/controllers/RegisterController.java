@@ -13,8 +13,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class RegisterController implements Handler {
 
-
-
   @Override
   public void handle(@NotNull Context context) throws Exception {
     String param = context.queryParam("error");
