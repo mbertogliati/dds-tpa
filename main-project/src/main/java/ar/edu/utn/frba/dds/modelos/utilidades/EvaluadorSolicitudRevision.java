@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.incidentes.RevisionIncidente;
 import ar.edu.utn.frba.dds.modelos.notificaciones.Notificador;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +46,22 @@ public class EvaluadorSolicitudRevision {
         .filter(i -> i.getIncidente().getServiciosAfectados().stream().anyMatch(
             s -> this.adapterCalculadoraDistancia.distanciaEntre(s.getUbicacion().getCoordenada(), coordenada) <= this.rangoCercaniaEnMetros
         )).toList();
+  }
+
+  public List<IncidentePorComunidad> obtenerIncidentesCercanos(Persona unaPersona) {
+    List<Comunidad> comunidades = unaPersona.getMembresias().stream()
+        .map(m -> m.getComunidad())
+        .toList();
+
+    List<IncidentePorComunidad> incidentesPorComunidad = new ArrayList<>();
+
+    for (Comunidad unaComunidad : comunidades) {
+      Coordenada coordenadaReferencia = unaPersona.getUltimaUbicacion().getCoordenada();
+      List<IncidentePorComunidad> incidentesCercanos = this.obtenerIncidentesPorComunidadCercanos(coordenadaReferencia, unaComunidad);
+      incidentesPorComunidad.addAll(incidentesCercanos);
+    }
+
+    return incidentesPorComunidad;
   }
 
   private void notificarIncidentes(Persona persona, List<IncidentePorComunidad> incidentes) {

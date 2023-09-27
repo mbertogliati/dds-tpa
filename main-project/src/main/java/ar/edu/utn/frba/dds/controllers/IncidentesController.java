@@ -41,7 +41,6 @@ public class IncidentesController implements Handler {
 
     Map<String, Object> model = new HashMap<>();
 
-
     String paramSuccess = context.queryParam("success");
 
     if(paramSuccess != null){

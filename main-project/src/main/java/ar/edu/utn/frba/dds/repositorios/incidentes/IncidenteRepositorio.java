@@ -4,9 +4,12 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
+import ar.edu.utn.frba.dds.modelos.utilidades.EvaluadorSolicitudRevision;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -78,35 +81,44 @@ public class IncidenteRepositorio {
         break;
     }
 
+
+    if(estadoBuscado == Estado.REVISION){
+      Persona persona = repoPersona.buscarPorId(idPersona);
+      EvaluadorSolicitudRevision evaluadorSolicitudRevision = new EvaluadorSolicitudRevision();
+      List<IncidentePorComunidad> incidentesPorComunidadTotales = evaluadorSolicitudRevision.obtenerIncidentesCercanos(persona);
+
+      List<Incidente> incidentesRepetidos = incidentesPorComunidadTotales.stream().map(ipc -> ipc.getIncidente()).toList();
+      Set<Incidente> setSinRepetidos = new HashSet<>(incidentesRepetidos);
+      incidentesRepetidos.clear();
+      incidentesRepetidos.addAll(setSinRepetidos);
+      return incidentesRepetidos;
+    }
+
     List<Incidente> incidentesResultado = new ArrayList<>();
 
-    for (Incidente incidente : incidentesTotales){
-      List<IncidentePorComunidad> incidentesPorComunidad = repoIncidenteComunidad.buscarPorIncidente(String.valueOf(incidente.getId()));
+    switch (estadoBuscado){
 
-      switch (estadoBuscado){
-        case ABIERTO -> {
-          if(incidentesPorComunidad.stream().anyMatch(i -> !i.isEstaCerrado())){
-            incidentesResultado.add(incidente);
-          }
-        }
-
-        case CERRADO -> {
-          if(incidentesPorComunidad.stream().allMatch(i -> i.isEstaCerrado())){
-            incidentesResultado.add(incidente);
-          }
-        }
-
-        case REVISION -> {
-          //TODO: RETORNA LOS QUE SON DE INTERES PARA LA PERSONA, CONSIDERANDOLOS COMO SI FUESEN DE REVISION. DISCUTIR SI DEBERÍAMOS APLICAR LO DE INCIDENTES CERCANOS
-          Persona persona = repoPersona.buscarPorId(idPersona);
-          if(incidente.getServiciosAfectados().stream().anyMatch(s -> persona.getInteres().servicioPrestadoEsDeInteres(s))){
+      case ABIERTO -> {
+        for (Incidente incidente : incidentesTotales) {
+          List<IncidentePorComunidad> incidentesPorComunidad = repoIncidenteComunidad.buscarPorIncidente(String.valueOf(incidente.getId()));
+          if (incidentesPorComunidad.stream().anyMatch(i -> !i.isEstaCerrado())) {
             incidentesResultado.add(incidente);
           }
         }
       }
 
-    }
+      case CERRADO -> {
+        for (Incidente incidente : incidentesTotales) {
+          List<IncidentePorComunidad> incidentesPorComunidad = repoIncidenteComunidad.buscarPorIncidente(String.valueOf(incidente.getId()));
+          if (incidentesPorComunidad.stream().allMatch(i -> i.isEstaCerrado())) {
+            incidentesResultado.add(incidente);
+          }
+        }
+      }
 
+      case REVISION -> {
+      }
+    }
     return incidentesResultado;
   }
 

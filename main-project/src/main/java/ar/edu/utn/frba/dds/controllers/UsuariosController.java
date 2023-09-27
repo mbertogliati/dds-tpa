@@ -25,6 +25,12 @@ public class UsuariosController implements Handler {
       return;
     }
 
+    Persona persona = context.sessionAttribute("persona");
+    if (!VerificadorRol.tieneRol(persona, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
+      context.redirect("/");
+      return;
+    }
+
     Map<String, Object> model = new HashMap<>();
 
     String param = context.queryParam("username");

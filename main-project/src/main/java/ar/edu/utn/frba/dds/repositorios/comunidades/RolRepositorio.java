@@ -43,4 +43,8 @@ public class RolRepositorio {
     TypedQuery<Rol> query = entityManager.createQuery("FROM " + Rol.class.getName(), Rol.class);
     return query.getResultList();
   }
+
+  public Rol rolDefault(){
+    return this.buscarPorId(3);
+  }
 }

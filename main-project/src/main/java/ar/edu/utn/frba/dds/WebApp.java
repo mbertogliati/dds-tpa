@@ -12,6 +12,8 @@ import ar.edu.utn.frba.dds.controllers.IncidentesController;
 import ar.edu.utn.frba.dds.controllers.IndexController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
 import ar.edu.utn.frba.dds.controllers.LogoutController;
+import ar.edu.utn.frba.dds.controllers.RegisterController;
+import ar.edu.utn.frba.dds.controllers.VerificarRegisterController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosController;
 import ar.edu.utn.frba.dds.controllers.RankingsController;
 import ar.edu.utn.frba.dds.controllers.RecibirCargaMasiva;
@@ -63,11 +65,19 @@ public class WebApp {
     app.get("/login", new LoginController());
     app.post("/login", new VerificarLoginController(entityManager));
 
+    //ADMINISTRACIÓN DE USUARIOS (ALTA)
+    app.get("/register", new RegisterController());
+    app.post("/register", new VerificarRegisterController(entityManager));
+
     app.get("/logout", new LogoutController());
 
+    //ADMINISTRACIÓN DE USUARIOS (ADMIN PLATAFORMA)
     app.get("/usuarios", new UsuariosController(entityManager));
     app.get("/usuario/{id}", new AdministrarUsuarioController(entityManager));
-    //TODO: IMPLEMENTAR ALTA, BAJA Y MODIFICACION DE PERSONAS/USUARIOS
+
+    //TODO: ADMINISTRACIÓN DE USUARIOS: MODIFICACIÓN
+
+    //TODO: ADMINISTRACIÓN DE USUARIOS: BAJA
     app.post("/usuario/{id}",new AdministrarUsuarioController(entityManager));
     app.put("/usuario/{id}",new AdministrarUsuarioController(entityManager));
     app.delete("/usuario/{id}",new AdministrarUsuarioController(entityManager));

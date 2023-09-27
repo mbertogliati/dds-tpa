@@ -36,16 +36,16 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    Iniciar Sesión
+                    Registrarse
                 </div>
                 <div class="card-body">
                     {{#with error}}
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>Error.</strong> Los datos ingresados son incorrectos.
+                            <strong>Error.</strong> {{error}}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     {{/with}}
-                    <form action="/login" method="post">
+                    <form action="/register" method="post">
                         <div class="mb-3">
                             <label for="username" class="form-label">Nombre de usuario</label>
                             <input type="text" class="form-control" id="username" name="username" required>
@@ -53,14 +53,27 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" id="password" name="password" required>
+                            <label for="repetir_password" class="form-label">Repetir Contraseña</label>
+                            <input type="password" class="form-control" id="repetir_password" name="repetir_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input class="form-control" id="nombre" name="nombre" required>
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input class="form-control" id="apellido" name="apellido" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input class="form-control" id="email" name="email" required>
+                            <label for="celular" class="form-label">Celular</label>
+                            <input class="form-control" id="celular" name="celular" required>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="recordarme">
                                 <label class="form-check-label" for="recordarme">Recordarme</label>
                             </div>
-                            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                            <a href="/register">Registrarse</a>
+                            <button type="submit" class="btn btn-primary">Register</button>
                         </div>
                     </form>
                 </div>

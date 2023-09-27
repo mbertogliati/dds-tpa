@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -18,6 +19,12 @@ public class AdministrarUsuarioController implements Handler {
   public void handle(@NotNull Context context) throws Exception {
     if(VerificadorLogueo.noEstaLogueado(context.sessionAttribute("logueado"))){
       context.redirect("/login");
+      return;
+    }
+
+    Persona persona = context.sessionAttribute("persona");
+    if (!VerificadorRol.tieneRol(persona, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
+      context.redirect("/");
       return;
     }
     

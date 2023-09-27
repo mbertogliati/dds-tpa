@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.modelos.validacion;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ValidadorUsuarioConcreto implements ValidadorUsuario {
@@ -16,8 +17,8 @@ public class ValidadorUsuarioConcreto implements ValidadorUsuario {
     this.estrategiasValidacion.add(estrategiaValidacion);
   }
 
-  public void eliminarEstrategia(EstrategiaValidacion estrategiaValidacion){
-    this.estrategiasValidacion.remove(estrategiaValidacion);
+  public void agregarEstrategias(EstrategiaValidacion ... estrategiasValidacion){
+    this.estrategiasValidacion.addAll(Arrays.stream(estrategiasValidacion).toList());
   }
 
 }
