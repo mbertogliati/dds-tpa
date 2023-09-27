@@ -1,7 +1,8 @@
 html,
 body{
-    height: 100%;
-    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Estilos para el banner con imagen de fondo */

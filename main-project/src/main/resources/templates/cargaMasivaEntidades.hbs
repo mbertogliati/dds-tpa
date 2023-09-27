@@ -59,7 +59,7 @@
 </nav>
 
 <div class="container mt-4 altura-minima">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-3 mb-3">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
@@ -68,11 +68,36 @@
                 <div class="card-body">
                     <form enctype="multipart/form-data" action="#" method="POST">
                         <div class="mb-3">
-                            <label for="file" class="form-label">Seleccionar archivo CSV con el formato correspondiente</label> <!-- //TODO:AGREGAR EJEMPLO DEL FORMATO CSV QUE CORRESPONDE -->
+                            <label for="file" class="form-label">Seleccionar archivo CSV con el formato correspondiente</label>
                             <input type="file" class="form-control" id="file" name="file" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Cargar archivo</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h3 class="mt-3">Ejemplo de archivo</h3>
+            <p class="mt-3">Debe ser archivo <b>.csv</b> y seguir el siguiente formato, teniendo en cuenta que la columna "ENTIDADES_RELACIONADAS" hace referencia a los IDs que se le asigna en el mismo archivo a las entidades sobre las que tiene control (Establecimientos, Entidades, Entidades Prestadoras u Organismos de Control).</p>
+            <p class="mt-3">IMPORTANTE: la columna ID es de relación y validez únicamente dentro del archivo csv. Es decir, no se asegura que esos IDs sean los asignados a la entidad cargada finalmente en MESTRAPEST.</p>
+            <div class="row text-center mt-4">
+                <div class="col">
+                    <div class="bg-dark text-white rounded rounded-4 text-left" style="padding: 15px; display: inline-block"><pre><code>
+TIPO,ID,NOMBRE,DENOMINACION,ENTIDADES_RELACIONADAS
+Control,1,CNRT,"","2,3"
+Prestador,2,Trenes Argentinos, "","4"
+Entidad,4,Línea Mitre,Linea de Tren,"7"
+Prestador,3,Subterráneos de Buenos Aires,"","5,6"
+Entidad,5,Línea B,Linea de Subte,"8,9"
+Entidad,6,Línea C,Linea de Subte,"10,11"
+Establecimiento,7,Estación Colegiales,Estación de Tren,""
+Establecimiento,8,Estación Medrano,Estación de Subte,""
+Establecimiento,9,Estación Pellegrini,Estación de Subte,""
+Establecimiento,10,Estación Retiro,Estación de Subte,""
+Establecimiento,11,Estación Constitución,Estación de Subte,""</code></pre></div>
+                    </div>
                 </div>
             </div>
         </div>
