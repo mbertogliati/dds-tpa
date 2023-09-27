@@ -89,6 +89,11 @@ public class WebApp {
     app.get("/obtenerEstablecimientos", new ObtenerEstablecimientosController(entityManager));
     app.get("/obtenerServicios", new ObtenerServiciosController(entityManager));
     app.get("/obtenerIncidentes", new ObtenerIncidentesController(entityManager));
+
+    //TODO: IMPLEMENTAR FactoryController e ICrudViewsHandler
+    //TODO: USAR before PARA IMPLEMENTAR EL LOGIN Y CHEQUEOS
+    //Before de javalin: https://github.com/tipsy/javalin-website-example/blob/master/src/main/java/app/Main.java#L39
+    //Repo de Eze: https://github.com/dds-utn/proservices-mvc/tree/main
   }
 
   private static Consumer<JavalinConfig> config(){
