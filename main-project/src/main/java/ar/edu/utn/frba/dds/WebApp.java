@@ -78,9 +78,6 @@ public class WebApp {
     //TODO: ADMINISTRACIÓN DE USUARIOS: MODIFICACIÓN
 
     //TODO: ADMINISTRACIÓN DE USUARIOS: BAJA
-    app.post("/usuario/{id}",new AdministrarUsuarioController(entityManager));
-    app.put("/usuario/{id}",new AdministrarUsuarioController(entityManager));
-    app.delete("/usuario/{id}",new AdministrarUsuarioController(entityManager));
 
     //CONTROLADORES PARA FORMULARIOS DINAMICOS
     app.get("/obtenerDepartamentos", new ObtenerDepartamentosController(entityManager));
@@ -94,6 +91,8 @@ public class WebApp {
     //TODO: USAR before PARA IMPLEMENTAR EL LOGIN Y CHEQUEOS
     //Before de javalin: https://github.com/tipsy/javalin-website-example/blob/master/src/main/java/app/Main.java#L39
     //Repo de Eze: https://github.com/dds-utn/proservices-mvc/tree/main
+
+    //TODO: Unificar footer y header para poder reutilizar plantillas
   }
 
   private static Consumer<JavalinConfig> config(){
