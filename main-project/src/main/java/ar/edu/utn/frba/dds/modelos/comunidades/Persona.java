@@ -37,10 +37,6 @@ public class Persona {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @OneToOne
-  @JoinColumn(name = "usuario_id", referencedColumnName = "id")
-  private Usuario usuario;
-
   @Column(name = "nombre")
   private String nombre;
 
@@ -74,7 +70,9 @@ public class Persona {
   @Cascade(org.hibernate.annotations.CascadeType.ALL)
   private ListadoNotificables notificablesSinNotificar;
 
-  @ManyToMany
+  @OneToMany
+  @Cascade(org.hibernate.annotations.CascadeType.ALL)
+  @JoinColumn(name = "persona_id", referencedColumnName = "id")
   private List<FechasDeSemana> fechas;
 
   public Persona(){}

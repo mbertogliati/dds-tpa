@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rankings Incidentes</title>
+    <title>Editar Usuario</title>
 
     <!-- Bootstrap CSS Link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- CSS file -->
     <link href="/css/generales.css" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
 </head>
 <body class="d-flex flex-column">
 
@@ -67,48 +67,80 @@
     </div>
 </nav>
 
+<!-- Contenido principal -->
 <div class="container mt-4 mb-4 altura-minima">
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-10">
-            <h2 class="mb-3">Listado de Rankings de Entidades</h2>
-            <form method="GET" action="/rankings">
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            {{#with success}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Entidad modificada correctamente.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/with}}
+            <h2 class="mb-3">Editar entidad {{entidad.nombre}}</h2>
+            <form action="/entidades/{{entidad.id}}" method="post">
                 <div class="row">
-                    <div class="col">
-                        <label for="fecha" class="form-label">Buscar con fecha de generación posterior a:</label>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="nombreEntidad" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombreEntidad" name="nombreEntidad" value="{{entidad.nombre}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="denominacion" class="form-label">Denominación</label>
+                            <input type="text" class="form-control" id="denominacion" name="denominacion" value="{{entidad.denominacion.descripcion}}" required>
+                        </div>
                     </div>
                 </div>
-                <div class="mb-3 row">
-                    <div class="col-sm-4">
-                        <input class="form-control" type="date" name="fecha" id="fecha">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="provincia" id="provincia" required>
+                                {{{provincias}}}
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-sm-2">
-                        <button class="btn btn-primary">Buscar</button>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="departamento" id="departamento" required>
+                                {{{departamentos}}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="localidad" id="localidad" required>
+                                {{{localidades}}}
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="/entidadesPrestadoras" class="btn btn-secondary">Volver a entidades prestadoras</a>
             </form>
-            <div class="table-responsive">
-                <table class="table align-middle table-sm table-striped table-hover">
-                    <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Fecha generación</th>
-                        <th>Descripción</th>
-                        <th class="text-center">Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#each rankings}}
-                    <tr>
-                        <td>{{id}}</td>
-                        <td>{{fechaHoraCreacion}}</td>
-                        <td>{{descripcion}}</td>
-                        <td class="text-center text-nowrap">
-                            <a href="/rankings/{{id}}" class="btn btn-sm btn-success">Ver más</a>
-                        </td>
-                    </tr>
-                    {{/each}}
-                    </tbody>
-                </table>
+            <div class="row">
+                <h5 class="mt-4">Establecimientos a cargo</h5>
+                <div class="table-responsive">
+                    <table class="table align-middle table-sm table-striped table-hover">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Establecimiento</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#with establecimientos}}
+                            {{#each establecimientos}}
+                                <tr>
+                                    <td>{{denominacion.descripcion}} - {{nombre}}</td>
+                                    <td class="text-center"><a href="/establecimientos/{{id}}" class="btn btn-warning">Editar</a></td>
+                                </tr>
+                            {{/each}}
+                        {{/with}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -122,6 +154,7 @@
 
 <!-- Bootstrap JavaScript y Popper.js Links -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+<script src="/js/manejoFormularioEntidades.js"></script>
 
 </body>
 </html>

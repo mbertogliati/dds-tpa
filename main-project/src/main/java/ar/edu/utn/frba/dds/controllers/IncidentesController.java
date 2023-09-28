@@ -1,50 +1,85 @@
 package ar.edu.utn.frba.dds.controllers;
 
-import ar.edu.utn.frba.dds.CreadorEntityManager;
+import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
-import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
-import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
-import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
-import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidentePorComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
+import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import io.javalin.http.Context;
-import io.javalin.http.Handler;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-public class IncidentesController implements Handler {
-  IncidenteRepositorio repositorio;
-  IncidentePorComunidadRepositorio repoComunidad;
+public class IncidentesController {
+  private IncidenteRepositorio repositorio;
+  private IncidentePorComunidadRepositorio repoComunidad;
+  private ProvinciaRepositorio repoProvincia;
+  private ServicioPrestadoRepositorio repoServicioPrestado;
+  private IncidenteRepositorio repoIncidente;
+
+  private Integer obtenerIdServicioPrestado(String texto){
+    int indiceEspacio = texto.indexOf(" ");
+    return Integer.parseInt(texto.substring(0, indiceEspacio));
+
+  }
+
 
   public IncidentesController(EntityManager entityManager){
     this.repositorio = new IncidenteRepositorio(entityManager);
     this.repoComunidad = new IncidentePorComunidadRepositorio(entityManager);
+    this.repoProvincia = new ProvinciaRepositorio(entityManager);
+    this.repoServicioPrestado = new ServicioPrestadoRepositorio(entityManager);
+    this.repoIncidente = new IncidenteRepositorio(entityManager);
   }
 
-  @Override
   public void handle(@NotNull Context context) throws Exception {
-    if(VerificadorLogueo.noEstaLogueado(context.sessionAttribute("logueado"))){
-      context.redirect("/login");
-      return;
+
+
+  }
+
+  public void abrir(@NotNull Context context) {
+    //INCIDENTE
+    Incidente incidente = new Incidente();
+
+    //OBSERVACIONES
+    String observaciones = context.formParam("observaciones");
+    incidente.setObservaciones(observaciones);
+
+    //SERVICIOS
+    List<String> servicios = context.formParams("servicio[]");
+    for (int i = 0; i < servicios.size(); i++) {
+      ServicioPrestado servicioPrestado = repoServicioPrestado.buscarPorId(obtenerIdServicioPrestado(servicios.get(i)));
+      incidente.agregarServiciosPrestados(servicioPrestado);
     }
 
-    Map<String, Object> model = new HashMap<>();
+    //PERSONA
+    Usuario usuario = context.sessionAttribute("usuario");
+    Persona persona = usuario.getPersonaAsociada();
+    incidente.setAutorApertura(persona);
+
+    incidente.agregarIncidenteComunidad();
+
+    //PERSISTIR
+    repoIncidente.guardar(incidente);
+
+    context.redirect("/incidentes?success=abierto");
+  }
+
+  public void getAll(@NotNull Context context) {
+    Map<String, Object> model = GeneradorModel.model(context);
 
     String paramSuccess = context.queryParam("success");
 
     if(paramSuccess != null){
-      model.put("success", new Success(paramSuccess));
+      model.put("success", paramSuccess);
     }
 
     List<Incidente> listaIncidentes;
@@ -52,29 +87,67 @@ public class IncidentesController implements Handler {
 
 
     if(paramEstado != null){
-      Persona persona = context.sessionAttribute("persona");
-      listaIncidentes = repositorio.incidentesDeEstado(paramEstado, persona.getId());
+      Usuario usuario = context.sessionAttribute("usuario");
+      listaIncidentes = repositorio.incidentesDeEstado(paramEstado, usuario.getPersonaAsociada().getId());
     }else{
       listaIncidentes = repositorio.buscarTodos();
     }
 
     List<IncidentePorComunidad> incidentesPorComunidad = repoComunidad.buscarTodos();
-
     listaIncidentes.forEach(i -> i.actualizarEstado(incidentesPorComunidad));
+
+    if(context.sessionAttribute("adminPlataforma") != null){
+      model.put("adminPlataforma", true);
+    }
 
     model.put("incidentes", listaIncidentes);
 
     context.render("listaIncidentes.hbs", model);
   }
 
-  @Getter
-  @Setter
-  private class Success{
-    private String caso;
+  public void vistaApertura(@NotNull Context context){
 
-    public Success(String caso){
-      this.caso = caso;
-    }
+      Map<String, Object> model = GeneradorModel.model(context);
+
+      List<Provincia> provincias = repoProvincia.buscarTodas();
+
+      model.put("provincias", provincias);
+
+      if(context.sessionAttribute("adminPlataforma") != null){
+        model.put("adminPlataforma", true);
+      }
+
+      context.render("aperturaIncidente.hbs", model);
   }
+  public void vistaCierre(@NotNull Context context){
+    Map<String, Object> model = GeneradorModel.model(context);
 
+    if(context.sessionAttribute("adminPlataforma") != null){
+      model.put("adminPlataforma", true);
+    }
+
+    List<Provincia> provincias = repoProvincia.buscarTodas();
+
+    model.put("provincias", provincias);
+
+    context.render("cierreIncidente.hbs", model);
+  }
+  public void cerrar(@NotNull Context context){
+    //INCIDENTE
+    String idIncidente = context.formParam("incidente");
+    Incidente incidente = this.repoIncidente.buscarPorId(Integer.parseInt(idIncidente));
+
+    //PERSONA
+    Usuario usuario = context.sessionAttribute("usuario");
+
+    //CERRAR INCIDENTE
+    usuario.getPersonaAsociada().cerrarIncidente(incidente);
+
+    //TODO: VER COMO HACEMOS PARA QUE EL INCIDENTE APAREZCA COMO CERRADO PARA MÍ SI SOY DE UNA COMUNIDAD QUE ESTA CERRADO, PERO ABIERTO PARA OTRA PERSONA QUE PERTENECE A UNA COMUNIDAD QUE ESTÁ ABIERTO
+
+    //PERSISTIR
+    this.repoIncidente.actualizar(incidente);
+
+    context.redirect("/incidentes?success=cerrado");
+  }
 }

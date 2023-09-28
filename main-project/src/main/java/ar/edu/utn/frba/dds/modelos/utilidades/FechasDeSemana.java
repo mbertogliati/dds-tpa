@@ -19,7 +19,7 @@ import lombok.Setter;
 @Table(name = "fechasDeSemana")
 public class FechasDeSemana {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
   @Convert(converter = DiaDeSemanaConverter.class)
@@ -28,4 +28,11 @@ public class FechasDeSemana {
 
   @Column(name = "horario", columnDefinition = "TIME")
   private LocalTime horario;
+
+  public FechasDeSemana(){}
+
+  public FechasDeSemana(DayOfWeek dia, LocalTime horario){
+    this.dia = dia;
+    this.horario = horario;
+  }
 }

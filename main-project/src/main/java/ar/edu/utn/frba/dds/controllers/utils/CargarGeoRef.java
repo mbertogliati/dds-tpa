@@ -1,12 +1,10 @@
-package ar.edu.utn.frba.dds;
+package ar.edu.utn.frba.dds.controllers.utils;
 
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.AdapterProveedorMetadatosGeograficos;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
-import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.geo_ref.ServicioGeoRef;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.DepartamentoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.LocalidadRepositorio;
-import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import java.io.IOException;
 import java.util.List;
 

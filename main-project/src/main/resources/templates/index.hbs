@@ -43,15 +43,24 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownEntidades">
                         <a class="dropdown-item" href="/rankings">Rankings</a>
                         <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
+                        <a class="dropdown-item" href="/entidadesPrestadoras">Administracion</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/usuarios">Usuarios</a>
-                </li>
+                {{#with adminPlataforma}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuarios">Usuarios</a>
+                    </li>
+                {{/with}}
             </ul>
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSesion" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Mi sesión
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownSesion">
+                        <a class="dropdown-item" href="/usuarios/{{userActual.id}}/edit">Mi perfil</a>
+                        <a class="dropdown-item" href="/logout">Cerrar sesión</a>
+                    </div>
                 </li>
             </ul>
         </div>

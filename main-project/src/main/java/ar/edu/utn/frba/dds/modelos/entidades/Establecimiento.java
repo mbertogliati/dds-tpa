@@ -37,7 +37,7 @@ public class Establecimiento {
   @Column(name = "nombre")
   private String nombre;
 
-  @OneToMany(mappedBy = "establecimiento", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+  @OneToMany(mappedBy = "establecimiento", cascade = { CascadeType.ALL })
   private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
 
   @Embedded

@@ -7,38 +7,38 @@ document.addEventListener("DOMContentLoaded", function() {
     var listadoServicios = document.getElementById("listaServicios");
 
     provinciaSelector.addEventListener("change", function(){
-        buscarOpciones(provinciaSelector, departamentoSelector,"Departamentos");
+        buscarOpciones(provinciaSelector, departamentoSelector,"departamentos");
     });
     departamentoSelector.addEventListener("DOMSubtreeModified", function(){
-        buscarOpciones(departamentoSelector, localidadSelector,"Localidades");
+        buscarOpciones(departamentoSelector, localidadSelector,"localidades");
     });
     localidadSelector.addEventListener("DOMSubtreeModified", function(){
-        buscarOpciones(localidadSelector, entidadSelector,"Entidades");
+        buscarOpciones(localidadSelector, entidadSelector,"entidades");
     });
     entidadSelector.addEventListener("DOMSubtreeModified", function(){
-        buscarOpciones(entidadSelector, establecimientoSelector,"Establecimientos");
+        buscarOpciones(entidadSelector, establecimientoSelector,"establecimientos");
     });
     establecimientoSelector.addEventListener("DOMSubtreeModified", function(){
-        buscarOpciones(establecimientoSelector, listadoServicios,"Servicios");
+        buscarOpciones(establecimientoSelector, listadoServicios,"servicios");
     });
     departamentoSelector.addEventListener("change", function(){
-        buscarOpciones(departamentoSelector, localidadSelector,"Localidades");
+        buscarOpciones(departamentoSelector, localidadSelector,"localidades");
     });
     localidadSelector.addEventListener("change", function(){
-        buscarOpciones(localidadSelector, entidadSelector,"Entidades");
+        buscarOpciones(localidadSelector, entidadSelector,"entidades");
     });
     entidadSelector.addEventListener("change", function(){
-        buscarOpciones(entidadSelector, establecimientoSelector,"Establecimientos");
+        buscarOpciones(entidadSelector, establecimientoSelector,"establecimientos");
     });
     establecimientoSelector.addEventListener("change", function(){
-        buscarOpciones(establecimientoSelector, listadoServicios,"Servicios");
+        buscarOpciones(establecimientoSelector, listadoServicios,"servicios");
     });
 
     function buscarOpciones(selector, selectorObjetivo, nombreBuscados){
         var selectorId = selector.value;
 
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/obtener" + nombreBuscados + "?selectorId=" + selectorId, true);
+        xhr.open("GET", "/obtener/" + nombreBuscados + "?selectorId=" + selectorId, true);
 
         xhr.onload = function() {
             if (xhr.status === 200) {

@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "servicios")
@@ -26,6 +28,7 @@ public class Servicio {
   private String nombre;
 
   @ManyToMany
+  @Cascade(CascadeType.ALL)
   private List<Etiqueta> etiquetas = new ArrayList<>();
 
   public Servicio(){}

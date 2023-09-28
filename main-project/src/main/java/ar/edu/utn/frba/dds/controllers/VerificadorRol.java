@@ -1,10 +1,11 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 
 public class VerificadorRol {
-  public static Boolean tieneRol(Persona persona, Permiso permiso){
-    return persona.getUsuario().getRolPlataforma().getPermisos().stream().anyMatch(p -> getRol(p.getDetalles()).equals(permiso));
+  public static Boolean tieneRol(Usuario usuario, Permiso permiso){
+    return usuario.getRolPlataforma().getPermisos().stream().anyMatch(p -> getRol(p.getDetalles()).equals(permiso));
   }
 
   private static Permiso getRol(String detalle) {

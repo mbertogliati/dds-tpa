@@ -108,7 +108,7 @@ public class Comunidad {
 
   public void eliminarMembresiaPorPersona(Persona persona){
     for (Membresia membresia : membresias){
-      if(membresia.getPersona().getUsuario().getId() == persona.getUsuario().getId()){
+      if(membresia.getPersona().getId() == persona.getId()){
         this.membresias.remove(membresia);
         membresia.getPersona().eliminarMembresiaDirecto(membresia);
       }

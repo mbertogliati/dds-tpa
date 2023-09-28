@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario</title>
+
+    <!-- Bootstrap CSS Link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS file -->
+    <link href="/css/generales.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
+</head>
+<body class="d-flex flex-column">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/"><b>MESTRAPEST</b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Inicio</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownIncidentes" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Incidentes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownIncidentes">
+                        <a class="dropdown-item" href="/incidentes">Listado</a>
+                        <a class="dropdown-item" href="/aperturaIncidente">Apertura</a>
+                        <a class="dropdown-item" href="/cierreIncidente">Cierre</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownEntidades" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Entidades
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownEntidades">
+                        <a class="dropdown-item" href="/rankings">Rankings</a>
+                        <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
+                        <a class="dropdown-item" href="/entidadesPrestadoras">Administracion</a>
+                    </div>
+                </li>
+                {{#with adminPlataforma}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuarios">Usuarios</a>
+                    </li>
+                {{/with}}
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSesion" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Mi sesión
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownSesion">
+                        <a class="dropdown-item" href="/usuarios/{{userActual.id}}/edit">Mi perfil</a>
+                        <a class="dropdown-item" href="/logout">Cerrar sesión</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido principal -->
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            {{#with servicioEliminado}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Servicio {{servicioEliminado}} eliminado correctamente.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/with}}
+            {{#with success}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Establecimiento editado correctamente.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/with}}
+            {{#with error}}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    No se puede eliminar el servicio del establecimiento porque tiene incidentes asociados.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/with}}
+            <h2 class="mb-3">Editar establecimiento {{establecimiento.nombre}}</h2>
+            <form action="/establecimientos/{{establecimiento.id}}" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="nombreEstablecimiento" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombreEstablecimiento" name="nombreEstablecimiento" value="{{establecimiento.nombre}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="denominacion" class="form-label">Denominación</label>
+                            <input type="text" class="form-control" id="denominacion" name="denominacion" value="{{establecimiento.denominacion.descripcion}}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="provincia" id="provincia" required>
+                                {{{provincias}}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="departamento" id="departamento" required>
+                                {{{departamentos}}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="localidad" id="localidad" required>
+                                {{{localidades}}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="/entidades/{{establecimiento.entidad.id}}" class="btn btn-secondary">Volver a entidad</a>
+            </form>
+            <div class="row">
+                <h5 class="mt-4">Servicios prestados</h5>
+                    <form action="/establecimientos/{{establecimiento.id}}/agregarServicio" method="POST">
+                        <div class="row mb-3">
+                            <div class="col-sm-6">
+                                <select class="form-select" name="servicio" id="servicio" required>
+                                    {{#each serviciosGenerales}}
+                                        <option value="{{id}}">{{nombre}}
+                                            {{#each etiquetas}}
+                                                - {{valor}}
+                                            {{/each}}
+                                        </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary">Agregar servicio</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <a href="/servicios" class="btn btn-success">Crear servicio</a>
+                            </div>
+                        </div>
+                    </form>
+                <div class="table-responsive">
+                    <table class="table align-middle table-sm table-striped table-hover">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Servicios</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#with serviciosPrestados}}
+                            {{#each serviciosPrestados}}
+                                <tr>
+                                    <td><b>{{servicio.nombre}}</b>
+                                    {{#each servicio.etiquetas}}
+                                        - {{tipo}}: {{valor}}
+                                    {{/each}}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="/establecimientos/{{establecimiento.id}}/sacarServicio/{{id}}" class="btn btn-sm btn-danger">Sacar servicio</a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        {{/with}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-secondary text-white text-center py-3">
+    <div class="container">
+        2023 Grupo 19 - UTN FRBA, DDS Miércoles Noche.
+    </div>
+</footer>
+
+<!-- Bootstrap JavaScript y Popper.js Links -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+<script src="/js/manejoFormularioEntidades.js"></script>
+
+</body>
+</html>

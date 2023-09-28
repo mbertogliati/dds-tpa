@@ -27,7 +27,7 @@
                     <a class="nav-link" href="/">Inicio</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownIncidentes" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownIncidentes" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Incidentes
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownIncidentes">
@@ -37,7 +37,7 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownEntidades" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownEntidades" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Entidades
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownEntidades">
@@ -70,72 +70,72 @@
 <div class="container mt-4 mb-4 altura-minima">
     <div class="row justify-content-center mt-4">
         <div class="col-md-10">
-            <h2 class="mb-3">Listado de Incidentes</h2>
+            <h2 class="mb-3">Organismos de Control manejados por {{persona.nombre}}</h2>
             {{#with success}}
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     Incidente {{caso}} correctamente.
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {{/with}}
-            <form method="GET" action="/incidentes">
-                <div class="row">
-                    <label for="estado" class="form-label">Buscar incidente por estado</label>
-                </div>
-                <div class="mb-3 row">
-                    <div class="col-md-6 col-sm-8">
-                        <select class="form-select mb-3" name="estado" id="estado" required>
-                            <option>Estado</option>
-                            <option value="abierto">Abierto</option>
-                            <option value="cerrado">Cerrado</option>
-                            <option value="paraRevision">Para revisión</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-2">
-                        <button class="btn btn-primary">Buscar</button>
-                    </div>
-                    <div class="col-sm-2">
-                        <a href="/aperturaIncidente" class="btn btn-success">Abrir incidente</a>
-                    </div>
-                </div>
-            </form>
             <div class="table-responsive">
                 <table class="table align-middle table-sm table-striped table-hover">
                     <thead class="table-dark">
                     <tr>
-                        <th scope="col">Servicios</th>
-                        <th scope="col">Entidad</th>
-                        <th scope="col">Establecimiento</th>
-                        <th scope="col">Estado</th>
+                        <th scope="col">Organismo de Control</th>
+                        <th scope="col">Entidades Prestadoras a cargo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#with organismosDeControl}}
+                        {{#each organismosDeControl}}
+                            {{#each entidadesPrestadoras}}
+                                <tr>
+                                    {{#if @first}}
+                                        <td rowspan="{{entidadesPrestadoras.length}}"><b>{{../nombre}}</b></td>
+                                    {{/if}}
+                                    <td>{{nombre}}</td>
+                                </tr>
+                            {{/each}}
+                        {{/each}}
+                    {{/with}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <h2 class="mb-3">Entidades Prestadoras manejadas por {{persona.nombre}}</h2>
+            {{#with success}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Entidad prestadora modificada correctamente.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/with}}
+            <div class="table-responsive">
+                <table class="table align-middle table-sm table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Entidad Prestadora</th>
+                        <th scope="col">Entidades a cargo</th>
                         <th scope="col" class="text-center">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {{#each incidentes}}
-                        {{#each serviciosAfectados}}
-                            <tr>
-                                <td>{{servicio.nombre}}</td>
-                                {{#if @first}}
-                                    <td rowspan="{{../serviciosAfectados.length}}">{{establecimiento.entidad.nombre}}</td>
-                                    <td rowspan="{{../serviciosAfectados.length}}">{{establecimiento.nombre}}</td>
-                                    <td rowspan="{{../serviciosAfectados.length}}">
-                                        {{#if ../estaCerrado}}
-                                            <span class="badge bg-danger">Cerrado</span>
-                                        {{else}}
-                                            <span class="badge bg-success">Abierto</span>
-                                        {{/if}}
-                                    </td>
-                                    <td rowspan="{{../serviciosAfectados.length}}" class="text-center">
-                                        <form action="/cierreIncidente" method="post">
-                                            <input type="hidden" name="incidente" value="{{../this.id}}">
-                                            {{#unless ../estaCerrado}}
-                                                <button type="submit" class="btn btn-sm btn-warning">Cerrar</button>
-                                            {{/unless}}
-                                        </form>
-                                    </td>
-                                {{/if}}
-                            </tr>
+                    {{#with entidadesPrestadorasGen}}
+                        {{#each entidadesPrestadorasGen}}
+                            {{#each entidades}}
+                                <tr>
+                                    {{#if @first}}
+                                        <td rowspan="{{entidades.length}}"><b>{{../nombre}}</b></td>
+                                    {{/if}}
+                                    <td>{{denominacion.descripcion}} - {{nombre}}</td>
+                                    <td class="text-center"><a href="/entidades/{{id}}" class="btn btn-warning">Editar</a></td>
+                                </tr>
+                            {{/each}}
                         {{/each}}
-                    {{/each}}
+                    {{/with}}
                     </tbody>
                 </table>
             </div>
