@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.repositorios.entidades.EstablecimientoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioRepositorio;
 import io.javalin.http.Context;
 import java.util.ArrayList;
@@ -15,9 +16,11 @@ import javax.persistence.EntityManager;
 
 public class ServiciosController implements ICrudViewsHandler {
   ServicioRepositorio repoServicios;
+  EstablecimientoRepositorio repoEstablecimiento;
 
   public ServiciosController(EntityManager entityManager){
     this.repoServicios = new ServicioRepositorio(entityManager);
+    this.repoEstablecimiento = new EstablecimientoRepositorio(entityManager);
   }
 
   @Override
@@ -37,6 +40,18 @@ public class ServiciosController implements ICrudViewsHandler {
     if(context.queryParam("success") != null){
       model.put("success", true);
     }
+
+    context.render("crearServicio.hbs", model);
+  }
+
+  public void createFromEstablecimiento(Context context) {
+    Map<String, Object> model = GeneradorModel.model(context);
+
+    if(context.queryParam("success") != null){
+      model.put("success", true);
+    }
+
+    model.put("establecimiento", repoEstablecimiento.buscarPorId(Integer.parseInt(context.pathParam("idEstablecimiento"))));
 
     context.render("crearServicio.hbs", model);
   }
@@ -67,7 +82,12 @@ public class ServiciosController implements ICrudViewsHandler {
     //GUARDO SERVICIO
     repoServicios.guardar(servicio);
 
-    context.redirect("/servicios?success=true");
+    String idEstablecimiento = context.formParam("establecimiento");
+    if(idEstablecimiento != null){
+      context.redirect("/establecimientos/"+idEstablecimiento+"?result=successServicioCreado");
+    }else{
+      context.redirect("/servicios?success=true");
+    }
   }
 
   @Override

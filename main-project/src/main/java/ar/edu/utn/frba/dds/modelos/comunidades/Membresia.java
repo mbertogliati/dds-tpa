@@ -45,6 +45,12 @@ public class Membresia {
     this.comunidad = comunidad;
     serviciosObservados = new ArrayList<>();
   }
+  public Membresia(Comunidad comunidad, Persona persona, Rol rol){
+    this.persona = persona;
+    this.comunidad = comunidad;
+    this.rolComunidad = rol;
+    serviciosObservados = new ArrayList<>();
+  }
 
   public void agregarServicioObservado(Servicio servicio){
     this.serviciosObservados.add(servicio);

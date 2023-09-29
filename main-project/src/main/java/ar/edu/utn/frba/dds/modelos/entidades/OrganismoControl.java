@@ -55,4 +55,8 @@ public class OrganismoControl implements Informable{
         return entidades.stream().toList();
     }
 
+    public void sacarEntidadPrestadoraPorId(int idBuscado){
+        this.entidadesPrestadoras.removeIf(e -> e.getId() == idBuscado);
+    }
+
 }

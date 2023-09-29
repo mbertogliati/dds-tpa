@@ -1,101 +1,47 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado Incidentes</title>
-
-    <!-- Bootstrap CSS Link -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- CSS file -->
-    <link href="/css/generales.css" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
-</head>
-<body class="d-flex flex-column">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/"><b>MESTRAPEST</b></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav nav-pills">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Inicio</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownIncidentes" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Incidentes
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownIncidentes">
-                        <a class="dropdown-item" href="/incidentes">Listado</a>
-                        <a class="dropdown-item" href="/aperturaIncidente">Apertura</a>
-                        <a class="dropdown-item" href="/cierreIncidente">Cierre</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownEntidades" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Entidades
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownEntidades">
-                        <a class="dropdown-item" href="/rankings">Rankings</a>
-                        <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
-                        <a class="dropdown-item" href="/entidadesPrestadoras">Administracion</a>
-                    </div>
-                </li>
-                {{#with adminPlataforma}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/usuarios">Usuarios</a>
-                    </li>
-                {{/with}}
-            </ul>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSesion" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Mi sesión
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownSesion">
-                        <a class="dropdown-item" href="/usuarios/{{userActual.id}}/edit">Mi perfil</a>
-                        <a class="dropdown-item" href="/logout">Cerrar sesión</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+{{#partial "titulo"}}
+    <title>Entidades prestadoras</title>
+{{/partial}}
+{{#partial "contenido"}}
 <div class="container mt-4 mb-4 altura-minima">
     <div class="row justify-content-center mt-4">
         <div class="col-md-10">
-            <h2 class="mb-3">Organismos de Control manejados por {{persona.nombre}}</h2>
-            {{#with success}}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    Incidente {{caso}} correctamente.
+            {{#if msg}}
+                <div class="alert alert-{{#if (eq msg.tipo "success")}}success{{else}}danger{{/if}} alert-dismissible fade show" role="alert">
+                    {{msg.texto}}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            {{/with}}
+            {{/if}}
+            <h2 class="mb-3">Organismos de Control manejados por {{persona.nombre}}</h2>
+            <a class="btn btn-primary mb-3" href="/organismosControl/crear">Crear organismo de control</a>
             <div class="table-responsive">
                 <table class="table align-middle table-sm table-striped table-hover">
                     <thead class="table-dark">
                     <tr>
                         <th scope="col">Organismo de Control</th>
                         <th scope="col">Entidades Prestadoras a cargo</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     {{#with organismosDeControl}}
                         {{#each organismosDeControl}}
-                            {{#each entidadesPrestadoras}}
+                            {{#if (eq entidadesPrestadoras.length 0)}}
                                 <tr>
-                                    {{#if @first}}
-                                        <td rowspan="{{entidadesPrestadoras.length}}"><b>{{../nombre}}</b></td>
-                                    {{/if}}
-                                    <td>{{nombre}}</td>
+                                    <td><b>{{nombre}}</b></td>
+                                    <td><em>Sin entidades prestadoras a cargo</em></td>
+                                    <td></td>
                                 </tr>
-                            {{/each}}
+                            {{else}}
+                                {{#each entidadesPrestadoras}}
+                                    <tr>
+                                        {{#if @first}}
+                                            <td rowspan="{{entidadesPrestadoras.length}}"><b>{{../nombre}}</b></td>
+                                        {{/if}}
+                                        <td>{{nombre}}</td>
+                                        <td><a href="/organismosControl/{{../id}}/sacarEntidadPrestadora/{{id}}" class="btn btn-danger">Eliminar</a></td>
+                                    </tr>
+                                {{/each}}
+                            {{/if}}
                         {{/each}}
                     {{/with}}
                     </tbody>
@@ -107,33 +53,44 @@
     <div class="row justify-content-center mt-4">
         <div class="col-md-10">
             <h2 class="mb-3">Entidades Prestadoras manejadas por {{persona.nombre}}</h2>
-            {{#with success}}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    Entidad prestadora modificada correctamente.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {{/with}}
+            <a class="btn btn-primary mb-3" href="/entidadesPrestadoras/crear">Crear entidad prestadora</a>
             <div class="table-responsive">
                 <table class="table align-middle table-sm table-striped table-hover">
                     <thead class="table-dark">
                     <tr>
                         <th scope="col">Entidad Prestadora</th>
                         <th scope="col">Entidades a cargo</th>
-                        <th scope="col" class="text-center">Acciones</th>
+                        <th scope="col" class="text-center">Acciones entidades</th>
+                        <th scope="col" class="text-center">Acciones entidad prestadora</th>
                     </tr>
                     </thead>
                     <tbody>
                     {{#with entidadesPrestadorasGen}}
                         {{#each entidadesPrestadorasGen}}
-                            {{#each entidades}}
+                            {{#if (eq entidades.length 0)}}
                                 <tr>
-                                    {{#if @first}}
-                                        <td rowspan="{{entidades.length}}"><b>{{../nombre}}</b></td>
-                                    {{/if}}
-                                    <td>{{denominacion.descripcion}} - {{nombre}}</td>
-                                    <td class="text-center"><a href="/entidades/{{id}}" class="btn btn-warning">Editar</a></td>
+                                    <td><b>{{nombre}}</b></td>
+                                    <td><em>Sin entidades a cargo</em></td>
+                                    <td></td>
+                                    <td class="text-center"><a class="btn btn-success" href="/entidades/crear/{{id}}">Agregar entidad</a></td>
                                 </tr>
-                            {{/each}}
+                            {{else}}
+                                {{#each entidades}}
+                                    <tr>
+                                        {{#if @first}}
+                                            <td rowspan="{{entidades.length}}"><b>{{../nombre}}</b></td>
+                                        {{/if}}
+                                        <td>{{denominacion.descripcion}} - {{nombre}}</td>
+                                        <td class="text-center">
+                                            <a href="/entidades/{{id}}" class="btn btn-warning">Editar</a>
+                                            <a href="/entidadesPrestadoras/{{../id}}/sacarEntidad/{{id}}" class="btn btn-danger">Eliminar</a>
+                                        </td>
+                                        {{#if @first}}
+                                            <td rowspan="{{entidades.length}}" class="text-center"><a class="btn btn-success" href="/entidades/crear/{{../id}}">Agregar entidad</a></td>
+                                        {{/if}}
+                                    </tr>
+                                {{/each}}
+                            {{/if}}
                         {{/each}}
                     {{/with}}
                     </tbody>
@@ -142,15 +99,5 @@
         </div>
     </div>
 </div>
-
-<footer class="bg-secondary text-white text-center py-3">
-    <div class="container">
-        2023 Grupo 19 - UTN FRBA, DDS Miércoles Noche.
-    </div>
-</footer>
-
-<!-- Bootstrap JavaScript y Popper.js Links -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
-
-</body>
-</html>
+{{/partial}}
+{{> templates/base }}

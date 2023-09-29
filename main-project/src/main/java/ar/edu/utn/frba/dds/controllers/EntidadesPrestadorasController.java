@@ -2,10 +2,16 @@ package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
+import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
+import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
+import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +23,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class EntidadesPrestadorasController implements ICrudViewsHandler {
 
+  private EntidadPrestadoraRepositorio repoEntidadesPrestadoras;
+  private UsuarioRepositorio repoUsuarios;
+  private OrganismoControlRepositorio repoOrganismo;
+
   public EntidadesPrestadorasController(EntityManager entityManager){
+    this.repoEntidadesPrestadoras = new EntidadPrestadoraRepositorio(entityManager);
+    this.repoUsuarios = new UsuarioRepositorio(entityManager);
+    this.repoOrganismo = new OrganismoControlRepositorio(entityManager);
   }
 
   @Override
@@ -30,21 +43,37 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
       model.put("success", new Success(paramSuccess));
     }
 
-    if(context.sessionAttribute("adminPlataforma") != null){
-      model.put("adminPlataforma", true);
-    }
-
-    List<EntidadPrestadora> entidadesPrestadoras = context.sessionAttribute("entidadesManejadas");
-    if(entidadesPrestadoras != null && !entidadesPrestadoras.isEmpty()) {
-      model.put("entidadesPrestadorasGen", entidadesPrestadoras);
-    }
-
-    List<OrganismoControl> organismosDeControl = context.sessionAttribute("organismosManejados");
-    if(organismosDeControl != null && !organismosDeControl.isEmpty()) {
-      model.put("organismosDeControl", organismosDeControl);
-    }
     Usuario usuario = context.sessionAttribute("usuario");
     Persona persona = usuario.getPersonaAsociada();
+
+    List<EntidadPrestadora> entidadesManejadas = repoEntidadesPrestadoras.manejadasPor(persona);
+    if(entidadesManejadas != null && !entidadesManejadas.isEmpty()){
+      model.put("entidadesPrestadorasGen", entidadesManejadas);
+    }
+
+    List<OrganismoControl> organismosManejados = repoOrganismo.manejadosPor(persona);
+    if(organismosManejados != null && !organismosManejados.isEmpty()){
+      model.put("organismosDeControl", organismosManejados);
+    }
+
+    String result = context.queryParam("result");
+    if(result != null){
+      switch(result){
+        case "successCrearOrganismo":
+          model.put("msg",  new MensajeVista("success", "Organismo de control creado correctamente"));
+          break;
+        case "successCrearEP":
+          model.put("msg",  new MensajeVista("success", "Entidad prestadora creada correctamente"));
+          break;
+        case "successAddEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad creada y agregada correctamente"));
+          break;
+        case "successSacarEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad eliminada correctamente"));
+          break;
+      }
+    }
+
     model.put("persona", persona);
 
     context.render("entidadesPrestadoras.hbs", model);
@@ -57,12 +86,26 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
 
   @Override
   public void create(Context context) {
+    Map<String, Object> model = GeneradorModel.model(context);
 
+    model.put("editable", true);
+    List<Usuario> usuarios = repoUsuarios.buscarTodos();
+    model.put("usuarios",usuarios);
+    model.put("organismos",repoOrganismo.buscarTodos());
+
+    context.render("verEntidadPrestadora.hbs", model);
   }
 
   @Override
   public void save(Context context) {
+    EntidadPrestadora nuevaEntidad = new EntidadPrestadora(context.formParam("nombre"));
+    nuevaEntidad.setPersonaAInformar(repoUsuarios.buscarPorId(Integer.parseInt(context.formParam("personaAInformar"))).getPersonaAsociada());
+    OrganismoControl organismoSeleccionado = repoOrganismo.buscarPorId(Integer.parseInt(context.formParam("organismo")));
+    organismoSeleccionado.getEntidadesPrestadoras().add(nuevaEntidad);
 
+    repoOrganismo.actualizar(organismoSeleccionado);
+
+    context.redirect("/entidadesPrestadoras?result=successCrearEP");
   }
 
   @Override
@@ -78,6 +121,16 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
   @Override
   public void delete(Context context) {
 
+  }
+
+  public void sacarEntidad(Context context){
+    EntidadPrestadora entidadPrestadora = repoEntidadesPrestadoras.buscarPorId(Integer.parseInt(context.pathParam("id")));
+
+    entidadPrestadora.sacarEntidadPorId(Integer.parseInt(context.pathParam("idEntidad")));
+
+    repoEntidadesPrestadoras.actualizar(entidadPrestadora);
+
+    context.redirect("/entidadesPrestadoras?result=successSacarEntidad");
   }
 
   @Getter

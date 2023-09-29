@@ -59,7 +59,7 @@ public class Persona {
   @Column(name = "momentoNotificacion")
   private EstrategiaMomentoNotificacion estrategiaMomentoNotificacion;
 
-  @OneToMany(mappedBy = "persona", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+  @OneToMany(mappedBy = "persona", cascade = { CascadeType.ALL })
   private List<Membresia> membresias = new ArrayList<>();
 
   @Embedded

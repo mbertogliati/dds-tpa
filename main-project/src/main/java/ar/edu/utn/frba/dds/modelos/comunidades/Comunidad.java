@@ -31,13 +31,16 @@ public class Comunidad {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  @Column(name = "nombre")
+  private String nombre;
+
   @Column(name = "detalle")
   private String detalle;
 
   @ManyToMany
   private List<Servicio> servicios = new ArrayList<>();
 
-  @OneToMany(mappedBy = "comunidad", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+  @OneToMany(mappedBy = "comunidad", cascade = { CascadeType.ALL })
   private List<Membresia> membresias = new ArrayList<>();
 
   @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
@@ -48,6 +51,10 @@ public class Comunidad {
 
   public Comunidad(String detalle){
     this.detalle = detalle;
+  }
+
+  public Membresia getMembresia(Persona persona){
+    return this.membresias.stream().filter(m -> m.getPersona().getId() == persona.getId()).toList().get(0);
   }
 
   public void notificarMiembros(Notificable notificable){
@@ -84,6 +91,12 @@ public class Comunidad {
 
   private void eliminarServicioPorID(int id){
     servicios.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> servicios.remove(servicio));
+  }
+
+  public void agregarPersona(Persona persona, Rol rol){
+    Membresia membresia = new Membresia(this, persona, rol);
+    this.membresias.add(membresia);
+    persona.agregarMembresiaDirecto(membresia);
   }
 
   public void agregarPersona(Persona persona){

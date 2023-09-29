@@ -3,10 +3,13 @@ package ar.edu.utn.frba.dds.repositorios.entidades;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
+import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import org.hibernate.Criteria;
 
 public class EntidadPrestadoraRepositorio {
 
@@ -51,5 +54,13 @@ public class EntidadPrestadoraRepositorio {
             "SELECT e FROM EntidadPrestadora e WHERE e.personaAInformar.id = :idBuscado")
         .setParameter("idBuscado", persona.getId())
         .getResultList();
+  }
+  public Integer idOrganismoAsociado(EntidadPrestadora entidad){
+   return entityManager
+       .createQuery("SELECT organismo_control_id from "
+                        + EntidadPrestadora.class.getName()
+                        +"WHERE id = :idEntidad")
+       .setParameter("idEntidad", entidad.getId())
+       .getFirstResult();
   }
 }

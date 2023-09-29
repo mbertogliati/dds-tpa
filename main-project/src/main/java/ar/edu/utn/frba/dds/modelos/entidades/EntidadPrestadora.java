@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.modelos.entidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -40,6 +41,19 @@ public class EntidadPrestadora implements Informable{
     public EntidadPrestadora(){}
     public EntidadPrestadora(String nombre){
         this.nombre = nombre;
+    }
+
+    public void setUbicacion(Ubicacion ubicacion){
+        this.entidades.forEach(e -> {
+            e.setUbicacion(ubicacion);
+            e.getEstablecimientos().forEach(est -> est.setUbicacion(ubicacion));
+        });
+    }
+    public void agregarEntidad(Entidad entidad){
+        this.entidades.add(entidad);
+    }
+    public void sacarEntidadPorId(int idEntidad){
+        this.entidades.removeIf(e -> e.getId() == idEntidad);
     }
 
 }

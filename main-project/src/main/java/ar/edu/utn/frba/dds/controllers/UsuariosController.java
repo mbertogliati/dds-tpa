@@ -8,6 +8,10 @@ import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
 import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Localidad;
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.MetadatoGeografico;
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.utilidades.FechasDeSemana;
 import ar.edu.utn.frba.dds.modelos.validacion.EstrategiaValidacionNoEstaEnLista;
 import ar.edu.utn.frba.dds.modelos.validacion.EstrategiaValidacionRegExp;
@@ -17,6 +21,9 @@ import ar.edu.utn.frba.dds.modelos.validacion.ValidadorUsuarioConcreto;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.converters.EstrategiaMomentoNotificacionConverter;
+import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.DepartamentoRepositorio;
+import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.LocalidadRepositorio;
+import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.utilidades.FechasDeSemanaRepositorio;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -54,12 +61,18 @@ public class UsuariosController implements ICrudViewsHandler {
   private PersonaRepositorio repoPersona;
   private UsuarioRepositorio repoUsuario;
   private FechasDeSemanaRepositorio repoFechas;
+  private ProvinciaRepositorio repoProvincia;
+  private DepartamentoRepositorio repoDepartamento;
+  private LocalidadRepositorio repoLocalidad;
 
 
   public UsuariosController(EntityManager entityManager){
     repoPersona = new PersonaRepositorio(entityManager);
     repoFechas = new FechasDeSemanaRepositorio(entityManager);
     repoUsuario = new UsuarioRepositorio(entityManager);
+    repoProvincia = new ProvinciaRepositorio(entityManager);
+    repoDepartamento = new DepartamentoRepositorio(entityManager);
+    repoLocalidad = new LocalidadRepositorio(entityManager);
   }
 
   @Override
@@ -137,6 +150,42 @@ public class UsuariosController implements ICrudViewsHandler {
     model.put("momentoNotificacion",momentoNotificacion);
     model.put("fechasDeSemana",persona.getFechas());
 
+    //BUSCO PROVINCIAS
+    StringBuilder stringBuilder = new StringBuilder("");
+    List<Provincia> provincias = repoProvincia.buscarTodas();
+    for (Provincia provincia : provincias){
+      if(provincia.getId().equals(persona.getUltimaUbicacion().getMetadato().getProvincia().getId())){
+        stringBuilder.append("<option value=\"" + provincia.getId() + "\" selected>" + provincia.getNombre() + "</option>");
+      }else{
+        stringBuilder.append("<option value=\"" + provincia.getId() + "\">" + provincia.getNombre() + "</option>");
+      }
+    }
+    model.put("provincias", stringBuilder.toString());
+
+    //BUSCO DEPARTAMENTOS
+    stringBuilder = new StringBuilder("");
+    List<Departamento> departamentos = repoDepartamento.buscarPorProvincia(persona.getUltimaUbicacion().getMetadato().getProvincia().getId());
+    for (Departamento departamento : departamentos){
+      if(departamento.getId().equals(persona.getUltimaUbicacion().getMetadato().getDepartamento().getId())){
+        stringBuilder.append("<option value=\"" + departamento.getId() + "\" selected>" + departamento.getNombre() + "</option>");
+      }else{
+        stringBuilder.append("<option value=\"" + departamento.getId() + "\">" + departamento.getNombre() + "</option>");
+      }
+    }
+    model.put("departamentos", stringBuilder.toString());
+
+    //BUSCO LOCALIDADES
+    stringBuilder = new StringBuilder("");
+    List<Localidad> localidades = repoLocalidad.buscarPorDepartamento(persona.getUltimaUbicacion().getMetadato().getDepartamento().getId());
+    for (Localidad localidad : localidades){
+      if(localidad.getId().equals(persona.getUltimaUbicacion().getMetadato().getLocalidad().getId())){
+        stringBuilder.append("<option value=\"" + localidad.getId() + "\" selected>" + localidad.getNombre() + "</option>");
+      }else{
+        stringBuilder.append("<option value=\"" + localidad.getId() + "\">" + localidad.getNombre() + "</option>");
+      }
+    }
+    model.put("localidades", stringBuilder.toString());
+
     context.render("editarUsuario.hbs", model);
   }
   public void update(@NotNull Context context) {
@@ -177,6 +226,10 @@ public class UsuariosController implements ICrudViewsHandler {
     for(int i = 0; i< dias.size(); i++){
       fechasSemana.add(new FechasDeSemana(DayOfWeek.valueOf(dias.get(i)), LocalTime.parse(horas.get(i))));
     }
+
+    Localidad localidad = repoLocalidad.obtenerLocalidadPorId(context.formParam("localidad"));
+    MetadatoGeografico geografico = new MetadatoGeografico(localidad);
+    persona.getUltimaUbicacion().setMetadato(geografico);
 
     persona.setFechas(fechasSemana);
 

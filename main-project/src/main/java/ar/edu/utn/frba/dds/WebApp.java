@@ -1,14 +1,17 @@
 package ar.edu.utn.frba.dds;
 
 import ar.edu.utn.frba.dds.controllers.CargaMasivaController;
+import ar.edu.utn.frba.dds.controllers.ComunidadesController;
 import ar.edu.utn.frba.dds.controllers.EntidadesController;
 import ar.edu.utn.frba.dds.controllers.EntidadesPrestadorasController;
 import ar.edu.utn.frba.dds.controllers.EstablecimientosController;
 import ar.edu.utn.frba.dds.controllers.IncidentesController;
 import ar.edu.utn.frba.dds.controllers.IndexController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
+import ar.edu.utn.frba.dds.controllers.OrganismosDeControlController;
 import ar.edu.utn.frba.dds.controllers.RegisterController;
 import ar.edu.utn.frba.dds.controllers.ServiciosController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDatosController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosController;
 import ar.edu.utn.frba.dds.controllers.RankingsController;
 import ar.edu.utn.frba.dds.controllers.UsuariosController;
@@ -18,13 +21,18 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesCon
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosController;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Helper;
+import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.helper.ConditionalHelpers;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
 import io.javalin.rendering.JavalinRenderer;
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -47,9 +55,11 @@ public class WebApp {
     EntityManager entityManager = (new CreadorEntityManager()).entityManagerCreado();
     app.routes(() -> {
       //INDEX
-      get("/", new IndexController());
+      get("/", (ctx) -> {ctx.redirect("/home");});
+      get("/home", new IndexController());
 
       //INCIDENTES
+      //TODO: Revisar lista incidentes
       get("/incidentes", new IncidentesController(entityManager)::getAll);
       path("/aperturaIncidente", () ->{
         get(new IncidentesController(entityManager)::vistaApertura);
@@ -76,26 +86,52 @@ public class WebApp {
 
       // ENTIDADES
       path("/entidades", () -> {
+        path("crear", () -> {
+          get("{idEntidadPrestadora}", new EntidadesController(entityManager)::create);
+          post(new EntidadesController(entityManager)::save);
+        });
         path("{id}",() ->{
           get(new EntidadesController(entityManager)::edit);
           post(new EntidadesController(entityManager)::update);
+          get("sacarEstablecimiento/{idEstablecimiento}", new EntidadesController(entityManager)::sacarEstablecimiento);
         });
       });
 
       //ENTIDADES PRESTADORAS
-      get("/entidadesPrestadoras", new EntidadesPrestadorasController(entityManager)::index);
+      path("/entidadesPrestadoras",() -> {
+        get(new EntidadesPrestadorasController(entityManager)::index);
+        post(new EntidadesPrestadorasController(entityManager)::save);
+        get("crear",new EntidadesPrestadorasController(entityManager)::create);
+        path("{id}", () ->{
+          get("sacarEntidad/{idEntidad}", new EntidadesPrestadorasController(entityManager)::sacarEntidad);
+        });
+      });
+
+      //ORGANISMOS DE CONTROL
+      path("/organismosControl", () -> {
+        post(new OrganismosDeControlController(entityManager)::save);
+        get("crear", new OrganismosDeControlController(entityManager)::create);
+        get("/{id}/sacarEntidadPrestadora/{entidadPrestadora}", new OrganismosDeControlController((entityManager))::sacarEntidadPrestadora);
+      });
 
       //ESTABLECIMIENTOS
-      path("/establecimientos/{id}", () ->{
-        get(new EstablecimientosController(entityManager)::show);
-        post(new EstablecimientosController(entityManager)::update);
-        get("sacarServicio/{idServicioPrestado}", new EstablecimientosController(entityManager)::sacarServicio);
-        post("agregarServicio", new EstablecimientosController(entityManager)::agregarServicio);
+      path("/establecimientos/", () -> {
+        path("crear", () ->{
+          get("{idEntidad}", new EstablecimientosController(entityManager)::create);
+          post(new EstablecimientosController(entityManager)::save);
+        });
+        path("{id}", () -> {
+          get(new EstablecimientosController(entityManager)::show);
+          post(new EstablecimientosController(entityManager)::update);
+          get("sacarServicio/{idServicioPrestado}", new EstablecimientosController(entityManager)::sacarServicio);
+          post("agregarServicio", new EstablecimientosController(entityManager)::agregarServicio);
+        });
       });
 
       //SERVICIOS
       path("/servicios", () ->{
         get(new ServiciosController(entityManager)::create);
+        get("{idEstablecimiento}", new ServiciosController(entityManager)::createFromEstablecimiento);
         post(new ServiciosController(entityManager)::save);
       });
 
@@ -122,34 +158,48 @@ public class WebApp {
         });
       });
 
+      //COMUNIDADES
+      get("/misComunidades", new ComunidadesController(entityManager)::deUsuario);
+      path("/comunidades", () ->{
+        get(new ComunidadesController(entityManager)::index);
+        path("crear", () -> {
+          get(new ComunidadesController(entityManager)::create);
+          post(new ComunidadesController(entityManager)::save);
+        });
+        path("{id}", () ->{
+          get(new ComunidadesController(entityManager)::show);
+          get("edit", new ComunidadesController(entityManager)::edit);
+          post("edit", new ComunidadesController(entityManager)::update);
+          post("agregarServicio", new ComunidadesController(entityManager)::agregarServicio);
+          get("sacarServicio/{idServicio}", new ComunidadesController(entityManager)::quitarServicio);
+          get("sacarMiembro/{idUsuario}", new ComunidadesController(entityManager)::sacarMiembro);
+          get("unirMiembro/{idUsuario}", new ComunidadesController(entityManager)::unirMiembro);
+          get("cambiarRol/{idUsuario}/{idServicio}/{nuevoRol}", new ComunidadesController(entityManager)::cambiarRol);
+        });
+      });
+
       //CONTROLADORES PARA FORMULARIOS DINAMICOS
       path("/obtener",() -> {
-        get("departamentos", new ObtenerDepartamentosController(entityManager));
-        get("localidades", new ObtenerLocalidadesController(entityManager));
-        get("entidades", new ObtenerEntidadesController(entityManager));
-        get("establecimientos", new ObtenerEstablecimientosController(entityManager));
-        get("servicios", new ObtenerServiciosController(entityManager));
-        get("incidentes", new ObtenerIncidentesController(entityManager));
+        get("departamentos", new ObtenerDatosController(entityManager)::Departamentos);
+        get("localidades", new ObtenerDatosController(entityManager)::Localidades);
+        get("entidades", new ObtenerDatosController(entityManager)::Entidades);
+        get("establecimientos", new ObtenerDatosController(entityManager)::Establecimientos);
+        get("servicios", new ObtenerDatosController(entityManager)::Servicios);
+        get("incidentes", new ObtenerDatosController(entityManager)::Incidentes);
       });
 
     });
 
 
-    //TODO: IMPLEMENTAR FactoryController
-
     //Repo de Eze: https://github.com/dds-utn/proservices-mvc/tree/main
 
-    //TODO: Unificar footer y header para poder reutilizar plantillas
+    //TODO: Ver como hacemos cpara actualizar la ubicación de la persona cuando quiera buscar incidentes por estado
 
-    //TODO: Chequear la asignación de ubicaciones a personas y entidades/establecimientos (por eso falla el filtrado de incidentes para revisión)
-
-    //TODO: Se debe permitir la administración de comunidades y miembros
     //TODO: Se debe permitir la asignación de personas a servicios de interés
-    //TODO: Se debe permitir la asociación de localizaciones a personas
-    //TODO: Se debe permitir la administración de entidades prestadoras y organismos de control
-    //TODO: Se debe permitir marcar como “afectado” u “observador” a los miembros de las comunidades para un servicio en particular.
     //TODO: Se debe permitir enviar información a entidades prestadoras y organismos de control
     //TODO: Se debe permitir generar los rankings de incidentes
+
+    //TODO: IMPLEMENTAR FactoryController
   }
 
   private static Consumer<JavalinConfig> config(){
@@ -164,6 +214,10 @@ public class WebApp {
   private static void initTemplateEngine() {
     JavalinRenderer.register((path, model, context)->{ // Función que renderiza el template Handlebars handlebars = new Handlebars();
       Handlebars handlebars = new Handlebars();
+
+      handlebars.registerHelper("eq",ConditionalHelpers.eq);
+      handlebars.registerHelper("or",ConditionalHelpers.or);
+      handlebars.registerHelper("and",ConditionalHelpers.and);
       Template template = null;
           try {
             template = handlebars.compile("templates/" + path.replace(".hbs", ""));
@@ -179,10 +233,10 @@ public class WebApp {
 
   private static boolean requiereAutenticacion(String path){
     return
-        !(
-            path.equals("/login")
-          || path.equals("/register")
-        );
+        !(path.equals("/login")
+        || path.equals("/register")
+        || path.startsWith("/obtener")
+        || path.startsWith("/noAuth"));
   }
 
 }

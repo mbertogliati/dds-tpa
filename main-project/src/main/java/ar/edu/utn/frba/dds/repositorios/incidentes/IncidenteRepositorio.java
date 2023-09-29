@@ -89,9 +89,10 @@ public class IncidenteRepositorio {
 
       List<Incidente> incidentesRepetidos = incidentesPorComunidadTotales.stream().map(ipc -> ipc.getIncidente()).toList();
       Set<Incidente> setSinRepetidos = new HashSet<>(incidentesRepetidos);
-      incidentesRepetidos.clear();
-      incidentesRepetidos.addAll(setSinRepetidos);
-      return incidentesRepetidos;
+
+      List<Incidente> incidentesFinal = new ArrayList<>();
+      incidentesFinal.addAll(setSinRepetidos);
+      return incidentesFinal;
     }
 
     List<Incidente> incidentesResultado = new ArrayList<>();

@@ -25,6 +25,7 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
     ID,
     NOMBRE,
     DENOMINACION,
+    DIRECCION,
     ENTIDADES_RELACIONADAS
   }
 

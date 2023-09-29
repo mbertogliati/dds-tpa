@@ -1,0 +1,47 @@
+{{#partial "titulo"}}
+    <title>Editar Entidad Prestadora</title>
+{{/partial}}
+{{#partial "imports"}}
+    <script src="/js/manejoFormularioEntidades.js"></script>
+{{/partial}}
+{{#partial "contenido"}}
+    <!-- Contenido principal -->
+    <div class="container mt-4 mb-4 altura-minima">
+        <div class="row justify-content-center">
+            <div class="col-sm-8">
+                {{#with success}}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        Entidad modificada correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {{/with}}
+                <form action="/organismosControl" method="post">
+                    <fieldset {{#unless editable}}disabled{{/unless}}>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{organismo.nombre}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="personaAInformar" class="form-label">Persona Asociada</label>
+                                    <select type="text" class="form-select" id="personaAInformar" name="personaAInformar" data-persona="{{entidadPrestadora.personaAInformar}}" required>
+                                        {{#each usuarios}}
+                                            <option value="{{id}}" {{#if (eq id ../organismo.id)}}selected{{/if}}>{{personaAsociada.nombre}} {{personaAsociada.apellido}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        {{#if editable}}<button type="submit" class="btn btn-primary">Crear organismo de control</button>{{/if}}
+                    </fieldset>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+
+{{/partial}}
+{{> templates/base}}

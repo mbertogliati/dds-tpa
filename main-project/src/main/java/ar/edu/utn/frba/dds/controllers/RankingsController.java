@@ -35,10 +35,6 @@ public class RankingsController implements ICrudViewsHandler {
       listaRankings = repoRankings.obtenerTodos();
     }
 
-    if(context.sessionAttribute("adminPlataforma") != null){
-    model.put("adminPlataforma", true);
-    }
-
     model.put("rankings", listaRankings);
 
     context.render("rankingsEntidades.hbs", model);
@@ -48,9 +44,7 @@ public class RankingsController implements ICrudViewsHandler {
   public void show(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
 
-    if(context.sessionAttribute("adminPlataforma") != null){
-      model.put("adminPlataforma", true);
-    }
+
 
     String idRanking = context.pathParam("id");
 

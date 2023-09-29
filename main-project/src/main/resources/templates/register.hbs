@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
+    <title>Registrar</title>
 
     <!-- Add Bootstrap CSS Link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- CSS file -->
     <link href="/css/generales.css" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
 </head>
 <body class="d-flex flex-column">
 
@@ -64,16 +64,36 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" required>
                             <label for="celular" class="form-label">Celular</label>
-                            <input class="form-control" id="celular" name="celular" required>
+                            <input type="number" class="form-control" id="celular" name="celular" required>
                         </div>
+                        <div id="bloquesDinamicos">
+                            <h5>Ubicación</h5>
+                            <div class="mb-3">
+                                <select class="form-select mb-3" name="provincia" id="provincia" required>
+                                    <option>Provincia</option>
+                                    {{#each provincias}}
+                                        <option value="{{id}}">{{nombre}}</option>
+                                    {{/each}}
+                                </select>
+                                <select class="form-select mb-3" name="departamento" id="departamento" required>
+                                    <option>Departamento</option>
+                                </select>
+                                <select class="form-select mb-3" name="localidad" id="localidad" required>
+                                    <option>Localidad</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="latitud" id="latitud">
+                        <input type="hidden" name="longitud" id="longitud">
+                        <a class="btn btn-primary mb-3" href="#" onclick="obtenerUbicacion();">Cargar ubicación exacta</a>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="recordarme">
                                 <label class="form-check-label" for="recordarme">Recordarme</label>
                             </div>
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary">Registrar</button>
                         </div>
                     </form>
                 </div>
@@ -90,6 +110,7 @@
 
 <!-- Add Bootstrap JavaScript and Popper.js Links -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
-
+<script src="/noAuth/obtenerUbicacion.js"></script>
+<script src="/noAuth/manejoFormularioRegister.js"></script>
 </body>
 </html>

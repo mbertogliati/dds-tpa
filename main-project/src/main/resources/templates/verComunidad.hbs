@@ -1,0 +1,109 @@
+{{#partial "titulo"}}
+<title>Comunidad</title>
+{{/partial}}
+{{#partial "imports"}}
+    <script src="/js/manejoFormularioEntidades.js"></script>
+{{/partial}}
+{{#partial "contenido"}}
+    <!-- Contenido principal -->
+    <div class="container mt-4 mb-4 altura-minima">
+        <div class="row justify-content-center">
+            <div class="col-sm-8">
+                {{#if msg}}
+                    <div class="alert alert-{{#if (eq msg.tipo "success")}}success{{else}}danger{{/if}} alert-dismissible fade show" role="alert">
+                        <p>{{msg.texto}}</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {{/if}}
+                <h2 class="mb-3">{{accion}}</h2>
+                <form action="/comunidades/{{comunidad.id}}{{#with edicion}}/edit{{/with}}" method="post">
+                    <fieldset {{#unless editable}}disabled aria-disabled="disabled" {{/unless}}>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{comunidad.nombre}}" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="detalle" class="form-label">Detalle</label>
+                                <textarea class="form-control" id="detalle" name="detalle" required>{{comunidad.detalle}} </textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                    {{#if editable}}
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    {{/if}}
+                </form>
+                <div>
+                    <h5 class="mt-4">Servicios de interés</h5>
+                    {{#if editable}}
+                        <form action="/comunidades/{{comunidad.id}}/agregarServicio" method="POST">
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <select class="form-select" name="servicio" id="servicio" required>
+                                        {{#each serviciosGenerales}}
+                                            <option value="{{id}}">{{nombre}}
+                                                {{#each etiquetas}}
+                                                    - {{valor}}
+                                                {{/each}}
+                                            </option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="submit" class="btn btn-primary">Agregar servicio</button>
+                                </div>
+                            </div>
+                        </form>
+                    {{/if}}
+                    <div class="table-responsive">
+                        <table class="table align-middle table-sm table-striped table-hover">
+                            <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Servicios</th>
+                                <th scope="col" class="text-center">Rol</th>
+                                {{#if editable}}
+                                    <th scope="col" class="text-center">Acciones</th>
+                                {{/if}}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#with comunidad.servicios}}
+                                {{#each comunidad.servicios}}
+                                    <tr>
+                                        <td><b>{{servicio.nombre}}</b>
+                                            {{#each servicio.etiquetas}}
+                                                - {{tipo}}: {{valor}}
+                                            {{/each}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{#if esAfectado}}
+                                                Afectado<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicio.id}}/observador" class="btn btn-primary">Cambiar</a>
+                                            {{else}}
+                                                Observador<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicio.id}}/afectado" class="btn btn-primary">Cambiar</a>
+                                            {{/if}}
+                                        </td>
+                                        {{#if editable}}
+                                            <td class="text-center">
+                                                <a href="/comunidades/{{comunidad.id}}/sacarServicio/{{id}}" class="btn btn-sm btn-danger">Sacar servicio</a>
+                                            </td>
+                                        {{/if}}
+                                    </tr>
+                                {{/each}}
+                            {{/with}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {{#unless editable}}
+                    {{#if (or adminPlataforma adminComunidad)}}
+                        <a class="btn btn-primary" href="/comunidades/{{comunidad.id}}/edit">Editar</a>
+                    {{/if}}
+                {{/unless}}
+            </div>
+        </div>
+    </div>
+
+{{/partial}}
+{{> templates/base}}

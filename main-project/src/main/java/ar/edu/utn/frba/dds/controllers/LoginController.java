@@ -65,16 +65,6 @@ public class LoginController{
         context.sessionAttribute("adminPlataforma", true);
       }
 
-      List<EntidadPrestadora> entidadesManejadas = entidadPrestadoraRepositorio.manejadasPor(usuario.getPersonaAsociada());
-      if(entidadesManejadas != null && !entidadesManejadas.isEmpty()){
-        context.sessionAttribute("entidadesManejadas", entidadesManejadas);
-      }
-
-      List<OrganismoControl> organismosManejados = organismoControlRepositorio.manejadosPor(usuario.getPersonaAsociada());
-      if(organismosManejados != null && !organismosManejados.isEmpty()){
-        context.sessionAttribute("organismosManejados", organismosManejados);
-      }
-
       context.redirect("/");
     }else{
       context.sessionAttribute("usuario", null);

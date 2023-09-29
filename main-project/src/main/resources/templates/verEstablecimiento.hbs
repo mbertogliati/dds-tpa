@@ -1,72 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Usuario</title>
-
-    <!-- Bootstrap CSS Link -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- CSS file -->
-    <link href="/css/generales.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/resources/favicon.ico">
-</head>
-<body class="d-flex flex-column">
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/"><b>MESTRAPEST</b></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav nav-pills">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Inicio</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownIncidentes" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Incidentes
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownIncidentes">
-                        <a class="dropdown-item" href="/incidentes">Listado</a>
-                        <a class="dropdown-item" href="/aperturaIncidente">Apertura</a>
-                        <a class="dropdown-item" href="/cierreIncidente">Cierre</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownEntidades" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Entidades
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownEntidades">
-                        <a class="dropdown-item" href="/rankings">Rankings</a>
-                        <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
-                        <a class="dropdown-item" href="/entidadesPrestadoras">Administracion</a>
-                    </div>
-                </li>
-                {{#with adminPlataforma}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/usuarios">Usuarios</a>
-                    </li>
-                {{/with}}
-            </ul>
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSesion" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Mi sesión
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownSesion">
-                        <a class="dropdown-item" href="/usuarios/{{userActual.id}}/edit">Mi perfil</a>
-                        <a class="dropdown-item" href="/logout">Cerrar sesión</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+{{#partial "titulo"}}
+    <title>Editar establecimiento</title>
+{{/partial}}
+{{#partial "imports"}}
+    <script src="/js/manejoFormularioEntidades.js"></script>
+{{/partial}}
+{{#partial "contenido"}}
 <!-- Contenido principal -->
 <div class="container mt-4 mb-4 altura-minima">
     <div class="row justify-content-center">
@@ -89,8 +27,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {{/with}}
-            <h2 class="mb-3">Editar establecimiento {{establecimiento.nombre}}</h2>
-            <form action="/establecimientos/{{establecimiento.id}}" method="post">
+            <h2 class="mb-3">
+                {{#with editable}}
+                    {{#with creacion}}
+                        Crear
+                    {{else}}
+                        Editar
+                    {{/with}}
+                {{/with}} establecimiento {{establecimiento.nombre}}</h2>
+            <form action="/establecimientos/{{#with editable}}{{#with creacion}}crear{{else}}{{establecimiento.id}}{{/with}}{{/with}}" method="post">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
@@ -109,30 +54,60 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <select class="form-select mb-3" name="provincia" id="provincia" required>
-                                {{{provincias}}}
+                                {{#with creacion}}
+                                    {{#each provinciasGen}}
+                                        <option value="{{id}}">{{nombre}}</option>
+                                    {{/each}}
+                                {{else}}
+                                    {{{provincias}}}
+                                {{/with}}
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
                             <select class="form-select mb-3" name="departamento" id="departamento" required>
-                                {{{departamentos}}}
+                                {{#with creacion}}
+                                    <option>Departamentos</option>
+                                {{else}}
+                                    {{{departamentos}}}
+                                {{/with}}
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
                             <select class="form-select mb-3" name="localidad" id="localidad" required>
-                                {{{localidades}}}
+                                {{#with creacion}}
+                                    <option>Localidades</option>
+                                {{else}}
+                                    {{{localidades}}}
+                                {{/with}}
                             </select>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                {{#with creacion}}
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="entidad" class="form-label">Entidad</label>
+                            <input type="hidden" name="entidad" value="{{entidad.id}}">
+                            <input type="text" class="form-control" value="{{entidad.nombre}}" disabled>
+                        </div>
+                    </div>
+                {{/with}}
+                {{#with editable}}
+                    {{#with creacion}}
+                        <button type="submit" class="btn btn-success">Crear</button>
+                    {{else}}
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    {{/with}}
+                {{/with}}
                 <a href="/entidades/{{establecimiento.entidad.id}}" class="btn btn-secondary">Volver a entidad</a>
             </form>
             <div class="row">
                 <h5 class="mt-4">Servicios prestados</h5>
+                {{#unless creacion}}
                     <form action="/establecimientos/{{establecimiento.id}}/agregarServicio" method="POST">
                         <div class="row mb-3">
                             <div class="col-sm-6">
@@ -150,10 +125,11 @@
                                 <button type="submit" class="btn btn-primary">Agregar servicio</button>
                             </div>
                             <div class="col-sm-3">
-                                <a href="/servicios" class="btn btn-success">Crear servicio</a>
+                                <a href="/servicios/{{establecimiento.id}}" class="btn btn-success">Crear servicio</a>
                             </div>
                         </div>
                     </form>
+                {{/unless}}
                 <div class="table-responsive">
                     <table class="table align-middle table-sm table-striped table-hover">
                         <thead class="table-dark">
@@ -184,16 +160,5 @@
         </div>
     </div>
 </div>
-
-<footer class="bg-secondary text-white text-center py-3">
-    <div class="container">
-        2023 Grupo 19 - UTN FRBA, DDS Miércoles Noche.
-    </div>
-</footer>
-
-<!-- Bootstrap JavaScript y Popper.js Links -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
-<script src="/js/manejoFormularioEntidades.js"></script>
-
-</body>
-</html>
+{{/partial}}
+{{> templates/base}}

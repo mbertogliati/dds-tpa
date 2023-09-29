@@ -3,9 +3,11 @@ package ar.edu.utn.frba.dds.controllers;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.importadorEntidades.ImportadorEntidadAdapter;
 import ar.edu.utn.frba.dds.modelos.importadorEntidades.ImportadorEntidadCSV;
+import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
@@ -48,10 +50,6 @@ public class CargaMasivaController implements ICrudViewsHandler {
 
     Map<String, Object> model = GeneradorModel.model(context);
 
-    if(context.sessionAttribute("adminPlataforma") != null){
-    model.put("adminPlataforma", true);
-    }
-
     String paramEstado = context.queryParam("result");
 
     if(paramEstado != null){
@@ -79,14 +77,20 @@ public class CargaMasivaController implements ICrudViewsHandler {
 
       List<OrganismoControl> organismosControl = importador.importar(archivo.getPath());
 
-      organismosControl.forEach(o ->
-      {
-        o.getEntidadesPrestadoras().forEach(
-            e -> repoEntidadPrestadora.guardar(e)
-        );
+      Usuario usuario = context.sessionAttribute("usuario");
+      Persona persona = usuario.getPersonaAsociada();
+      Ubicacion ubicacion = persona.getUltimaUbicacion();
+
+      //GUARDO LA UBICACION DE LA PERSONA COMO LA UBICACION DE LAS ENTIDADES Y ESTABLECIMIENTOS
+      organismosControl.forEach(o -> {
+        o.setPersonaAInformar(persona);
+        o.getEntidadesPrestadoras().forEach(e -> {
+          e.setUbicacion(ubicacion);
+          e.setPersonaAInformar(persona);
+          repoEntidadPrestadora.guardar(e);
+        });
         repoOrganismoControl.guardar(o);
       });
-
 
       archivo.delete();
     }

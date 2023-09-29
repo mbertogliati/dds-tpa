@@ -44,7 +44,10 @@ public class RolRepositorio {
     return query.getResultList();
   }
 
+  public Rol rolAdminPlataforma(){return this.buscarPorId(1);}
   public Rol rolDefault(){
     return this.buscarPorId(3);
   }
+  public Rol rolAdminComunidad(){return this.buscarPorId(2);}
+  public Rol rolDefaultComunidad(){return this.buscarPorId(4);}
 }

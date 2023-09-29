@@ -69,7 +69,7 @@ public class Entidad {
     this.eliminarEstablecimientoPorID(establecimiento.getId());
   }
 
-  private void eliminarEstablecimientoPorID(int id){
+  public void eliminarEstablecimientoPorID(int id){
     this.establecimientos.stream().filter(establecimiento -> establecimiento.getId() == id).toList().forEach(est -> establecimientos.remove(est));
   }
 

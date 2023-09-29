@@ -10,6 +10,58 @@ public class GeneradorModel {
 
     model.put("userActual", context.sessionAttribute("usuario"));
 
+    String path = context.path().split("/")[1];
+    String navSelected;
+    switch(path){
+      case "home":
+        navSelected = "nav-index";
+        break;
+      case "incidentes":
+        navSelected = "nav-incidentes";
+        break;
+      case "aperturaIncidente":
+        navSelected = "nav-incidentes";
+        break;
+      case "cierreIncidente":
+        navSelected = "nav-incidentes";
+        break;
+      case "rankings":
+        navSelected = "nav-entidades";
+        break;
+      case "cargaMasiva":
+        navSelected = "nav-entidades";
+        break;
+      case "entidadesPrestadoras":
+        navSelected = "nav-entidades";
+        break;
+      case "entidades":
+        navSelected = "nav-entidades";
+        break;
+      case "establecimientos":
+        navSelected = "nav-entidades";
+        break;
+      case "servicios":
+        navSelected = "nav-entidades";
+        break;
+      case "usuarios":
+        navSelected = "nav-usuarios";
+        break;
+      case "comunidades":
+        navSelected = "nav-comunidades";
+        break;
+      case "misComunidades":
+        navSelected = "nav-comunidades";
+        break;
+      default:
+        navSelected = "";
+        break;
+    }
+    model.put(navSelected, true);
+
+    if(context.sessionAttribute("adminPlataforma") != null){
+      model.put("adminPlataforma", true);
+    }
+
     return model;
   }
 }

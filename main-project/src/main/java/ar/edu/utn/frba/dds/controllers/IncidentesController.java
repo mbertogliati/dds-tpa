@@ -96,9 +96,7 @@ public class IncidentesController {
     List<IncidentePorComunidad> incidentesPorComunidad = repoComunidad.buscarTodos();
     listaIncidentes.forEach(i -> i.actualizarEstado(incidentesPorComunidad));
 
-    if(context.sessionAttribute("adminPlataforma") != null){
-      model.put("adminPlataforma", true);
-    }
+
 
     model.put("incidentes", listaIncidentes);
 
@@ -113,18 +111,13 @@ public class IncidentesController {
 
       model.put("provincias", provincias);
 
-      if(context.sessionAttribute("adminPlataforma") != null){
-        model.put("adminPlataforma", true);
-      }
 
       context.render("aperturaIncidente.hbs", model);
   }
   public void vistaCierre(@NotNull Context context){
     Map<String, Object> model = GeneradorModel.model(context);
 
-    if(context.sessionAttribute("adminPlataforma") != null){
-      model.put("adminPlataforma", true);
-    }
+
 
     List<Provincia> provincias = repoProvincia.buscarTodas();
 

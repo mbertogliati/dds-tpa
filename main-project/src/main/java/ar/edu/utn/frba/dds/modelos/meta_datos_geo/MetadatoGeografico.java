@@ -30,6 +30,12 @@ public class MetadatoGeografico {
     this.localidad = localidad;
   }
 
+  public MetadatoGeografico(Localidad localidad) {
+    this.localidad = localidad;
+    this.departamento = localidad.getDepartamento();
+    this.provincia = localidad.getDepartamento().getProvincia();
+  }
+
   public boolean esIgual(MetadatoGeografico metadato) {
     if (metadato == null) {
       return false;

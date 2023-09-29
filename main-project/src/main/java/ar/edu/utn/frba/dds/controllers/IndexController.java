@@ -14,10 +14,6 @@ public class IndexController implements Handler {
   public void handle(@NotNull Context context) throws Exception {
     Map<String, Object> model = GeneradorModel.model(context);
 
-    if(context.sessionAttribute("adminPlataforma") != null){
-      model.put("adminPlataforma", true);
-    }
-
     context.render("index.hbs", model);
   }
 }
