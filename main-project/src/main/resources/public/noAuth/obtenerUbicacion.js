@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", obtenerUbicacion());
 function obtenerUbicacion() {
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -9,4 +10,15 @@ function obtenerUbicacion() {
     } else {
         alert("La geolocalización no está disponible en este navegador.");
     }
+}
+function validarFormulario() {
+    var campo1 = document.getElementById('latitud').value;
+    var campo2 = document.getElementById('longitud').value;
+
+    if (campo1 === '' && campo2 === '') {
+        alert('Debes compartir tu ubicación con nosotros para poder registrarte.');
+        return false;
+    }
+
+    return true;
 }

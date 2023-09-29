@@ -47,6 +47,10 @@ public class Ubicacion {
   public Ubicacion(Provincia provincia, Departamento departamento, Localidad localidad) {
     this.metadato = new MetadatoGeografico(provincia, departamento, localidad);
   }
+  public Ubicacion(Provincia provincia, Departamento departamento, Localidad localidad, Coordenada coordenada) {
+    this.metadato = new MetadatoGeografico(provincia, departamento, localidad);
+    this.coordenada = coordenada;
+  }
   public Ubicacion(Provincia provincia) {
     this.metadato = new MetadatoGeografico(provincia, null, null);
   }

@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
+import ar.edu.utn.frba.dds.modelos.utilidades.CalculadoraDistanciaEnMetros;
 import ar.edu.utn.frba.dds.modelos.utilidades.EvaluadorSolicitudRevision;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class IncidenteRepositorio {
 
     if(estadoBuscado == Estado.REVISION){
       Persona persona = repoPersona.buscarPorId(idPersona);
-      EvaluadorSolicitudRevision evaluadorSolicitudRevision = new EvaluadorSolicitudRevision();
+      EvaluadorSolicitudRevision evaluadorSolicitudRevision = new EvaluadorSolicitudRevision(new CalculadoraDistanciaEnMetros());
       List<IncidentePorComunidad> incidentesPorComunidadTotales = evaluadorSolicitudRevision.obtenerIncidentesCercanos(persona);
 
       List<Incidente> incidentesRepetidos = incidentesPorComunidadTotales.stream().map(ipc -> ipc.getIncidente()).toList();

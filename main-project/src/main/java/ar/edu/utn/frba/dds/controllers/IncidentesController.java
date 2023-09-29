@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.modelos.utilidades.Coordenada;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidentePorComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
@@ -24,6 +25,7 @@ public class IncidentesController {
   private ProvinciaRepositorio repoProvincia;
   private ServicioPrestadoRepositorio repoServicioPrestado;
   private IncidenteRepositorio repoIncidente;
+  private IncidentePorComunidadRepositorio repoIncidenteComunidad;
 
   private Integer obtenerIdServicioPrestado(String texto){
     int indiceEspacio = texto.indexOf(" ");
@@ -38,6 +40,7 @@ public class IncidentesController {
     this.repoProvincia = new ProvinciaRepositorio(entityManager);
     this.repoServicioPrestado = new ServicioPrestadoRepositorio(entityManager);
     this.repoIncidente = new IncidenteRepositorio(entityManager);
+    this.repoIncidenteComunidad = new IncidentePorComunidadRepositorio(entityManager);
   }
 
   public void handle(@NotNull Context context) throws Exception {
@@ -84,21 +87,31 @@ public class IncidentesController {
 
     List<Incidente> listaIncidentes;
     String paramEstado = context.queryParam("estado");
+    Usuario usuario = context.sessionAttribute("usuario");
 
+    if(context.queryParam("latitud") != null && context.queryParam("longitud") != null){
+      Float latitud = Float.valueOf(context.queryParam("latitud"));
+      Float longitud = Float.valueOf(context.queryParam("longitud"));
+      if(latitud != null && longitud != null){
+        Coordenada coordenada = new Coordenada(latitud, longitud);
+        usuario.getPersonaAsociada().getUltimaUbicacion().setCoordenada(coordenada);
+      }
+    }
 
     if(paramEstado != null){
-      Usuario usuario = context.sessionAttribute("usuario");
       listaIncidentes = repositorio.incidentesDeEstado(paramEstado, usuario.getPersonaAsociada().getId());
     }else{
       listaIncidentes = repositorio.buscarTodos();
     }
 
-    List<IncidentePorComunidad> incidentesPorComunidad = repoComunidad.buscarTodos();
-    listaIncidentes.forEach(i -> i.actualizarEstado(incidentesPorComunidad));
+
+
+    List<IncidentePorComunidad> incidentesPorComunidad = repoIncidenteComunidad.incidentesComunidadDe(usuario, listaIncidentes);
+    //listaIncidentes.forEach(i -> i.actualizarEstado(incidentesPorComunidad));
 
 
 
-    model.put("incidentes", listaIncidentes);
+    model.put("incidentesPorComunidad", incidentesPorComunidad);
 
     context.render("listaIncidentes.hbs", model);
   }

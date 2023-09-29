@@ -2,8 +2,11 @@ package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.modelos.comunidades.Interes;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
@@ -12,6 +15,7 @@ import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.MetadatoGeografico;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
+import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.modelos.utilidades.FechasDeSemana;
 import ar.edu.utn.frba.dds.modelos.validacion.EstrategiaValidacionNoEstaEnLista;
 import ar.edu.utn.frba.dds.modelos.validacion.EstrategiaValidacionRegExp;
@@ -21,9 +25,11 @@ import ar.edu.utn.frba.dds.modelos.validacion.ValidadorUsuarioConcreto;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.converters.EstrategiaMomentoNotificacionConverter;
+import ar.edu.utn.frba.dds.repositorios.entidades.EntidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.DepartamentoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.LocalidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
+import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.utilidades.FechasDeSemanaRepositorio;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -64,6 +70,8 @@ public class UsuariosController implements ICrudViewsHandler {
   private ProvinciaRepositorio repoProvincia;
   private DepartamentoRepositorio repoDepartamento;
   private LocalidadRepositorio repoLocalidad;
+  private ServicioPrestadoRepositorio repoServicioPrestado;
+  private EntidadRepositorio repoEntidad;
 
 
   public UsuariosController(EntityManager entityManager){
@@ -73,6 +81,89 @@ public class UsuariosController implements ICrudViewsHandler {
     repoProvincia = new ProvinciaRepositorio(entityManager);
     repoDepartamento = new DepartamentoRepositorio(entityManager);
     repoLocalidad = new LocalidadRepositorio(entityManager);
+    this.repoServicioPrestado = new ServicioPrestadoRepositorio(entityManager);
+    this.repoEntidad = new EntidadRepositorio(entityManager);
+  }
+
+  public void agregarServicio(Context context){
+    Usuario usuario = context.sessionAttribute("usuario");
+    Interes interes = usuario.getPersonaAsociada().getInteres();
+
+    ServicioPrestado servicioPrestado = repoServicioPrestado.buscarPorId(Integer.parseInt(context.formParam("servicio")));
+
+    interes.agregarServicio(servicioPrestado);
+    repoPersona.actualizar(usuario.getPersonaAsociada());
+
+    context.redirect("/usuarios/"+usuario.getId()+"/interes?result=successAddServicio");
+  }
+
+  public void agregarEntidad(Context context){
+    Usuario usuario = context.sessionAttribute("usuario");
+    Interes interes = usuario.getPersonaAsociada().getInteres();
+
+    Entidad entidad = repoEntidad.buscarPorId(Integer.parseInt(context.formParam("entidad")));
+
+    interes.agregarEntidad(entidad);
+    repoPersona.actualizar(usuario.getPersonaAsociada());
+
+    context.redirect("/usuarios/"+usuario.getId()+"/interes?result=successAddEntidad");
+  }
+
+  public void sacarEntidad(Context context){
+    Usuario usuario = context.sessionAttribute("usuario");
+    Interes interes = usuario.getPersonaAsociada().getInteres();
+
+    Entidad entidad = repoEntidad.buscarPorId(Integer.parseInt(context.pathParam("idEntidad")));
+
+    interes.eliminarEntidad(entidad);
+    repoPersona.actualizar(usuario.getPersonaAsociada());
+
+    context.redirect("/usuarios/"+usuario.getId()+"/interes?result=successSacarEntidad");
+  }
+
+  public void sacarServicio(Context context){
+    Usuario usuario = context.sessionAttribute("usuario");
+    Interes interes = usuario.getPersonaAsociada().getInteres();
+
+    ServicioPrestado servicioPrestado = repoServicioPrestado.buscarPorId(Integer.parseInt(context.pathParam("idServicio")));
+
+    interes.eliminarServicio(servicioPrestado);
+    repoPersona.actualizar(usuario.getPersonaAsociada());
+
+    context.redirect("/usuarios/"+usuario.getId()+"/interes?result=successSacarServicio");
+  }
+
+  public void getInteres(Context context){
+    Map<String, Object> model = GeneradorModel.model(context);
+
+    Usuario usuario = context.sessionAttribute("usuario");
+
+    Interes interes = usuario.getPersonaAsociada().getInteres();
+
+    model.put("interes", interes);
+
+    String result = context.queryParam("result");
+    if(result != null){
+      switch(result){
+        case "successAddServicio":
+          model.put("msg",  new MensajeVista("success", "Servicio agregado correctamente"));
+          break;
+        case "successSacarServicio":
+          model.put("msg", new MensajeVista("success", "Servicio eliminado correctamente"));
+          break;
+        case "successSacarEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad eliminada correctamente"));
+          break;
+        case "successAddEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad agregada correctamente"));
+          break;
+      }
+    }
+
+    model.put("serviciosGenerales", repoServicioPrestado.buscarTodos());
+    model.put("entidades", repoEntidad.buscarTodos());
+
+    context.render("verInteres.hbs", model);
   }
 
   @Override

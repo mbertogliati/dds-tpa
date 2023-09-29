@@ -45,7 +45,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     {{/with}}
-                    <form action="/register" method="post">
+                    <form action="/register" method="post" onsubmit="return validarFormulario()">
                         <div class="mb-3">
                             <label for="username" class="form-label">Nombre de usuario</label>
                             <input type="text" class="form-control" id="username" name="username" required>
@@ -85,8 +85,8 @@
                                 </select>
                             </div>
                         </div>
-                        <input type="hidden" name="latitud" id="latitud">
-                        <input type="hidden" name="longitud" id="longitud">
+                        <input type="hidden" name="latitud" id="latitud" value="">
+                        <input type="hidden" name="longitud" id="longitud" value="">
                         <a class="btn btn-primary mb-3" href="#" onclick="obtenerUbicacion();">Cargar ubicación exacta</a>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mb-3 form-check">

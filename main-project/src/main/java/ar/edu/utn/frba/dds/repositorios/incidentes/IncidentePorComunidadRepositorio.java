@@ -1,7 +1,10 @@
 package ar.edu.utn.frba.dds.repositorios.incidentes;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -50,5 +53,21 @@ public class IncidentePorComunidadRepositorio {
             "SELECT i FROM IncidentePorComunidad i WHERE i.incidente.id = :idBuscado")
         .setParameter("idBuscado", Integer.parseInt(idIncidente))
         .getResultList();
+  }
+
+  public List<IncidentePorComunidad> incidentesComunidadDe(Usuario usuario, List<Incidente> incidentes){
+    List<Comunidad> comunidadesPersona = usuario.getPersonaAsociada().getMembresias().stream().map(m -> m.getComunidad()).toList();
+
+    List<IncidentePorComunidad> incidentesFiltrados = new ArrayList<>();
+
+    for (Comunidad comunidad : comunidadesPersona){
+      for (Incidente incidente : incidentes){
+        if(comunidad.tieneIncidente(incidente) && incidentesFiltrados.stream().allMatch(i -> i.getIncidente().getId() != incidente.getId())){
+          incidentesFiltrados.add(comunidad.obtenerIncidenteComunidad(incidente));
+        }
+      }
+    }
+
+    return incidentesFiltrados;
   }
 }

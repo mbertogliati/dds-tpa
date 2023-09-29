@@ -1,0 +1,94 @@
+{{#partial "titulo"}}
+    <title>Comunidad</title>
+{{/partial}}
+{{#partial "contenido"}}
+    <div class="container mt-4 mb-4 altura-minima">
+        {{#if msg}}
+            <div class="alert alert-{{#if (eq msg.tipo "success")}}success{{else}}danger{{/if}} alert-dismissible fade show" role="alert">
+                <p>{{msg.texto}}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {{/if}}
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10">
+                <h2 class="mb-3">Servicios prestados de interés de {{userActual.personaAsociada.nombre}}</h2>
+                <form action="/usuarios/{{userActual.id}}/agregarServicio" method="POST">
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <select class="form-select" name="servicio" id="servicio" required>
+                                {{#each serviciosGenerales}}
+                                    <option value="{{id}}">{{servicio.nombre}} - {{establecimiento.nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-primary">Agregar servicio</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table align-middle table-sm table-striped table-hover">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Servicio</th>
+                            <th scope="col">Establecimiento</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each interes.servicios}}
+                            <tr>
+                                <td>{{servicio.nombre}}</td>
+                                <td>{{establecimiento.nombre}}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-danger" href="/usuarios/{{../userActual.id}}/sacarServicio/{{id}}">Eliminar interés</a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10">
+                <h2 class="mb-3">Entidades de interés de {{userActual.personaAsociada.nombre}}</h2>
+                <form action="/usuarios/{{userActual.id}}/agregarEntidad" method="POST">
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <select class="form-select" name="entidad" id="entidad" required>
+                                {{#each entidades}}
+                                    <option value="{{id}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-primary">Agregar entidad</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table align-middle table-sm table-striped table-hover">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Entidad</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each interes.entidades}}
+                            <tr>
+                                <td>{{nombre}}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-danger" href="/usuarios/{{../userActual.id}}/sacarEntidad/{{id}}">Eliminar interés</a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/base}}

@@ -41,6 +41,7 @@ public class Establecimiento {
   private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
 
   @Embedded
+  @Cascade(org.hibernate.annotations.CascadeType.ALL)
   private Ubicacion ubicacion;
 
   @ManyToOne

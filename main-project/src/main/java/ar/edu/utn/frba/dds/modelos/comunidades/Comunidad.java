@@ -54,7 +54,11 @@ public class Comunidad {
   }
 
   public Membresia getMembresia(Persona persona){
-    return this.membresias.stream().filter(m -> m.getPersona().getId() == persona.getId()).toList().get(0);
+    if(this.membresias.stream().filter(m -> m.getPersona().getId() == persona.getId()).toList().isEmpty()){
+      return null;
+    }else{
+      return this.membresias.stream().filter(m -> m.getPersona().getId() == persona.getId()).toList().get(0);
+    }
   }
 
   public void notificarMiembros(Notificable notificable){
@@ -130,5 +134,12 @@ public class Comunidad {
 
   public boolean tieneIncidente(Incidente incidente) {
     return this.incidentes.stream().map(ipc -> ipc.getIncidente()).anyMatch(i -> i.equals(incidente));
+  }
+
+  public IncidentePorComunidad obtenerIncidenteComunidad(Incidente incidente){
+    if(this.tieneIncidente(incidente)){
+      return this.incidentes.stream().filter(ipc -> ipc.getIncidente().getId() == incidente.getId()).toList().get(0);
+    }
+    return null;
   }
 }

@@ -11,6 +11,7 @@ import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.modelos.utilidades.Coordenada;
 import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EstablecimientoRepositorio;
@@ -142,7 +143,11 @@ public class EstablecimientosController implements ICrudViewsHandler {
     establecimiento.setNombre(context.formParam("nombreEstablecimiento"));
     establecimiento.setDenominacion(new Denominacion(context.formParam("denominacion")));
     Localidad localidad = repoLocalidad.obtenerLocalidadPorId(context.formParam("localidad"));
-    establecimiento.setUbicacion(new Ubicacion(localidad.getDepartamento().getProvincia(), localidad.getDepartamento(), localidad));
+
+    Float latitud = Float.valueOf(context.formParam("latitud"));
+    Float longitud = Float.valueOf(context.formParam("longitud"));
+    Coordenada coordenada = new Coordenada(latitud, longitud);
+    establecimiento.setUbicacion(new Ubicacion(localidad.getDepartamento().getProvincia(), localidad.getDepartamento(), localidad, coordenada));
 
     Entidad entidad = repoEntidad.buscarPorId(Integer.parseInt(context.formParam("entidad")));
     entidad.agregarEstablecimiento(establecimiento);
@@ -166,7 +171,10 @@ public class EstablecimientosController implements ICrudViewsHandler {
     establecimiento.setDenominacion(new Denominacion(context.formParam("denominacion")));
 
     Localidad localidad = repoLocalidad.obtenerLocalidadPorId(context.formParam("localidad"));
-    establecimiento.setUbicacion(new Ubicacion(localidad.getDepartamento().getProvincia(), localidad.getDepartamento(), localidad));
+    Float latitud = Float.valueOf(context.formParam("latitud"));
+    Float longitud = Float.valueOf(context.formParam("longitud"));
+    Coordenada coordenada = new Coordenada(latitud, longitud);
+    establecimiento.setUbicacion(new Ubicacion(localidad.getDepartamento().getProvincia(), localidad.getDepartamento(), localidad, coordenada));
 
     repoEstablecimiento.actualizar(establecimiento);
 

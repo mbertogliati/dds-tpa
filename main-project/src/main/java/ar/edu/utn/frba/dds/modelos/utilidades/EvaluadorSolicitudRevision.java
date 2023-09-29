@@ -44,7 +44,7 @@ public class EvaluadorSolicitudRevision {
     return comunidad.getIncidentes()
         .stream()
         .filter(i -> i.getIncidente().getServiciosAfectados().stream().anyMatch(
-            s -> this.adapterCalculadoraDistancia.distanciaEntre(s.getUbicacion().getCoordenada(), coordenada) <= this.rangoCercaniaEnMetros
+            s -> s.getUbicacion().getCoordenada() != null && this.adapterCalculadoraDistancia.distanciaEntre(s.getUbicacion().getCoordenada(), coordenada) <= this.rangoCercaniaEnMetros
         )).toList();
   }
 

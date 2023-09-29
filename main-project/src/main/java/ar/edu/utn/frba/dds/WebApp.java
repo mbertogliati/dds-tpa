@@ -22,6 +22,7 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesCo
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosController;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
@@ -59,7 +60,6 @@ public class WebApp {
       get("/home", new IndexController());
 
       //INCIDENTES
-      //TODO: Revisar lista incidentes
       get("/incidentes", new IncidentesController(entityManager)::getAll);
       path("/aperturaIncidente", () ->{
         get(new IncidentesController(entityManager)::vistaApertura);
@@ -155,6 +155,11 @@ public class WebApp {
           get(new UsuariosController(entityManager)::show);
           get("edit",new UsuariosController(entityManager)::edit);
           post("edit",new UsuariosController(entityManager)::update);
+          get("interes", new UsuariosController(entityManager)::getInteres);
+          post("agregarServicio", new UsuariosController(entityManager)::agregarServicio);
+          post("agregarEntidad", new UsuariosController(entityManager)::agregarEntidad);
+          get("sacarServicio/{idServicio}", new UsuariosController(entityManager)::sacarServicio);
+          get("sacarEntidad/{idEntidad}", new UsuariosController(entityManager)::sacarEntidad);
         });
       });
 
@@ -193,9 +198,6 @@ public class WebApp {
 
     //Repo de Eze: https://github.com/dds-utn/proservices-mvc/tree/main
 
-    //TODO: Ver como hacemos cpara actualizar la ubicación de la persona cuando quiera buscar incidentes por estado
-
-    //TODO: Se debe permitir la asignación de personas a servicios de interés
     //TODO: Se debe permitir enviar información a entidades prestadoras y organismos de control
     //TODO: Se debe permitir generar los rankings de incidentes
 

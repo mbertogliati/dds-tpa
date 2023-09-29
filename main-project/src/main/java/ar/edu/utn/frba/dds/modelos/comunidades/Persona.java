@@ -50,6 +50,7 @@ public class Persona {
   private int whatsapp;
 
   @Embedded
+  @Cascade(org.hibernate.annotations.CascadeType.ALL)
   private Interes interes;
 
   @Column(name = "metodoNotificacion")

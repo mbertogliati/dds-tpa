@@ -296,7 +296,11 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     public ServicioEsAfectado(Servicio servicio, Membresia membresia){
       this.servicio = servicio;
-      this.esAfectado = membresia.estaAfectado(servicio);
+      if(membresia != null) {
+        this.esAfectado = membresia.estaAfectado(servicio);
+      }else{
+        this.esAfectado = true;
+      }
     }
   }
 }

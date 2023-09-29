@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Table(name = "incidentes_por_comunidad")
 @Getter
@@ -23,6 +26,7 @@ public class IncidentePorComunidad {
 
     @ManyToOne
     @JoinColumn(name = "incidente_id", referencedColumnName = "id")
+    @Cascade(CascadeType.ALL)
     private Incidente incidente;
 
     @Column(name = "esta_cerrado")
@@ -33,6 +37,7 @@ public class IncidentePorComunidad {
 
     @ManyToOne
     @JoinColumn(name = "autor_cierre_id", referencedColumnName = "id")
+    @Cascade(CascadeType.ALL)
     private Persona autorCierre = null;
 
     public IncidentePorComunidad(){}
