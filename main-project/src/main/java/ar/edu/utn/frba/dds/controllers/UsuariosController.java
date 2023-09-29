@@ -305,7 +305,7 @@ public class UsuariosController implements ICrudViewsHandler {
 
     usuario.setUsername(context.formParam("username"));
 
-    //TODO: NO ELIMINA FECHAS VIEJAS
+    //TODO: No elimina fechas viejas
     //ELIMINO FECHAS VIEJAS
     List<FechasDeSemana> fechasViejas = persona.getFechas();
     fechasViejas.forEach(f -> repoFechas.eliminar(f));

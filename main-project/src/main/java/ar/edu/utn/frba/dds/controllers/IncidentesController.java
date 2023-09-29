@@ -149,8 +149,6 @@ public class IncidentesController {
     //CERRAR INCIDENTE
     usuario.getPersonaAsociada().cerrarIncidente(incidente);
 
-    //TODO: VER COMO HACEMOS PARA QUE EL INCIDENTE APAREZCA COMO CERRADO PARA MÍ SI SOY DE UNA COMUNIDAD QUE ESTA CERRADO, PERO ABIERTO PARA OTRA PERSONA QUE PERTENECE A UNA COMUNIDAD QUE ESTÁ ABIERTO
-
     //PERSISTIR
     this.repoIncidente.actualizar(incidente);
 
