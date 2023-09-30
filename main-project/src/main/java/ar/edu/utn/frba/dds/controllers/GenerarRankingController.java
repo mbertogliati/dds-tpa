@@ -18,7 +18,7 @@ public class GenerarRankingController {
     private final Notificador notificador = new Notificador();
     private final List<EstrategiaCalculoPuntos> formasDeCalcular = new ArrayList<>(
             List.of(new EstrategiaCalculoPuntos[]{
-                    //new GradoDeImpacto(), TODO: Integrarse con el Servicio 1
+                    //new GradoDeImpacto(), TODO: Integrarse con el Servicio 3
                     new MasIncidentes(),
                     new PromedioEntreAperturaYCierre()
             })

@@ -94,13 +94,13 @@ public class ServicioGeoRef implements AdapterProveedorMetadatosGeograficos {
     return responseBuscada.body().provincias.stream().map(prov -> new Provincia(prov.id, prov.nombre)).toList();
   }
   public List<Departamento> departamentosDeProvincia(Provincia provincia) throws IOException {
-    Call<ListadoDeDepartamentos> requestBuscada = this.geoRefService.departamentos(String.valueOf(provincia.getId()), "id, nombre", "5000");
+    Call<ListadoDeDepartamentos> requestBuscada = this.geoRefService.departamentos(String.valueOf(provincia.getIdExterno()), "id, nombre", "5000");
     Response<ListadoDeDepartamentos> responseBuscada = requestBuscada.execute();
     ListadoDeDepartamentos lista = responseBuscada.body();
     return lista.departamentos.stream().map(dep -> new Departamento(dep.id, dep.nombre)).toList();
   }
   public List<Departamento> departamentosDeProvinciaParaTabla(Provincia provincia) throws IOException {
-    Call<ListadoDeDepartamentos> requestBuscada = this.geoRefService.departamentos(String.valueOf(provincia.getId()), "id, nombre", "5000");
+    Call<ListadoDeDepartamentos> requestBuscada = this.geoRefService.departamentos(String.valueOf(provincia.getIdExterno()), "id, nombre", "5000");
     Response<ListadoDeDepartamentos> responseBuscada = requestBuscada.execute();
     ListadoDeDepartamentos lista = responseBuscada.body();
     return lista.departamentos.stream().map(dep -> new Departamento(dep.id, dep.nombre, provincia)).toList();

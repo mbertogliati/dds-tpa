@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.modelos.meta_datos_geo;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,12 +20,17 @@ import org.hibernate.annotations.CascadeType;
 @Setter
 public class Departamento {
   @Id
-  private String id;
+  @GeneratedValue
+  private Integer id;
+
+  @Column(name="id_externo")
+  private String idExterno;
 
   @Column(name = "nombre")
   private String nombre;
 
   @OneToMany(mappedBy = "departamento")
+  @Cascade(CascadeType.ALL)
   private List<Localidad> localidades;
 
   @ManyToOne
@@ -34,12 +40,12 @@ public class Departamento {
   public Departamento(){}
 
   public Departamento(String id, String nombre) {
-    this.id = id;
+    this.idExterno = id;
     this.nombre = nombre;
   }
 
   public Departamento(String id, String nombre, Provincia provincia) {
-    this.id = id;
+    this.idExterno = id;
     this.nombre = nombre;
     this.provincia = provincia;
   }

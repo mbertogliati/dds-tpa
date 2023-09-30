@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.modelos.utilidades;
 
 import ar.edu.utn.frba.dds.repositorios.converters.DiaDeSemanaConverter;
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -34,5 +35,8 @@ public class FechasDeSemana {
   public FechasDeSemana(DayOfWeek dia, LocalTime horario){
     this.dia = dia;
     this.horario = horario;
+  }
+  public boolean sePuedeNotificar(LocalDateTime fechaHora){
+    return fechaHora.getDayOfWeek().equals(this.dia) && fechaHora.getHour() == this.horario.getHour() && fechaHora.getMinute() == this.horario.getMinute();
   }
 }

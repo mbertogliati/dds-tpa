@@ -30,6 +30,10 @@ public class LocalidadRepositorio {
   }
 
   public Localidad obtenerLocalidadPorId(String id) {
+    return entityManager.find(Localidad.class, Integer.parseInt(id));
+  }
+
+  public Localidad obtenerLocalidadPorId(Integer id) {
     return entityManager.find(Localidad.class, id);
   }
 
@@ -69,7 +73,7 @@ public class LocalidadRepositorio {
     return query.getResultList();
   }
 
-  public List<Localidad> buscarPorDepartamento(String idDepartamento) {
+  public List<Localidad> buscarPorDepartamento(Integer idDepartamento) {
     return (List<Localidad>) entityManager.createQuery(
             "SELECT l FROM Localidad l WHERE l.departamento.id = :idBuscado")
         .setParameter("idBuscado", idDepartamento)

@@ -46,7 +46,7 @@ public class DepartamentoRepositorio {
     return query.getResultList();
   }
 
-  public List<Departamento> buscarPorProvincia(String idProvincia) {
+  public List<Departamento> buscarPorProvincia(Integer idProvincia) {
     return (List<Departamento>) entityManager.createQuery(
         "SELECT d FROM Departamento d WHERE d.provincia.id = :idBuscado")
         .setParameter("idBuscado", idProvincia)

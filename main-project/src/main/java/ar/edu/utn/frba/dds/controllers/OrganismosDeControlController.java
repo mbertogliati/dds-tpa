@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
@@ -73,12 +74,34 @@ public class OrganismosDeControlController implements ICrudViewsHandler {
 
   @Override
   public void edit(Context context) {
+    Map<String, Object> model = GeneradorModel.model(context);
 
+    OrganismoControl organismoControl = repoOrganismo.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    model.put("entidad", organismoControl);
+
+    String result = context.queryParam("result");
+    if(result != null){
+      switch(result){
+        case "successEditarOrganismo":
+          model.put("msg",  new MensajeVista("success", "Organismo de control modificado correctamente"));
+          break;
+      }
+    }
+
+    model.put("accion", "organismosControl");
+
+    context.render("verEntidadPrestadora.hbs", model);
   }
 
   @Override
   public void update(Context context) {
+    OrganismoControl organismoControl = repoOrganismo.buscarPorId(Integer.parseInt(context.pathParam("id")));
 
+    organismoControl.setNombre(context.formParam("nombre"));
+
+    repoOrganismo.actualizar(organismoControl);
+
+    context.redirect("/organismosControl/"+context.pathParam("id")+"?result=successEditarOrganismo");
   }
 
   @Override

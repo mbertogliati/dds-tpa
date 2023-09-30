@@ -1,52 +1,26 @@
 {{#partial "titulo"}}
-    <title>Editar Entidad Prestadora</title>
-{{/partial}}
-{{#partial "imports"}}
-    <script src="/js/manejoFormularioEntidades.js"></script>
+    <title>Editar</title>
 {{/partial}}
 {{#partial "contenido"}}
 <!-- Contenido principal -->
 <div class="container mt-4 mb-4 altura-minima">
     <div class="row justify-content-center">
         <div class="col-sm-8">
-            {{#with success}}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    Entidad prestadora modificada correctamente.
+            {{#with msg}}
+                <div class="alert alert-{{#if (eq msg.tipo "success")}}success{{else}}danger{{/if}} alert-dismissible fade show" role="alert">
+                    {{msg.texto}}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {{/with}}
-            <form action="/entidadesPrestadoras" method="post">
-                <fieldset {{#unless editable}}disabled{{/unless}}>
+            <form action="/{{accion}}/{{entidad.id}}" method="post">
                     <div class="row">
-                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{entidadPrestadora.nombre}}" required>
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{entidad.nombre}}" required>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="personaAInformar" class="form-label">Persona asociada</label>
-                                <select type="text" class="form-select" id="personaAInformar" name="personaAInformar" data-persona="{{entidadPrestadora.personaAInformar}}" required>
-                                    {{#each usuarios}}
-                                        <option value="{{id}}" {{#if (eq id ../entidadPrestadora.id)}}selected{{/if}}>{{personaAsociada.nombre}} {{personaAsociada.apellido}}</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                        </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3">
-                            <label for="organismo" class="form-label">Organismo de Control asociado</label>
-                            <select onchange="" type="text" class="form-select" id="organismo" name="organismo" data-organismo="{{organismoEntidad}}" required>
-                                {{#each organismos}}
-                                    <option value="{{id}}" {{#if (eq id ../organismoEntidad.id)}}selected{{/if}}>{{nombre}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
-                </fieldset>
-                {{#if editable}}<button type="submit" class="btn btn-success">Crear</button>{{/if}}
+                <button type="submit" class="btn btn-success">Guardar cambios</button>
+                <a href="/entidadesPrestadoras" class="btn btn-secondary">Volver al listado</a>
             </form>
         </div>
     </div>

@@ -19,7 +19,8 @@
                     <tr>
                         <th scope="col">Organismo de Control</th>
                         <th scope="col">Entidades Prestadoras a cargo</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col">Acciones entidades prestadoras</th>
+                        <th scope="col">Acciones organismo de control</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,6 +31,10 @@
                                     <td><b>{{nombre}}</b></td>
                                     <td><em>Sin entidades prestadoras a cargo</em></td>
                                     <td></td>
+                                    <td class="text-center">
+                                        <a href="/organismosControl/{{id}}" class="btn btn-warning">Editar</a>
+                                        <a class="btn btn-success" href="/organismosControl/crear/{{id}}">Agregar entidad prestadora</a>
+                                    </td>
                                 </tr>
                             {{else}}
                                 {{#each entidadesPrestadoras}}
@@ -39,6 +44,12 @@
                                         {{/if}}
                                         <td>{{nombre}}</td>
                                         <td><a href="/organismosControl/{{../id}}/sacarEntidadPrestadora/{{id}}" class="btn btn-danger">Eliminar</a></td>
+                                        {{#if @first}}
+                                            <td rowspan="{{entidadesPrestadoras.length}}" class="text-center">
+                                                <a href="/organismosControl/{{../id}}" class="btn btn-warning">Editar</a>
+                                                <a class="btn btn-success" href="/organismosControl/crear/{{../id}}">Agregar entidad prestadora</a>
+                                            </td>
+                                        {{/if}}
                                     </tr>
                                 {{/each}}
                             {{/if}}
@@ -72,7 +83,10 @@
                                     <td><b>{{nombre}}</b></td>
                                     <td><em>Sin entidades a cargo</em></td>
                                     <td></td>
-                                    <td class="text-center"><a class="btn btn-success" href="/entidades/crear/{{id}}">Agregar entidad</a></td>
+                                    <td class="text-center">
+                                        <a href="/entidadesPrestadoras/{{id}}" class="btn btn-warning">Editar</a>
+                                        <a class="btn btn-success" href="/entidades/crear/{{id}}">Agregar entidad</a>
+                                    </td>
                                 </tr>
                             {{else}}
                                 {{#each entidades}}
@@ -86,7 +100,10 @@
                                             <a href="/entidadesPrestadoras/{{../id}}/sacarEntidad/{{id}}" class="btn btn-danger">Eliminar</a>
                                         </td>
                                         {{#if @first}}
-                                            <td rowspan="{{entidades.length}}" class="text-center"><a class="btn btn-success" href="/entidades/crear/{{../id}}">Agregar entidad</a></td>
+                                            <td rowspan="{{entidades.length}}" class="text-center">
+                                                <a href="/entidadesPrestadoras/{{../id}}" class="btn btn-warning">Editar</a>
+                                                <a class="btn btn-success" href="/entidades/crear/{{../id}}">Agregar entidad</a>
+                                            </td>
                                         {{/if}}
                                     </tr>
                                 {{/each}}

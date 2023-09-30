@@ -21,7 +21,7 @@ public class ObtenerLocalidadesController implements Handler {
   public void handle(@NotNull Context context) throws Exception {
     String departamentoId = context.queryParam("selectorId");
 
-    List<Localidad> localidades = localidadRepositorio.buscarPorDepartamento(departamentoId);
+    List<Localidad> localidades = localidadRepositorio.buscarPorDepartamento(Integer.parseInt(departamentoId));
 
     // Genero HTML con las opciones de los departamentos
     StringBuilder htmlOptions = new StringBuilder();

@@ -28,9 +28,8 @@ public class Entidad {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @OneToMany()
+  @OneToMany(mappedBy = "entidad")
   @Cascade(CascadeType.ALL)
-  @JoinColumn(name = "entidad_id", referencedColumnName = "id")
   private List<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
 
   @Column(name = "nombre")

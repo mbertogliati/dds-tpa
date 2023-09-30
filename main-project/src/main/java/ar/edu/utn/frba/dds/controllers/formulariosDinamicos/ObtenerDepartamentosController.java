@@ -19,7 +19,7 @@ public class ObtenerDepartamentosController implements Handler {
   public void handle(@NotNull Context context) throws Exception {
     String provinciaId = context.queryParam("selectorId");
 
-    List<Departamento> departamentos = departamentoRepositorio.buscarPorProvincia(provinciaId);
+    List<Departamento> departamentos = departamentoRepositorio.buscarPorProvincia(Integer.parseInt(provinciaId));
 
     // Genero HTML con las opciones de los departamentos
     StringBuilder htmlOptions = new StringBuilder();

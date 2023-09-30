@@ -55,12 +55,4 @@ public class EntidadPrestadoraRepositorio {
         .setParameter("idBuscado", persona.getId())
         .getResultList();
   }
-  public Integer idOrganismoAsociado(EntidadPrestadora entidad){
-   return entityManager
-       .createQuery("SELECT organismo_control_id from "
-                        + EntidadPrestadora.class.getName()
-                        +"WHERE id = :idEntidad")
-       .setParameter("idEntidad", entidad.getId())
-       .getFirstResult();
-  }
 }

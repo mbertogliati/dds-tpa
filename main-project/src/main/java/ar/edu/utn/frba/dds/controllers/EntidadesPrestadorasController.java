@@ -110,12 +110,34 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
 
   @Override
   public void edit(Context context) {
+    Map<String, Object> model = GeneradorModel.model(context);
 
+    EntidadPrestadora entidadPrestadora = repoEntidadesPrestadoras.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    model.put("entidad", entidadPrestadora);
+
+    String result = context.queryParam("result");
+    if(result != null){
+      switch(result){
+        case "successEditarEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad prestadora modificada correctamente"));
+          break;
+      }
+    }
+
+    model.put("accion", "entidadesPrestadoras");
+
+    context.render("verEntidadPrestadora.hbs", model);
   }
 
   @Override
   public void update(Context context) {
+    EntidadPrestadora entidadPrestadora = repoEntidadesPrestadoras.buscarPorId(Integer.parseInt(context.pathParam("id")));
 
+    entidadPrestadora.setNombre(context.formParam("nombre"));
+
+    repoEntidadesPrestadoras.actualizar(entidadPrestadora);
+
+    context.redirect("/entidadesPrestadoras/"+context.pathParam("id")+"?result=successEditarEntidad");
   }
 
   @Override

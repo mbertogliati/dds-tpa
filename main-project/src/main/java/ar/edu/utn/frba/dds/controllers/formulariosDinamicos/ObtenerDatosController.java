@@ -29,7 +29,7 @@ public class ObtenerDatosController {
 
     String provinciaId = context.queryParam("selectorId");
 
-    List<Departamento> departamentos = repoDepartamento.buscarPorProvincia(provinciaId);
+    List<Departamento> departamentos = repoDepartamento.buscarPorProvincia(Integer.parseInt(provinciaId));
 
     // Genero HTML con las opciones de los departamentos
     StringBuilder htmlOptions = new StringBuilder();
@@ -48,7 +48,7 @@ public class ObtenerDatosController {
 
     String departamentoId = context.queryParam("selectorId");
 
-    List<Localidad> localidades = repoLocalidad.buscarPorDepartamento(departamentoId);
+    List<Localidad> localidades = repoLocalidad.buscarPorDepartamento(Integer.parseInt(departamentoId));
 
     // Genero HTML con las opciones de los departamentos
     StringBuilder htmlOptions = new StringBuilder();

@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.controllers.ComunidadesController;
 import ar.edu.utn.frba.dds.controllers.EntidadesController;
 import ar.edu.utn.frba.dds.controllers.EntidadesPrestadorasController;
 import ar.edu.utn.frba.dds.controllers.EstablecimientosController;
+import ar.edu.utn.frba.dds.controllers.GenerarRankingController;
 import ar.edu.utn.frba.dds.controllers.IncidentesController;
 import ar.edu.utn.frba.dds.controllers.IndexController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
@@ -20,6 +21,7 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimien
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosController;
+import ar.edu.utn.frba.dds.controllers.utils.CreadorCronTask;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
@@ -33,12 +35,15 @@ import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
 import io.javalin.rendering.JavalinRenderer;
 import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class WebApp {
+  public static CreadorCronTask creadorCronTask = new CreadorCronTask();
   public static void main(String[] args) {
     initTemplateEngine();
 
@@ -52,6 +57,7 @@ public class WebApp {
         ctx.redirect("/login");
       }
     });
+    configurarCronTasks();
 
     EntityManager entityManager = (new CreadorEntityManager()).entityManagerCreado();
     app.routes(() -> {
@@ -103,6 +109,8 @@ public class WebApp {
         post(new EntidadesPrestadorasController(entityManager)::save);
         get("crear",new EntidadesPrestadorasController(entityManager)::create);
         path("{id}", () ->{
+          get(new EntidadesPrestadorasController(entityManager)::edit);
+          post(new EntidadesPrestadorasController(entityManager)::update);
           get("sacarEntidad/{idEntidad}", new EntidadesPrestadorasController(entityManager)::sacarEntidad);
         });
       });
@@ -112,6 +120,8 @@ public class WebApp {
         post(new OrganismosDeControlController(entityManager)::save);
         get("crear", new OrganismosDeControlController(entityManager)::create);
         get("/{id}/sacarEntidadPrestadora/{entidadPrestadora}", new OrganismosDeControlController((entityManager))::sacarEntidadPrestadora);
+        get("/{id}", new OrganismosDeControlController((entityManager))::edit);
+        post("/{id}", new OrganismosDeControlController((entityManager))::update);
       });
 
       //ESTABLECIMIENTOS
@@ -200,6 +210,7 @@ public class WebApp {
 
     //TODO: Se debe permitir enviar información a entidades prestadoras y organismos de control
     //TODO: Se debe permitir generar los rankings de incidentes
+    //TODO: Usar cron tasks para el envío de notificaciones sin apuro
 
     //TODO: IMPLEMENTAR FactoryController
   }
@@ -231,6 +242,12 @@ public class WebApp {
           }
         }, ".hbs" // Extensión del archivo de template
     );
+  }
+  private static void configurarCronTasks(){
+    GenerarRankingController generarRankingController = new GenerarRankingController(
+        new CreadorEntityManager().entityManagerCreado()
+    );
+    creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.MONDAY, LocalTime.parse("00:00"));
   }
 
   private static boolean requiereAutenticacion(String path){

@@ -3,7 +3,7 @@
 {{/partial}}
 {{#partial "imports"}}
     <script src="/js/manejoFormularioEntidades.js"></script>
-    <script src="/noAuth/obtenerUbicacion.js"></script>
+    <script src="/js/obtenerUbicacion.js"></script>
 {{/partial}}
 {{#partial "contenido"}}
 <!-- Contenido principal -->
@@ -90,14 +90,13 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <!--//TODO: Revisar por qué las coords se actualizan en base de datos, pero no en la vista? -->
                     <div class="col-md-4">
                         <label for="latitud" class="form-label">Latitud</label>
-                        <input type="text" name="latitud" class="form-control" id="latitud" value="{{establecimiento.ubicacion.coordenada.latitud}}" required disabled>
+                        <input type="text" name="latitud" class="form-control" id="latitud" value="{{establecimiento.ubicacion.coordenada.latitud}}" required>
                     </div>
                     <div class="col-md-4">
                         <label for="longitud" class="form-label">Longitud</label>
-                        <input type="text" name="longitud" class="form-control" id="longitud" value="{{establecimiento.ubicacion.coordenada.longitud}}" required disabled>
+                        <input type="text" name="longitud" class="form-control" id="longitud" value="{{establecimiento.ubicacion.coordenada.longitud}}" required>
                     </div>
                     <div class="col-md-4">
                         <a class="btn btn-primary mb-3" href="#" onclick="obtenerUbicacion();">Cargar ubicación actual</a>

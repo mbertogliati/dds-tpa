@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.modelos.meta_datos_geo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,7 +16,11 @@ import lombok.Setter;
 @Setter
 public class Localidad  {
     @Id
-    private String id;
+    @GeneratedValue
+    private Integer id;
+
+    @Column(name="id_externo")
+    private String idExterno;
 
     @Column(name = "nombre")
     private String nombre;
@@ -27,12 +32,12 @@ public class Localidad  {
     public Localidad(){}
 
     public Localidad(String id, String nombre) {
-        this.id = id;
+        this.idExterno = id;
         this.nombre = nombre;
     }
 
     public Localidad(String id, String nombre, Departamento departamento) {
-        this.id = id;
+        this.idExterno = id;
         this.nombre = nombre;
         this.departamento = departamento;
     }
