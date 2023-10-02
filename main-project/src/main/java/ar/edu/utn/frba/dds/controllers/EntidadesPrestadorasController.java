@@ -114,7 +114,7 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
   @Override
   public void save(Context context) {
     EntidadPrestadora nuevaEntidad = new EntidadPrestadora(context.formParam("nombre"));
-    nuevaEntidad.setPersonaAInformar(((Usuario)context.sessionAttribute("usuario")).getPersonaAsociada());
+    nuevaEntidad.setPersonaAInformar(repoUsuarios.buscarPorId(Integer.parseInt(context.formParam("usuario"))).getPersonaAsociada());
 
     repoEntidadesPrestadoras.guardar(nuevaEntidad);
 
@@ -143,6 +143,8 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
       }
     }
 
+    List<Usuario> usuarios = repoUsuarios.buscarTodos();
+    model.put("usuarios",usuarios);
     model.put("accion", "entidadesPrestadoras");
 
     context.render("verEntidadPrestadora.hbs", model);

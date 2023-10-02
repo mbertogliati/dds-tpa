@@ -66,7 +66,7 @@ public class OrganismosDeControlController implements ICrudViewsHandler {
   @Override
   public void save(Context context) {
     OrganismoControl nuevoOrganismo = new OrganismoControl(context.formParam("nombre"));
-    nuevoOrganismo.setPersonaAInformar(((Usuario)context.sessionAttribute("usuario")).getPersonaAsociada());
+    nuevoOrganismo.setPersonaAInformar(repoUsuarios.buscarPorId(Integer.parseInt(context.formParam("usuario"))).getPersonaAsociada());
 
     repoOrganismo.guardar(nuevoOrganismo);
 
@@ -88,6 +88,9 @@ public class OrganismosDeControlController implements ICrudViewsHandler {
           break;
       }
     }
+
+    List<Usuario> usuarios = repoUsuarios.buscarTodos();
+    model.put("usuarios",usuarios);
 
     model.put("accion", "organismosControl");
 

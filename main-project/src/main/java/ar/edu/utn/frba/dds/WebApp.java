@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.controllers.GenerarRankingController;
 import ar.edu.utn.frba.dds.controllers.IncidentesController;
 import ar.edu.utn.frba.dds.controllers.IndexController;
 import ar.edu.utn.frba.dds.controllers.LoginController;
+import ar.edu.utn.frba.dds.controllers.NotificacionController;
 import ar.edu.utn.frba.dds.controllers.OrganismosDeControlController;
 import ar.edu.utn.frba.dds.controllers.RegisterController;
 import ar.edu.utn.frba.dds.controllers.ServiciosController;
@@ -210,8 +211,6 @@ public class WebApp {
     //Repo de Eze: https://github.com/dds-utn/proservices-mvc/tree/main
 
     //TODO: Se debe permitir enviar información a entidades prestadoras y organismos de control
-    //TODO: Se debe permitir generar los rankings de incidentes
-    //TODO: Usar cron tasks para el envío de notificaciones sin apuro
 
     //TODO: IMPLEMENTAR FactoryController
   }
@@ -248,7 +247,11 @@ public class WebApp {
     GenerarRankingController generarRankingController = new GenerarRankingController(
         new CreadorEntityManager().entityManagerCreado()
     );
+    NotificacionController notificacionController = new NotificacionController(
+        new CreadorEntityManager().entityManagerCreado()
+    );
     creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.MONDAY, LocalTime.parse("00:00"));
+    creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, 30L);
   }
 
   private static boolean requiereAutenticacion(String path){

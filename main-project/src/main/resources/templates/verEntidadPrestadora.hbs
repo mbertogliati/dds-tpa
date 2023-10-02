@@ -14,10 +14,18 @@
             {{/with}}
             <form action="{{#with crear}}/{{accion}}{{else}}/{{accion}}/{{entidad.id}}{{/with}}" method="post">
                     <div class="row">
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{entidad.nombre}}" required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="{{entidad.nombre}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Persona a cargo</label>
+                            <select name="usuario" class="form-select" id="usuario" required>
+                                {{#each usuarios}}
+                                    <option value="{{id}}" {{#if (eq id entidad.personaAInformar.id)}}selected{{/if}}>{{personaAsociada.nombre}} {{personaAsociada.apellido}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
                         <input type="hidden" value="{{organismo.id}}" name="organismo">
                     </div>
                 <button type="submit" class="btn btn-success">Guardar cambios</button>
