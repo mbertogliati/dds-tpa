@@ -62,9 +62,10 @@
                             <thead class="table-dark">
                             <tr>
                                 <th scope="col">Servicios</th>
-                                <th scope="col" class="text-center">Rol</th>
                                 {{#if editable}}
                                     <th scope="col" class="text-center">Acciones</th>
+                                {{else}}
+                                    <th scope="col" class="text-center">Rol</th>
                                 {{/if}}
                             </tr>
                             </thead>
@@ -77,16 +78,17 @@
                                                 - {{tipo}}: {{valor}}
                                             {{/each}}
                                         </td>
-                                        <td class="text-center">
-                                            {{#if esAfectado}}
-                                                Afectado<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicio.id}}/observador" class="btn btn-primary">Cambiar</a>
-                                            {{else}}
-                                                Observador<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicio.id}}/afectado" class="btn btn-primary">Cambiar</a>
-                                            {{/if}}
-                                        </td>
                                         {{#if editable}}
                                             <td class="text-center">
                                                 <a href="/comunidades/{{comunidad.id}}/sacarServicio/{{id}}" class="btn btn-sm btn-danger">Sacar servicio</a>
+                                            </td>
+                                        {{else}}
+                                            <td class="text-center">
+                                                {{#if esAfectado}}
+                                                    Afectado<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicio.id}}/observador" class="btn btn-primary">Cambiar</a>
+                                                {{else}}
+                                                    Observador<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicio.id}}/afectado" class="btn btn-primary">Cambiar</a>
+                                                {{/if}}
                                             </td>
                                         {{/if}}
                                     </tr>

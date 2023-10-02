@@ -188,7 +188,7 @@ public class ComunidadesController implements ICrudViewsHandler {
       model.put("adminComunidad", true);
     }
 
-    model.put("comunidad", comunidad);
+    model.put("comunidad", new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada()));
     model.put("serviciosGenerales", repoServicio.buscarTodos());
 
     context.render("verComunidad.hbs", model);
