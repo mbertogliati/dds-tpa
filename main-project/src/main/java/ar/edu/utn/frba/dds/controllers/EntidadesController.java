@@ -89,45 +89,11 @@ public class EntidadesController implements ICrudViewsHandler{
     String idEntidad = context.pathParam("id");
     Entidad entidad = this.repoEntidad.buscarPorId(Integer.parseInt(idEntidad));
     model.put("entidad", entidad);
-
-
-    StringBuilder stringBuilder = new StringBuilder("");
-    List<Provincia> provincias = repoProvincia.buscarTodas();
-    //TODO: Rompe el Single responsability principle.
-    for (Provincia provincia : provincias){
-      if(provincia.getId().equals(entidad.getUbicacion().getMetadato().getProvincia().getId())){
-        stringBuilder.append("<option value=\"" + provincia.getId() + "\" selected>" + provincia.getNombre() + "</option>");
-      }else{
-        stringBuilder.append("<option value=\"" + provincia.getId() + "\">" + provincia.getNombre() + "</option>");
-      }
-    }
-    model.put("provincias", stringBuilder.toString());
-
-
-    stringBuilder = new StringBuilder("");
-    List<Departamento> departamentos = repoDepartamento.buscarPorProvincia(entidad.getUbicacion().getMetadato().getProvincia().getId());
-    for (Departamento departamento : departamentos){
-      if(departamento.getId().equals(entidad.getUbicacion().getMetadato().getDepartamento().getId())){
-        stringBuilder.append("<option value=\"" + departamento.getId() + "\" selected>" + departamento.getNombre() + "</option>");
-      }else{
-        stringBuilder.append("<option value=\"" + departamento.getId() + "\">" + departamento.getNombre() + "</option>");
-      }
-    }
-    model.put("departamentos", stringBuilder.toString());
-
-
-    stringBuilder = new StringBuilder("");
-    List<Localidad> localidades = repoLocalidad.buscarPorDepartamento(entidad.getUbicacion().getMetadato().getDepartamento().getId());
-    for (Localidad localidad : localidades){
-      if(localidad.getId().equals(entidad.getUbicacion().getMetadato().getLocalidad().getId())){
-        stringBuilder.append("<option value=\"" + localidad.getId() + "\" selected>" + localidad.getNombre() + "</option>");
-      }else{
-        stringBuilder.append("<option value=\"" + localidad.getId() + "\">" + localidad.getNombre() + "</option>");
-      }
-    }
-    model.put("localidades", stringBuilder.toString());
-
     model.put("establecimientos", entidad.getEstablecimientos());
+
+    model.put("provincias", repoProvincia.buscarTodas());
+    model.put("departamentos", entidad.getUbicacion().getMetadato().getProvincia().getDepartamentos());
+    model.put("localidades", entidad.getUbicacion().getMetadato().getDepartamento().getLocalidades());
 
     model.put("editable", true);
 

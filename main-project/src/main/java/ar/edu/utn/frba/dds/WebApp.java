@@ -211,8 +211,6 @@ public class WebApp {
     //Repo de Eze: https://github.com/dds-utn/proservices-mvc/tree/main
 
     //TODO: Se debe permitir enviar información a entidades prestadoras y organismos de control
-
-    //TODO: IMPLEMENTAR FactoryController
   }
 
   private static Consumer<JavalinConfig> config(){
