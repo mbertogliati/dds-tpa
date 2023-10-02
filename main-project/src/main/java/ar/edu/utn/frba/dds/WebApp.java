@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.controllers.LoginController;
 import ar.edu.utn.frba.dds.controllers.OrganismosDeControlController;
 import ar.edu.utn.frba.dds.controllers.RegisterController;
 import ar.edu.utn.frba.dds.controllers.ServiciosController;
+import ar.edu.utn.frba.dds.controllers.exceptions.ValidacionUsuarioException;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDatosController;
 import ar.edu.utn.frba.dds.controllers.RankingsController;
 import ar.edu.utn.frba.dds.controllers.UsuariosController;
@@ -23,6 +24,7 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.helper.ConditionalHelpers;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
+import io.javalin.http.ExceptionHandler;
 import io.javalin.http.HttpStatus;
 import io.javalin.rendering.JavalinRenderer;
 import java.io.IOException;
@@ -46,6 +48,11 @@ public class WebApp {
         ctx.status(401).result("Unauthorized");
         ctx.redirect("/login");
       }
+    });
+    app.exception(ValidacionUsuarioException.class, (e,ctx) -> {
+      app.attribute("error", e.getMessage());
+      ctx.status(400).result(e.getMessage());
+      ctx.redirect(ctx.path() + "?error");
     });
     configurarCronTasks();
 

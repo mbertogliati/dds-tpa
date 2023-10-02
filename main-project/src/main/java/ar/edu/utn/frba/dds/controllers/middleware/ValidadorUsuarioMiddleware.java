@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.middleware;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.ValidacionUsuarioException;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
 import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
@@ -33,7 +34,7 @@ public class ValidadorUsuarioMiddleware implements Handler {
             return;
         }
 
-        context.redirect(context.path() + "?error");
+        throw new ValidacionUsuarioException("Datos no válido. Revise los datos ingresados");
     }
     private boolean usuarioValido(Context context){
         return !context.formParam("password").equals(context.formParam("repetir_password"))
