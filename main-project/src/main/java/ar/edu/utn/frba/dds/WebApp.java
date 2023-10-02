@@ -13,32 +13,24 @@ import ar.edu.utn.frba.dds.controllers.NotificacionController;
 import ar.edu.utn.frba.dds.controllers.OrganismosDeControlController;
 import ar.edu.utn.frba.dds.controllers.RegisterController;
 import ar.edu.utn.frba.dds.controllers.ServiciosController;
+import ar.edu.utn.frba.dds.controllers.exceptions.ValidacionUsuarioException;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDatosController;
-import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosController;
 import ar.edu.utn.frba.dds.controllers.RankingsController;
 import ar.edu.utn.frba.dds.controllers.UsuariosController;
-import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesController;
-import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosController;
-import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesController;
-import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
-import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosController;
+import ar.edu.utn.frba.dds.controllers.middleware.ValidadorUsuarioMiddleware;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorCronTask;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
-import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
-import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Helper;
-import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.helper.ConditionalHelpers;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
+import io.javalin.http.ExceptionHandler;
 import io.javalin.http.HttpStatus;
 import io.javalin.rendering.JavalinRenderer;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -57,6 +49,11 @@ public class WebApp {
         ctx.status(401).result("Unauthorized");
         ctx.redirect("/login");
       }
+    });
+    app.exception(ValidacionUsuarioException.class, (e,ctx) -> {
+      app.attribute("error", e.getMessage());
+      ctx.status(400).result(e.getMessage());
+      ctx.redirect(ctx.path() + "?error");
     });
     configurarCronTasks();
 
@@ -156,6 +153,7 @@ public class WebApp {
 
       //REGISTER
       path("/register", () -> {
+        before(new ValidadorUsuarioMiddleware());
         get(new RegisterController(entityManager)::create);
         post(new RegisterController(entityManager)::save);
       });
@@ -164,9 +162,12 @@ public class WebApp {
       path("/usuarios",()->{
         get(new UsuariosController(entityManager)::index);
         path("{id}", () -> {
+          path("edit", ()->{
+            before(new ValidadorUsuarioMiddleware());
+            get(new UsuariosController(entityManager)::edit);
+            post(new UsuariosController(entityManager)::update);
+          });
           get(new UsuariosController(entityManager)::show);
-          get("edit",new UsuariosController(entityManager)::edit);
-          post("edit",new UsuariosController(entityManager)::update);
           get("interes", new UsuariosController(entityManager)::getInteres);
           post("agregarServicio", new UsuariosController(entityManager)::agregarServicio);
           post("agregarEntidad", new UsuariosController(entityManager)::agregarEntidad);
