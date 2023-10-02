@@ -62,6 +62,8 @@ public class GeneradorModel {
       model.put("adminPlataforma", true);
     }
 
+    model.put("msg", context.consumeSessionAttribute("msg"));
+
     return model;
   }
 }

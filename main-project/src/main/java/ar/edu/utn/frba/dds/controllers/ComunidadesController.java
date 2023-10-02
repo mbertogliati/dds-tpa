@@ -159,7 +159,11 @@ public class ComunidadesController implements ICrudViewsHandler {
     Map<String, Object> model = GeneradorModel.model(context);
 
     String result = context.queryParam("result");
-    if(result != null){
+    model.put("msg", context.sessionAttribute("msg"));
+    if(context.sessionAttribute("successMsg") != null){
+      model.put("success",context.sessionAttribute("successMsg"));
+    }
+    /*if(result != null){
       switch(result){
         case "editSuccess":
           model.put("msg",  new MensajeVista("success", "Comunidad editada correctamente"));
@@ -177,7 +181,7 @@ public class ComunidadesController implements ICrudViewsHandler {
           model.put("msg",  new MensajeVista("success", "Servicio eliminado correctamente"));
           break;
       }
-    }
+    }*/
 
     Usuario usuario = context.sessionAttribute("usuario");
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
@@ -203,7 +207,10 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     repoComunidad.actualizarComunidad(comunidad);
 
-    context.redirect("/comunidades/"+comunidad.getId()+"/edit?result=editSuccess");
+    context.sessionAttribute("successMsg","Comunidad editada correctamente,");
+    context.sessionAttribute("msg", new MensajeVista("success", "Comunidad editada correctamente."));
+    //context.redirect("/comunidades/"+comunidad.getId()+"/edit?result=editSuccess");
+    context.redirect("/comunidades/"+comunidad.getId());
   }
 
   @Override

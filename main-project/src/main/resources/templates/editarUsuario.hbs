@@ -77,21 +77,27 @@
                                 <div class="col-md-4">
                                     <div class="">
                                         <select class="form-select" name="provincia" id="provincia" required>
-                                            {{{provincias}}}
+                                            {{#each provincias}}
+                                                <option value="{{id}}" {{#if (eq usuario.personaAsociada.ubicacion.metadato.provincia.id id)}}selected{{/if}}>{{nombre}}</option>
+                                            {{/each}}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="">
                                         <select class="form-select" name="departamento" id="departamento" required>
-                                            {{{departamentos}}}
+                                            {{#each departamentos}}
+                                                <option value="{{id}}" {{#if (eq usuario.personaAsociada.ubicacion.metadato.departamento.id id)}}selected{{/if}}>{{nombre}}</option>
+                                            {{/each}}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="">
                                         <select class="form-select" name="localidad" id="localidad" required>
-                                            {{{localidades}}}
+                                            {{#each localidades}}
+                                                <option value="{{id}}" {{#if (eq usuario.personaAsociada.ubicacion.metadato.localidad.id id)}}selected{{/if}}>{{nombre}}</option>
+                                            {{/each}}
                                         </select>
                                     </div>
                                 </div>

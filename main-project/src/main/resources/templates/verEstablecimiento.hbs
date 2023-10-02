@@ -60,7 +60,9 @@
                                         <option value="{{id}}">{{nombre}}</option>
                                     {{/each}}
                                 {{else}}
-                                    {{{provincias}}}
+                                    {{#each provincias}}
+                                        <option value="{{id}}" {{#if (eq establecimiento.ubicacion.metadato.provincia.id id)}}selected{{/if}}>{{nombre}}</option>
+                                    {{/each}}
                                 {{/with}}
                             </select>
                         </div>
@@ -71,7 +73,9 @@
                                 {{#with creacion}}
                                     <option>Departamentos</option>
                                 {{else}}
-                                    {{{departamentos}}}
+                                    {{#each departamentos}}
+                                        <option value="{{id}}" {{#if (eq establecimiento.ubicacion.metadato.departamento.id id)}}selected{{/if}}>{{nombre}}</option>
+                                    {{/each}}
                                 {{/with}}
                             </select>
                         </div>
@@ -82,7 +86,9 @@
                                 {{#with creacion}}
                                     <option>Localidades</option>
                                 {{else}}
-                                    {{{localidades}}}
+                                    {{#each localidades}}
+                                        <option value="{{id}}" {{#if (eq establecimiento.ubicacion.metadato.localidad.id id)}}selected{{/if}}>{{nombre}}</option>
+                                    {{/each}}
                                 {{/with}}
                             </select>
                         </div>

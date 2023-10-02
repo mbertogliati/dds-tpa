@@ -241,41 +241,9 @@ public class UsuariosController implements ICrudViewsHandler {
     model.put("momentoNotificacion",momentoNotificacion);
     model.put("fechasDeSemana",persona.getFechas());
 
-    //BUSCO PROVINCIAS
-    StringBuilder stringBuilder = new StringBuilder("");
-    List<Provincia> provincias = repoProvincia.buscarTodas();
-    for (Provincia provincia : provincias){
-      if(provincia.getId().equals(persona.getUltimaUbicacion().getMetadato().getProvincia().getId())){
-        stringBuilder.append("<option value=\"" + provincia.getId() + "\" selected>" + provincia.getNombre() + "</option>");
-      }else{
-        stringBuilder.append("<option value=\"" + provincia.getId() + "\">" + provincia.getNombre() + "</option>");
-      }
-    }
-    model.put("provincias", stringBuilder.toString());
-
-    //BUSCO DEPARTAMENTOS
-    stringBuilder = new StringBuilder("");
-    List<Departamento> departamentos = repoDepartamento.buscarPorProvincia(persona.getUltimaUbicacion().getMetadato().getProvincia().getId());
-    for (Departamento departamento : departamentos){
-      if(departamento.getId().equals(persona.getUltimaUbicacion().getMetadato().getDepartamento().getId())){
-        stringBuilder.append("<option value=\"" + departamento.getId() + "\" selected>" + departamento.getNombre() + "</option>");
-      }else{
-        stringBuilder.append("<option value=\"" + departamento.getId() + "\">" + departamento.getNombre() + "</option>");
-      }
-    }
-    model.put("departamentos", stringBuilder.toString());
-
-    //BUSCO LOCALIDADES
-    stringBuilder = new StringBuilder("");
-    List<Localidad> localidades = repoLocalidad.buscarPorDepartamento(persona.getUltimaUbicacion().getMetadato().getDepartamento().getId());
-    for (Localidad localidad : localidades){
-      if(localidad.getId().equals(persona.getUltimaUbicacion().getMetadato().getLocalidad().getId())){
-        stringBuilder.append("<option value=\"" + localidad.getId() + "\" selected>" + localidad.getNombre() + "</option>");
-      }else{
-        stringBuilder.append("<option value=\"" + localidad.getId() + "\">" + localidad.getNombre() + "</option>");
-      }
-    }
-    model.put("localidades", stringBuilder.toString());
+    model.put("provincias", repoProvincia.buscarTodas());
+    model.put("departamentos", repoDepartamento.buscarTodos());
+    model.put("localidades", repoLocalidad.obtenerTodas());
 
     context.render("editarUsuario.hbs", model);
   }
