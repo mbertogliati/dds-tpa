@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.controllers;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificacionAlMomento;
+import ar.edu.utn.frba.dds.modelos.notificaciones.Notificador;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import net.bytebuddy.asm.Advice;
 
 public class NotificacionController {
   private PersonaRepositorio repoPersona;
+  private Notificador notificador;
 
   public NotificacionController(EntityManager entityManager){
     repoPersona = new PersonaRepositorio(entityManager);
@@ -20,7 +22,14 @@ public class NotificacionController {
   public void notificarUsuariosPendientes(){
     LocalDateTime horaInicioProceso = LocalDateTime.now();
     List<Persona> personas = repoPersona.buscarTodas();
-    //TODO: Terminar esto
-  }
 
+    for(Persona persona : personas){
+      if(persona.getFechas().stream().anyMatch(fecha -> fecha.sePuedeNotificar(horaInicioProceso))){
+        Notificador.notificar(persona.getNotificablesSinNotificar(),persona);
+        repoPersona.actualizar(persona);
+      }
+    }
+
+  }
 }
+
