@@ -1,7 +1,8 @@
-package ar.edu.utn.frba.dds.controllers;
+package ar.edu.utn.frba.dds.controllers.generales;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
@@ -47,21 +48,13 @@ public class CargaMasivaController implements ICrudViewsHandler {
 
   @Override
   public void create(@NotNull Context context){
-
     Map<String, Object> model = GeneradorModel.model(context);
-
-    String paramEstado = context.queryParam("result");
-
-    if(paramEstado != null){
-      model.put("success", new Success("Se cargaron las entidades con éxito."));
-    }
 
     context.render("cargaMasivaEntidades.hbs", model);
   }
 
   @Override
   public void save(@NotNull Context context){
-
     List<UploadedFile> uploadedFiles = context.uploadedFiles("file");
 
     if (!uploadedFiles.isEmpty()) {
@@ -95,7 +88,8 @@ public class CargaMasivaController implements ICrudViewsHandler {
       archivo.delete();
     }
 
-    context.redirect("/cargaMasiva?result=success");
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Carga masiva realizada correctamente."));
+    context.redirect("/cargaMasiva?success");
   }
 
   @Override
@@ -111,15 +105,5 @@ public class CargaMasivaController implements ICrudViewsHandler {
   @Override
   public void delete(Context context) {
 
-  }
-
-  @Getter
-  @Setter
-  private class Success{
-    private String caso;
-
-    public Success(String caso){
-      this.caso = caso;
-    }
   }
 }

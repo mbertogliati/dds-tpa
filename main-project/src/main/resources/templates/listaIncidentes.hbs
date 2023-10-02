@@ -9,12 +9,6 @@
     <div class="row justify-content-center mt-4">
         <div class="col-md-10">
             <h2 class="mb-3">Listado de Incidentes</h2>
-            {{#with success}}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    Incidente {{caso}} correctamente.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {{/with}}
             <form method="GET" action="/incidentes">
                 <div class="row">
                     <label for="estado" class="form-label">Buscar incidente por estado</label>
