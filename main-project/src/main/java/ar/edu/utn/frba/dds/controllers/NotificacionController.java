@@ -26,6 +26,7 @@ public class NotificacionController {
     for(Persona persona : personas){
       if(persona.getFechas().stream().anyMatch(fecha -> fecha.sePuedeNotificar(horaInicioProceso))){
         Notificador.notificar(persona.getNotificablesSinNotificar(),persona);
+        repoPersona.actualizar(persona);
       }
     }
 
