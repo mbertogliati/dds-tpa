@@ -33,7 +33,7 @@
                                     <td></td>
                                     <td class="text-center">
                                         <a href="/organismosControl/{{id}}" class="btn btn-warning">Editar</a>
-                                        <a class="btn btn-success" href="/organismosControl/crear/{{id}}">Agregar entidad prestadora</a>
+                                        <a class="btn btn-success" href="/entidadesPrestadoras/crear/{{id}}">Agregar entidad prestadora</a>
                                     </td>
                                 </tr>
                             {{else}}
@@ -47,7 +47,7 @@
                                         {{#if @first}}
                                             <td rowspan="{{entidadesPrestadoras.length}}" class="text-center">
                                                 <a href="/organismosControl/{{../id}}" class="btn btn-warning">Editar</a>
-                                                <a class="btn btn-success" href="/organismosControl/crear/{{../id}}">Agregar entidad prestadora</a>
+                                                <a class="btn btn-success" href="/entidadesPrestadoras/crear/{{../id}}">Agregar entidad prestadora</a>
                                             </td>
                                         {{/if}}
                                     </tr>

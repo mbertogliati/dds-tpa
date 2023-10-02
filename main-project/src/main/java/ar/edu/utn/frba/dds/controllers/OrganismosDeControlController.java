@@ -54,18 +54,19 @@ public class OrganismosDeControlController implements ICrudViewsHandler {
     Map<String, Object> model = GeneradorModel.model(context);
 
     model.put("editable", true);
+    model.put("crear", true);
 
     List<Usuario> usuarios = repoUsuarios.buscarTodos();
     model.put("usuarios",usuarios);
-    model.put("organismos",repoOrganismo.buscarTodos());
+    model.put("accion", "organismosControl");
 
-    context.render("verOrganismoControl.hbs", model);
+    context.render("verEntidadPrestadora.hbs", model);
   }
 
   @Override
   public void save(Context context) {
     OrganismoControl nuevoOrganismo = new OrganismoControl(context.formParam("nombre"));
-    nuevoOrganismo.setPersonaAInformar(repoUsuarios.buscarPorId(Integer.parseInt(context.formParam("personaAInformar"))).getPersonaAsociada());
+    nuevoOrganismo.setPersonaAInformar(((Usuario)context.sessionAttribute("usuario")).getPersonaAsociada());
 
     repoOrganismo.guardar(nuevoOrganismo);
 

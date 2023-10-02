@@ -16,6 +16,7 @@ import io.javalin.http.Context;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.persistence.EntityManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -91,7 +92,21 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
     model.put("editable", true);
     List<Usuario> usuarios = repoUsuarios.buscarTodos();
     model.put("usuarios",usuarios);
-    model.put("organismos",repoOrganismo.buscarTodos());
+    model.put("accion", "entidadesPrestadoras");
+    model.put("crear", true);
+
+    context.render("verEntidadPrestadora.hbs", model);
+  }
+
+  public void crearConOrganismoControl(Context context) {
+    Map<String, Object> model = GeneradorModel.model(context);
+
+    model.put("editable", true);
+    List<Usuario> usuarios = repoUsuarios.buscarTodos();
+    model.put("usuarios",usuarios);
+    model.put("organismo",repoOrganismo.buscarPorId(Integer.parseInt(context.pathParam("id"))));
+    model.put("accion", "entidadesPrestadoras");
+    model.put("crear", true);
 
     context.render("verEntidadPrestadora.hbs", model);
   }
@@ -99,11 +114,15 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
   @Override
   public void save(Context context) {
     EntidadPrestadora nuevaEntidad = new EntidadPrestadora(context.formParam("nombre"));
-    nuevaEntidad.setPersonaAInformar(repoUsuarios.buscarPorId(Integer.parseInt(context.formParam("personaAInformar"))).getPersonaAsociada());
-    OrganismoControl organismoSeleccionado = repoOrganismo.buscarPorId(Integer.parseInt(context.formParam("organismo")));
-    organismoSeleccionado.getEntidadesPrestadoras().add(nuevaEntidad);
+    nuevaEntidad.setPersonaAInformar(((Usuario)context.sessionAttribute("usuario")).getPersonaAsociada());
 
-    repoOrganismo.actualizar(organismoSeleccionado);
+    repoEntidadesPrestadoras.guardar(nuevaEntidad);
+
+    if(context.formParam("organismo") != null && !Objects.equals(context.formParam("organismo"), "")){
+      OrganismoControl organismoSeleccionado = repoOrganismo.buscarPorId(Integer.parseInt(context.formParam("organismo")));
+      organismoSeleccionado.getEntidadesPrestadoras().add(nuevaEntidad);
+      repoOrganismo.actualizar(organismoSeleccionado);
+    }
 
     context.redirect("/entidadesPrestadoras?result=successCrearEP");
   }

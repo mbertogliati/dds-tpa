@@ -108,6 +108,7 @@ public class WebApp {
         get(new EntidadesPrestadorasController(entityManager)::index);
         post(new EntidadesPrestadorasController(entityManager)::save);
         get("crear",new EntidadesPrestadorasController(entityManager)::create);
+        get("crear/{id}",new EntidadesPrestadorasController(entityManager)::crearConOrganismoControl);
         path("{id}", () ->{
           get(new EntidadesPrestadorasController(entityManager)::edit);
           post(new EntidadesPrestadorasController(entityManager)::update);
