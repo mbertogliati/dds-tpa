@@ -1,8 +1,7 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
-import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.entidades.Denominacion;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
@@ -55,6 +54,28 @@ public class EstablecimientosController implements ICrudViewsHandler {
   public void show(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
 
+    String eliminado = context.queryParam("servicioEliminado");
+    if(eliminado != null){
+      Servicio servicioEliminado = repoServicio.buscarPorId(Integer.parseInt(eliminado));
+      model.put("servicioEliminado", servicioEliminado);
+    }
+
+    String agregado = context.queryParam("servicioAgregado");
+    if(agregado != null){
+      Servicio servicioAgregado = repoServicio.buscarPorId(Integer.parseInt(agregado));
+      model.put("servicioAgregado", servicioAgregado);
+    }
+
+    String success = context.queryParam("success");
+    if(success != null){
+      model.put("success", success);
+    }
+
+    String error = context.queryParam("error");
+    if(error != null){
+      model.put("error", error);
+    }
+
     //BUSCO ESTABLECIMIENTO
     String idEstablecimiento = context.pathParam("id");
     Establecimiento establecimiento = this.repoEstablecimiento.buscarPorId(Integer.parseInt(idEstablecimiento));
@@ -101,8 +122,7 @@ public class EstablecimientosController implements ICrudViewsHandler {
 
     repoEntidad.actualizar(entidad);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Establecimiento agregado correctamente."));
-    context.redirect("/entidades/"+entidad.getId()+"?success");
+    context.redirect("/entidades/"+entidad.getId()+"?result=successAddEstablecimiento");
   }
 
   @Override
@@ -126,8 +146,7 @@ public class EstablecimientosController implements ICrudViewsHandler {
 
     repoEstablecimiento.actualizar(establecimiento);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Establecimiento modificado correctamente."));
-    context.redirect("/establecimientos/" + idEstablecimiento + "?success");
+    context.redirect("/establecimientos/" + idEstablecimiento + "?success=true");
   }
 
   @Override
@@ -148,13 +167,11 @@ public class EstablecimientosController implements ICrudViewsHandler {
       repoServicioPrestado.eliminar(servicioPrestado);
       repoEstablecimiento.actualizar(establecimiento);
     }catch (Exception e){
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "No se puede eliminar el servicio porque tiene incidentes asociados."));
-      context.redirect("/establecimientos/" + idEstablecimiento + "?error");
+      context.redirect("/establecimientos/" + idEstablecimiento + "?error=FK");
       return;
     }
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Servicio eliminado correctamente."));
-    context.redirect("/establecimientos/" + idEstablecimiento + "?success");
+    context.redirect("/establecimientos/" + idEstablecimiento + "?servicioEliminado=" + servicioPrestado.getServicio().getId());
   }
 
   public void agregarServicio(Context context){
@@ -168,7 +185,6 @@ public class EstablecimientosController implements ICrudViewsHandler {
 
     repoEstablecimiento.actualizar(establecimiento);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Servicio agregado correctamente."));
-    context.redirect("/establecimientos/" + idEstablecimiento + "?success");
+    context.redirect("/establecimientos/" + idEstablecimiento + "?servicioAgregado=" + servicio.getId());
   }
 }

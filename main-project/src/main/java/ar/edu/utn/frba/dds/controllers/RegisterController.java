@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
@@ -66,21 +66,27 @@ public class RegisterController{
   }
 
   public void create(@NotNull Context context) throws Exception {
-    Map<String, Object> model = GeneradorModel.model(context);
+    String param = context.queryParam("error");
+    Map<String, Object> model = new HashMap<>();
     List<Provincia> provincias = repoProvincia.buscarTodas();
     model.put("provincias", provincias);
+    if(param != null){
+      model.put("error", "Revise sus datos");
+      context.render("register.hbs", model);
+    }else{
+      context.render("register.hbs", model);
+    }
 
-    context.render("register.hbs", model);
   }
   public void save(@NotNull Context context) throws Exception {
     Usuario usuario = new Usuario();
     usuario.setUsername(context.formParam("username"));
 
-    /*if(!Objects.equals(context.formParam("password"), context.formParam("repetir_password"))
+    if(!Objects.equals(context.formParam("password"), context.formParam("repetir_password"))
         || !validador.validar(usuario,context.formParam("password"))){
       context.redirect("/register?error=register");
       return;
-    }*/
+    }
 
     usuario.setPassword(hasheador.hashear(context.formParam("password")));
     usuario.setRolPlataforma(repoRol.rolDefault());

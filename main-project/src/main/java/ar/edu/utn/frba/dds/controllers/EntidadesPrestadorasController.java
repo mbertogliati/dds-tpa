@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
@@ -38,6 +38,12 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
   public void index(@NotNull Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
 
+    String paramSuccess = context.queryParam("success");
+
+    if(paramSuccess != null){
+      model.put("success", new Success(paramSuccess));
+    }
+
     Usuario usuario = context.sessionAttribute("usuario");
     Persona persona = usuario.getPersonaAsociada();
 
@@ -49,6 +55,24 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
     List<OrganismoControl> organismosManejados = repoOrganismo.manejadosPor(persona);
     if(organismosManejados != null && !organismosManejados.isEmpty()){
       model.put("organismosDeControl", organismosManejados);
+    }
+
+    String result = context.queryParam("result");
+    if(result != null){
+      switch(result){
+        case "successCrearOrganismo":
+          model.put("msg",  new MensajeVista("success", "Organismo de control creado correctamente"));
+          break;
+        case "successCrearEP":
+          model.put("msg",  new MensajeVista("success", "Entidad prestadora creada correctamente"));
+          break;
+        case "successAddEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad creada y agregada correctamente"));
+          break;
+        case "successSacarEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad eliminada correctamente"));
+          break;
+      }
     }
 
     model.put("persona", persona);
@@ -100,8 +124,7 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
       repoOrganismo.actualizar(organismoSeleccionado);
     }
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad prestadora creada correctamente."));
-    context.redirect("/entidadesPrestadoras?success");
+    context.redirect("/entidadesPrestadoras?result=successCrearEP");
   }
 
   @Override
@@ -110,6 +133,15 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
 
     EntidadPrestadora entidadPrestadora = repoEntidadesPrestadoras.buscarPorId(Integer.parseInt(context.pathParam("id")));
     model.put("entidad", entidadPrestadora);
+
+    String result = context.queryParam("result");
+    if(result != null){
+      switch(result){
+        case "successEditarEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad prestadora modificada correctamente"));
+          break;
+      }
+    }
 
     List<Usuario> usuarios = repoUsuarios.buscarTodos();
     model.put("usuarios",usuarios);
@@ -126,8 +158,7 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
 
     repoEntidadesPrestadoras.actualizar(entidadPrestadora);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad prestadora modificada correctamente."));
-    context.redirect("/entidadesPrestadoras/"+context.pathParam("id")+"?success");
+    context.redirect("/entidadesPrestadoras/"+context.pathParam("id")+"?result=successEditarEntidad");
   }
 
   @Override
@@ -142,8 +173,17 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
 
     repoEntidadesPrestadoras.actualizar(entidadPrestadora);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad eliminada correctamente."));
-    context.redirect("/entidadesPrestadoras?success");
+    context.redirect("/entidadesPrestadoras?result=successSacarEntidad");
+  }
+
+  @Getter
+  @Setter
+  private class Success{
+    private String caso;
+
+    public Success(String caso){
+      this.caso = caso;
+    }
   }
 
 }

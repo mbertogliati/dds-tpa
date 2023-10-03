@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
@@ -7,10 +7,14 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Interes;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
+import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
 import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.MetadatoGeografico;
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.modelos.utilidades.FechasDeSemana;
 import ar.edu.utn.frba.dds.modelos.validacion.EstrategiaValidacionNoEstaEnLista;
@@ -28,13 +32,17 @@ import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.utilidades.FechasDeSemanaRepositorio;
 import io.javalin.http.Context;
+import io.javalin.http.Handler;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import javax.persistence.EntityManager;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 public class UsuariosController implements ICrudViewsHandler {
@@ -86,8 +94,7 @@ public class UsuariosController implements ICrudViewsHandler {
     interes.agregarServicio(servicioPrestado);
     repoPersona.actualizar(usuario.getPersonaAsociada());
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Servicio agregado correctamente."));
-    context.redirect("/usuarios/"+usuario.getId()+"/interes?success");
+    context.redirect("/usuarios/"+usuario.getId()+"/interes?result=successAddServicio");
   }
 
   public void agregarEntidad(Context context){
@@ -99,8 +106,7 @@ public class UsuariosController implements ICrudViewsHandler {
     interes.agregarEntidad(entidad);
     repoPersona.actualizar(usuario.getPersonaAsociada());
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad agregada correctamente."));
-    context.redirect("/usuarios/"+usuario.getId()+"/interes?success");
+    context.redirect("/usuarios/"+usuario.getId()+"/interes?result=successAddEntidad");
   }
 
   public void sacarEntidad(Context context){
@@ -112,8 +118,7 @@ public class UsuariosController implements ICrudViewsHandler {
     interes.eliminarEntidad(entidad);
     repoPersona.actualizar(usuario.getPersonaAsociada());
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad eliminada correctamente."));
-    context.redirect("/usuarios/"+usuario.getId()+"/interes?success");
+    context.redirect("/usuarios/"+usuario.getId()+"/interes?result=successSacarEntidad");
   }
 
   public void sacarServicio(Context context){
@@ -125,8 +130,7 @@ public class UsuariosController implements ICrudViewsHandler {
     interes.eliminarServicio(servicioPrestado);
     repoPersona.actualizar(usuario.getPersonaAsociada());
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Servicio eliminado correctamente."));
-    context.redirect("/usuarios/"+usuario.getId()+"/interes?success");
+    context.redirect("/usuarios/"+usuario.getId()+"/interes?result=successSacarServicio");
   }
 
   public void getInteres(Context context){
@@ -138,6 +142,24 @@ public class UsuariosController implements ICrudViewsHandler {
 
     model.put("interes", interes);
 
+    String result = context.queryParam("result");
+    if(result != null){
+      switch(result){
+        case "successAddServicio":
+          model.put("msg",  new MensajeVista("success", "Servicio agregado correctamente"));
+          break;
+        case "successSacarServicio":
+          model.put("msg", new MensajeVista("success", "Servicio eliminado correctamente"));
+          break;
+        case "successSacarEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad eliminada correctamente"));
+          break;
+        case "successAddEntidad":
+          model.put("msg",  new MensajeVista("success", "Entidad agregada correctamente"));
+          break;
+      }
+    }
+
     model.put("serviciosGenerales", repoServicioPrestado.buscarTodos());
     model.put("entidades", repoEntidad.buscarTodos());
 
@@ -146,9 +168,9 @@ public class UsuariosController implements ICrudViewsHandler {
 
   @Override
   public void index(@NotNull Context context){
+
     Usuario usuario = context.sessionAttribute("usuario");
     if (!VerificadorRol.tieneRol(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
       return;
     }
@@ -172,7 +194,6 @@ public class UsuariosController implements ICrudViewsHandler {
   public void show(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
     if (!VerificadorRol.tieneRol(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
       return;
     }
@@ -198,11 +219,19 @@ public class UsuariosController implements ICrudViewsHandler {
   public void edit(@NotNull Context context){
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
     if(context.sessionAttribute("adminPlataforma") == null && !usuario.equals(context.sessionAttribute("usuario"))){
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
     }
 
     Map<String,Object> model = GeneradorModel.model(context);
+
+    String result = context.queryParam("result");
+    if(result != null){
+      if(result.equals("success")){
+        model.put("success", true);
+      }else{
+        model.put("error", true);
+      }
+    }
 
     Persona persona = usuario.getPersonaAsociada();
 
@@ -226,9 +255,7 @@ public class UsuariosController implements ICrudViewsHandler {
     }
 
     if (!usuario.getPassword().equals(hasheador.hashear(context.formParam("vieja_password")))) {
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. Tu contraseña actual es incorrecta."));
-      context.redirect(context.path() + "?error");
-      return;
+      context.redirect(context.path() + "?result=error");
     }
 
     Persona persona = usuario.getPersonaAsociada();
@@ -238,8 +265,7 @@ public class UsuariosController implements ICrudViewsHandler {
     if(password != ""){
       if(!Objects.equals(password,passwordRepetida)
           || !validador.validar(usuario,password)){
-        context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. Verifica tus datos."));
-        context.redirect(context.path()+"?error");
+        context.redirect(context.path()+"?result=error");
         return;
       }
       usuario.setPassword(hasheador.hashear(password));
@@ -274,8 +300,7 @@ public class UsuariosController implements ICrudViewsHandler {
     persona.setEstrategiaMomentoNotificacion(converterMomentoNotificacion.convertToEntityAttribute(context.formParam("momento_notificacion")));
     repoUsuario.actualizar(usuario);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Usuario modificado correctamente."));
-    context.redirect("/usuarios/"+usuario.getId()+"/edit?success");
+    context.redirect("/usuarios/"+usuario.getId()+"/edit?result=success");
   }
 
   @Override

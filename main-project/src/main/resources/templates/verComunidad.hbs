@@ -9,6 +9,12 @@
     <div class="container mt-4 mb-4 altura-minima">
         <div class="row justify-content-center">
             <div class="col-sm-8">
+                {{#if msg}}
+                    <div class="alert alert-{{#if (eq msg.tipo "success")}}success{{else}}danger{{/if}} alert-dismissible fade show" role="alert">
+                        <p>{{msg.texto}}</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {{/if}}
                 <h2 class="mb-3">{{accion}}</h2>
                 <form action="/comunidades/{{comunidad.id}}{{#with edicion}}/edit{{/with}}" method="post">
                     <fieldset {{#unless editable}}disabled aria-disabled="disabled" {{/unless}}>

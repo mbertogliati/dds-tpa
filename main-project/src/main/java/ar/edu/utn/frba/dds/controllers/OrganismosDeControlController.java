@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
@@ -37,8 +37,7 @@ public class OrganismosDeControlController implements ICrudViewsHandler {
 
     repoOrganismo.actualizar(organismoControl);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad prestadora eliminada correctamente."));
-    context.redirect("/entidadesPrestadoras?success");
+    context.redirect("/entidadesPrestadoras?result=successSacarEntidadPrestadora");
   }
 
   @Override
@@ -71,8 +70,7 @@ public class OrganismosDeControlController implements ICrudViewsHandler {
 
     repoOrganismo.guardar(nuevoOrganismo);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Organismo de control creado correctamente."));
-    context.redirect("/entidadesPrestadoras?successo");
+    context.redirect("/entidadesPrestadoras?result=successCrearOrganismo");
   }
 
   @Override
@@ -82,6 +80,14 @@ public class OrganismosDeControlController implements ICrudViewsHandler {
     OrganismoControl organismoControl = repoOrganismo.buscarPorId(Integer.parseInt(context.pathParam("id")));
     model.put("entidad", organismoControl);
 
+    String result = context.queryParam("result");
+    if(result != null){
+      switch(result){
+        case "successEditarOrganismo":
+          model.put("msg",  new MensajeVista("success", "Organismo de control modificado correctamente"));
+          break;
+      }
+    }
 
     List<Usuario> usuarios = repoUsuarios.buscarTodos();
     model.put("usuarios",usuarios);
@@ -99,13 +105,22 @@ public class OrganismosDeControlController implements ICrudViewsHandler {
 
     repoOrganismo.actualizar(organismoControl);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Organismo de control modificado correctamente."));
-    context.redirect("/organismosControl/"+context.pathParam("id")+"?success");
+    context.redirect("/organismosControl/"+context.pathParam("id")+"?result=successEditarOrganismo");
   }
 
   @Override
   public void delete(Context context) {
 
+  }
+
+  @Getter
+  @Setter
+  private class Success{
+    private String caso;
+
+    public Success(String caso){
+      this.caso = caso;
+    }
   }
 
 }

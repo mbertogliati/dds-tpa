@@ -1,8 +1,7 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
-import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.entidades.Denominacion;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
@@ -75,13 +74,17 @@ public class EntidadesController implements ICrudViewsHandler{
 
     repoEntidadPrestadora.actualizar(entidadPrestadora);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad agregada correctamente."));
-    context.redirect("/entidadesPrestadoras?success");
+    context.redirect("/entidadesPrestadoras?result=successAddEntidad");
   }
 
   @Override
   public void edit(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
+
+    String param = context.queryParam("success");
+    if(param != null){
+      model.put("success", true);
+    }
 
     String idEntidad = context.pathParam("id");
     Entidad entidad = this.repoEntidad.buscarPorId(Integer.parseInt(idEntidad));
@@ -110,8 +113,7 @@ public class EntidadesController implements ICrudViewsHandler{
 
     repoEntidad.actualizar(entidad);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad modificada correctamente."));
-    context.redirect("/entidades/" + idEntidad + "?success");
+    context.redirect("/entidades/" + idEntidad + "?success=true");
   }
 
   @Override
@@ -126,7 +128,6 @@ public class EntidadesController implements ICrudViewsHandler{
 
     repoEntidad.actualizar(entidad);
 
-    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Establecimiento eliminado correctamente."));
-    context.redirect("/entidades/"+entidad.getId()+"?success");
+    context.redirect("/entidades/"+entidad.getId()+"?result=successSacarEstablecimiento");
   }
 }

@@ -1,10 +1,13 @@
 package ar.edu.utn.frba.dds.controllers.middleware;
 
-import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
+import ar.edu.utn.frba.dds.controllers.exceptions.ValidacionUsuarioException;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
+import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
+import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
 import ar.edu.utn.frba.dds.modelos.validacion.*;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.http.HttpStatus;
 import org.jetbrains.annotations.NotNull;
 
 public class ValidadorUsuarioMiddleware implements Handler {
@@ -31,10 +34,10 @@ public class ValidadorUsuarioMiddleware implements Handler {
             return;
         }
 
-        throw new FormInvalidoException("Datos no válidos. Revise los datos ingresados");
+        throw new ValidacionUsuarioException("Datos no válido. Revise los datos ingresados");
     }
     private boolean usuarioValido(Context context){
-        return context.formParam("password").equals(context.formParam("repetir_password"))
+        return !context.formParam("password").equals(context.formParam("repetir_password"))
                 && passwordValida(context)
                 && emailValido(context);
     }

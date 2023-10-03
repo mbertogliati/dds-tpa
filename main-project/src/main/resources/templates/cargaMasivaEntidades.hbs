@@ -5,6 +5,12 @@
 <div class="container mt-4 altura-minima">
     <div class="row justify-content-center mt-3 mb-3">
         <div class="col-md-6">
+            {{#with success}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{caso}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/with}}
             <div class="card">
                 <div class="card-header">
                     Carga masiva de Entidades Prestadoras y Organismos de Control

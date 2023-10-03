@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
@@ -23,6 +23,7 @@ public class RankingsController implements ICrudViewsHandler {
   }
   @Override
   public void index(@NotNull Context context){
+
     Map<String, Object> model = GeneradorModel.model(context);
 
     String param = context.queryParam("fecha");
@@ -42,6 +43,8 @@ public class RankingsController implements ICrudViewsHandler {
   @Override
   public void show(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
+
+
 
     String idRanking = context.pathParam("id");
 

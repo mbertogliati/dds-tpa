@@ -15,6 +15,18 @@
                     Modificar Perfil de Usuario
                 </div>
                 <div class="card-body">
+                    {{#with error}}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error.</strong> Verifique los datos ingresados
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {{/with}}
+                    {{#with success}}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            Datos actualizados correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {{/with}}
                     <form action="/usuarios/{{usuario.id}}/edit" method="post">
                         <div class="mb-3">
                             <label for="username" class="form-label">Nombre de usuario</label>
