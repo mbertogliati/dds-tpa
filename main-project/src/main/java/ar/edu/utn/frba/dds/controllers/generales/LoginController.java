@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.generales;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
+import ar.edu.utn.frba.dds.controllers.utils.IntentoDeLogin;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
@@ -37,10 +38,21 @@ public class LoginController{
   }
 
   public void auth(@NotNull Context context){
+    IntentoDeLogin intentoDeLogin = context.sessionAttribute("intentoDeLogin");
+    if(intentoDeLogin == null){
+      intentoDeLogin = new IntentoDeLogin();
+      context.sessionAttribute("intentoDeLogin", intentoDeLogin);
+    }
+
+    if(!intentoDeLogin.puedeLoguearse()){
+      throw new FormInvalidoException("Demasiados intentos fallidos de inicio de sesión. Debe esperar " + intentoDeLogin.getSegundosRestantes() + " segundos.");
+    }
+
     String username = context.formParam("username");
     String password = context.formParam("password");
 
     if(usuarioRepositorio.buscarPorUsername(username).isEmpty()){
+      intentoDeLogin.sumarIntento();
       throw new FormInvalidoException("Error. No existe el usuario especificado.");
     }
 
@@ -48,7 +60,7 @@ public class LoginController{
 
     if(Objects.equals(hasheador.hashear(password), usuario.getPassword())){
       context.sessionAttribute("usuario", usuario);
-
+      intentoDeLogin.reset();
       if (VerificadorRol.tieneRol(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
         context.sessionAttribute("adminPlataforma", true);
       }
@@ -56,6 +68,7 @@ public class LoginController{
       context.redirect("/");
     }else{
       context.sessionAttribute("usuario", null);
+      intentoDeLogin.sumarIntento();
       throw new FormInvalidoException("Error. La contraseña es incorrecta.");
     }
   }
