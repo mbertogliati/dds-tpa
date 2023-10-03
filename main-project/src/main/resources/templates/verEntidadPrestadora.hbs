@@ -6,12 +6,6 @@
 <div class="container mt-4 mb-4 altura-minima">
     <div class="row justify-content-center">
         <div class="col-sm-8">
-            {{#with msg}}
-                <div class="alert alert-{{#if (eq msg.tipo "success")}}success{{else}}danger{{/if}} alert-dismissible fade show" role="alert">
-                    {{msg.texto}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {{/with}}
             <form action="{{#with crear}}/{{accion}}{{else}}/{{accion}}/{{entidad.id}}{{/with}}" method="post">
                     <div class="row">
                         <div class="mb-3">

@@ -1,6 +1,6 @@
-package ar.edu.utn.frba.dds.controllers;
+package ar.edu.utn.frba.dds.controllers.generales;
 
-import static ar.edu.utn.frba.dds.controllers.VerificadorRol.Permiso.ADMINISTRAR_COMUNIDAD;
+import static ar.edu.utn.frba.dds.controllers.generales.VerificadorRol.Permiso.ADMINISTRAR_COMUNIDAD;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
@@ -14,13 +14,11 @@ import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.MembresiaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
-import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioRepositorio;
 import io.javalin.http.Context;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import javax.persistence.EntityManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -67,7 +65,8 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     repoComunidad.actualizarComunidad(comunidad);
 
-    context.redirect("/comunidades/"+comunidad.getId()+"?result=cambioRolSuccess");
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Rol cambiado correctamente."));
+    context.redirect("/comunidades/"+comunidad.getId()+"?success");
   }
 
   @Override
@@ -76,39 +75,12 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     model.put("comunidades", obtenerComunidadesConUsuarioActual(repoComunidad.obtenerTodas(), context.sessionAttribute("usuario")));
 
-    String result = context.queryParam("result");
-    if(result != null){
-      switch(result){
-        case "agregarMiembroSuccess":
-          model.put("msg", new MensajeVista("success", "Membresia agregada correctamente"));
-          break;
-        case "sacarMiembroSuccess":
-          model.put("msg", new MensajeVista("success", "Membresia eliminada correctamente"));
-          break;
-      }
-    }
-
     context.render("comunidades.hbs", model);
   }
 
   @Override
   public void show(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
-
-    String result = context.queryParam("result");
-    if(result != null){
-      switch(result){
-        case "agregarMiembroSuccess":
-          model.put("msg",  new MensajeVista("success", "Membresia agregada correctamente"));
-          break;
-        case "sacarMiembroSuccess":
-          model.put("msg",  new MensajeVista("success", "Membresia eliminada correctamente"));
-          break;
-        case "cambioRolSuccess":
-          model.put("msg", new MensajeVista("success", "Rol de servicio cambiado correctamente"));
-          break;
-      }
-    }
 
     Usuario usuario = context.sessionAttribute("usuario");
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
@@ -151,37 +123,13 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     repoComunidad.guardarComunidad(comunidad);
 
-    context.redirect("/comunidades/"+comunidad.getId()+"/edit?result=createSuccess");
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Comunidad creada correctamente."));
+    context.redirect("/comunidades/"+comunidad.getId()+"/edit?success");
   }
 
   @Override
   public void edit(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
-
-    String result = context.queryParam("result");
-    model.put("msg", context.sessionAttribute("msg"));
-    if(context.sessionAttribute("successMsg") != null){
-      model.put("success",context.sessionAttribute("successMsg"));
-    }
-    /*if(result != null){
-      switch(result){
-        case "editSuccess":
-          model.put("msg",  new MensajeVista("success", "Comunidad editada correctamente"));
-          break;
-        case "createSuccess":
-          model.put("msg", new MensajeVista("success", "Comunidad creada correctamente"));
-          break;
-        case "sacarMiembroSuccess":
-          model.put("msg",  new MensajeVista("success", "Membresia eliminada correctamente"));
-          break;
-        case "agregarServicioSuccess":
-          model.put("msg",  new MensajeVista("error", "Servicio agregado correctamente"));
-          break;
-        case "sacarServicioSuccess":
-          model.put("msg",  new MensajeVista("success", "Servicio eliminado correctamente"));
-          break;
-      }
-    }*/
 
     Usuario usuario = context.sessionAttribute("usuario");
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
@@ -207,10 +155,8 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     repoComunidad.actualizarComunidad(comunidad);
 
-    context.sessionAttribute("successMsg","Comunidad editada correctamente,");
-    context.sessionAttribute("msg", new MensajeVista("success", "Comunidad editada correctamente."));
-    //context.redirect("/comunidades/"+comunidad.getId()+"/edit?result=editSuccess");
-    context.redirect("/comunidades/"+comunidad.getId());
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Comunidad modificada correctamente."));
+    context.redirect("/comunidades/"+comunidad.getId()+"/edit?success");
   }
 
   @Override
@@ -231,7 +177,8 @@ public class ComunidadesController implements ICrudViewsHandler {
     repoComunidad.actualizarComunidad(comunidad);
     repoMembresia.eliminar(membresia);
 
-    context.redirect("/comunidades?result=sacarMiembroSuccess");
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Membresia eliminada correctamente."));
+    context.redirect("/comunidades?success");
   }
 
   public void unirMiembro(Context context){
@@ -244,7 +191,8 @@ public class ComunidadesController implements ICrudViewsHandler {
     repoUsuario.actualizar(usuario);
     repoComunidad.actualizarComunidad(comunidad);
 
-    context.redirect("/comunidades/?result=agregarMiembroSuccess");
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Membresia agregada correctamente."));
+    context.redirect("/comunidades/?success");
   }
 
   public void agregarServicio(Context context){
@@ -256,7 +204,8 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     repoComunidad.actualizarComunidad(comunidad);
 
-    context.redirect("/comunidades/"+comunidad.getId()+"/edit?result=agregarServicioSuccess");
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Servicio agregado correctamente."));
+    context.redirect("/comunidades/"+comunidad.getId()+"/edit?success");
   }
 
   public void quitarServicio(Context context){
@@ -268,7 +217,8 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     repoComunidad.actualizarComunidad(comunidad);
 
-    context.redirect("/comunidades/"+comunidad.getId()+"/edit?result=sacarServicioSuccess");
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Servicio eliminado correctamente."));
+    context.redirect("/comunidades/"+comunidad.getId()+"/edit?success");
   }
   private List<ComunidadConUsuarioActual> obtenerComunidadesConUsuarioActual(List<Comunidad> comunidades, Usuario usuario){
     return comunidades.stream().map(c->new ComunidadConUsuarioActual(c,usuario.getPersonaAsociada())).toList();

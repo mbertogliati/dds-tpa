@@ -1,10 +1,8 @@
-package ar.edu.utn.frba.dds.controllers;
+package ar.edu.utn.frba.dds.controllers.generales;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
-import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
-import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
-import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
 import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
@@ -12,9 +10,6 @@ import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
-import io.javalin.http.Handler;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import javax.persistence.EntityManager;
@@ -34,29 +29,23 @@ public class LoginController{
     this.organismoControlRepositorio = new OrganismoControlRepositorio(entityManager);
   }
 
-  public void login(@NotNull Context context) throws Exception {
-    String param = context.queryParam("error");
+  public void login(@NotNull Context context) {
+    Map<String, Object> model = GeneradorModel.model(context);
 
-    if(param != null){
-      Map<String, Object> model = GeneradorModel.model(context);
-      model.put("error", "Hay error de logueo");
-      context.render("login.hbs", model);
-    }else{
-      context.render("login.hbs");
-    }
-
+    context.render("login.hbs", model);
   }
+
   public void auth(@NotNull Context context){
     String username = context.formParam("username");
     String password = context.formParam("password");
 
     if(usuarioRepositorio.buscarPorUsername(username).isEmpty()){
-      context.redirect("/login?error=logueo");
+      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. Verifica tus datos."));
+      context.redirect("/login?error");
       return;
     }
 
     Usuario usuario = usuarioRepositorio.buscarPorUsername(username).get(0);
-
 
     if(Objects.equals(hasheador.hashear(password), usuario.getPassword())){
       context.sessionAttribute("usuario", usuario);
@@ -68,7 +57,8 @@ public class LoginController{
       context.redirect("/");
     }else{
       context.sessionAttribute("usuario", null);
-      context.redirect("/login?error=logueo");
+      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. Verifica tus datos."));
+      context.redirect("/login?error");
     }
   }
   public void delete(@NotNull Context context){

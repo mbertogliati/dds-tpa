@@ -1,31 +1,31 @@
 package ar.edu.utn.frba.dds;
 
-import ar.edu.utn.frba.dds.controllers.CargaMasivaController;
-import ar.edu.utn.frba.dds.controllers.ComunidadesController;
-import ar.edu.utn.frba.dds.controllers.EntidadesController;
-import ar.edu.utn.frba.dds.controllers.EntidadesPrestadorasController;
-import ar.edu.utn.frba.dds.controllers.EstablecimientosController;
-import ar.edu.utn.frba.dds.controllers.GenerarRankingController;
-import ar.edu.utn.frba.dds.controllers.IncidentesController;
-import ar.edu.utn.frba.dds.controllers.IndexController;
-import ar.edu.utn.frba.dds.controllers.LoginController;
-import ar.edu.utn.frba.dds.controllers.NotificacionController;
-import ar.edu.utn.frba.dds.controllers.OrganismosDeControlController;
-import ar.edu.utn.frba.dds.controllers.RegisterController;
-import ar.edu.utn.frba.dds.controllers.ServiciosController;
-import ar.edu.utn.frba.dds.controllers.exceptions.ValidacionUsuarioException;
+import ar.edu.utn.frba.dds.controllers.generales.CargaMasivaController;
+import ar.edu.utn.frba.dds.controllers.generales.ComunidadesController;
+import ar.edu.utn.frba.dds.controllers.generales.EntidadesController;
+import ar.edu.utn.frba.dds.controllers.generales.EntidadesPrestadorasController;
+import ar.edu.utn.frba.dds.controllers.generales.EstablecimientosController;
+import ar.edu.utn.frba.dds.controllers.generales.GenerarRankingController;
+import ar.edu.utn.frba.dds.controllers.generales.IncidentesController;
+import ar.edu.utn.frba.dds.controllers.generales.IndexController;
+import ar.edu.utn.frba.dds.controllers.generales.LoginController;
+import ar.edu.utn.frba.dds.controllers.generales.NotificacionController;
+import ar.edu.utn.frba.dds.controllers.generales.OrganismosDeControlController;
+import ar.edu.utn.frba.dds.controllers.generales.RegisterController;
+import ar.edu.utn.frba.dds.controllers.generales.ServiciosController;
+import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDatosController;
-import ar.edu.utn.frba.dds.controllers.RankingsController;
-import ar.edu.utn.frba.dds.controllers.UsuariosController;
+import ar.edu.utn.frba.dds.controllers.generales.RankingsController;
+import ar.edu.utn.frba.dds.controllers.generales.UsuariosController;
 import ar.edu.utn.frba.dds.controllers.middleware.ValidadorUsuarioMiddleware;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorCronTask;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
+import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.helper.ConditionalHelpers;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
-import io.javalin.http.ExceptionHandler;
 import io.javalin.http.HttpStatus;
 import io.javalin.rendering.JavalinRenderer;
 import java.io.IOException;
@@ -50,9 +50,8 @@ public class WebApp {
         ctx.redirect("/login");
       }
     });
-    app.exception(ValidacionUsuarioException.class, (e,ctx) -> {
-      app.attribute("error", e.getMessage());
-      ctx.status(400).result(e.getMessage());
+    app.exception(FormInvalidoException.class, (e, ctx) -> {
+      ctx.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, e.getMessage()));
       ctx.redirect(ctx.path() + "?error");
     });
     configurarCronTasks();
@@ -163,7 +162,6 @@ public class WebApp {
         get(new UsuariosController(entityManager)::index);
         path("{id}", () -> {
           path("edit", ()->{
-            before(new ValidadorUsuarioMiddleware());
             get(new UsuariosController(entityManager)::edit);
             post(new UsuariosController(entityManager)::update);
           });

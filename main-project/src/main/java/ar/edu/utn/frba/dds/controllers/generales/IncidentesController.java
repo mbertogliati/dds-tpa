@@ -1,6 +1,7 @@
-package ar.edu.utn.frba.dds.controllers;
+package ar.edu.utn.frba.dds.controllers.generales;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
+import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
@@ -73,7 +74,8 @@ public class IncidentesController {
     //PERSISTIR
     repoIncidente.guardar(incidente);
 
-    context.redirect("/incidentes?success=abierto");
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Incidente abierto correctamente."));
+    context.redirect("/incidentes?success");
   }
 
   public void getAll(@NotNull Context context) {
@@ -104,12 +106,7 @@ public class IncidentesController {
       listaIncidentes = repositorio.buscarTodos();
     }
 
-
-
     List<IncidentePorComunidad> incidentesPorComunidad = repoIncidenteComunidad.incidentesComunidadDe(usuario, listaIncidentes);
-    //listaIncidentes.forEach(i -> i.actualizarEstado(incidentesPorComunidad));
-
-
 
     model.put("incidentesPorComunidad", incidentesPorComunidad);
 
@@ -124,13 +121,10 @@ public class IncidentesController {
 
       model.put("provincias", provincias);
 
-
       context.render("aperturaIncidente.hbs", model);
   }
   public void vistaCierre(@NotNull Context context){
     Map<String, Object> model = GeneradorModel.model(context);
-
-
 
     List<Provincia> provincias = repoProvincia.buscarTodas();
 
@@ -138,6 +132,7 @@ public class IncidentesController {
 
     context.render("cierreIncidente.hbs", model);
   }
+
   public void cerrar(@NotNull Context context){
     //INCIDENTE
     String idIncidente = context.formParam("incidente");
@@ -152,6 +147,7 @@ public class IncidentesController {
     //PERSISTIR
     this.repoIncidente.actualizar(incidente);
 
-    context.redirect("/incidentes?success=cerrado");
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Incidente cerrado correctamente."));
+    context.redirect("/incidentes?success");
   }
 }

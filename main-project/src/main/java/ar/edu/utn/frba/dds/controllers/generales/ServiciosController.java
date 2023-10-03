@@ -1,7 +1,8 @@
-package ar.edu.utn.frba.dds.controllers;
+package ar.edu.utn.frba.dds.controllers.generales;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
@@ -37,19 +38,11 @@ public class ServiciosController implements ICrudViewsHandler {
   public void create(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
 
-    if(context.queryParam("success") != null){
-      model.put("success", true);
-    }
-
     context.render("crearServicio.hbs", model);
   }
 
   public void createFromEstablecimiento(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
-
-    if(context.queryParam("success") != null){
-      model.put("success", true);
-    }
 
     model.put("establecimiento", repoEstablecimiento.buscarPorId(Integer.parseInt(context.pathParam("idEstablecimiento"))));
 
@@ -84,9 +77,11 @@ public class ServiciosController implements ICrudViewsHandler {
 
     String idEstablecimiento = context.formParam("establecimiento");
     if(idEstablecimiento != null){
-      context.redirect("/establecimientos/"+idEstablecimiento+"?result=successServicioCreado");
+      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Servicio agregado correctamente."));
+      context.redirect("/establecimientos/"+idEstablecimiento+"?success");
     }else{
-      context.redirect("/servicios?success=true");
+      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Servicio creado correctamente."));
+      context.redirect("/servicios?success");
     }
   }
 

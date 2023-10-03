@@ -3,12 +3,6 @@
 {{/partial}}
 {{#partial "contenido"}}
     <div class="container mt-4 mb-4 altura-minima">
-        {{#if msg}}
-            <div class="alert alert-{{#if (eq msg.tipo "success")}}success{{else}}danger{{/if}} alert-dismissible fade show" role="alert">
-                <p>{{msg.texto}}</p>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {{/if}}
         <div class="row justify-content-center mt-4">
             <div class="col-md-10">
                 <h2 class="mb-3">Listado de Comunidades</h2>
