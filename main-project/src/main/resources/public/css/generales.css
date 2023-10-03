@@ -1,6 +1,6 @@
 html,
 body{
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -25,4 +25,7 @@ body{
 
 .banner p {
     font-size: 22px;
+}
+#main-content{
+    height: 100%;
 }
