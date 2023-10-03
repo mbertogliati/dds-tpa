@@ -1,8 +1,15 @@
 package ar.edu.utn.frba.dds.controllers.generales;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilder;
+import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilderHashmap;
+import ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario.UsuarioBuilder;
+import ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario.UsuarioBuilderHashmap;
+import ar.edu.utn.frba.dds.controllers.utils.factories.ValidadorUsuarioFactory.ValidadorConcretoFactory;
+import ar.edu.utn.frba.dds.controllers.utils.factories.ValidadorUsuarioFactory.ValidadorUsuarioFactory;
 import ar.edu.utn.frba.dds.modelos.comunidades.Interes;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
@@ -38,24 +45,12 @@ import javax.persistence.EntityManager;
 import org.jetbrains.annotations.NotNull;
 
 public class UsuariosController implements ICrudViewsHandler {
-  //TODO: Crear Factory de personas/usuarios
-  private static ValidadorUsuario validador;
-  private static EstrategiaHash hasheador = new HashPBKDF2();
-  private static EstrategiaMomentoNotificacionConverter converterMomentoNotificacion = new EstrategiaMomentoNotificacionConverter();
+  private static final ValidadorUsuarioFactory factoryValidador = new ValidadorConcretoFactory();
+  private static final EstrategiaHash hasheador = new HashPBKDF2();
+  private static final EstrategiaMomentoNotificacionConverter converterMomentoNotificacion = new EstrategiaMomentoNotificacionConverter();
+  private UsuarioBuilder usuarioBuilder;
+  private PersonaBuilder personaBuilder;
 
-
-  static {
-    ValidadorUsuarioConcreto validadorConcreto = new ValidadorUsuarioConcreto();
-    validadorConcreto.agregarEstrategias(
-        new EstrategiaValidacionRegExp("[A-Z]"),
-        new EstrategiaValidacionRegExp("[a-z]"),
-        new EstrategiaValidacionRegExp("[0-9]"),
-        new EstrategiaValidacionRegExp("[#?!@$ %^&*-]"),
-        new EstrategiaValidacionRegExp(".{8,}"),
-        new EstrategiaValidacionNoEstaEnLista(ObtenerTopPeoresPasswords.instancia())
-    );
-    validador = validadorConcreto;
-  }
   private PersonaRepositorio repoPersona;
   private UsuarioRepositorio repoUsuario;
   private FechasDeSemanaRepositorio repoFechas;
@@ -220,59 +215,43 @@ public class UsuariosController implements ICrudViewsHandler {
   }
   public void update(@NotNull Context context) {
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    usuarioBuilder = new UsuarioBuilderHashmap(context.formParamMap()).init(usuario);
+    personaBuilder = new PersonaBuilderHashmap(context.formParamMap(),repoLocalidad);
 
     if (context.sessionAttribute("adminPlataforma") == null && !usuario.equals(context.sessionAttribute("usuario"))) {
       context.redirect("/");
     }
 
     if (!usuario.getPassword().equals(hasheador.hashear(context.formParam("vieja_password")))) {
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. Tu contraseña actual es incorrecta."));
-      context.redirect(context.path() + "?error");
-      return;
+      throw new FormInvalidoException("La contraseña actual no coincide con la ingresada");
     }
 
-    Persona persona = usuario.getPersonaAsociada();
     String password = context.formParam("password");
     String passwordRepetida = context.formParam("repetir_password");
 
-    if(password != ""){
-      if(!Objects.equals(password,passwordRepetida)
-          || !validador.validar(usuario,password)){
-        context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. Verifica tus datos."));
-        context.redirect(context.path()+"?error");
-        return;
+    if(!password.equals("")){
+      if(!Objects.equals(password,passwordRepetida)){
+        throw new FormInvalidoException("Las contraseñas no coinciden");
       }
-      usuario.setPassword(hasheador.hashear(password));
+      if(!factoryValidador.crearValidador().validar(usuario,context.formParam("password"))){
+        throw new FormInvalidoException("La contraseña no cumple con los requisitos mínimos");
+      }
+      usuarioBuilder.configurarPassword();
     }
+    usuarioBuilder.configurarUsuario();
+    usuario = usuarioBuilder.get();
 
-    usuario.setUsername(context.formParam("username"));
+    Persona persona = personaBuilder
+            .init(usuario.getPersonaAsociada())
+            .configurarNombres()
+            .configurarInformacionDeContacto()
+            .configurarPreferenciasNotificacion()
+            .get();
 
     //TODO: No elimina fechas viejas
     //ELIMINO FECHAS VIEJAS
     List<FechasDeSemana> fechasViejas = persona.getFechas();
     fechasViejas.forEach(f -> repoFechas.eliminar(f));
-
-    //CARGO FECHAS NUEVAS
-    List<String> dias = context.formParams("dias[]");
-    List<String> horas = context.formParams("horas[]");
-    List<FechasDeSemana> fechasSemana = new ArrayList<>();
-    for(int i = 0; i< dias.size(); i++){
-      fechasSemana.add(new FechasDeSemana(DayOfWeek.valueOf(dias.get(i)), LocalTime.parse(horas.get(i))));
-    }
-
-    Localidad localidad = repoLocalidad.obtenerLocalidadPorId(context.formParam("localidad"));
-    MetadatoGeografico geografico = new MetadatoGeografico(localidad);
-    persona.getUltimaUbicacion().setMetadato(geografico);
-
-    persona.setFechas(fechasSemana);
-
-    persona.setNombre(context.formParam("nombre"));
-    persona.setApellido(context.formParam("apellido"));
-    persona.setEmail(context.formParam("email"));
-    persona.setWhatsapp(Integer.parseInt(context.formParam("celular")));
-    persona.setMetodoNotificacion(context.formParam("medio_notificacion"));
-    persona.setEstrategiaMomentoNotificacion(converterMomentoNotificacion.convertToEntityAttribute(context.formParam("momento_notificacion")));
-    repoUsuario.actualizar(usuario);
 
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Usuario modificado correctamente."));
     context.redirect("/usuarios/"+usuario.getId()+"/edit?success");

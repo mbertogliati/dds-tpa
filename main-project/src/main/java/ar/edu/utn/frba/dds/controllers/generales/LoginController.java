@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.generales;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
@@ -40,9 +41,7 @@ public class LoginController{
     String password = context.formParam("password");
 
     if(usuarioRepositorio.buscarPorUsername(username).isEmpty()){
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. Verifica tus datos."));
-      context.redirect("/login?error");
-      return;
+      throw new FormInvalidoException("Error. No existe el usuario especificado.");
     }
 
     Usuario usuario = usuarioRepositorio.buscarPorUsername(username).get(0);
@@ -57,8 +56,7 @@ public class LoginController{
       context.redirect("/");
     }else{
       context.sessionAttribute("usuario", null);
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. Verifica tus datos."));
-      context.redirect("/login?error");
+      throw new FormInvalidoException("Error. La contraseña es incorrecta.");
     }
   }
   public void delete(@NotNull Context context){
