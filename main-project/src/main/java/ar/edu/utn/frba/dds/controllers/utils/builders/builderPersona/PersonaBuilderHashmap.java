@@ -86,6 +86,7 @@ public class PersonaBuilderHashmap implements PersonaBuilder {
         //CARGO FECHAS NUEVAS
         List<String> dias =  hashMapPersona.get("dias[]");
         List<String> horas = hashMapPersona.get("horas[]");
+        if(dias == null || horas == null) return;
         List<FechasDeSemana> fechasSemana = new ArrayList<>();
         for(int i = 0; i< dias.size(); i++){
             fechasSemana.add(new FechasDeSemana(DayOfWeek.valueOf(dias.get(i)), LocalTime.parse(horas.get(i))));

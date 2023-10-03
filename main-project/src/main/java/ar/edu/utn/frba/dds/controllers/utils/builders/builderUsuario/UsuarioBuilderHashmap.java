@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
 import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
+import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,13 +11,14 @@ import java.util.Map;
 public class UsuarioBuilderHashmap implements UsuarioBuilder{
     private Map<String, List<String>> hashMapUsuario;
     private static final EstrategiaHash estrategiaHash = new HashPBKDF2();
-    private Usuario usuarioEnCreacion = new Usuario();
+    private RolRepositorio repoRol;
+    private Usuario usuarioEnCreacion;
 
-    public UsuarioBuilderHashmap(Map<String, List<String>> hashMapUsuario) {
+    public UsuarioBuilderHashmap(Map<String, List<String>> hashMapUsuario, RolRepositorio repoRol) {
         this.hashMapUsuario = hashMapUsuario;
+        this.repoRol = repoRol;
+        this.reset();
     }
-
-
     @Override
     public Usuario get() {
         return usuarioEnCreacion;
@@ -49,5 +51,6 @@ public class UsuarioBuilderHashmap implements UsuarioBuilder{
     @Override
     public void reset() {
         this.usuarioEnCreacion = new Usuario();
+        if (repoRol != null) this.usuarioEnCreacion.setRolPlataforma(repoRol.rolDefault());
     }
 }

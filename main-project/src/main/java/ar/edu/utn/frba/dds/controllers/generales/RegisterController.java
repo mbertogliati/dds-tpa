@@ -68,7 +68,7 @@ public class RegisterController{
     context.render("register.hbs", model);
   }
   public void save(@NotNull Context context) throws Exception {
-    usuarioBuilder = new UsuarioBuilderHashmap(context.formParamMap());
+    usuarioBuilder = new UsuarioBuilderHashmap(context.formParamMap(),repoRol);
     personaBuilder = new PersonaBuilderHashmap(context.formParamMap(),repoLocalidad);
     usuarioBuilder.configurarUsuario();
     if( !factoryValidador.crearValidador()

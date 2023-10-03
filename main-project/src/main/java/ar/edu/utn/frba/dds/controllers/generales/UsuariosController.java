@@ -215,7 +215,7 @@ public class UsuariosController implements ICrudViewsHandler {
   }
   public void update(@NotNull Context context) {
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
-    usuarioBuilder = new UsuarioBuilderHashmap(context.formParamMap()).init(usuario);
+    usuarioBuilder = new UsuarioBuilderHashmap(context.formParamMap(),null).init(usuario);
     personaBuilder = new PersonaBuilderHashmap(context.formParamMap(),repoLocalidad);
 
     if (context.sessionAttribute("adminPlataforma") == null && !usuario.equals(context.sessionAttribute("usuario"))) {
