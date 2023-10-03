@@ -1,6 +1,13 @@
 package ar.edu.utn.frba.dds.controllers.generales;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
+import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilder;
+import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilderHashmap;
+import ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario.UsuarioBuilder;
+import ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario.UsuarioBuilderHashmap;
+import ar.edu.utn.frba.dds.controllers.utils.factories.ValidadorUsuarioFactory.ValidadorConcretoFactory;
+import ar.edu.utn.frba.dds.controllers.utils.factories.ValidadorUsuarioFactory.ValidadorUsuarioFactory;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Rol;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
@@ -35,21 +42,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class RegisterController{
 
-  private static ValidadorUsuario validador;
-  private static EstrategiaHash hasheador = new HashPBKDF2();
-
-  static {
-    ValidadorUsuarioConcreto validadorConcreto = new ValidadorUsuarioConcreto();
-    validadorConcreto.agregarEstrategias(
-        new EstrategiaValidacionRegExp("[A-Z]"),
-        new EstrategiaValidacionRegExp("[a-z]"),
-        new EstrategiaValidacionRegExp("[0-9]"),
-        new EstrategiaValidacionRegExp("[#?!@$ %^&*-]"),
-        new EstrategiaValidacionRegExp(".{8,}"),
-        new EstrategiaValidacionNoEstaEnLista(ObtenerTopPeoresPasswords.instancia())
-    );
-    validador = validadorConcreto;
-  }
+  private static final ValidadorUsuarioFactory factoryValidador = new ValidadorConcretoFactory();
+  private UsuarioBuilder usuarioBuilder;
+  private PersonaBuilder personaBuilder;
 
   private PersonaRepositorio repoPersona;
   private UsuarioRepositorio repoUsuario;
@@ -73,39 +68,22 @@ public class RegisterController{
     context.render("register.hbs", model);
   }
   public void save(@NotNull Context context) throws Exception {
-    Usuario usuario = new Usuario();
-    usuario.setUsername(context.formParam("username"));
+    usuarioBuilder = new UsuarioBuilderHashmap(context.formParamMap());
+    personaBuilder = new PersonaBuilderHashmap(context.formParamMap(),repoLocalidad);
+    usuarioBuilder.configurarUsuario();
+    if( !factoryValidador.crearValidador()
+            .validar(usuarioBuilder.get(), context.formParam("password"))){
+      throw new FormInvalidoException("La contraseña no cumple con los requisitos.");
+    }
 
-    /*if(!Objects.equals(context.formParam("password"), context.formParam("repetir_password"))
-        || !validador.validar(usuario,context.formParam("password"))){
-      context.redirect("/register?error=register");
-      return;
-    }*/
+    Usuario usuario = usuarioBuilder.configurarPassword().get();
 
-    usuario.setPassword(hasheador.hashear(context.formParam("password")));
-    usuario.setRolPlataforma(repoRol.rolDefault());
+    Persona nuevaPersona = personaBuilder
+            .configurarNombres()
+            .configurarInformacionDeContacto()
+            .get();
 
-    Float latitud = Float.valueOf(context.formParam("latitud"));
-    Float longitud = Float.valueOf(context.formParam("longitud"));
-    Coordenada coordenada = new Coordenada(latitud, longitud);
-
-    Localidad localidad = repoLocalidad.obtenerLocalidadPorId(context.formParam("localidad"));
-    MetadatoGeografico geografico = new MetadatoGeografico(localidad);
-
-    Ubicacion ubicacion = new Ubicacion();
-    ubicacion.setCoordenada(coordenada);
-    ubicacion.setMetadato(geografico);
-
-    Persona nuevaPersona = new Persona(context.formParam("nombre"),context.formParam("apellido"));
     usuario.setPersonaAsociada(nuevaPersona);
-    nuevaPersona.setEmail(context.formParam("email"));
-    nuevaPersona.setWhatsapp(Integer.parseInt(context.formParam("celular")));
-
-    nuevaPersona.setUltimaUbicacion(ubicacion);
-
-    nuevaPersona.setMetodoNotificacion("MAIL");
-    nuevaPersona.setEstrategiaMomentoNotificacion(new NotificacionAlMomento());
-
     repoUsuario.guardar(usuario);
 
     context.sessionAttribute("usuario", usuario);

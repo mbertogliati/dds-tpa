@@ -123,7 +123,7 @@ public class Router {
 
       //REGISTER
       path("/register", () -> {
-        before(new ValidadorUsuarioMiddleware());
+        //before(new ValidadorUsuarioMiddleware());
         get(new RegisterController(entityManager)::create);
         post(new RegisterController(entityManager)::save);
       });

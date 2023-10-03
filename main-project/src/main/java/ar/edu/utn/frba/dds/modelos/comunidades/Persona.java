@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.comunidades;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificacionAlMomento;
 import ar.edu.utn.frba.dds.repositorios.converters.EstrategiaMomentoNotificacionConverter;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.EstrategiaMomentoNotificacion;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.ListadoNotificables;
@@ -54,11 +55,11 @@ public class Persona {
   private Interes interes;
 
   @Column(name = "metodoNotificacion")
-  private String metodoNotificacion;
+  private String metodoNotificacion = "MAIL";
 
   @Convert(converter = EstrategiaMomentoNotificacionConverter.class)
   @Column(name = "momentoNotificacion")
-  private EstrategiaMomentoNotificacion estrategiaMomentoNotificacion;
+  private EstrategiaMomentoNotificacion estrategiaMomentoNotificacion = new NotificacionAlMomento();
 
   @OneToMany(mappedBy = "persona", cascade = { CascadeType.ALL })
   private List<Membresia> membresias = new ArrayList<>();
