@@ -72,6 +72,7 @@ public class EntidadesController implements ICrudViewsHandler{
 
     EntidadPrestadora entidadPrestadora = repoEntidadPrestadora.buscarPorId(Integer.parseInt(context.formParam("entidadPrestadora")));
     entidadPrestadora.agregarEntidad(entidad);
+    entidad.setPrestadora(entidadPrestadora);
 
     repoEntidadPrestadora.actualizar(entidadPrestadora);
 

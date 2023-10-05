@@ -2,7 +2,9 @@ package ar.edu.utn.frba.dds.controllers.generales;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
 import ar.edu.utn.frba.dds.repositorios.rankings.RankingRepositorio;
 import io.javalin.http.Context;
@@ -23,15 +25,17 @@ public class RankingsController implements ICrudViewsHandler {
   }
   @Override
   public void index(@NotNull Context context){
+    Usuario usuario = context.sessionAttribute("usuario");
+
     Map<String, Object> model = GeneradorModel.model(context);
 
     String param = context.queryParam("fecha");
     List<Ranking> listaRankings;
 
     if(param != null){
-      listaRankings = repoRankings.buscarConFechaCreacionPosteriorA(param);
+      listaRankings = repoRankings.buscarConFechaCreacionPosteriorA(param, usuario);
     }else{
-      listaRankings = repoRankings.obtenerTodos();
+      listaRankings = repoRankings.obtenerTodos(usuario);
     }
 
     model.put("rankings", listaRankings);

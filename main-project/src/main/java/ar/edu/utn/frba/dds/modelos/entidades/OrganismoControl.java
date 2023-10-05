@@ -28,8 +28,8 @@ public class OrganismoControl implements Informable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "organismo_control_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "organismoControl")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<EntidadPrestadora> entidadesPrestadoras;
 
     @Column(name = "nombre")

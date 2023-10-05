@@ -97,6 +97,7 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
     if(context.formParam("organismo") != null && !Objects.equals(context.formParam("organismo"), "")){
       OrganismoControl organismoSeleccionado = repoOrganismo.buscarPorId(Integer.parseInt(context.formParam("organismo")));
       organismoSeleccionado.getEntidadesPrestadoras().add(nuevaEntidad);
+      nuevaEntidad.setOrganismoControl(organismoSeleccionado);
       repoOrganismo.actualizar(organismoSeleccionado);
     }
 

@@ -98,6 +98,7 @@ public class EstablecimientosController implements ICrudViewsHandler {
 
     Entidad entidad = repoEntidad.buscarPorId(Integer.parseInt(context.formParam("entidad")));
     entidad.agregarEstablecimiento(establecimiento);
+    establecimiento.setEntidad(entidad);
 
     repoEntidad.actualizar(entidad);
 

@@ -27,8 +27,8 @@ public class EntidadPrestadora implements Informable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "entidad_prestadora_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "prestadora")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Entidad> entidades = new ArrayList<>();
 
     @Column(name = "nombre")
@@ -37,6 +37,9 @@ public class EntidadPrestadora implements Informable{
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "personaAInformar_id", referencedColumnName = "id")
     private Persona personaAInformar;
+
+    @ManyToOne
+    private OrganismoControl organismoControl;
 
     public EntidadPrestadora(){}
     public EntidadPrestadora(String nombre){

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.rankings;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,6 +46,21 @@ public class Ranking {
 
     public boolean contieneEntidad(Entidad entidad){
         return puntosPorEntidad.stream().anyMatch(puntosPorEntidad -> puntosPorEntidad.getEntidad().equals(entidad));
+    }
+
+    public Ranking(int id, String descripcion, LocalDateTime fecha, List<PuntosPorEntidad> puntos){
+        this.id = id;
+        this.descripcion = descripcion;
+        this.fechaHoraCreacion = fecha;
+        this.puntosPorEntidad = puntos;
+    }
+
+    public Boolean estaVacio(){
+        return this.puntosPorEntidad.isEmpty();
+    }
+
+    public Ranking filtradoPara(Usuario usuario){
+        return new Ranking(this.id, this.descripcion, this.fechaHoraCreacion, this.puntosPorEntidad.stream().filter(pe -> pe.getEntidad().esAdministradaPor(usuario)).toList());
     }
 
     public String toString(){

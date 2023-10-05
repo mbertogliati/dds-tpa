@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.entidades;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,13 @@ public class Entidad {
 
   @Embedded
   private Ubicacion ubicacion;
+
+  @ManyToOne
+  private EntidadPrestadora prestadora;
+
+  public Boolean esAdministradaPor(Usuario usuario){
+    return this.prestadora.getPersonaAInformar().getId() == usuario.getPersonaAsociada().getId() || this.prestadora.getOrganismoControl().getPersonaAInformar().getId() == usuario.getPersonaAsociada().getId();
+  }
 
   public Entidad(){}
 

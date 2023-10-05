@@ -17,7 +17,7 @@
                         Editar
                     {{/with}}
                 {{/with}} entidad {{entidad.nombre}}</h2>
-            <form action="/entidades/{{#with editable}}{{#with creacion}}crear{{else}}{{entidad.id}}{{/with}}{{/with}}" method="post">
+            <form action="/entidades/{{#with editable}}{{#with creacion}}crear{{else}}{{entidad.id}}{{/with}}{{/with}}" method="{{#with creacion}}post{{else}}patch{{/with}}">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
