@@ -15,6 +15,7 @@ import io.javalin.http.Context;
 import java.util.Map;
 import java.util.Objects;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import org.jetbrains.annotations.NotNull;
 
 public class LoginController{

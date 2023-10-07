@@ -1,15 +1,11 @@
 package ar.edu.utn.frba.dds.controllers.generales;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
-import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
-import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificacionAlMomento;
 import ar.edu.utn.frba.dds.modelos.notificaciones.Notificador;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
-import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
-import net.bytebuddy.asm.Advice;
 
 public class NotificacionController {
   private PersonaRepositorio repoPersona;

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.comunidades;
 
+import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidenteAbierto;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidenteCerrado;
@@ -15,22 +16,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "comunidades")
+@Where(clause = "activo = true")
 @Getter
 @Setter
-public class Comunidad {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-
+public class Comunidad extends ModelBase {
   @Column(name = "nombre")
   private String nombre;
 

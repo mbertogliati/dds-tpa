@@ -1,11 +1,9 @@
 package ar.edu.utn.frba.dds.repositorios.servicios;
 
-import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 
 public class ServicioPrestadoRepositorio {
 
@@ -34,21 +32,22 @@ public class ServicioPrestadoRepositorio {
   }
 
   public void eliminar(ServicioPrestado servicioPrestado) {
-    EntityTransaction transaction = entityManager.getTransaction();
-    transaction.begin();
-    entityManager.remove(servicioPrestado);
-    transaction.commit();
+    servicioPrestado.setActivo(false);
+    this.actualizar(servicioPrestado);
+    //entityManager.clear();
   }
 
   public List<ServicioPrestado> buscarTodos() {
-    TypedQuery<ServicioPrestado> query = entityManager.createQuery("FROM " + ServicioPrestado.class.getName(), ServicioPrestado.class);
-    return query.getResultList();
+    return entityManager.createQuery(
+            "FROM " + ServicioPrestado.class.getName(), ServicioPrestado.class)
+        .getResultList();
   }
 
   public List<ServicioPrestado> buscarPorEstablecimiento(String idEstablecimiento) {
-    return (List<ServicioPrestado>) entityManager.createQuery(
-            "SELECT s FROM ServicioPrestado s WHERE s.establecimiento.id = :idBuscado")
+    return entityManager.createQuery(
+            "SELECT s FROM ServicioPrestado s WHERE s.establecimiento.id = :idBuscado AND s.activo=1", ServicioPrestado.class)
         .setParameter("idBuscado", Integer.parseInt(idEstablecimiento))
         .getResultList();
   }
+
 }

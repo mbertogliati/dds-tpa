@@ -6,7 +6,7 @@
 <div class="container mt-4 mb-4 altura-minima">
     <div class="row justify-content-center">
         <div class="col-sm-8">
-            <form action="{{#with crear}}/{{accion}}{{else}}/{{accion}}/{{entidad.id}}{{/with}}" method="post">
+                <form action="{{#with crear}}/{{accion}}{{else}}/{{accion}}/{{entidad.id}}{{/with}}" method="post">
                     <div class="row">
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
@@ -22,9 +22,12 @@
                         </div>
                         <input type="hidden" value="{{organismo.id}}" name="organismo">
                     </div>
-                <button type="submit" class="btn btn-success">Guardar cambios</button>
-                <a href="/entidadesPrestadoras" class="btn btn-secondary">Volver al listado</a>
-            </form>
+                    <button type="submit" class="btn btn-success">Guardar cambios</button>
+                    <a href="/entidadesPrestadoras" class="btn btn-secondary">Volver al listado</a>
+                </form>
+                <form action="/{{accion}}/{{entidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');" class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
+                </form>
         </div>
     </div>
 </div>

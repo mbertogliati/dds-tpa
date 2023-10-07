@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.servicios;
 
+import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,16 +15,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "servicios")
+@Where(clause = "activo = true")
 @Getter
 @Setter
-public class Servicio {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-
+public class Servicio extends ModelBase {
   @Column(name = "nombre")
   private String nombre;
 

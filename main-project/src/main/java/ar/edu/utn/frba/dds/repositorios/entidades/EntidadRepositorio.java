@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
-import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -33,21 +32,23 @@ public class EntidadRepositorio {
   }
 
   public void eliminar(Entidad entidad) {
-    EntityTransaction transaction = entityManager.getTransaction();
-    transaction.begin();
-    entityManager.remove(entidad);
-    transaction.commit();
+    entidad.setActivo(false);
+    this.actualizar(entidad);
+    //entityManager.clear();
   }
 
-  public List<Entidad> buscarTodos() {
-    return entityManager.createQuery("FROM " + Entidad.class.getName(), Entidad.class)
+  public List<Entidad> buscarTodas() {
+    return entityManager.createQuery(
+            "FROM " + Entidad.class.getName(), Entidad.class)
         .getResultList();
   }
 
   public List<Entidad> buscarPorLocalidad(String idLocalidad) {
-    return (List<Entidad>) entityManager.createQuery(
-            "SELECT e FROM Entidad e WHERE e.ubicacion.metadato.localidad.id = :idBuscado")
+    return entityManager.createQuery(
+            "SELECT e FROM Entidad e WHERE e.ubicacion.metadato.localidad.id = :idBuscado AND e.activo=:estado", Entidad.class)
         .setParameter("idBuscado", idLocalidad)
+        .setParameter("estado", 1)
         .getResultList();
   }
+
 }

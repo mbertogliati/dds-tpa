@@ -117,7 +117,13 @@ public class EntidadesController implements ICrudViewsHandler{
 
   @Override
   public void delete(Context context) {
+    String idEntidad = context.pathParam("id");
+    Entidad entidad = this.repoEntidad.buscarPorId(Integer.parseInt(idEntidad));
 
+    repoEntidad.eliminar(entidad);
+
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad eliminada correctamente."));
+    context.redirect("/entidadesPrestadoras?success");
   }
 
   public void sacarEstablecimiento(Context context){

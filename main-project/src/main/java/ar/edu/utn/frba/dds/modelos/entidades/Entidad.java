@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.entidades;
 
+import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
 import java.util.ArrayList;
@@ -18,17 +19,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 
 
 @Entity
 @Table(name = "entidades")
 @Setter
 @Getter
-public class Entidad {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-
+@Where(clause = "activo = true")
+public class Entidad extends ModelBase {
   @OneToMany(mappedBy = "entidad")
   @Cascade(CascadeType.ALL)
   private List<Establecimiento> establecimientos = new ArrayList<Establecimiento>();
@@ -104,5 +103,11 @@ public class Entidad {
     }
 
     return listaRetornar;
+  }
+
+  @Override
+  public void setActivo(Boolean valor){
+    super.setActivo(valor);
+    establecimientos.forEach(e -> e.setActivo(valor));
   }
 }

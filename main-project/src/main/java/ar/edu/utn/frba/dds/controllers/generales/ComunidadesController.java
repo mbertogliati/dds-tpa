@@ -161,7 +161,12 @@ public class ComunidadesController implements ICrudViewsHandler {
 
   @Override
   public void delete(Context context) {
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
 
+    repoComunidad.eliminarComunidad(comunidad);
+
+    context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS,"Comunidad eliminada correctamente"));
+    context.redirect("/comunidades");
   }
 
   public void sacarMiembro(Context context){

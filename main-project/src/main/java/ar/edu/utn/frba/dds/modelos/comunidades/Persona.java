@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.comunidades;
 
+import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificacionAlMomento;
 import ar.edu.utn.frba.dds.repositorios.converters.EstrategiaMomentoNotificacionConverter;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.EstrategiaMomentoNotificacion;
@@ -28,15 +29,14 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "personas")
+@Where(clause = "activo = true")
 @Getter
 @Setter
-public class Persona {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+public class Persona extends ModelBase {
 
   @Column(name = "nombre")
   private String nombre;
@@ -95,6 +95,12 @@ public class Persona {
     this.interes = new Interes();
     this.notificablesSinNotificar = new ListadoNotificables();
     this.fechas = new ArrayList<>();
+  }
+
+  @Override
+  public void setActivo(Boolean valor){
+    super.setActivo(valor);
+    this.membresias.forEach(m -> m.setActivo(valor));
   }
 
   public void agregarFechaDeNotificacion(FechasDeSemana fecha){

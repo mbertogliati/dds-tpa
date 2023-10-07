@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.entidades;
 
+import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,16 +19,14 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "organismosDeControl")
 @Getter
 @Setter
-public class OrganismoControl implements Informable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+@Where(clause = "activo = true")
+public class OrganismoControl extends ModelBase implements Informable{
     @OneToMany(mappedBy = "organismoControl")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<EntidadPrestadora> entidadesPrestadoras;

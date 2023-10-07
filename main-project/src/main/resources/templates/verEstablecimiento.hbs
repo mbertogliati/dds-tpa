@@ -2,7 +2,7 @@
     <title>Editar establecimiento</title>
 {{/partial}}
 {{#partial "imports"}}
-    <script src="/js/manejoFormularioEntidades.js"></script>
+    <script src="/js/manejoFormularioEntidades.js" type="module"></script>
     <script src="/js/obtenerUbicacion.js"></script>
 {{/partial}}
 {{#partial "contenido"}}
@@ -108,6 +108,9 @@
                     {{/with}}
                 {{/with}}
                 <a href="/entidades/{{establecimiento.entidad.id}}" class="btn btn-secondary">Volver a entidad</a>
+            </form>
+            <form action="/establecimientos/{{establecimiento.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarlo?');" class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
             </form>
             <div class="row">
                 <h5 class="mt-4">Servicios prestados</h5>

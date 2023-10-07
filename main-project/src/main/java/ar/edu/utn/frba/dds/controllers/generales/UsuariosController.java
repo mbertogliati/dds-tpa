@@ -16,15 +16,8 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
 import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
-import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Localidad;
-import ar.edu.utn.frba.dds.modelos.meta_datos_geo.MetadatoGeografico;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.modelos.utilidades.FechasDeSemana;
-import ar.edu.utn.frba.dds.modelos.validacion.EstrategiaValidacionNoEstaEnLista;
-import ar.edu.utn.frba.dds.modelos.validacion.EstrategiaValidacionRegExp;
-import ar.edu.utn.frba.dds.modelos.validacion.ObtenerTopPeoresPasswords;
-import ar.edu.utn.frba.dds.modelos.validacion.ValidadorUsuario;
-import ar.edu.utn.frba.dds.modelos.validacion.ValidadorUsuarioConcreto;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.converters.EstrategiaMomentoNotificacionConverter;
@@ -35,9 +28,6 @@ import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.utilidades.FechasDeSemanaRepositorio;
 import io.javalin.http.Context;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -134,7 +124,7 @@ public class UsuariosController implements ICrudViewsHandler {
     model.put("interes", interes);
 
     model.put("serviciosGenerales", repoServicioPrestado.buscarTodos());
-    model.put("entidades", repoEntidad.buscarTodos());
+    model.put("entidades", repoEntidad.buscarTodas());
 
     context.render("verInteres.hbs", model);
   }
@@ -182,7 +172,11 @@ public class UsuariosController implements ICrudViewsHandler {
 
   @Override
   public void create(Context context) {
-
+    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    usuario.setActivo(false);
+    repoUsuario.actualizar(usuario);
+    context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS,"Usuario eliminado correctamente"));
+    context.redirect("/");
   }
 
   @Override

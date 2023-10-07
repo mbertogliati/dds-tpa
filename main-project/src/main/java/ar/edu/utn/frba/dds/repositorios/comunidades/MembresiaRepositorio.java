@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 
 public class MembresiaRepositorio {
 
@@ -33,14 +32,14 @@ public class MembresiaRepositorio {
   }
 
   public void eliminar(Membresia membresia) {
-    EntityTransaction transaction = entityManager.getTransaction();
-    transaction.begin();
-    entityManager.remove(membresia);
-    transaction.commit();
+    membresia.setActivo(false);
+    this.actualizar(membresia);
+    //entityManager.clear();
   }
 
   public List<Membresia> buscarTodas() {
-    TypedQuery<Membresia> query = entityManager.createQuery("FROM " + Membresia.class.getName(), Membresia.class);
-    return query.getResultList();
+    return entityManager.createQuery(
+            "FROM " + Membresia.class.getName(), Membresia.class)
+        .getResultList();
   }
 }

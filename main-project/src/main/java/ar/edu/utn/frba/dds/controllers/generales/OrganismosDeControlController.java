@@ -3,9 +3,7 @@ package ar.edu.utn.frba.dds.controllers.generales;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
-import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
-import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
@@ -14,8 +12,6 @@ import io.javalin.http.Context;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 public class OrganismosDeControlController implements ICrudViewsHandler {
@@ -105,7 +101,12 @@ public class OrganismosDeControlController implements ICrudViewsHandler {
 
   @Override
   public void delete(Context context) {
+    OrganismoControl organismoControl = repoOrganismo.buscarPorId(Integer.parseInt(context.pathParam("id")));
 
+    repoOrganismo.eliminar(organismoControl);
+
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Organismo de control eliminado correctamente."));
+    context.redirect("/entidadesPrestadoras?success");
   }
 
 }

@@ -1,4 +1,5 @@
-//CAMBIAR A NUEVO ARCHIVO JAVASCRIPT
+import {buscarOpciones} from "../noAuth/buscarOpciones.js";
+
 function mostrarEsconderFechasDeSemana(){
     var fechasDeSemana = document.getElementById("fechas_de_semana_container");
     if(document.getElementById("momento_notificacion").value === "alMomento"){
@@ -7,8 +8,8 @@ function mostrarEsconderFechasDeSemana(){
     }
     fechasDeSemana.style.display = "block";
 }
-document.addEventListener("DOMContentLoaded", function() {
 
+document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("momento_notificacion").addEventListener("change",mostrarEsconderFechasDeSemana);
 
     const selectMedio = document.getElementById("medio_notificacion");
@@ -46,21 +47,4 @@ document.addEventListener("DOMContentLoaded", function() {
     departamentoSelector.addEventListener("change", function(){
         buscarOpciones(departamentoSelector, localidadSelector,"localidades");
     });
-
-    function buscarOpciones(selector, selectorObjetivo, nombreBuscados){
-        var selectorId = selector.value;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/obtener/" + nombreBuscados + "?selectorId=" + selectorId, true);
-
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                selectorObjetivo.innerHTML = xhr.responseText;
-            } else {
-                console.error("Error al obtener " + nombreBuscados + ".");
-            }
-        };
-
-        xhr.send();
-    }
 });

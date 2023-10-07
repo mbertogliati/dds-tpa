@@ -3,23 +3,18 @@ package ar.edu.utn.frba.dds.controllers.generales;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
-import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
-import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import javax.persistence.EntityManager;
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 public class EntidadesPrestadorasController implements ICrudViewsHandler {
@@ -41,6 +36,7 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
     Usuario usuario = context.sessionAttribute("usuario");
     Persona persona = usuario.getPersonaAsociada();
 
+    //TODO: NO ACTUALIZA OBJETOS EN MEMORIA (SE PONE COMO INACTIVO, PERO LOS SIGUE TRAYENDO)
     List<EntidadPrestadora> entidadesManejadas = repoEntidadesPrestadoras.manejadasPor(persona);
     if(entidadesManejadas != null && !entidadesManejadas.isEmpty()){
       model.put("entidadesPrestadorasGen", entidadesManejadas);
@@ -133,7 +129,12 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
 
   @Override
   public void delete(Context context) {
+    EntidadPrestadora entidadPrestadora = repoEntidadesPrestadoras.buscarPorId(Integer.parseInt(context.pathParam("id")));
 
+    repoEntidadesPrestadoras.eliminar(entidadPrestadora);
+
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Entidad prestadora eliminada correctamente."));
+    context.redirect("/entidadesPrestadoras?success");
   }
 
   public void sacarEntidad(Context context){

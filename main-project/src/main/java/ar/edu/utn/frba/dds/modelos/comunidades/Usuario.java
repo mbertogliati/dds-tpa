@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.comunidades;
 
+import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,15 +15,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "usuarios")
 @Getter @Setter
-public class Usuario {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
-
+@Where(clause = "activo = true")
+public class Usuario extends ModelBase {
   @Column(name = "usuario")
   private String username;
 
@@ -38,12 +37,16 @@ public class Usuario {
   @JoinColumn(name = "rolPlataforma_id", referencedColumnName = "id")
   private Rol rolPlataforma;
 
-  public Usuario(){
-
-  }
+  public Usuario(){}
 
   public Usuario(String username, String password){
     this.username = username;
     this.password = password;
+  }
+
+  @Override
+  public void setActivo(Boolean valor){
+    super.setActivo(valor);
+    this.getPersonaAsociada().setActivo(valor);
   }
 }

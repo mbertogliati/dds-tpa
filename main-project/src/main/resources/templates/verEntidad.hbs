@@ -2,7 +2,7 @@
     <title>Editar entidad</title>
 {{/partial}}
 {{#partial "imports"}}
-    <script src="/js/manejoFormularioEntidades.js"></script>
+    <script src="/js/manejoFormularioEntidades.js" type="module"></script>
 {{/partial}}
 {{#partial "contenido"}}
 <!-- Contenido principal -->
@@ -17,7 +17,7 @@
                         Editar
                     {{/with}}
                 {{/with}} entidad {{entidad.nombre}}</h2>
-            <form action="/entidades/{{#with editable}}{{#with creacion}}crear{{else}}{{entidad.id}}{{/with}}{{/with}}" method="{{#with creacion}}post{{else}}patch{{/with}}">
+            <form action="/entidades/{{#with editable}}{{#with creacion}}crear{{else}}{{entidad.id}}{{/with}}{{/with}}" method="post">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
@@ -92,6 +92,9 @@
                     {{/with}}
                 {{/with}}
                 <a href="/entidadesPrestadoras" class="btn btn-secondary">Volver a entidades prestadoras</a>
+            </form>
+            <form action="/entidades/{{entidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');" class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
             </form>
             <div class="row justify-content-center">
                 <h5 class="mt-4">Establecimientos a cargo</h5>

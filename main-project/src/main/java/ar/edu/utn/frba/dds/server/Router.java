@@ -20,7 +20,6 @@ import ar.edu.utn.frba.dds.controllers.generales.RegisterController;
 import ar.edu.utn.frba.dds.controllers.generales.ServiciosController;
 import ar.edu.utn.frba.dds.controllers.generales.UsuariosController;
 import ar.edu.utn.frba.dds.controllers.middleware.AuthMiddleware;
-import ar.edu.utn.frba.dds.controllers.middleware.ValidadorUsuarioMiddleware;
 import javax.persistence.EntityManager;
 
 public class Router {
@@ -67,6 +66,7 @@ public class Router {
         path("{id}",() ->{
           get(new EntidadesController(entityManager)::edit);
           post(new EntidadesController(entityManager)::update);
+          post("delete", new EntidadesController(entityManager)::delete);
           get("sacarEstablecimiento/{idEstablecimiento}", new EntidadesController(entityManager)::sacarEstablecimiento);
         });
       });
@@ -80,6 +80,7 @@ public class Router {
         path("{id}", () ->{
           get(new EntidadesPrestadorasController(entityManager)::edit);
           post(new EntidadesPrestadorasController(entityManager)::update);
+          post("delete", new EntidadesPrestadorasController(entityManager)::delete);
           get("sacarEntidad/{idEntidad}", new EntidadesPrestadorasController(entityManager)::sacarEntidad);
         });
       });
@@ -88,8 +89,11 @@ public class Router {
       path("/organismosControl", () -> {
         post(new OrganismosDeControlController(entityManager)::save);
         get("crear", new OrganismosDeControlController(entityManager)::create);
-        get("/{id}/sacarEntidadPrestadora/{entidadPrestadora}", new OrganismosDeControlController((entityManager))::sacarEntidadPrestadora);
-        get("/{id}", new OrganismosDeControlController((entityManager))::edit);
+        path("{id}", () -> {
+          get("sacarEntidadPrestadora/{entidadPrestadora}", new OrganismosDeControlController((entityManager))::sacarEntidadPrestadora);
+          get(new OrganismosDeControlController((entityManager))::edit);
+          post("delete", new OrganismosDeControlController(entityManager)::delete);
+        });
         post("/{id}", new OrganismosDeControlController((entityManager))::update);
       });
 

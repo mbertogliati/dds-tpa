@@ -96,7 +96,7 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
     this.repositorioEntidadPrestadora.eliminar(entidadPrestadoraNueva);
 
     EntidadPrestadora entidadPrestadoraRecuperada = this.repositorioEntidadPrestadora.buscarPorId(entidadPrestadoraNueva.getId());
-    List<EntidadPrestadora> entidadesPrestadoras = this.repositorioEntidadPrestadora.buscarTodos();
+    List<EntidadPrestadora> entidadesPrestadoras = this.repositorioEntidadPrestadora.buscarTodas();
 
     //assert
     Assertions.assertNull(entidadPrestadoraRecuperada, "EntidadPrestadora: la entidad prestadora es eliminada");

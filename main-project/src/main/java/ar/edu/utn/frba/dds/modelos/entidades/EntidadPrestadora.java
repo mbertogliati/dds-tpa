@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.entidades;
 
+import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
 import java.util.ArrayList;
@@ -17,16 +18,15 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "entidadesPrestadoras")
 @Getter
 @Setter
-public class EntidadPrestadora implements Informable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+@Where(clause = "activo = true")
+public class EntidadPrestadora extends ModelBase implements Informable{
     @OneToMany(mappedBy = "prestadora")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Entidad> entidades = new ArrayList<>();
@@ -59,4 +59,9 @@ public class EntidadPrestadora implements Informable{
         this.entidades.removeIf(e -> e.getId() == idEntidad);
     }
 
+    @Override
+    public void setActivo(Boolean valor){
+        super.setActivo(valor);
+        entidades.forEach(e -> e.setActivo(valor));
+    }
 }

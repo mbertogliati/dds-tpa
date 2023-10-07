@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.entidades;
 
+import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
@@ -19,15 +20,14 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "establecimientos")
 @Getter
 @Setter
-public class Establecimiento {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+@Where(clause = "activo = true")
+public class Establecimiento extends ModelBase {
 
   @ManyToOne
   @JoinColumn(name = "denominacion_id", referencedColumnName = "id")
@@ -77,6 +77,10 @@ public class Establecimiento {
   public List<ServicioPrestado> serviciosPrestadosDelServicio(Servicio servicio){
     return this.serviciosPrestados.stream().filter(servicioPrestado -> servicioPrestado.getServicio().getId() == servicio.getId()).toList();
   }
-
+  @Override
+  public void setActivo(Boolean valor){
+    super.setActivo(valor);
+    serviciosPrestados.forEach(sp -> sp.setActivo(valor));
+  }
 
 }

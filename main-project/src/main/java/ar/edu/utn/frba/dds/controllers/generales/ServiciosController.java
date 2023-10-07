@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.controllers.generales;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
@@ -97,6 +98,11 @@ public class ServiciosController implements ICrudViewsHandler {
 
   @Override
   public void delete(Context context) {
+    Servicio servicio = repoServicios.buscarPorId(Integer.parseInt(context.pathParam("id")));
 
+    repoServicios.eliminar(servicio);
+
+    context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS,"Servicio eliminado correctamente"));
+    context.redirect("/servicios");
   }
 }

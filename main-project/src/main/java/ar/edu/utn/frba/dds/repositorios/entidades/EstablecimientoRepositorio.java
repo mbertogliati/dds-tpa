@@ -1,11 +1,9 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
-import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 
 public class EstablecimientoRepositorio {
 
@@ -34,20 +32,20 @@ public class EstablecimientoRepositorio {
   }
 
   public void eliminar(Establecimiento establecimiento) {
-    EntityTransaction transaction = entityManager.getTransaction();
-    transaction.begin();
-    entityManager.remove(establecimiento);
-    transaction.commit();
+    establecimiento.setActivo(false);
+    this.actualizar(establecimiento);
+    //entityManager.clear();
   }
-
+  
   public List<Establecimiento> buscarTodos() {
-    TypedQuery<Establecimiento> query = entityManager.createQuery("FROM " + Establecimiento.class.getName(), Establecimiento.class);
-    return query.getResultList();
+    return entityManager.createQuery(
+            "FROM " + Establecimiento.class.getName(), Establecimiento.class)
+        .getResultList();
   }
 
   public List<Establecimiento> buscarPorEntidad(String idEntidad) {
-    return (List<Establecimiento>) entityManager.createQuery(
-            "SELECT e FROM Establecimiento e WHERE e.entidad.id = :idBuscado")
+    return entityManager.createQuery(
+            "SELECT e FROM "+ Establecimiento.class.getName() +" e WHERE e.entidad.id = :idBuscado AND e.activo = 1",Establecimiento.class)
         .setParameter("idBuscado", Integer.parseInt(idEntidad))
         .getResultList();
   }

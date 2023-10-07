@@ -1,15 +1,10 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
-import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
-import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import java.util.List;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
-import org.hibernate.Criteria;
 
 public class EntidadPrestadoraRepositorio {
 
@@ -38,20 +33,20 @@ public class EntidadPrestadoraRepositorio {
   }
 
   public void eliminar(EntidadPrestadora entidadPrestadora) {
-    EntityTransaction transaction = entityManager.getTransaction();
-    transaction.begin();
-    entityManager.remove(entidadPrestadora);
-    transaction.commit();
+    entidadPrestadora.setActivo(false);
+    this.actualizar(entidadPrestadora);
+    //entityManager.clear();
   }
 
-  public List<EntidadPrestadora> buscarTodos() {
-    TypedQuery<EntidadPrestadora> query = entityManager.createQuery("FROM " + EntidadPrestadora.class.getName(), EntidadPrestadora.class);
-    return query.getResultList();
+  public List<EntidadPrestadora> buscarTodas() {
+    return entityManager.createQuery(
+            "FROM " + EntidadPrestadora.class.getName(), EntidadPrestadora.class)
+        .getResultList();
   }
 
   public List<EntidadPrestadora> manejadasPor(Persona persona) {
-    return (List<EntidadPrestadora>) entityManager.createQuery(
-            "SELECT e FROM EntidadPrestadora e WHERE e.personaAInformar.id = :idBuscado")
+    return entityManager.createQuery(
+            "SELECT e FROM " + EntidadPrestadora.class.getName() +" e WHERE e.personaAInformar.id = :idBuscado", EntidadPrestadora.class)
         .setParameter("idBuscado", persona.getId())
         .getResultList();
   }

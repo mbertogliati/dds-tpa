@@ -2,7 +2,7 @@
 <title>Comunidad</title>
 {{/partial}}
 {{#partial "imports"}}
-    <script src="/js/manejoFormularioEntidades.js"></script>
+    <script src="/js/manejoFormularioEntidades.js" type="module"></script>
 {{/partial}}
 {{#partial "contenido"}}
     <!-- Contenido principal -->
@@ -28,6 +28,9 @@
                     {{#if editable}}
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     {{/if}}
+                </form>
+                <form action="/comunidades/{{comunidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');" class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
                 </form>
                 <div>
                     <h5 class="mt-4">Servicios de interés</h5>

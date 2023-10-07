@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 
 public class ServicioRepositorio {
 
@@ -33,14 +32,14 @@ public class ServicioRepositorio {
   }
 
   public void eliminar(Servicio servicio) {
-    EntityTransaction transaction = entityManager.getTransaction();
-    transaction.begin();
-    entityManager.remove(servicio);
-    transaction.commit();
+    servicio.setActivo(false);
+    this.actualizar(servicio);
+    //entityManager.clear();
   }
 
   public List<Servicio> buscarTodos() {
-    TypedQuery<Servicio> query = entityManager.createQuery("FROM " + Servicio.class.getName(), Servicio.class);
-    return query.getResultList();
+    return entityManager.createQuery(
+            "FROM " + Servicio.class.getName(), Servicio.class)
+        .getResultList();
   }
 }

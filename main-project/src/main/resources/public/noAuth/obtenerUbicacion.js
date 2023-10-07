@@ -1,4 +1,3 @@
-document.addEventListener("DOMContentLoaded", obtenerUbicacion());
 function obtenerUbicacion() {
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -11,6 +10,8 @@ function obtenerUbicacion() {
         alert("La geolocalización no está disponible en este navegador.");
     }
 }
+document.addEventListener("DOMContentLoaded", obtenerUbicacion());
+
 function validarFormulario() {
     var campo1 = document.getElementById('latitud').value;
     var campo2 = document.getElementById('longitud').value;

@@ -1,12 +1,10 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
-import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 
 public class OrganismoControlRepositorio {
 
@@ -35,20 +33,21 @@ public class OrganismoControlRepositorio {
   }
 
   public void eliminar(OrganismoControl organismoControl) {
-    EntityTransaction transaction = entityManager.getTransaction();
-    transaction.begin();
-    entityManager.remove(organismoControl);
-    transaction.commit();
+    organismoControl.setActivo(false);
+    this.actualizar(organismoControl);
+    //entityManager.clear();
   }
 
   public List<OrganismoControl> buscarTodos() {
-    TypedQuery<OrganismoControl> query = entityManager.createQuery("FROM " + OrganismoControl.class.getName(), OrganismoControl.class);
-    return query.getResultList();
+    return entityManager.createQuery(
+            "FROM " + OrganismoControl.class.getName(), OrganismoControl.class)
+        .getResultList();
   }
 
+
   public List<OrganismoControl> manejadosPor(Persona persona) {
-    return (List<OrganismoControl>) entityManager.createQuery(
-            "SELECT o FROM OrganismoControl o WHERE o.personaAInformar.id = :idBuscado")
+    return entityManager.createQuery(
+            "SELECT o FROM OrganismoControl o WHERE o.personaAInformar.id = :idBuscado AND o.activo=true", OrganismoControl.class)
         .setParameter("idBuscado", persona.getId())
         .getResultList();
   }

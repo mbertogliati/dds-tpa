@@ -1,10 +1,8 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
-import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 
 public class ComunidadRepositorio {
   private EntityManager entityManager;
@@ -48,24 +46,15 @@ public class ComunidadRepositorio {
   }
 
   public void eliminarComunidad(Comunidad comunidad) {
-    EntityTransaction transaction = entityManager.getTransaction();
-
-    try {
-      transaction.begin();
-      Comunidad managedComunidad = entityManager.find(Comunidad.class, comunidad.getId());
-      entityManager.remove(managedComunidad);
-      transaction.commit();
-    } catch (Exception e) {
-      if (transaction != null && transaction.isActive()) {
-        transaction.rollback();
-      }
-      e.printStackTrace();
-    }
+    comunidad.setActivo(false);
+    this.actualizarComunidad(comunidad);
+    //entityManager.clear();
   }
 
   public List<Comunidad> obtenerTodas() {
-    TypedQuery<Comunidad> query = entityManager.createQuery("FROM " + Comunidad.class.getName(), Comunidad.class);
-    return query.getResultList();
+    return entityManager.createQuery(
+            "FROM " + Comunidad.class.getName(), Comunidad.class)
+        .getResultList();
   }
 }
 
