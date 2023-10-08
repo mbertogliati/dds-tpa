@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.controller;
 
 import ar.edu.utn.frba.domain.FusionadorOrganizaciones;
+import ar.edu.utn.frba.domain.entidades.IdDeOrganizacionesRelacionadas;
+import ar.edu.utn.frba.domain.entidades.Organizacion;
 import ar.edu.utn.frba.domain.entidades.OrganizacionesRelacionadas;
 import ar.edu.utn.frba.domain.entidades.PropuestaFusion;
 import ar.edu.utn.frba.domain.calculadorGradoConfianza.CalculadorGradoConfianza;
@@ -23,6 +25,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.openapi.HttpMethod;
+import io.javalin.openapi.OpenApi;
+import io.javalin.openapi.OpenApiContent;
+import io.javalin.openapi.OpenApiRequestBody;
+import io.javalin.openapi.OpenApiResponse;
 
 public class AceptarFusionController implements Handler {
   private ObjectMapper objectMapper;
@@ -57,6 +64,17 @@ public class AceptarFusionController implements Handler {
     this.fusionadorOrganizaciones.setCalculadorGradoConfianza(calculadorGradoConfianza);
   }
 
+  @OpenApi(
+      summary = "Acepta una propuesta de fusión, ejecutando la fusión y devolviendo el resultado",
+      operationId = "aceptarFusion",
+      path = "/aceptarFusion",
+      methods = HttpMethod.POST,
+      tags = { "fusion" },
+      requestBody = @OpenApiRequestBody(content = {@OpenApiContent(from = OrganizacionesRelacionadas.class)}),
+      responses = {
+          @OpenApiResponse(status = "200", content = {@OpenApiContent(from = PropuestaFusion.class)})
+      }
+  )
   @Override
   public void handle(Context context) throws Exception {
     Error posibleError = null;
