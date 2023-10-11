@@ -185,6 +185,11 @@
                     <target>17</target>
                     <annotationProcessorPaths>
                         <annotationProcessorPath>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </annotationProcessorPath>
+                        <annotationProcessorPath>
                             <groupId>io.javalin.community.openapi</groupId>
                             <artifactId>openapi-annotation-processor</artifactId>
                             <version>5.6.1</version>
