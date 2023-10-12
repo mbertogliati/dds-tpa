@@ -39,7 +39,7 @@ public class EntidadRepositorio {
 
   public List<Entidad> buscarTodas() {
     return entityManager.createQuery(
-            "FROM " + Entidad.class.getName(), Entidad.class)
+            "SELECT e FROM " + Entidad.class.getName() + " e WHERE e.activo=1", Entidad.class)
         .getResultList();
   }
 

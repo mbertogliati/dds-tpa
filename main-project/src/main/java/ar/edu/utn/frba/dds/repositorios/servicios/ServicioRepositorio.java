@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.servicios;
 
+import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -39,7 +40,7 @@ public class ServicioRepositorio {
 
   public List<Servicio> buscarTodos() {
     return entityManager.createQuery(
-            "FROM " + Servicio.class.getName(), Servicio.class)
+            "SELECT e FROM " + Servicio.class.getName() + " e WHERE e.activo=1", Servicio.class)
         .getResultList();
   }
 }

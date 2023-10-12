@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -40,14 +41,14 @@ public class OrganismoControlRepositorio {
 
   public List<OrganismoControl> buscarTodos() {
     return entityManager.createQuery(
-            "FROM " + OrganismoControl.class.getName(), OrganismoControl.class)
+            "SELECT e FROM " + OrganismoControl.class.getName() + " e WHERE e.activo=1", OrganismoControl.class)
         .getResultList();
   }
 
 
   public List<OrganismoControl> manejadosPor(Persona persona) {
     return entityManager.createQuery(
-            "SELECT o FROM OrganismoControl o WHERE o.personaAInformar.id = :idBuscado AND o.activo=true", OrganismoControl.class)
+            "SELECT o FROM " + OrganismoControl.class.getName() + " o WHERE o.personaAInformar.id = :idBuscado AND o.activo=1", OrganismoControl.class)
         .setParameter("idBuscado", persona.getId())
         .getResultList();
   }

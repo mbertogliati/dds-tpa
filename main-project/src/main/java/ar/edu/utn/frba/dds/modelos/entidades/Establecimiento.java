@@ -26,7 +26,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "establecimientos")
 @Getter
 @Setter
-@Where(clause = "activo = true")
+
 public class Establecimiento extends ModelBase {
 
   @ManyToOne

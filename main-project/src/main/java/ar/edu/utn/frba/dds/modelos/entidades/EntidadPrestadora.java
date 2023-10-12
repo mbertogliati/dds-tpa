@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "entidadesPrestadoras")
 @Getter
 @Setter
-@Where(clause = "activo = true")
+
 public class EntidadPrestadora extends ModelBase implements Informable{
     @OneToMany(mappedBy = "prestadora")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
@@ -44,6 +45,12 @@ public class EntidadPrestadora extends ModelBase implements Informable{
     public EntidadPrestadora(){}
     public EntidadPrestadora(String nombre){
         this.nombre = nombre;
+    }
+
+    public EntidadPrestadora(int id, String nombre, List<Entidad> entidades) {
+        this.id=id;
+        this.nombre=nombre;
+        this.entidades=entidades;
     }
 
     public void setUbicacion(Ubicacion ubicacion){

@@ -13,7 +13,7 @@ public abstract class ModelBase {
   @Setter
   @GeneratedValue
   @Id
-  private int id;
+  protected int id;
 
   @Column(name = "activo")
   private Boolean activo = true;

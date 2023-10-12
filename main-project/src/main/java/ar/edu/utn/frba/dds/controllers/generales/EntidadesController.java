@@ -87,7 +87,7 @@ public class EntidadesController implements ICrudViewsHandler{
     String idEntidad = context.pathParam("id");
     Entidad entidad = this.repoEntidad.buscarPorId(Integer.parseInt(idEntidad));
     model.put("entidad", entidad);
-    model.put("establecimientos", entidad.getEstablecimientos());
+    model.put("establecimientos", entidad.getEstablecimientos().stream().filter(e -> e.getActivo()).toList());
 
     model.put("provincias", repoProvincia.buscarTodas());
     model.put("departamentos", entidad.getUbicacion().getMetadato().getProvincia().getDepartamentos());

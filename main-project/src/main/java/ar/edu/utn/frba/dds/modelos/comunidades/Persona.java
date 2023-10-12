@@ -33,7 +33,7 @@ import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "personas")
-@Where(clause = "activo = true")
+
 @Getter
 @Setter
 public class Persona extends ModelBase {

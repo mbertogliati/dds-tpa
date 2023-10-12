@@ -106,6 +106,7 @@ public class Router {
         path("{id}", () -> {
           get(new EstablecimientosController(entityManager)::show);
           post(new EstablecimientosController(entityManager)::update);
+          post("delete", new EstablecimientosController(entityManager)::delete);
           get("sacarServicio/{idServicioPrestado}", new EstablecimientosController(entityManager)::sacarServicio);
           post("agregarServicio", new EstablecimientosController(entityManager)::agregarServicio);
         });

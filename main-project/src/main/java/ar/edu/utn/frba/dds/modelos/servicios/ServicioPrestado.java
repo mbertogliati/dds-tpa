@@ -16,7 +16,7 @@ import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "serviciosPrestados")
-@Where(clause = "activo = true")
+
 @Getter
 @Setter
 public class ServicioPrestado extends ModelBase {

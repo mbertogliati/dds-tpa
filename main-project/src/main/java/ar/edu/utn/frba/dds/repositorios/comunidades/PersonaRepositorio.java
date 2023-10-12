@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -38,7 +39,7 @@ public class PersonaRepositorio {
   }
   public List<Persona> buscarTodas() {
     return entityManager.createQuery(
-            "FROM " + Persona.class.getName(), Persona.class)
+            "SELECT e FROM " + Persona.class.getName() + " e WHERE e.activo=1", Persona.class)
         .getResultList();
   }
 }

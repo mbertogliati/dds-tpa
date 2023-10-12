@@ -20,7 +20,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Table(name = "usuarios")
 @Getter @Setter
-@Where(clause = "activo = true")
+
 public class Usuario extends ModelBase {
   @Column(name = "usuario")
   private String username;

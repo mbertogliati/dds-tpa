@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.entidades.Denominacion;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
+import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
@@ -128,7 +129,12 @@ public class EstablecimientosController implements ICrudViewsHandler {
 
   @Override
   public void delete(Context context) {
+    Establecimiento establecimiento = repoEstablecimiento.buscarPorId(Integer.parseInt(context.pathParam("id")));
 
+    repoEstablecimiento.eliminar(establecimiento);
+
+    context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Establecimiento eliminado correctamente."));
+    context.redirect("/entidades/"+establecimiento.getEntidad().getId()+"?success");
   }
 
   public void sacarServicio(Context context){

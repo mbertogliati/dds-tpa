@@ -26,7 +26,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "entidades")
 @Setter
 @Getter
-@Where(clause = "activo = true")
+
 public class Entidad extends ModelBase {
   @OneToMany(mappedBy = "entidad")
   @Cascade(CascadeType.ALL)
@@ -45,6 +45,12 @@ public class Entidad extends ModelBase {
 
   @ManyToOne
   private EntidadPrestadora prestadora;
+
+  public Entidad(int id, String nombre, List<Establecimiento> list) {
+    this.id=id;
+    this.nombre=nombre;
+    this.establecimientos=list;
+  }
 
   public Boolean esAdministradaPor(Usuario usuario){
     return this.prestadora.getPersonaAInformar().getId() == usuario.getPersonaAsociada().getId() || this.prestadora.getOrganismoControl().getPersonaAInformar().getId() == usuario.getPersonaAsociada().getId();

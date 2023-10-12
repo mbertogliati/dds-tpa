@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.generales;
 
+import ar.edu.utn.frba.dds.controllers.utils.Filtrador;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
@@ -36,15 +37,16 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
     Usuario usuario = context.sessionAttribute("usuario");
     Persona persona = usuario.getPersonaAsociada();
 
-    //TODO: NO ACTUALIZA OBJETOS EN MEMORIA (SE PONE COMO INACTIVO, PERO LOS SIGUE TRAYENDO)
     List<EntidadPrestadora> entidadesManejadas = repoEntidadesPrestadoras.manejadasPor(persona);
     if(entidadesManejadas != null && !entidadesManejadas.isEmpty()){
-      model.put("entidadesPrestadorasGen", entidadesManejadas);
+      List<EntidadPrestadora> entidadesNuevas = Filtrador.entidadesPrestadoras(entidadesManejadas);
+      model.put("entidadesPrestadorasGen", entidadesNuevas);
     }
 
     List<OrganismoControl> organismosManejados = repoOrganismo.manejadosPor(persona);
     if(organismosManejados != null && !organismosManejados.isEmpty()){
-      model.put("organismosDeControl", organismosManejados);
+      List<OrganismoControl> organismosNuevos = Filtrador.organismosDeControl(organismosManejados);
+      model.put("organismosDeControl", organismosNuevos);
     }
 
     model.put("persona", persona);

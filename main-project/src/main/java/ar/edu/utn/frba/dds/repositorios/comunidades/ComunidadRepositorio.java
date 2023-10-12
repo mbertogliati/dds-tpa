@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -53,7 +54,7 @@ public class ComunidadRepositorio {
 
   public List<Comunidad> obtenerTodas() {
     return entityManager.createQuery(
-            "FROM " + Comunidad.class.getName(), Comunidad.class)
+            "SELECT e FROM " + Comunidad.class.getName() + " e WHERE e.activo=1", Comunidad.class)
         .getResultList();
   }
 }

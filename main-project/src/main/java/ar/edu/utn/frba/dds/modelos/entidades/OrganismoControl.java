@@ -25,7 +25,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "organismosDeControl")
 @Getter
 @Setter
-@Where(clause = "activo = true")
+
 public class OrganismoControl extends ModelBase implements Informable{
     @OneToMany(mappedBy = "organismoControl")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
@@ -44,6 +44,12 @@ public class OrganismoControl extends ModelBase implements Informable{
     public OrganismoControl(String nombre){
         this.nombre = nombre;
         this.entidadesPrestadoras = new ArrayList<>();
+    }
+
+    public OrganismoControl(int id, String nombre, List<EntidadPrestadora> list) {
+        this.id=id;
+        this.nombre=nombre;
+        this.entidadesPrestadoras=list;
     }
 
     public List<Entidad> getEntidades(){

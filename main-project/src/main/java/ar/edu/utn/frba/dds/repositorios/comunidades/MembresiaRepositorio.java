@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -39,7 +40,7 @@ public class MembresiaRepositorio {
 
   public List<Membresia> buscarTodas() {
     return entityManager.createQuery(
-            "FROM " + Membresia.class.getName(), Membresia.class)
+            "SELECT e FROM " + Membresia.class.getName() + " e WHERE e.activo=1", Membresia.class)
         .getResultList();
   }
 }

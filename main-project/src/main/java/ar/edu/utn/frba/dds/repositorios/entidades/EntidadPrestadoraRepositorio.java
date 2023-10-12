@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -40,13 +41,13 @@ public class EntidadPrestadoraRepositorio {
 
   public List<EntidadPrestadora> buscarTodas() {
     return entityManager.createQuery(
-            "FROM " + EntidadPrestadora.class.getName(), EntidadPrestadora.class)
+            "SELECT e FROM " + EntidadPrestadora.class.getName() + " e WHERE e.activo=1", EntidadPrestadora.class)
         .getResultList();
   }
 
   public List<EntidadPrestadora> manejadasPor(Persona persona) {
     return entityManager.createQuery(
-            "SELECT e FROM " + EntidadPrestadora.class.getName() +" e WHERE e.personaAInformar.id = :idBuscado", EntidadPrestadora.class)
+            "SELECT e FROM " + EntidadPrestadora.class.getName() +" e WHERE e.personaAInformar.id = :idBuscado AND e.activo=1", EntidadPrestadora.class)
         .setParameter("idBuscado", persona.getId())
         .getResultList();
   }
