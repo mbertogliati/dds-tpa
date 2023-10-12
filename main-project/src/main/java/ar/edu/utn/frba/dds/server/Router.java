@@ -162,6 +162,7 @@ public class Router {
           get(new ComunidadesController(entityManager)::show);
           get("edit", new ComunidadesController(entityManager)::edit);
           post("edit", new ComunidadesController(entityManager)::update);
+          post("delete", new ComunidadesController(entityManager)::delete);
           post("agregarServicio", new ComunidadesController(entityManager)::agregarServicio);
           get("sacarServicio/{idServicio}", new ComunidadesController(entityManager)::quitarServicio);
           get("sacarMiembro/{idUsuario}", new ComunidadesController(entityManager)::sacarMiembro);

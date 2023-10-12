@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-sm-8">
                 <h2 class="mb-3">{{accion}}</h2>
-                <form action="/comunidades/{{comunidad.id}}{{#with edicion}}/edit{{/with}}" method="post">
+                <form action="/comunidades{{#with edicion}}/{{comunidad.id}}/edit{{/with}}{{#with creacion}}/crear{{/with}}" method="post">
                     <fieldset {{#unless editable}}disabled aria-disabled="disabled" {{/unless}}>
                         <div class="row">
                             <div class="mb-3">
@@ -26,33 +26,36 @@
                         </div>
                     </fieldset>
                     {{#if editable}}
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        {{#if creacion}}
+                            <button type="submit" class="btn btn-primary">Crear</button>
+                        {{else}}
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        {{/if}}
                     {{/if}}
-                </form>
-                <form action="/comunidades/{{comunidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');" class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
                 </form>
                 <div>
                     <h5 class="mt-4">Servicios de interés</h5>
                     {{#if editable}}
-                        <form action="/comunidades/{{comunidad.id}}/agregarServicio" method="POST">
-                            <div class="row mb-3">
-                                <div class="col-sm-6">
-                                    <select class="form-select" name="servicio" id="servicio" required>
-                                        {{#each serviciosGenerales}}
-                                            <option value="{{id}}">{{nombre}}
-                                                {{#each etiquetas}}
-                                                    - {{valor}}
-                                                {{/each}}
-                                            </option>
-                                        {{/each}}
-                                    </select>
+                        {{#unless creacion}}
+                            <form action="/comunidades/{{comunidad.id}}/agregarServicio" method="POST">
+                                <div class="row mb-3">
+                                    <div class="col-sm-6">
+                                        <select class="form-select" name="servicio" id="servicio" required>
+                                            {{#each serviciosGenerales}}
+                                                <option value="{{id}}">{{nombre}}
+                                                    {{#each etiquetas}}
+                                                        - {{valor}}
+                                                    {{/each}}
+                                                </option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="submit" class="btn btn-primary">Agregar servicio</button>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-primary">Agregar servicio</button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        {{/unless}}
                     {{/if}}
                     <div class="table-responsive">
                         <table class="table align-middle table-sm table-striped table-hover">
@@ -100,6 +103,13 @@
                         <a class="btn btn-primary" href="/comunidades/{{comunidad.id}}/edit">Editar</a>
                     {{/if}}
                 {{/unless}}
+                {{#if editable}}
+                    {{#if adminComunidad}}
+                        <form action="/comunidades/{{comunidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    {{/if}}
+                {{/if}}
             </div>
         </div>
     </div>
