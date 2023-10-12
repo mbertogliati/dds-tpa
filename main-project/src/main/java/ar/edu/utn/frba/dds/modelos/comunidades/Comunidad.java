@@ -101,7 +101,7 @@ public class Comunidad extends ModelBase {
   public void agregarPersona(Persona persona, Rol rol){
     Membresia membresia = new Membresia(this, persona, rol);
     this.membresias.add(membresia);
-    persona.agregarMembresiaDirecto(membresia);
+    //persona.agregarMembresiaDirecto(membresia);
   }
 
   public void agregarPersona(Persona persona){

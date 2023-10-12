@@ -1,9 +1,9 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers.generales.user;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
+import ar.edu.utn.frba.dds.controllers.utils.VerificadorRol;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.IntentoDeLogin;
-import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
 import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
@@ -15,7 +15,6 @@ import io.javalin.http.Context;
 import java.util.Map;
 import java.util.Objects;
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 import org.jetbrains.annotations.NotNull;
 
 public class LoginController{

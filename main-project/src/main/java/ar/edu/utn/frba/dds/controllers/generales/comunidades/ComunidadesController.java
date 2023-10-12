@@ -1,7 +1,8 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers.generales.comunidades;
 
-import static ar.edu.utn.frba.dds.controllers.generales.VerificadorRol.Permiso.ADMINISTRAR_COMUNIDAD;
+import static ar.edu.utn.frba.dds.controllers.utils.VerificadorRol.Permiso.ADMINISTRAR_COMUNIDAD;
 
+import ar.edu.utn.frba.dds.controllers.utils.VerificadorRol;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
@@ -191,7 +192,11 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
 
-    comunidad.agregarPersona(usuario.getPersonaAsociada(), repoRol.rolDefaultComunidad());
+    Membresia membresia = new Membresia(comunidad, usuario.getPersonaAsociada(), repoRol.rolDefaultComunidad());
+    repoMembresia.guardar(membresia);
+    //comunidad.agregarPersona(usuario.getPersonaAsociada(), repoRol.rolDefaultComunidad());
+
+    comunidad.agregarMembresia(membresia);
 
     repoUsuario.actualizar(usuario);
     repoComunidad.actualizarComunidad(comunidad);

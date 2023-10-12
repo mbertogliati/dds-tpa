@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers.generales.entidades;
 
 import ar.edu.utn.frba.dds.controllers.utils.Filtrador;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;

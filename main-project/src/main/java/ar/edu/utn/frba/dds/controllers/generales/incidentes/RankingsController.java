@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;

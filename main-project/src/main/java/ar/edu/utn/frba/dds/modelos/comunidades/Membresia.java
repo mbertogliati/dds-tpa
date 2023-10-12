@@ -23,11 +23,9 @@ import org.hibernate.annotations.Where;
 @Setter
 public class Membresia extends ModelBase {
   @ManyToOne
-  @JoinColumn(name = "persona_id", referencedColumnName = "id")
   private Persona persona;
 
   @ManyToOne
-  @JoinColumn(name = "comunidad_id", referencedColumnName = "id")
   private Comunidad comunidad;
 
   @ManyToOne

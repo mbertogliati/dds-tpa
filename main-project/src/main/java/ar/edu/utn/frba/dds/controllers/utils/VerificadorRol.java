@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers.utils;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;

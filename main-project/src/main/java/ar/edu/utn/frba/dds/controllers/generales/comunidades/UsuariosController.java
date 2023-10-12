@@ -1,6 +1,7 @@
-package ar.edu.utn.frba.dds.controllers.generales;
+package ar.edu.utn.frba.dds.controllers.generales.comunidades;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
+import ar.edu.utn.frba.dds.controllers.utils.VerificadorRol;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;

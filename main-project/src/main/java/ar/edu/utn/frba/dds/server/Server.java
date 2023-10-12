@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
-import ar.edu.utn.frba.dds.controllers.generales.GenerarRankingController;
-import ar.edu.utn.frba.dds.controllers.generales.NotificacionController;
+import ar.edu.utn.frba.dds.controllers.generales.incidentes.GenerarRankingController;
+import ar.edu.utn.frba.dds.controllers.generales.user.NotificacionController;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorCronTask;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
