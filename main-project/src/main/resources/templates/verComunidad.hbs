@@ -104,11 +104,13 @@
                     {{/if}}
                 {{/unless}}
                 {{#if editable}}
-                    {{#if adminComunidad}}
-                        <form action="/comunidades/{{comunidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
-                    {{/if}}
+                    {{#unless creacion}}
+                        {{#if adminComunidad}}
+                            <form action="/comunidades/{{comunidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        {{/if}}
+                    {{/unless}}
                 {{/if}}
             </div>
         </div>

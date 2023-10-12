@@ -16,7 +16,7 @@
                             <label for="nombre" class="form-label">Persona a cargo</label>
                             <select name="usuario" class="form-select" id="usuario" required>
                                 {{#each usuarios}}
-                                    <option value="{{id}}" {{#if (eq id entidad.personaAInformar.id)}}selected{{/if}}>{{personaAsociada.nombre}} {{personaAsociada.apellido}}</option>
+                                    <option value="{{id}}" {{#if (eq id ../entidad.personaAInformar.id)}}selected{{/if}}>{{personaAsociada.nombre}} {{personaAsociada.apellido}}</option>
                                 {{/each}}
                             </select>
                         </div>
@@ -25,9 +25,11 @@
                     <button type="submit" class="btn btn-success">Guardar cambios</button>
                     <a href="/entidadesPrestadoras" class="btn btn-secondary">Volver al listado</a>
                 </form>
+                {{#unless creacion}}
                 <form action="/{{accion}}/{{entidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');" class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
                 </form>
+                {{/unless}}
         </div>
     </div>
 </div>

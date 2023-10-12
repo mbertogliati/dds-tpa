@@ -109,9 +109,11 @@
                 {{/with}}
                 <a href="/entidades/{{establecimiento.entidad.id}}" class="btn btn-secondary">Volver a entidad</a>
             </form>
-            <form action="/establecimientos/{{establecimiento.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarlo?');" class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
-            </form>
+            {{#unless creacion}}
+                <form action="/establecimientos/{{establecimiento.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarlo?');" class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
+                </form>
+            {{/unless}}
             <div class="row">
                 <h5 class="mt-4">Servicios prestados</h5>
                 {{#unless creacion}}

@@ -82,6 +82,8 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
     entidad.setDenominacion(new Denominacion(csvRecord.get(PosicionColumnasCSV.DENOMINACION)));
     entidad.setEstablecimientos(establecimientosRelacionados);
 
+    establecimientosRelacionados.forEach(e -> e.setEntidad(entidad));
+
     this.entidades.put(Integer.parseInt(csvRecord.get(PosicionColumnasCSV.ID)), entidad);
   }
   private List<Establecimiento> obtenerEstablecimientosRelacionados(String idEstablecimientosConcatenadas) {
@@ -101,6 +103,8 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
     List<Entidad> entidadesRelacionadas = obtenerEntidadesRelacionadas(csvRecord.get(PosicionColumnasCSV.ENTIDADES_RELACIONADAS));
     entidadPrestadora.setEntidades(entidadesRelacionadas);
 
+    entidadesRelacionadas.forEach(e -> e.setPrestadora(entidadPrestadora));
+
     entidadesPrestadoras.put(Integer.parseInt(csvRecord.get(PosicionColumnasCSV.ID)), entidadPrestadora);
   }
   private List<Entidad> obtenerEntidadesRelacionadas(String idEntidadesConcatenadas) {
@@ -116,8 +120,12 @@ public class ImportadorEntidadCSV implements ImportadorEntidadAdapter {
 
   private void crearOrganismosControl(CSVRecord csvRecord) {
     OrganismoControl organismoControl = new OrganismoControl(csvRecord.get(PosicionColumnasCSV.NOMBRE));
+
     List<EntidadPrestadora> entidadesPrestadorasRelacionadas = obtenerEntidadesPrestadorasRelacionadas(csvRecord.get(PosicionColumnasCSV.ENTIDADES_RELACIONADAS));
     organismoControl.getEntidadesPrestadoras().addAll(entidadesPrestadorasRelacionadas);
+
+    entidadesPrestadorasRelacionadas.forEach(ep -> ep.setOrganismoControl(organismoControl));
+
     this.organismosDeControl.add(organismoControl);
   }
   private List<EntidadPrestadora> obtenerEntidadesPrestadorasRelacionadas(String idEntidadesConcatenadas) {

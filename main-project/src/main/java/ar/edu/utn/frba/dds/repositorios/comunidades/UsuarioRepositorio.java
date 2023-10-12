@@ -40,14 +40,14 @@ public class UsuarioRepositorio {
 
   public List<Usuario> buscarTodos() {
     return entityManager.createQuery(
-            "SELECT e FROM " + Usuario.class.getName() + " e WHERE e.activo=1", Usuario.class)
+            "SELECT e FROM " + Usuario.class.getName() + "  e WHERE e.activo=1", Usuario.class)
         .getResultList();
   }
 
   public List<Usuario> buscarPorUsername(String username) {
     return entityManager.createQuery(
-            "SELECT u FROM Usuario u WHERE u.username = :usuarioBuscado", Usuario.class)
-        .setParameter("usuarioBuscado", username)
+            "SELECT u FROM Usuario u WHERE u.username LIKE :usuarioBuscado", Usuario.class)
+        .setParameter("usuarioBuscado", "%" + username + "%")
         .getResultList();
   }
 }

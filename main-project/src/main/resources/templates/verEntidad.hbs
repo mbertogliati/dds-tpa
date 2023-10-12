@@ -93,9 +93,11 @@
                 {{/with}}
                 <a href="/entidadesPrestadoras" class="btn btn-secondary">Volver a entidades prestadoras</a>
             </form>
+            {{#unless creacion}}
             <form action="/entidades/{{entidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');" class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
             </form>
+            {{/unless}}
             <div class="row justify-content-center">
                 <h5 class="mt-4">Establecimientos a cargo</h5>
                 <a class="btn btn-primary mb-3" href="/establecimientos/crear/{{entidad.id}}">Crear establecimiento</a>

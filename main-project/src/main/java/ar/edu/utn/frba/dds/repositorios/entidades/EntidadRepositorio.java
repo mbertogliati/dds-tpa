@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -45,9 +46,8 @@ public class EntidadRepositorio {
 
   public List<Entidad> buscarPorLocalidad(String idLocalidad) {
     return entityManager.createQuery(
-            "SELECT e FROM Entidad e WHERE e.ubicacion.metadato.localidad.id = :idBuscado AND e.activo=:estado", Entidad.class)
-        .setParameter("idBuscado", idLocalidad)
-        .setParameter("estado", 1)
+        "SELECT e FROM "+ Entidad.class.getName() +" e WHERE e.ubicacion.metadato.localidad.id = :idBuscado AND e.activo = 1",Entidad.class)
+        .setParameter("idBuscado", Integer.parseInt(idLocalidad))
         .getResultList();
   }
 

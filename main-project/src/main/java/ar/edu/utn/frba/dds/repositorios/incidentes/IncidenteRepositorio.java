@@ -56,7 +56,7 @@ public class IncidenteRepositorio {
   public List<Incidente> buscarPorLocalidad(String idLocalidad) {
     return (List<Incidente>) entityManager.createQuery(
             "SELECT i FROM Incidente i JOIN i.serviciosAfectados s WHERE s.establecimiento.entidad.ubicacion.metadato.localidad.id = :idBuscado")
-        .setParameter("idBuscado", idLocalidad)
+        .setParameter("idBuscado", Integer.parseInt(idLocalidad))
         .getResultList();
   }
 

@@ -75,15 +75,22 @@ public class CargaMasivaController implements ICrudViewsHandler {
       Ubicacion ubicacion = persona.getUltimaUbicacion();
 
       //GUARDO LA UBICACION DE LA PERSONA COMO LA UBICACION DE LAS ENTIDADES Y ESTABLECIMIENTOS
+
       organismosControl.forEach(o -> {
         o.setPersonaAInformar(persona);
-        o.getEntidadesPrestadoras().forEach(e -> {
-          e.setUbicacion(ubicacion);
-          e.setPersonaAInformar(persona);
-          repoEntidadPrestadora.guardar(e);
+        o.getEntidadesPrestadoras().forEach(ep -> {
+          ep.setUbicacion(ubicacion);
+          ep.setPersonaAInformar(persona);
+          ep.getEntidades().forEach(e -> {
+            e.setUbicacion(ubicacion);
+            e.getEstablecimientos().forEach(es -> {
+              es.setUbicacion(ubicacion);
+            });
+          });
         });
-        repoOrganismoControl.guardar(o);
       });
+
+      organismosControl.forEach(o -> repoOrganismoControl.guardar(o));
 
       archivo.delete();
     }

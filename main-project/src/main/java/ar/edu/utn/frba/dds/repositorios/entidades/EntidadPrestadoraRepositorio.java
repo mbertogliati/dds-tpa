@@ -40,6 +40,7 @@ public class EntidadPrestadoraRepositorio {
   }
 
   public List<EntidadPrestadora> buscarTodas() {
+
     return entityManager.createQuery(
             "SELECT e FROM " + EntidadPrestadora.class.getName() + " e WHERE e.activo=1", EntidadPrestadora.class)
         .getResultList();
