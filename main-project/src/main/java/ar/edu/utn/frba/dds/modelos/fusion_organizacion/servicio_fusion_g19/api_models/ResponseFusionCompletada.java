@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models;
+package ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;

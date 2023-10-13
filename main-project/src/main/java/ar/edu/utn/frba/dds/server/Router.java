@@ -6,6 +6,7 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDatosController;
+import ar.edu.utn.frba.dds.controllers.generales.comunidades.FusionComunidadesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.CargaMasivaController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.ComunidadesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.EntidadesController;
@@ -170,6 +171,8 @@ public class Router {
           get("cambiarRol/{idUsuario}/{idServicio}/{nuevoRol}", new ComunidadesController(entityManager)::cambiarRol);
         });
       });
+
+      get("fusionarComunidades",new FusionComunidadesController(entityManager)::create);
 
       //CONTROLADORES PARA FORMULARIOS DINAMICOS
       path("/obtener",() -> {

@@ -1,15 +1,10 @@
-package ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo;
+package ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19;
 
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.FusionCompletada;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.Organizacion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.PropuestaFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.SolicitudFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.UltimoIntentoFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models.RequestOrganizacion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models.RequestSolicitudFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models.RequestUltimoIntentoFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models.ResponseFusionCompletada;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models.ResponsePropuestaFusion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.RequestOrganizacion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.RequestSolicitudFusion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.RequestUltimoIntentoFusion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.ResponseFusionCompletada;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.ResponsePropuestaFusion;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
