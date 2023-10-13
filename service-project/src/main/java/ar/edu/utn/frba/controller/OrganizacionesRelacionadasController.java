@@ -26,7 +26,13 @@ import com.fasterxml.jackson.datatype.jsr310.*;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.openapi.OpenApi;
+import java.util.ArrayList;
 import java.util.List;
+import io.javalin.openapi.HttpMethod;
+import io.javalin.openapi.OpenApiResponse;
+import io.javalin.openapi.OpenApiRequestBody;
+import io.javalin.openapi.OpenApiContent;
 
 public class OrganizacionesRelacionadasController implements Handler {
   private ObjectMapper objectMapper;
@@ -60,6 +66,17 @@ public class OrganizacionesRelacionadasController implements Handler {
     this.relacionadorOrganizaciones.setCriterioFusion(criterioFusion);
   }
 
+  @OpenApi(
+      summary = "Obtiene las propuestas de fusión en base al parámetro enviado",
+      operationId = "propuestasDeFusion",
+      path = "/propuestasDeFusion",
+      methods = HttpMethod.POST,
+      tags = { "fusion" },
+      requestBody = @OpenApiRequestBody(content = {@OpenApiContent(from = Organizacion[].class)}),
+      responses = {
+          @OpenApiResponse(status = "200", content = {@OpenApiContent(from = IdDeOrganizacionesRelacionadas[].class)})
+      }
+  )
   @Override
   public void handle(Context context) throws Exception {
     Error posibleError = null;
@@ -74,7 +91,6 @@ public class OrganizacionesRelacionadasController implements Handler {
       String json = this.jsonMapper.writeValueAsString(idsPropuestas);
 
       context.result(json);
-
     } catch(UnrecognizedPropertyException upe) {
       System.out.println("Exception en processing");
       System.out.println(upe.getMessage());
