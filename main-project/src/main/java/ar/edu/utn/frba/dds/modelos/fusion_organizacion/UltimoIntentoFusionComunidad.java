@@ -11,13 +11,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "ultimoIntentoFusionComunidades")
-public class IntentoFusionComunidades {
+public class UltimoIntentoFusionComunidad {
     @Id
     @GeneratedValue
     private int id;
     @ManyToOne
-    private Comunidad comunidad1;
-    @ManyToOne
-    private Comunidad comunidad2;
+    private Comunidad comunidad;
     private LocalDateTime ultIntentoFusion;
 }

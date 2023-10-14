@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19;
 
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.ErrorFusionException;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.RequestOrganizacion;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.RequestSolicitudFusion;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.ResponseFusionCompletada;
@@ -51,14 +52,17 @@ public class ServicioFusion implements AdapterFusion {
       RequestSolicitudFusion request = MapperFusion.mapSolicitudFusionARequestSolicitudFusion(solicitud);
       Call<ResponseFusionCompletada> call = this.webApiFusion.aceptarPropuesta(request);
       Response<ResponseFusionCompletada> response = call.execute();
-      if(response.code() == HttpStatusCode.OK)
+
+      if(response.code() == HttpStatusCode.OK) {
         return MapperFusion.mapResponseFusionCompletadaAFusionCompletada(response.body());
-      else
+      }else {
         System.out.println("Error al aceptar la propuesta de fusión: código=" + response.code() + " - mensaje= " + response.message());
+        throw new ErrorFusionException();
+      }
     } catch(IOException exception) {
       System.out.println(exception);
+      throw new ErrorFusionException();
     }
-    return null;
   }
 
   @Override

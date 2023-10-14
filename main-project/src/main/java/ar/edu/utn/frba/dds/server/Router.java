@@ -172,7 +172,10 @@ public class Router {
         });
       });
 
-      get("fusionarComunidades",new FusionComunidadesController(entityManager)::create);
+      path("fusionarComunidades", () -> {
+        get(new FusionComunidadesController(entityManager)::create);
+        post(new FusionComunidadesController(entityManager)::save);
+      });
 
       //CONTROLADORES PARA FORMULARIOS DINAMICOS
       path("/obtener",() -> {

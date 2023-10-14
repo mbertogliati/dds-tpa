@@ -10,4 +10,11 @@ public class UltimoIntentoFusion {
   public Long idOrganizacion;
   //@JsonSerialize(using = CustomDateSerializer.class) //TODO: implement serializer / deserializer ?
   private LocalDateTime fechaIntento;
+
+  public UltimoIntentoFusion(){}
+
+  public UltimoIntentoFusion(Long idOrganizacion, LocalDateTime fecha){
+    this.idOrganizacion=idOrganizacion;
+    this.fechaIntento=fecha;
+  }
 }

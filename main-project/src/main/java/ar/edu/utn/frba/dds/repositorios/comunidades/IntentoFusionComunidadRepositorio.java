@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.FusionComunidad;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.IntentoFusionComunidades;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.UltimoIntentoFusionComunidad;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -14,7 +13,7 @@ public class IntentoFusionComunidadRepositorio {
         this.entityManager = entityManager;
     }
 
-    public void guardarFusion(IntentoFusionComunidades fusion) {
+    public void guardarFusion(UltimoIntentoFusionComunidad fusion) {
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
@@ -29,7 +28,7 @@ public class IntentoFusionComunidadRepositorio {
         }
     }
 
-    public void actualizarFusion(IntentoFusionComunidades fusion) {
+    public void actualizarFusion(UltimoIntentoFusionComunidad fusion) {
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
@@ -44,7 +43,7 @@ public class IntentoFusionComunidadRepositorio {
         }
     }
 
-    public void eliminarFusion(IntentoFusionComunidades fusion) {
+    public void eliminarFusion(UltimoIntentoFusionComunidad fusion) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
@@ -58,9 +57,9 @@ public class IntentoFusionComunidadRepositorio {
         }
     }
 
-    public List<IntentoFusionComunidades> obtenerTodas() {
+    public List<UltimoIntentoFusionComunidad> obtenerTodas() {
         return entityManager.createQuery(
-                        "SELECT e FROM " + IntentoFusionComunidades.class.getName() + " e", IntentoFusionComunidades.class)
+                        "SELECT e FROM " + UltimoIntentoFusionComunidad.class.getName() + " e", UltimoIntentoFusionComunidad.class)
                 .getResultList();
     }
 }
