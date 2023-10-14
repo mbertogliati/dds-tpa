@@ -48,7 +48,8 @@ public class Comunidad extends ModelBase {
   @Column(name = "gradoConfianza")
   private Double gradoConfianza;
 
-  @OneToMany
+  @OneToMany(cascade = { CascadeType.ALL })
+  @JoinColumn(name = "comunidad1_id", referencedColumnName = "id")
   private List<UltimoIntentoFusionComunidad> intentosFusion = new ArrayList<>();
 
   public Comunidad(){}
@@ -165,5 +166,9 @@ public class Comunidad extends ModelBase {
       return this.incidentes.stream().filter(ipc -> ipc.getIncidente().getId() == incidente.getId()).toList().get(0);
     }
     return null;
+  }
+
+  public void agregarIntentoFusion(LocalDateTime fecha, Comunidad comunidad2) {
+    this.intentosFusion.add(new UltimoIntentoFusionComunidad(comunidad2, fecha));
   }
 }

@@ -5,6 +5,8 @@ import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.ErrorFusionException;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.PropuestaFusionComunidad;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.AdapterFusion;
@@ -17,6 +19,7 @@ import ar.edu.utn.frba.dds.repositorios.comunidades.IntentoFusionComunidadReposi
 import io.javalin.http.Context;
 
 import java.lang.module.ResolutionException;
+import java.time.LocalDateTime;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +49,8 @@ public class FusionComunidadesController implements ICrudViewsHandler {
     @Override
     public void create(Context context) {
         Map<String, Object> model = GeneradorModel.model(context);
-        List<Organizacion> listaOrganizacion = repoComunidad.obtenerTodas().stream().map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
+        Usuario usuario = context.sessionAttribute("usuario");
+        List<Organizacion> listaOrganizacion = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId())).map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
         List<PropuestaFusionComunidad> propuestasDisponibles = servicioDeFusion.obtenerPropuestas(listaOrganizacion).stream().map(
             p ->
             new PropuestaFusionComunidad(
@@ -59,8 +63,6 @@ public class FusionComunidadesController implements ICrudViewsHandler {
 
     @Override
     public void save(Context context) {
-        Map<String, Object> model = GeneradorModel.model(context);
-
         Comunidad comunidad1 = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.formParam("idComunidad1")));
         Comunidad comunidad2 = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.formParam("idComunidad2")));
 
@@ -71,13 +73,15 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         try {
             Comunidad comunidadFusionada = ConverterComunidadOrganizacion.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2);
 
+            comunidad1.agregarIntentoFusion(LocalDateTime.now(), comunidad2);
+            comunidad2.agregarIntentoFusion(LocalDateTime.now(), comunidad1);
+
             repoComunidad.eliminarComunidad(comunidad1);
             repoComunidad.eliminarComunidad(comunidad2);
             repoComunidad.guardarComunidad(comunidadFusionada);
 
             context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "'" + comunidad1.getNombre() + "' y '" + comunidad2.getNombre() + "' fusionadas correctamente."));
             context.redirect("/fusionarComunidades");
-
         }catch (ErrorFusionException e){
             context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.ERROR,"Ocurrió un error al intentar realizar la fusión."));
             context.redirect("/fusionarComunidades");

@@ -15,7 +15,20 @@ public class UltimoIntentoFusionComunidad {
     @Id
     @GeneratedValue
     private int id;
+
     @ManyToOne
+    @JoinColumn(name = "comunidad2_id", referencedColumnName = "id")
     private Comunidad comunidad;
+
+    @Column(name = "fechaIntento")
     private LocalDateTime ultIntentoFusion;
+
+    public UltimoIntentoFusionComunidad(){
+
+    }
+
+    public UltimoIntentoFusionComunidad(Comunidad comunidad, LocalDateTime fecha){
+        this.comunidad=comunidad;
+        this.ultIntentoFusion=fecha;
+    }
 }
