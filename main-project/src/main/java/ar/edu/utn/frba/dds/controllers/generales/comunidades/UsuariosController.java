@@ -173,11 +173,7 @@ public class UsuariosController implements ICrudViewsHandler {
 
   @Override
   public void create(Context context) {
-    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
-    usuario.setActivo(false);
-    repoUsuario.actualizar(usuario);
-    context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS,"Usuario eliminado correctamente"));
-    context.redirect("/");
+
   }
 
   @Override
@@ -208,6 +204,7 @@ public class UsuariosController implements ICrudViewsHandler {
 
     context.render("editarUsuario.hbs", model);
   }
+
   public void update(@NotNull Context context) {
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
     usuarioBuilder = new UsuarioBuilderHashmap(context.formParamMap(),null).init(usuario);
@@ -241,12 +238,13 @@ public class UsuariosController implements ICrudViewsHandler {
             .configurarNombres()
             .configurarInformacionDeContacto()
             .configurarPreferenciasNotificacion()
+            .configurarInformacionDeUbicacion()
             .get();
 
     //TODO: No elimina fechas viejas
     //ELIMINO FECHAS VIEJAS
     List<FechasDeSemana> fechasViejas = persona.getFechas();
-    fechasViejas.forEach(f -> repoFechas.eliminar(f));
+    if (fechasViejas != null) fechasViejas.forEach(f -> repoFechas.eliminar(f));
 
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Usuario modificado correctamente."));
     context.redirect("/usuarios/"+usuario.getId()+"/edit?success");
@@ -254,6 +252,10 @@ public class UsuariosController implements ICrudViewsHandler {
 
   @Override
   public void delete(Context context) {
-
+    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    usuario.setActivo(false);
+    repoUsuario.actualizar(usuario);
+    context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS,"Usuario eliminado correctamente"));
+    context.redirect("/");
   }
 }

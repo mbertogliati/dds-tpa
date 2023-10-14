@@ -5,7 +5,6 @@ import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
-import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.ErrorFusionException;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.PropuestaFusionComunidad;
@@ -14,11 +13,10 @@ import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.Organ
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.ServicioFusion;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.SolicitudFusion;
 import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
-import ar.edu.utn.frba.dds.repositorios.comunidades.FusionComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.IntentoFusionComunidadRepositorio;
+import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 import io.javalin.http.Context;
 
-import java.lang.module.ResolutionException;
 import java.time.LocalDateTime;
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -27,13 +25,15 @@ import java.util.Map;
 public class FusionComunidadesController implements ICrudViewsHandler {
     private final AdapterFusion servicioDeFusion = new ServicioFusion();
     private ComunidadRepositorio repoComunidad;
-    private FusionComunidadRepositorio repoFusionComunidades;
     private IntentoFusionComunidadRepositorio repoIntentoFusionComunidades;
+    private RolRepositorio repoRol;
+    private EntityManager entityManager;
 
     public FusionComunidadesController(EntityManager entityManager){
         this.repoComunidad = new ComunidadRepositorio(entityManager);
-        this.repoFusionComunidades = new FusionComunidadRepositorio(entityManager);
         this.repoIntentoFusionComunidades = new IntentoFusionComunidadRepositorio(entityManager);
+        this.repoRol = new RolRepositorio(entityManager);
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -49,8 +49,9 @@ public class FusionComunidadesController implements ICrudViewsHandler {
     @Override
     public void create(Context context) {
         Map<String, Object> model = GeneradorModel.model(context);
+
         Usuario usuario = context.sessionAttribute("usuario");
-        List<Organizacion> listaOrganizacion = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId())).map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
+        List<Organizacion> listaOrganizacion = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId() && m.getRolComunidad().getId() == repoRol.rolAdminComunidad().getId())).map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
         List<PropuestaFusionComunidad> propuestasDisponibles = servicioDeFusion.obtenerPropuestas(listaOrganizacion).stream().map(
             p ->
             new PropuestaFusionComunidad(
@@ -71,7 +72,7 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         solicitudFusion.setOrganizacion2(ConverterComunidadOrganizacion.obtenerOrganizacion(comunidad2));
 
         try {
-            Comunidad comunidadFusionada = ConverterComunidadOrganizacion.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2);
+            Comunidad comunidadFusionada = ConverterComunidadOrganizacion.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2, entityManager);
 
             comunidad1.agregarIntentoFusion(LocalDateTime.now(), comunidad2);
             comunidad2.agregarIntentoFusion(LocalDateTime.now(), comunidad1);

@@ -11,10 +11,12 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
+import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.MembresiaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
+import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioRepositorio;
 import io.javalin.http.Context;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class ComunidadesController implements ICrudViewsHandler {
   private ComunidadRepositorio repoComunidad;
   private UsuarioRepositorio repoUsuario;
   private ServicioRepositorio repoServicio;
+  private ServicioPrestadoRepositorio repoServicioPrestado;
   private MembresiaRepositorio repoMembresia;
   private RolRepositorio repoRol;
 
@@ -37,6 +40,7 @@ public class ComunidadesController implements ICrudViewsHandler {
     this.repoServicio = new ServicioRepositorio(entityManager);
     this.repoMembresia = new MembresiaRepositorio(entityManager);
     this.repoRol = new RolRepositorio(entityManager);
+    this.repoServicioPrestado = new ServicioPrestadoRepositorio(entityManager);
   }
 
   public void deUsuario(Context context){
@@ -55,13 +59,13 @@ public class ComunidadesController implements ICrudViewsHandler {
     Map<String, Object> model = GeneradorModel.model(context);
 
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
-    Servicio servicio = repoServicio.buscarPorId(Integer.parseInt(context.pathParam("idServicio")));
+    ServicioPrestado servicioPrestado = repoServicioPrestado.buscarPorId(Integer.parseInt(context.pathParam("idServicio")));
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
 
     if(context.pathParam("nuevoRol").equals("afectado")){
-      comunidad.getMembresia(usuario.getPersonaAsociada()).agregarServicioAfectado(servicio);
+      comunidad.getMembresia(usuario.getPersonaAsociada()).agregarServicioAfectado(servicioPrestado);
     }else{
-      comunidad.getMembresia(usuario.getPersonaAsociada()).agregarServicioObservado(servicio);
+      comunidad.getMembresia(usuario.getPersonaAsociada()).agregarServicioObservado(servicioPrestado);
     }
 
     repoComunidad.actualizarComunidad(comunidad);
@@ -90,7 +94,8 @@ public class ComunidadesController implements ICrudViewsHandler {
       model.put("adminComunidad", true);
     }
 
-    model.put("comunidad", new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada()));
+    ComunidadConUsuarioActual comunidadConUsuarioActual = new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada());
+    model.put("comunidad", comunidadConUsuarioActual);
 
     context.render("verComunidad.hbs", model);
   }
@@ -103,7 +108,7 @@ public class ComunidadesController implements ICrudViewsHandler {
     model.put("comunidad", comunidadVacia);
     model.put("editable", true);
     model.put("creacion", true);
-    model.put("serviciosGenerales", repoServicio.buscarTodos());
+    model.put("serviciosGenerales", repoServicioPrestado.buscarTodos());
 
     context.render("verComunidad.hbs", model);
   }
@@ -116,11 +121,11 @@ public class ComunidadesController implements ICrudViewsHandler {
     comunidad.setDetalle(context.formParam("detalle"));
 
     List<String> idServicios = context.formParams("servicios[]");
-    List<Servicio> servicios = new ArrayList<>();
+    List<ServicioPrestado> servicios = new ArrayList<>();
     for (String id : idServicios){
-      servicios.add(repoServicio.buscarPorId(Integer.parseInt(id)));
+      servicios.add(repoServicioPrestado.buscarPorId(Integer.parseInt(id)));
     }
-    comunidad.setServicios(servicios);
+    comunidad.setServiciosPrestados(servicios);
 
     repoComunidad.guardarComunidad(comunidad);
 
@@ -142,7 +147,7 @@ public class ComunidadesController implements ICrudViewsHandler {
     }
 
     model.put("comunidad", new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada()));
-    model.put("serviciosGenerales", repoServicio.buscarTodos());
+    model.put("serviciosGenerales", repoServicioPrestado.buscarTodos());
 
     context.render("verComunidad.hbs", model);
   }
@@ -208,9 +213,9 @@ public class ComunidadesController implements ICrudViewsHandler {
   public void agregarServicio(Context context){
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
 
-    Servicio servicio = repoServicio.buscarPorId(Integer.parseInt(context.formParam("servicio")));
+    ServicioPrestado servicioPrestado = repoServicioPrestado.buscarPorId(Integer.parseInt(context.formParam("servicio")));
 
-    comunidad.agregarServicio(servicio);
+    comunidad.agregarServicio(servicioPrestado);
 
     repoComunidad.actualizarComunidad(comunidad);
 
@@ -221,9 +226,9 @@ public class ComunidadesController implements ICrudViewsHandler {
   public void quitarServicio(Context context){
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
 
-    Servicio servicio = repoServicio.buscarPorId(Integer.parseInt(context.pathParam("idServicio")));
+    ServicioPrestado servicioPrestado = repoServicioPrestado.buscarPorId(Integer.parseInt(context.pathParam("idServicio")));
 
-    comunidad.eliminarServicio(servicio);
+    comunidad.eliminarServicio(servicioPrestado);
 
     repoComunidad.actualizarComunidad(comunidad);
 
@@ -240,15 +245,15 @@ public class ComunidadesController implements ICrudViewsHandler {
     private int id;
     private String nombre;
     private String detalle;
-    private List<ServicioEsAfectado> servicios;
+    private List<ServicioEsAfectado> serviciosPrestados;
     private Boolean tieneAUsuarioActual;
 
     public ComunidadConUsuarioActual(Comunidad comunidad, Persona persona){
       this.nombre = comunidad.getNombre();
       this.detalle = comunidad.getDetalle();
-      this.servicios = new ArrayList<>();
-      for (Servicio servicio : comunidad.getServicios()){
-        this.servicios.add(new ServicioEsAfectado(servicio, comunidad.getMembresia(persona)));
+      this.serviciosPrestados = new ArrayList<>();
+      for (ServicioPrestado servicio : comunidad.getServiciosPrestados()){
+        this.serviciosPrestados.add(new ServicioEsAfectado(servicio, comunidad.getMembresia(persona)));
       }
       this.id = comunidad.getId();
       this.tieneAUsuarioActual = comunidad.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == persona.getId());
@@ -258,13 +263,13 @@ public class ComunidadesController implements ICrudViewsHandler {
   @Getter
   @Setter
   public class ServicioEsAfectado{
-    private Servicio servicio;
+    private ServicioPrestado servicioPrestado;
     private Boolean esAfectado;
 
-    public ServicioEsAfectado(Servicio servicio, Membresia membresia){
-      this.servicio = servicio;
+    public ServicioEsAfectado(ServicioPrestado servicioPrestado, Membresia membresia){
+      this.servicioPrestado = servicioPrestado;
       if(membresia != null) {
-        this.esAfectado = membresia.estaAfectado(servicio);
+        this.esAfectado = membresia.estaAfectado(servicioPrestado);
       }else{
         this.esAfectado = true;
       }

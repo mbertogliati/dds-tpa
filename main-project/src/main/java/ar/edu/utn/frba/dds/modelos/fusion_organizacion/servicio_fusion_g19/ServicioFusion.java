@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServicioFusion implements AdapterFusion {
   @Getter
   @Setter
-  private String urlApi = "http://127.0.0.1:8080";
+  private String urlApi = "http://190.49.33.22:25565";
 
   private WebApiFusion webApiFusion;
 

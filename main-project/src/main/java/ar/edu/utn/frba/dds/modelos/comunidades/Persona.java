@@ -70,7 +70,7 @@ public class Persona extends ModelBase {
   @OneToOne
   @JoinColumn(name = "listado_id")
   @Cascade(org.hibernate.annotations.CascadeType.ALL)
-  private ListadoNotificables notificablesSinNotificar;
+  private ListadoNotificables notificablesSinNotificar = new ListadoNotificables();
 
   @OneToMany
   @Cascade(org.hibernate.annotations.CascadeType.ALL)

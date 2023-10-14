@@ -42,13 +42,13 @@ public class DepartamentoRepositorio {
   }
 
   public List<Departamento> buscarTodos() {
-    TypedQuery<Departamento> query = entityManager.createQuery("FROM " + Departamento.class.getName(), Departamento.class);
+    TypedQuery<Departamento> query = entityManager.createQuery("SELECT d FROM Departamento d ORDER BY d.nombre", Departamento.class);
     return query.getResultList();
   }
 
   public List<Departamento> buscarPorProvincia(Integer idProvincia) {
-    return (List<Departamento>) entityManager.createQuery(
-        "SELECT d FROM Departamento d WHERE d.provincia.id = :idBuscado")
+    return entityManager.createQuery(
+        "SELECT d FROM Departamento d WHERE d.provincia.id = :idBuscado ORDER BY d.nombre", Departamento.class)
         .setParameter("idBuscado", idProvincia)
         .getResultList();
   }

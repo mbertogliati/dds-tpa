@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.modelos.comunidades;
 
 import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
+import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -33,7 +34,7 @@ public class Membresia extends ModelBase {
   private Rol rolComunidad;
 
   @ManyToMany
-  private List<Servicio> serviciosObservados;
+  private List<ServicioPrestado> serviciosObservados;
 
   public Membresia(){}
 
@@ -49,18 +50,18 @@ public class Membresia extends ModelBase {
     serviciosObservados = new ArrayList<>();
   }
 
-  public void agregarServicioObservado(Servicio servicio){
-    this.serviciosObservados.add(servicio);
+  public void agregarServicioObservado(ServicioPrestado servicioPrestado){
+    this.serviciosObservados.add(servicioPrestado);
   }
 
-  public void agregarServicioAfectado(Servicio servicio){
-    if(this.serviciosObservados.contains(servicio)){
-      this.serviciosObservados.remove(servicio);
+  public void agregarServicioAfectado(ServicioPrestado servicioPrestado){
+    if(this.serviciosObservados.contains(servicioPrestado)){
+      this.serviciosObservados.remove(servicioPrestado);
     }
   }
 
-  public boolean estaAfectado(Servicio servicio){
-    return !serviciosObservados.contains(servicio);
+  public boolean estaAfectado(ServicioPrestado servicioPrestado){
+    return !serviciosObservados.contains(servicioPrestado);
   }
 
 }

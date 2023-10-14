@@ -81,6 +81,7 @@ public class RegisterController{
     Persona nuevaPersona = personaBuilder
             .configurarNombres()
             .configurarInformacionDeContacto()
+            .configurarInformacionDeUbicacion()
             .get();
 
     usuario.setPersonaAsociada(nuevaPersona);

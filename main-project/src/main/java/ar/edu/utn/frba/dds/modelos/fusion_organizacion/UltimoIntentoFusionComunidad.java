@@ -23,9 +23,7 @@ public class UltimoIntentoFusionComunidad {
     @Column(name = "fechaIntento")
     private LocalDateTime ultIntentoFusion;
 
-    public UltimoIntentoFusionComunidad(){
-
-    }
+    public UltimoIntentoFusionComunidad(){}
 
     public UltimoIntentoFusionComunidad(Comunidad comunidad, LocalDateTime fecha){
         this.comunidad=comunidad;

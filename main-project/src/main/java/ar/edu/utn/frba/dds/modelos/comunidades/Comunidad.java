@@ -8,11 +8,10 @@ import ar.edu.utn.frba.dds.modelos.incidentes.IncidenteCerrado;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.notificaciones.Notificable;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
+import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +35,7 @@ public class Comunidad extends ModelBase {
   private String detalle;
 
   @ManyToMany
-  private List<Servicio> servicios = new ArrayList<>();
+  private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
 
   @OneToMany(mappedBy = "comunidad", cascade = { CascadeType.ALL })
   private List<Membresia> membresias = new ArrayList<>();
@@ -66,26 +65,6 @@ public class Comunidad extends ModelBase {
     }
   }
 
-  public void agregarMembresiasDe(Comunidad comunidad1, Comunidad comunidad2){
-    comunidad1.getMembresias().forEach(m -> this.agregarPersona(m.getPersona(), m.getRolComunidad()));
-    List<Integer> miembros = this.membresias.stream().map(m -> m.getPersona().getId()).toList();
-    comunidad2.getMembresias().stream().filter(m -> !miembros.contains(m.getPersona().getId())).forEach(m -> this.agregarPersona(m.getPersona(), m.getRolComunidad()));
-  }
-
-  public void agregarIncidentesDe(Comunidad comunidad1, Comunidad comunidad2){
-    Set<IncidentePorComunidad> incidentesPorComunidad = new HashSet<>();
-    incidentesPorComunidad.addAll(comunidad1.getIncidentes());
-    incidentesPorComunidad.addAll(comunidad2.getIncidentes());
-    this.incidentes = incidentesPorComunidad.stream().toList();
-  }
-
-  public void agregarServiciosDe(Comunidad comunidad1, Comunidad comunidad2){
-    Set<Servicio> servicios = new HashSet<>();
-    servicios.addAll(comunidad1.getServicios());
-    servicios.addAll(comunidad2.getServicios());
-    this.servicios = servicios.stream().toList();
-  }
-
   public void notificarMiembros(Notificable notificable){
     this.membresias.stream().map(m -> m.getPersona()).forEach(
         p -> p.enviarNotificacion(notificable));
@@ -110,16 +89,16 @@ public class Comunidad extends ModelBase {
   public void agregarMembresiaDirecto(Membresia membresia){
     this.membresias.add(membresia);
   }
-  public void agregarServicio(Servicio servicio){
-    this.servicios.add(servicio);
+  public void agregarServicio(ServicioPrestado servicio){
+    this.serviciosPrestados.add(servicio);
   }
 
-  public void eliminarServicio(Servicio servicio){
-    this.eliminarServicioPorID(servicio.getId());
+  public void eliminarServicio(ServicioPrestado servicioPrestado){
+    this.eliminarServicioPorID(servicioPrestado.getId());
   }
 
   private void eliminarServicioPorID(int id){
-    servicios.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> servicios.remove(servicio));
+    serviciosPrestados.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> serviciosPrestados.remove(servicio));
   }
 
   public void agregarPersona(Persona persona, Rol rol){

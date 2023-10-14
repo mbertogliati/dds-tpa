@@ -66,7 +66,7 @@
                                     <div class="">
                                         <select class="form-select" name="provincia" id="provincia" required>
                                             {{#each provincias}}
-                                                <option value="{{id}}" {{#if (eq usuario.personaAsociada.ubicacion.metadato.provincia.id id)}}selected{{/if}}>{{nombre}}</option>
+                                                <option value="{{id}}" {{#if (eq ../usuario.personaAsociada.ubicacion.metadato.provincia.id id)}}selected{{/if}}>{{nombre}}</option>
                                             {{/each}}
                                         </select>
                                     </div>
@@ -75,7 +75,7 @@
                                     <div class="">
                                         <select class="form-select" name="departamento" id="departamento" required>
                                             {{#each departamentos}}
-                                                <option value="{{id}}" {{#if (eq usuario.personaAsociada.ubicacion.metadato.departamento.id id)}}selected{{/if}}>{{nombre}}</option>
+                                                <option value="{{id}}" {{#if (eq ../usuario.personaAsociada.ubicacion.metadato.departamento.id id)}}selected{{/if}}>{{nombre}}</option>
                                             {{/each}}
                                         </select>
                                     </div>
@@ -84,7 +84,7 @@
                                     <div class="">
                                         <select class="form-select" name="localidad" id="localidad" required>
                                             {{#each localidades}}
-                                                <option value="{{id}}" {{#if (eq usuario.personaAsociada.ubicacion.metadato.localidad.id id)}}selected{{/if}}>{{nombre}}</option>
+                                                <option value="{{id}}" {{#if (eq ../usuario.personaAsociada.ubicacion.metadato.localidad.id id)}}selected{{/if}}>{{nombre}}</option>
                                             {{/each}}
                                         </select>
                                     </div>
@@ -158,6 +158,8 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="latitud" value="{{usuario.personaAsociada.ultimaUbicacion.coordenada.latitud}}">
+                        <input type="hidden" name="longitud" value="{{usuario.personaAsociada.ultimaUbicacion.coordenada.longitud}}">
                         <hr>
                             <div class="row ">
                                 <div class="col-sm-3">

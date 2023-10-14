@@ -45,7 +45,7 @@ public class ProvinciaRepositorio {
   }
 
   public List<Provincia> buscarTodas() {
-    TypedQuery<Provincia> query = entityManager.createQuery("FROM " + Provincia.class.getName(), Provincia.class);
+    TypedQuery<Provincia> query = entityManager.createQuery("SELECT p FROM Provincia p ORDER BY p.nombre", Provincia.class);
     return query.getResultList();
   }
 }
