@@ -84,5 +84,6 @@ public class Server {
     );
     creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.MONDAY, LocalTime.parse("00:00"));
     creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, 30L);
+    creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosAlMomento, 5L);
   }
 }

@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.modelos.comunidades;
 
 import ar.edu.utn.frba.dds.modelos.base.ModelBase;
+import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificablesParaCronTaskAlMomento;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificacionAlMomento;
 import ar.edu.utn.frba.dds.repositorios.converters.EstrategiaMomentoNotificacionConverter;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.EstrategiaMomentoNotificacion;
@@ -71,6 +72,9 @@ public class Persona extends ModelBase {
   @JoinColumn(name = "listado_id")
   @Cascade(org.hibernate.annotations.CascadeType.ALL)
   private ListadoNotificables notificablesSinNotificar = new ListadoNotificables();
+
+  @OneToMany(mappedBy = "persona", cascade = {CascadeType.ALL})
+  private List<NotificablesParaCronTaskAlMomento> notificablesAlMomento = new ArrayList<>();
 
   @OneToMany
   @Cascade(org.hibernate.annotations.CascadeType.ALL)
