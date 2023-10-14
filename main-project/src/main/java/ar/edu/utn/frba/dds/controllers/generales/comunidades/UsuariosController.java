@@ -241,7 +241,6 @@ public class UsuariosController implements ICrudViewsHandler {
             .configurarInformacionDeUbicacion()
             .get();
 
-    //TODO: No elimina fechas viejas
     List<FechasDeSemana> fechasViejas = persona.getFechas();
     if (fechasViejas != null) fechasViejas.forEach(f -> repoFechas.eliminar(f));
 
