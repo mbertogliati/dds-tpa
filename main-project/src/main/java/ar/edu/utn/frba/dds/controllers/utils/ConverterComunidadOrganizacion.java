@@ -32,39 +32,6 @@ public class ConverterComunidadOrganizacion {
     return organizacion;
   }
 
-  public static Comunidad obtenerComunidad(Organizacion organizacion, Comunidad comunidad1, Comunidad comunidad2, EntityManager entityManager){
-    Comunidad comunidad = new Comunidad();
-
-    comunidad.setNombre("Fusión de " + comunidad1.getNombre() + " y " + comunidad2.getNombre());
-    comunidad.setDetalle(comunidad1.getDetalle() + " - " + comunidad2.getDetalle());
-    comunidad.setGradoConfianza(organizacion.getGradoConfianza());
-    comunidad.setActivo(true);
-
-    List<ServicioPrestado> serviciosPrestados = Stream.concat(comunidad1.getServiciosPrestados().stream(),comunidad2.getServiciosPrestados().stream()).toList();
-     serviciosPrestados.forEach(sp -> {
-       if(comunidad.getServiciosPrestados().stream().noneMatch(s -> s.getId() == sp.getId())){
-         comunidad.agregarServicio(sp);
-       }
-     });
-
-    RolRepositorio repoRol = new RolRepositorio(entityManager);
-    List<Membresia> membresias = Stream.concat(comunidad1.getMembresias().stream(),comunidad2.getMembresias().stream()).toList();
-    for(Long idPersona : organizacion.getMiembros()){
-      List<Membresia> membresiasDePersona = membresias.stream().filter(m -> m.getPersona().getId() == idPersona).toList();
-      Rol rolPersona;
-
-      if(membresiasDePersona.stream().anyMatch(m -> m.getRolComunidad().getId() == repoRol.rolAdminComunidad().getId())){
-        rolPersona = repoRol.rolAdminComunidad();
-      }else{
-        rolPersona = repoRol.rolDefaultComunidad();
-      }
-
-      comunidad.agregarPersona(membresiasDePersona.get(0).getPersona(), rolPersona);
-    }
-
-    return comunidad;
-  }
-
   private static Set<Long> obtenerServicios(List<Servicio> servicios){
     Set<Long> ids = new HashSet<>();
     servicios.forEach(s -> ids.add((long) s.getId()));

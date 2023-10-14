@@ -61,41 +61,41 @@ public class AfectadosTests {
   @Test
   @DisplayName("Se puede ser afectado para un servicio en una comunidad")
   public void unMiembroPuedeSerAfectadoParaUnServicioEnUnaComunidad() {
-    comunidad.agregarServicio(servicio1);
+    comunidad.agregarServicio(servicioPrestado1);
 
     comunidad.agregarPersona(persona1);
-    persona1.getMembresias().get(0).agregarServicioAfectado(servicio1);
+    persona1.getMembresias().get(0).agregarServicioAfectado(servicioPrestado1);
 
-    Assertions.assertEquals(1, comunidad.getMembresias().stream().filter(m -> m.estaAfectado(servicio1)).toList().size());
-    Assertions.assertEquals(0, comunidad.getMembresias().stream().filter(m -> !(m.estaAfectado(servicio1))).toList().size());
+    Assertions.assertEquals(1, comunidad.getMembresias().stream().filter(m -> m.estaAfectado(servicioPrestado1)).toList().size());
+    Assertions.assertEquals(0, comunidad.getMembresias().stream().filter(m -> !(m.estaAfectado(servicioPrestado1))).toList().size());
   }
 
   @Test
   @DisplayName("Se puede ser observador para un servicio en una comunidad")
   public void unMiembroPuedeSerObservadorParaUnServicioEnUnaComunidad() {
-    comunidad.agregarServicio(servicio1);
+    comunidad.agregarServicio(servicioPrestado1);
 
     comunidad.agregarPersona(persona1);
-    persona1.getMembresias().get(0).agregarServicioObservado(servicio1);
+    persona1.getMembresias().get(0).agregarServicioObservado(servicioPrestado1);
 
-    Assertions.assertEquals(0, comunidad.getMembresias().stream().filter(m -> m.estaAfectado(servicio1)).toList().size());
-    Assertions.assertEquals(1, comunidad.getMembresias().stream().filter(m -> !(m.estaAfectado(servicio1))).toList().size());
+    Assertions.assertEquals(0, comunidad.getMembresias().stream().filter(m -> m.estaAfectado(servicioPrestado1)).toList().size());
+    Assertions.assertEquals(1, comunidad.getMembresias().stream().filter(m -> !(m.estaAfectado(servicioPrestado1))).toList().size());
   }
 
   @Test
   @DisplayName("Se puede ser observador para un servicio y afectado para otro en una comunidad")
   public void unMiembroPuedeSerObservadorParaUnServicioYAfectadoParaOtroEnUnaComunidad() {
-    comunidad.agregarServicio(servicio1);
-    comunidad.agregarServicio(servicio2);
+    comunidad.agregarServicio(servicioPrestado1);
+    comunidad.agregarServicio(servicioPrestado2);
 
     comunidad.agregarPersona(persona1);
-    persona1.getMembresias().get(0).agregarServicioObservado(servicio1);
-    persona1.getMembresias().get(0).agregarServicioAfectado(servicio2);
+    persona1.getMembresias().get(0).agregarServicioObservado(servicioPrestado1);
+    persona1.getMembresias().get(0).agregarServicioAfectado(servicioPrestado2);
 
-    Assertions.assertEquals(0, comunidad.getMembresias().stream().filter(m -> m.estaAfectado(servicio1)).toList().size());
-    Assertions.assertEquals(1, comunidad.getMembresias().stream().filter(m -> !(m.estaAfectado(servicio1))).toList().size());
+    Assertions.assertEquals(1, comunidad.getMembresias().stream().filter(m -> m.estaAfectado(servicioPrestado2)).toList().size());
+    Assertions.assertEquals(0, comunidad.getMembresias().stream().filter(m -> !(m.estaAfectado(servicioPrestado2))).toList().size());
 
-    Assertions.assertEquals(1, comunidad.getMembresias().stream().filter(m -> m.estaAfectado(servicio2)).toList().size());
-    Assertions.assertEquals(0, comunidad.getMembresias().stream().filter(m -> !(m.estaAfectado(servicio2))).toList().size());
+    Assertions.assertEquals(1, comunidad.getMembresias().stream().filter(m -> m.estaAfectado(servicioPrestado1)).toList().size());
+    Assertions.assertEquals(0, comunidad.getMembresias().stream().filter(m -> !(m.estaAfectado(servicioPrestado1))).toList().size());
   }
 }

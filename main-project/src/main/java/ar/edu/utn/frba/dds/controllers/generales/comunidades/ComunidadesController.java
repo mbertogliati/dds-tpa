@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.FusionadorComunidades;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
@@ -33,6 +34,7 @@ public class ComunidadesController implements ICrudViewsHandler {
   private ServicioPrestadoRepositorio repoServicioPrestado;
   private MembresiaRepositorio repoMembresia;
   private RolRepositorio repoRol;
+
 
   public ComunidadesController(EntityManager entityManager){
     this.repoComunidad = new ComunidadRepositorio(entityManager);

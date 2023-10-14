@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.ErrorFusionException;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.FusionadorComunidades;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.PropuestaFusionComunidad;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.AdapterFusion;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.Organizacion;
@@ -26,6 +27,7 @@ public class FusionComunidadesController implements ICrudViewsHandler {
     private final AdapterFusion servicioDeFusion = new ServicioFusion();
     private ComunidadRepositorio repoComunidad;
     private IntentoFusionComunidadRepositorio repoIntentoFusionComunidades;
+    private FusionadorComunidades fusionadorComunidades;
     private RolRepositorio repoRol;
     private EntityManager entityManager;
 
@@ -34,6 +36,9 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         this.repoIntentoFusionComunidades = new IntentoFusionComunidadRepositorio(entityManager);
         this.repoRol = new RolRepositorio(entityManager);
         this.entityManager = entityManager;
+        fusionadorComunidades = new FusionadorComunidades();
+        fusionadorComunidades.setRolAdminComunidad(repoRol.rolAdminComunidad());
+        fusionadorComunidades.setRolDefaultComunidad(repoRol.rolDefaultComunidad());
     }
 
     @Override
@@ -72,7 +77,7 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         solicitudFusion.setOrganizacion2(ConverterComunidadOrganizacion.obtenerOrganizacion(comunidad2));
 
         try {
-            Comunidad comunidadFusionada = ConverterComunidadOrganizacion.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2, entityManager);
+            Comunidad comunidadFusionada = fusionadorComunidades.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2);
 
             comunidad1.agregarIntentoFusion(LocalDateTime.now(), comunidad2);
             comunidad2.agregarIntentoFusion(LocalDateTime.now(), comunidad1);
