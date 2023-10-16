@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
         buscarOpciones(entidadSelector, establecimientoSelector,"establecimientos");
     });
     establecimientoSelector.addEventListener("DOMSubtreeModified", function(){
-        buscarOpciones(establecimientoSelector, listadoServicios,"servicios");
+        buscarOpciones(establecimientoSelector, listadoServicios,"serviciosPrestados");
     });
     departamentoSelector.addEventListener("change", function(){
         buscarOpciones(departamentoSelector, localidadSelector,"localidades");
@@ -33,6 +33,6 @@ document.addEventListener("DOMContentLoaded", function() {
         buscarOpciones(entidadSelector, establecimientoSelector,"establecimientos");
     });
     establecimientoSelector.addEventListener("change", function(){
-        buscarOpciones(establecimientoSelector, listadoServicios,"servicios");
+        buscarOpciones(establecimientoSelector, listadoServicios,"serviciosPrestados");
     });
 });

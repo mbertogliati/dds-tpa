@@ -42,10 +42,7 @@
                                     <div class="col-sm-6">
                                         <select class="form-select" name="servicio" id="servicio" required>
                                             {{#each serviciosGenerales}}
-                                                <option value="{{id}}">{{nombre}}
-                                                    {{#each etiquetas}}
-                                                        - {{valor}}
-                                                    {{/each}}
+                                                <option value="{{id}}">{{servicio.nombre}} - {{establecimiento.nombre}}
                                                 </option>
                                             {{/each}}
                                         </select>
@@ -70,14 +67,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {{#with comunidad.servicios}}
-                                {{#each comunidad.servicios}}
+                            {{#with comunidad.serviciosPrestados}}
+                                {{#each comunidad.serviciosPrestados}}
                                     <tr>
-                                        <td><b>{{servicio.nombre}}</b>
-                                            {{#each servicio.etiquetas}}
-                                                - {{tipo}}: {{valor}}
-                                            {{/each}}
-                                        </td>
+                                        <td><b>{{servicioPrestado.servicio.nombre}}</b> - {{servicioPrestado.establecimiento.nombre}}</td>
                                         {{#if editable}}
                                             <td class="text-center">
                                                 <a href="/comunidades/{{comunidad.id}}/sacarServicio/{{id}}" class="btn btn-sm btn-danger">Sacar servicio</a>
@@ -85,9 +78,9 @@
                                         {{else}}
                                             <td class="text-center">
                                                 {{#if esAfectado}}
-                                                    Afectado<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicio.id}}/observador" class="btn btn-primary">Cambiar</a>
+                                                    Afectado<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicioPrestado.id}}/observador" class="btn btn-primary">Cambiar</a>
                                                 {{else}}
-                                                    Observador<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicio.id}}/afectado" class="btn btn-primary">Cambiar</a>
+                                                    Observador<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicioPrestado.id}}/afectado" class="btn btn-primary">Cambiar</a>
                                                 {{/if}}
                                             </td>
                                         {{/if}}

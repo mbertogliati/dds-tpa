@@ -1,8 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.formulariosDinamicos;
 
-import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
-import ar.edu.utn.frba.dds.repositorios.entidades.EstablecimientoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -10,10 +8,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import org.jetbrains.annotations.NotNull;
 
-public class ObtenerServiciosController implements Handler {
+public class ObtenerServiciosPrestadosController implements Handler {
   ServicioPrestadoRepositorio servicioPrestadoRepositorio;
 
-  public ObtenerServiciosController(EntityManager entityManager){
+  public ObtenerServiciosPrestadosController(EntityManager entityManager){
     this.servicioPrestadoRepositorio = new ServicioPrestadoRepositorio(entityManager);
   }
 

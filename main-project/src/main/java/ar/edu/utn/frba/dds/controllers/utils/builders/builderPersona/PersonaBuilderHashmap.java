@@ -66,12 +66,15 @@ public class PersonaBuilderHashmap implements PersonaBuilder {
     @Override
     public PersonaBuilder configurarInformacionDeUbicacion() {
         Localidad localidad = repoLocalidad.obtenerLocalidadPorId(hashMapPersona.get("localidad").get(0));
-        Coordenada coordenada = new Coordenada(Float.parseFloat(hashMapPersona.get("latitud").get(0)),Float.parseFloat(hashMapPersona.get("longitud").get(0)));
-        MetadatoGeografico geografico = new MetadatoGeografico(localidad);
-        Ubicacion ubicacion = new Ubicacion();
-        ubicacion.setCoordenada(coordenada);
-        ubicacion.setMetadato(geografico);
-        personaEnCreacion.setUltimaUbicacion(ubicacion);
+        if(hashMapPersona.get("latitud") != null && !hashMapPersona.get("latitud").isEmpty()
+         && hashMapPersona.get("longitud") != null && !hashMapPersona.get("longitud").isEmpty()) {
+            Coordenada coordenada = new Coordenada(Float.parseFloat(hashMapPersona.get("latitud").get(0)), Float.parseFloat(hashMapPersona.get("longitud").get(0)));
+            MetadatoGeografico geografico = new MetadatoGeografico(localidad);
+            Ubicacion ubicacion = new Ubicacion();
+            ubicacion.setCoordenada(coordenada);
+            ubicacion.setMetadato(geografico);
+            personaEnCreacion.setUltimaUbicacion(ubicacion);
+        }
         return this;
     }
 

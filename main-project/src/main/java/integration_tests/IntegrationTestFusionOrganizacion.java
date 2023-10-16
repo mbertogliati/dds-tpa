@@ -1,11 +1,11 @@
 package integration_tests;
 
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.AdapterFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.FusionCompletada;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.Organizacion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.PropuestaFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.SolicitudFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.ServicioFusion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.AdapterFusion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.FusionCompletada;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.Organizacion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.PropuestaFusion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.SolicitudFusion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.ServicioFusion;
 import java.util.ArrayList;
 import java.util.List;
 

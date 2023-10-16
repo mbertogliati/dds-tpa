@@ -1,14 +1,10 @@
-package ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo;
+package ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19;
 
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.AdapterFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.FusionCompletada;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.Organizacion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.PropuestaFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.SolicitudFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models.RequestOrganizacion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models.RequestSolicitudFusion;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models.ResponseFusionCompletada;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_externo.api_models.ResponsePropuestaFusion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.ErrorFusionException;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.RequestOrganizacion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.RequestSolicitudFusion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.ResponseFusionCompletada;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19.api_models.ResponsePropuestaFusion;
 import ar.edu.utn.frba.dds.modelos.utilidades.HttpStatusCode;
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServicioFusion implements AdapterFusion {
   @Getter
   @Setter
-  private String urlApi = "http://127.0.0.1:8080";
+  private String urlApi = "http://190.49.33.22:25565";
 
   private WebApiFusion webApiFusion;
 
@@ -56,14 +52,17 @@ public class ServicioFusion implements AdapterFusion {
       RequestSolicitudFusion request = MapperFusion.mapSolicitudFusionARequestSolicitudFusion(solicitud);
       Call<ResponseFusionCompletada> call = this.webApiFusion.aceptarPropuesta(request);
       Response<ResponseFusionCompletada> response = call.execute();
-      if(response.code() == HttpStatusCode.OK)
+
+      if(response.code() == HttpStatusCode.OK) {
         return MapperFusion.mapResponseFusionCompletadaAFusionCompletada(response.body());
-      else
+      }else {
         System.out.println("Error al aceptar la propuesta de fusión: código=" + response.code() + " - mensaje= " + response.message());
+        throw new ErrorFusionException();
+      }
     } catch(IOException exception) {
       System.out.println(exception);
+      throw new ErrorFusionException();
     }
-    return null;
   }
 
   @Override

@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.modelos.fusion_organizacion;
+package ar.edu.utn.frba.dds.modelos.fusion_organizacion.servicio_fusion_g19;
 
 import java.util.HashSet;
 import java.util.Set;
