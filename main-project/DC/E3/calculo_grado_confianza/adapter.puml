@@ -1,0 +1,123 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package "Modelos de dominio" {
+    !include ../domain/comunidades/Usuario.puml
+    !include ../domain/incidentes/IncidentePorComunidad.puml
+
+    class ParametroConfianza {
+        - usuarios: UsuarioAEvaluar[]
+        - incidentes: IncidentePorComunidad[]
+    }
+    ParametroConfianza ---> UsuarioAEvaluar
+    ParametroConfianza ---> IncidentePorComunidad
+
+    class ResultadoConfianza {
+        - usuarios : UsuarioEvaluado[]
+        - nivel: Float
+    }
+    ResultadoConfianza ---> UsuarioEvaluado
+
+    class UsuarioAEvaluar {
+        - usuario: Usuario
+        - puntajeInicial: Float
+    }
+    UsuarioAEvaluar ---> Usuario
+
+    class UsuarioEvaluado {
+        - id : Integer
+        - puntajeInicial : Float
+        - puntajeFinal : Float
+        - nivelConfianza : String
+        - recomendacion : String
+    }
+}
+
+interface AdapterCalculoGradoConfianza {
+    + calcular(parametro: ParametroConfianza): ResultadoConfianza
+}
+AdapterCalculoGradoConfianza ...> ParametroConfianza
+AdapterCalculoGradoConfianza ...> ResultadoConfianza
+
+class ServicioCalculoGradoConfianza {
+    - urlApi: String
+    - webApiGradoConfianza: WebApiGradoConfianza
+    + calcular(parametro: ParametroConfianza): ResultadoConfianza
+}
+ServicioCalculoGradoConfianza ---|> AdapterCalculoGradoConfianza
+ServicioCalculoGradoConfianza ---> WebApiGradoConfianza
+ServicioCalculoGradoConfianza ...> MapperCalculoGradoConfianza
+
+interface WebApiGradoConfianza {
+    + calcularGradoConfianza(request: RequestGradoConfianza): Call<ResponseGradoConfianza>
+}
+
+class MapperCalculoGradoConfianza {
+    {static} mapParametroARequest(parametro: ParametroConfianza):RequestGradoConfianza
+    {static} mapUsuarioAEvaluarARequestUsuario(usuarioAEvaluar: UsuarioAEvaluar): RequestUsuario
+    {static} mapIncidentePorComunidadARequestIncidente(incidentePorComunidad: IncidentePorComunidad): RequestIncidente
+    {static} mapResponseAResultado(response: ResponseGradoConfianza): ResultadoConfianza
+    {static} mapResponseUsuarioAUsuarioEvaluado(responseUsuario: ResponseUsuario): UsuarioEvaluado
+    {static} mapLocalDateTimeAString(localDateTime: LocalDateTime): String
+}
+MapperCalculoGradoConfianza ...> "Modelos de API"
+MapperCalculoGradoConfianza ...> "Modelos de dominio"
+
+package "Modelos de API" {
+
+
+    WebApiGradoConfianza ...> RequestGradoConfianza
+    WebApiGradoConfianza ...> ResponseGradoConfianza
+
+    class RequestGradoConfianza {
+        - usuarios: RequestUsuario[]
+        - incidentes: RequestIncidentes[]
+    }
+    RequestGradoConfianza ---> RequestUsuario
+    RequestGradoConfianza ---> RequestIncidentes
+
+    class RequestUsuario {
+        - id: Integer
+        - puntajeInicial: Float
+    }
+
+    class RequestIncidentes {
+        - id: Integer
+        - idEstablecimiento: String
+        - idServicioAfectado: String
+        - fechaApertura: String
+        - fechaCierre: String
+        - idUsuarioApertura: String
+        - idUsuarioCierre: String
+    }
+
+    class ResponseGradoConfianza {
+        - usuarios: ResponseUsuario[]
+        - nivel: Float
+    }
+    ResponseGradoConfianza ---> ResponseUsuario
+
+    class ResponseUsuario {
+        - id: Integer
+        - puntajeInicial: Float
+        - puntajeFinal: Float
+        - nivelConfianza: String
+        - recomendacion: String
+    }
+
+    /'
+    MapperCalculoGradoConfianza ...> ParametroConfianza
+    MapperCalculoGradoConfianza ...> RequestGradoConfianza
+    MapperCalculoGradoConfianza ...> UsuarioAEvaluar
+    MapperCalculoGradoConfianza ...> IncidentePorComunidad
+    MapperCalculoGradoConfianza ...> ResponseGradoConfianza
+    MapperCalculoGradoConfianza ...> ResponseUsuario
+    MapperCalculoGradoConfianza ...> LocalDateTime
+    MapperCalculoGradoConfianza ...> RequestUsuario
+    MapperCalculoGradoConfianza ...> RequestIncidente
+    MapperCalculoGradoConfianza ...> ResultadoConfianza
+    MapperCalculoGradoConfianza ...> UsuarioEvaluado
+    MapperCalculoGradoConfianza ...> String
+    '/
+}
+@enduml
