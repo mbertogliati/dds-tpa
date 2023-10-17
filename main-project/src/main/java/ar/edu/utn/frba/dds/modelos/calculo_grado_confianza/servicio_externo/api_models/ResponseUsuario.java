@@ -11,10 +11,10 @@ public class ResponseUsuario {
   public int id;
 
   @SerializedName("puntaje_inicial")
-  public int puntajeInicial;
+  public Float puntajeInicial;
 
   @SerializedName("puntaje_final")
-  public int puntajeFinal;
+  public Float puntajeFinal;
 
   @SerializedName("nivel_de_confianza")
   public String nivelConfianza;

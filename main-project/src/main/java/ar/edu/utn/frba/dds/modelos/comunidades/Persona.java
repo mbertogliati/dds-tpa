@@ -77,6 +77,8 @@ public class Persona extends ModelBase {
   @JoinColumn(name = "persona_id", referencedColumnName = "id")
   private List<FechasDeSemana> fechas;
 
+  @Column(name = "gradoConfianza")
+  private Float gradoConfianza = 5.0f;
   public Persona(){}
 
   public ListadoNotificables getNotificablesSinNotificar(){

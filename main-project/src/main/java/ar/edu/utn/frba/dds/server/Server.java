@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
+import ar.edu.utn.frba.dds.controllers.generales.comunidades.CalcularGradoConfianzaController;
 import ar.edu.utn.frba.dds.controllers.generales.incidentes.GenerarRankingController;
 import ar.edu.utn.frba.dds.controllers.generales.user.NotificacionController;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorCronTask;
@@ -82,7 +83,13 @@ public class Server {
     NotificacionController notificacionController = new NotificacionController(
         new CreadorEntityManager().entityManagerCreado()
     );
+    CalcularGradoConfianzaController calcularGradoConfianzaController = new CalcularGradoConfianzaController(
+        new CreadorEntityManager().entityManagerCreado()
+    );
+
     creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.MONDAY, LocalTime.parse("00:00"));
+    creadorCronTask.crearCronTaskSemanal(calcularGradoConfianzaController::calcularGradosDeConfianza, DayOfWeek.SUNDAY, LocalTime.parse("13:00"));
     creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, 30L);
+
   }
 }

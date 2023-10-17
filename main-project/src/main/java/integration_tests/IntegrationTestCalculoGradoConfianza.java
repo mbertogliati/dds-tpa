@@ -29,8 +29,8 @@ public class IntegrationTestCalculoGradoConfianza {
     Usuario usuarioB = new Usuario();
     usuarioB.setId(2);
 
-    parametro.getUsuarios().add(new UsuarioAEvaluar(usuarioA, 0));
-    parametro.getUsuarios().add(new UsuarioAEvaluar(usuarioB, 2));
+    parametro.getUsuarios().add(new UsuarioAEvaluar(usuarioA, 0f));
+    parametro.getUsuarios().add(new UsuarioAEvaluar(usuarioB, 2f));
 
     Persona autorApertura = new Persona();
     autorApertura.setId(1);

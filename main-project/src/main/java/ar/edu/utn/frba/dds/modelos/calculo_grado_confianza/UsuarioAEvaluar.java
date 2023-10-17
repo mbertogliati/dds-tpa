@@ -8,19 +8,19 @@ import lombok.Setter;
 @Setter
 public class UsuarioAEvaluar {
   public Usuario usuario;
-  public int puntajeInicial;
+  public Float puntajeInicial;
 
   public UsuarioAEvaluar() {
     this.usuario = new Usuario();
-    this.puntajeInicial = 0;
+    this.puntajeInicial = 0f;
   }
 
   public UsuarioAEvaluar(Usuario usuario) {
     this.usuario = usuario;
-    this.puntajeInicial = 0;
+    this.puntajeInicial = 0f;
   }
 
-  public UsuarioAEvaluar(Usuario usuario, int puntajeInicial) {
+  public UsuarioAEvaluar(Usuario usuario, Float puntajeInicial) {
     this.usuario = usuario;
     this.puntajeInicial = puntajeInicial;
   }

@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class UsuarioEvaluado {
   public int id;
-  public int puntajeInicial;
-  public int puntajeFinal;
+  public Float puntajeInicial;
+  public Float puntajeFinal;
   public String nivelConfianza;
   public String recomendacion;
 }

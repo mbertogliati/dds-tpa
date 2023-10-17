@@ -10,5 +10,5 @@ public class RequestUsuario {
   @SerializedName("id")
   public int id;
   @SerializedName("puntaje_inicial")
-  public int puntajeInicial;
+  public Float puntajeInicial;
 }

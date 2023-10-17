@@ -21,6 +21,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -47,6 +49,9 @@ public class Comunidad extends ModelBase {
   @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
   @JoinColumn(name = "comunidad_id", referencedColumnName = "id")
   private List<IncidentePorComunidad> incidentes = new ArrayList<>();
+
+  @Column(name = "gradoConfianza")
+  private Float gradoConfianza;
 
   public Comunidad(){}
 
