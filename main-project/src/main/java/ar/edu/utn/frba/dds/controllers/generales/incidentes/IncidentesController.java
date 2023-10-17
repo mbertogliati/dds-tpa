@@ -34,7 +34,6 @@ public class IncidentesController {
 
   }
 
-
   public IncidentesController(EntityManager entityManager){
     this.repositorio = new IncidenteRepositorio(entityManager);
     this.repoComunidad = new IncidentePorComunidadRepositorio(entityManager);

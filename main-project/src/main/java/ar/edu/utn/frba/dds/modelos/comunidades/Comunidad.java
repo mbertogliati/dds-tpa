@@ -1,32 +1,26 @@
 package ar.edu.utn.frba.dds.modelos.comunidades;
 
 import ar.edu.utn.frba.dds.modelos.base.ModelBase;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.UltimoIntentoFusionComunidad;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidenteAbierto;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidenteCerrado;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.notificaciones.Notificable;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
+import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "comunidades")
@@ -41,7 +35,7 @@ public class Comunidad extends ModelBase {
   private String detalle;
 
   @ManyToMany
-  private List<Servicio> servicios = new ArrayList<>();
+  private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
 
   @OneToMany(mappedBy = "comunidad", cascade = { CascadeType.ALL })
   private List<Membresia> membresias = new ArrayList<>();
@@ -52,6 +46,11 @@ public class Comunidad extends ModelBase {
 
   @Column(name = "gradoConfianza")
   private Float gradoConfianza;
+
+
+  @OneToMany(cascade = { CascadeType.ALL })
+  @JoinColumn(name = "comunidad1_id", referencedColumnName = "id")
+  private List<UltimoIntentoFusionComunidad> intentosFusion = new ArrayList<>();
 
   public Comunidad(){}
 
@@ -91,16 +90,16 @@ public class Comunidad extends ModelBase {
   public void agregarMembresiaDirecto(Membresia membresia){
     this.membresias.add(membresia);
   }
-  public void agregarServicio(Servicio servicio){
-    this.servicios.add(servicio);
+  public void agregarServicio(ServicioPrestado servicio){
+    this.serviciosPrestados.add(servicio);
   }
 
-  public void eliminarServicio(Servicio servicio){
-    this.eliminarServicioPorID(servicio.getId());
+  public void eliminarServicio(ServicioPrestado servicioPrestado){
+    this.eliminarServicioPorID(servicioPrestado.getId());
   }
 
   private void eliminarServicioPorID(int id){
-    servicios.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> servicios.remove(servicio));
+    serviciosPrestados.stream().filter(servicio -> servicio.getId() == id).toList().forEach(servicio -> serviciosPrestados.remove(servicio));
   }
 
   public void agregarPersona(Persona persona, Rol rol){
@@ -147,5 +146,9 @@ public class Comunidad extends ModelBase {
       return this.incidentes.stream().filter(ipc -> ipc.getIncidente().getId() == incidente.getId()).toList().get(0);
     }
     return null;
+  }
+
+  public void agregarIntentoFusion(LocalDateTime fecha, Comunidad comunidad2) {
+    this.intentosFusion.add(new UltimoIntentoFusionComunidad(comunidad2, fecha));
   }
 }

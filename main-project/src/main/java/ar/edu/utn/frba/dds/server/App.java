@@ -4,4 +4,7 @@ public class App {
   public static void main(String[] args) {
     Server.init();
   }
+
+  //TODO: CRON TASK DIARIA PARA CALCULO DE GRADO DE CONFIANZA
+  //TODO: DIAGRAMAS
 }

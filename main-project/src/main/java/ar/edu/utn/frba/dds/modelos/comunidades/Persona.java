@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.modelos.comunidades;
 
 import ar.edu.utn.frba.dds.modelos.base.ModelBase;
+import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificablesParaCronTaskAlMomento;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificacionAlMomento;
 import ar.edu.utn.frba.dds.repositorios.converters.EstrategiaMomentoNotificacionConverter;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.EstrategiaMomentoNotificacion;
@@ -70,7 +71,10 @@ public class Persona extends ModelBase {
   @OneToOne
   @JoinColumn(name = "listado_id")
   @Cascade(org.hibernate.annotations.CascadeType.ALL)
-  private ListadoNotificables notificablesSinNotificar;
+  private ListadoNotificables notificablesSinNotificar = new ListadoNotificables();
+
+  @OneToMany(mappedBy = "persona", cascade = {CascadeType.ALL})
+  private List<NotificablesParaCronTaskAlMomento> notificablesAlMomento = new ArrayList<>();
 
   @OneToMany
   @Cascade(org.hibernate.annotations.CascadeType.ALL)
@@ -135,7 +139,7 @@ public class Persona extends ModelBase {
   }
 
   public void cerrarIncidente(Incidente incidente){
-    this.membresias.stream().map(m -> m.getComunidad()).filter(c -> c.tieneIncidente(incidente)).forEach(c -> c.cerrarIncidente(incidente, this));
+    this.membresias.stream().map(m -> m.getComunidad()).filter(c -> c.getActivo() && c.tieneIncidente(incidente)).forEach(c -> c.cerrarIncidente(incidente, this));
   }
 
   public void agregarServicioDeInteres(ServicioPrestado servicio) {

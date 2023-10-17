@@ -5,7 +5,13 @@ import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
-import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDatosController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosPrestadosController;
+import ar.edu.utn.frba.dds.controllers.generales.comunidades.FusionComunidadesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.CargaMasivaController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.ComunidadesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.EntidadesController;
@@ -171,14 +177,19 @@ public class Router {
         });
       });
 
+      path("fusionarComunidades", () -> {
+        get(new FusionComunidadesController(entityManager)::create);
+        post(new FusionComunidadesController(entityManager)::save);
+      });
+
       //CONTROLADORES PARA FORMULARIOS DINAMICOS
       path("/obtener",() -> {
-        get("departamentos", new ObtenerDatosController(entityManager)::Departamentos);
-        get("localidades", new ObtenerDatosController(entityManager)::Localidades);
-        get("entidades", new ObtenerDatosController(entityManager)::Entidades);
-        get("establecimientos", new ObtenerDatosController(entityManager)::Establecimientos);
-        get("servicios", new ObtenerDatosController(entityManager)::Servicios);
-        get("incidentes", new ObtenerDatosController(entityManager)::Incidentes);
+        get("departamentos", new ObtenerDepartamentosController(entityManager));
+        get("localidades", new ObtenerLocalidadesController(entityManager));
+        get("entidades", new ObtenerEntidadesController(entityManager));
+        get("establecimientos", new ObtenerEstablecimientosController(entityManager));
+        get("serviciosPrestados", new ObtenerServiciosPrestadosController(entityManager));
+        get("incidentes", new ObtenerIncidentesController(entityManager));
       });
 
     });

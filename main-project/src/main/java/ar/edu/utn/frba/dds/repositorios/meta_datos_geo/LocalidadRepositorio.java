@@ -69,13 +69,13 @@ public class LocalidadRepositorio {
   }
 
   public List<Localidad> obtenerTodas() {
-    TypedQuery<Localidad> query = entityManager.createQuery("FROM " + Localidad.class.getName(), Localidad.class);
+    TypedQuery<Localidad> query = entityManager.createQuery("SELECT l FROM Localidad l ORDER BY l.nombre", Localidad.class);
     return query.getResultList();
   }
 
   public List<Localidad> buscarPorDepartamento(Integer idDepartamento) {
-    return (List<Localidad>) entityManager.createQuery(
-            "SELECT l FROM Localidad l WHERE l.departamento.id = :idBuscado")
+    return entityManager.createQuery(
+            "SELECT l FROM Localidad l WHERE l.departamento.id = :idBuscado ORDER BY l.nombre", Localidad.class)
         .setParameter("idBuscado", idDepartamento)
         .getResultList();
   }

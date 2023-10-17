@@ -29,9 +29,13 @@ public class Notificador {
     }
 
     public static void notificar(Notificable notificable, Persona persona) {
+        notificar(notificable.getInfo(), persona);
+    }
+
+    public static void notificar(String mensaje, Persona persona) {
         String metodo = persona.getMetodoNotificacion();
         if(estrategias.containsKey(metodo)){
-            estrategias.get(metodo).enviarNotificacion(notificable.getInfo(), persona);
+            estrategias.get(metodo).enviarNotificacion(mensaje, persona);
         }else{
             throw new NoExisteMetodoExcepcion();
         }
