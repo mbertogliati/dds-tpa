@@ -27,7 +27,7 @@ public class ConverterComunidadOrganizacion {
     organizacion.setEstablecimientos(obtenerEstablecimientos(comunidad.getServiciosPrestados().stream().map(s -> s.getEstablecimiento()).toList()));
     organizacion.setMiembros(obtenerMiembros(comunidad.getMembresias()));
     organizacion.setUltimosIntentosDeFusion(comunidad.getIntentosFusion().stream().map(i -> new UltimoIntentoFusion((long) i.getComunidad().getId(), i.getUltIntentoFusion())).collect(Collectors.toSet()));
-    organizacion.setGradoConfianza(comunidad.getGradoConfianza());
+    organizacion.setGradoConfianza(comunidad.getGradoConfianza().doubleValue());
 
     return organizacion;
   }

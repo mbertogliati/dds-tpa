@@ -27,7 +27,7 @@ public class FusionadorComunidades {
 
     comunidad.setNombre("Fusión de " + comunidad1.getNombre() + " y " + comunidad2.getNombre());
     comunidad.setDetalle(comunidad1.getDetalle() + " - " + comunidad2.getDetalle());
-    comunidad.setGradoConfianza(organizacion.getGradoConfianza());
+    comunidad.setGradoConfianza(organizacion.getGradoConfianza().floatValue());
     comunidad.setActivo(true);
 
     List<ServicioPrestado> serviciosPrestados = Stream.concat(comunidad1.getServiciosPrestados().stream(),comunidad2.getServiciosPrestados().stream()).toList();
