@@ -14,6 +14,7 @@ import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import io.javalin.http.Context;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,7 @@ public class IncidentesController {
     Usuario usuario = context.sessionAttribute("usuario");
     Persona persona = usuario.getPersonaAsociada();
     incidente.setAutorApertura(persona);
+    incidente.setFechaHoraApertura(LocalDateTime.now());
 
     incidente.agregarIncidenteComunidad();
 

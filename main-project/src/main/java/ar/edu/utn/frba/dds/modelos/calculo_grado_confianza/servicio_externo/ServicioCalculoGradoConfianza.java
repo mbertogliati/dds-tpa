@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServicioCalculoGradoConfianza implements AdapterCalculoGradoConfianza {
   @Getter
   @Setter
-  private String urlApi = "http://127.0.0.1:8000";
+  private String urlApi = "http://190.49.3.55:25564";
   private WebApiGradoConfianza webApiGradoConfianza;
 
   public ServicioCalculoGradoConfianza() {
@@ -33,6 +33,7 @@ public class ServicioCalculoGradoConfianza implements AdapterCalculoGradoConfian
       RequestGradoConfianza request = MapperCalculoGradoConfianza.mapParametroARequest(parametro);
       Call<ResponseGradoConfianza> call = this.webApiGradoConfianza.calcularGradoConfianza(request);
       Response<ResponseGradoConfianza> response = call.execute();
+
       if(response.code() == HttpStatusCode.OK)
         return MapperCalculoGradoConfianza.mapResponseAResultado(response.body());
       else if (response.code() == HttpStatusCode.ERROR_SERVER_CANT_PROCESS_REQUEST) {

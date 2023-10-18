@@ -37,7 +37,7 @@ public class CalcularGradoConfianzaController{
         List<Comunidad> comunidades = repoComunidad.obtenerTodas();
 
         for (Comunidad comunidad : comunidades) {
-            List<IncidentePorComunidad> incidentes = comunidad.getIncidentes();
+            List<IncidentePorComunidad> incidentes = comunidad.getIncidentes().stream().filter(IncidentePorComunidad::isEstaCerrado).toList();
 
             //Obtengo todos los usuarios asociados a tal comunidad:
             List<UsuarioAEvaluar> usuariosAEvaluar = this.obtenerUsuariosAEvaluar(comunidad);
