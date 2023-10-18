@@ -13,7 +13,7 @@ public class PromedioEntreAperturaYCierre implements EstrategiaCalculoPuntos {
     public List<PuntosPorEntidad> calcularPuntos(List<IncidentePorComunidad> incidentes) {
 
         Map<Entidad,List<Long>> diccionarioTiemposDeCierre = new HashMap<>();
-        incidentes.stream().forEach(incidentePorComunidad -> {
+        incidentes.stream().filter(IncidentePorComunidad::isEstaCerrado).forEach(incidentePorComunidad -> {
             agregarTiempo(diccionarioTiemposDeCierre,incidentePorComunidad.getIncidente().obtenerEntidad(), tiempoHastaCierreEnMinutos(incidentePorComunidad));
         });
 

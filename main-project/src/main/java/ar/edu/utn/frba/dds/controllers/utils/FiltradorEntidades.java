@@ -1,12 +1,11 @@
 package ar.edu.utn.frba.dds.controllers.utils;
 
-import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Filtrador {
+public class FiltradorEntidades {
   public static List<OrganismoControl> organismosDeControl(List<OrganismoControl> organismosControl){
     List<OrganismoControl> nuevoListado = new ArrayList<>();
     for (OrganismoControl organismoControl : organismosControl){

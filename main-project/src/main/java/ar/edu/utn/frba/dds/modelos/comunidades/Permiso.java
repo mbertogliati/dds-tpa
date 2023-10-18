@@ -20,4 +20,10 @@ public class Permiso {
 
   @Column(name = "detalles")
   private String detalles;
+
+  public Permiso(){}
+
+  public Permiso(String detalles){
+    this.detalles=detalles;
+  }
 }

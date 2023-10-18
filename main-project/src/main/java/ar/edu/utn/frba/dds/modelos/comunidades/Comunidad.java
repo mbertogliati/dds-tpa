@@ -45,7 +45,7 @@ public class Comunidad extends ModelBase {
   private List<IncidentePorComunidad> incidentes = new ArrayList<>();
 
   @Column(name = "gradoConfianza")
-  private Float gradoConfianza;
+  private Float gradoConfianza = 5f;
 
 
   @OneToMany(cascade = { CascadeType.ALL })

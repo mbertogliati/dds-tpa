@@ -50,7 +50,7 @@ public class Servicio extends ModelBase {
 
   public String getStringEtiquetas(){
     List<String> listaEtiquetas = this.etiquetas.stream().map(e -> e.getValor()).toList();
-    String texto = "";
+    String texto = this.nombre + " | ";
     for (String etiqueta : listaEtiquetas){
       texto = texto + etiqueta + " - ";
     }

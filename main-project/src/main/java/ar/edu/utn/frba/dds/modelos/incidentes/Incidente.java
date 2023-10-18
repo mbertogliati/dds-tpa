@@ -73,9 +73,9 @@ public class Incidente implements Notificable {
         List<String> servicios = this.serviciosAfectados.stream().map(s -> s.getServicio()).map(s -> s.getStringEtiquetas()).toList();
         String respuesta = "";
         for (String texto : servicios){
-            respuesta = respuesta + texto + " | ";
+            respuesta = respuesta + texto + "\n";
         }
-        return "\nServicios afectados: " + respuesta;
+        return "\nEstablecimiento: "+ this.serviciosAfectados.get(0).getEstablecimiento().getNombre() +"\nServicios afectados: " + respuesta;
     }
 
     public Entidad obtenerEntidad(){

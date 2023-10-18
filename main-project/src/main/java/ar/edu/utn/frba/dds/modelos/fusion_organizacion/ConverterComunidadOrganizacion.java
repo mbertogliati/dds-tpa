@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.controllers.utils;
+package ar.edu.utn.frba.dds.modelos.fusion_organizacion;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;

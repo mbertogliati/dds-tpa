@@ -22,6 +22,9 @@ public class VerificadorRol {
   }
 
   public static Boolean tieneRol(Usuario usuario, Comunidad comunidad, Permiso permiso){
+    if(usuario.getPersonaAsociada().getMembresias().isEmpty()){
+      return false;
+    }
     List<Comunidad> comunidades = usuario.getPersonaAsociada().getMembresias().stream().filter(m -> m.getComunidad().getId() == comunidad.getId()).map(m -> m.getComunidad()).toList();
     if(comunidades.size() == 0){
       return false;

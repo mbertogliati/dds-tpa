@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.generales.comunidades;
 
-import ar.edu.utn.frba.dds.controllers.utils.ConverterComunidadOrganizacion;
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.ConverterComunidadOrganizacion;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;

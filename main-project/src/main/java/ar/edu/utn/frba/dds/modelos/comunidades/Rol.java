@@ -10,6 +10,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "roles")
@@ -21,9 +23,14 @@ public class Rol {
   private int id;
 
   @ManyToMany
+  @Cascade(CascadeType.ALL)
   private List<Permiso> permisos = new ArrayList<>();
 
   public Rol(){}
+
+  public Rol(int id){
+    this.id=id;
+  }
 
   public void agregarPermiso(Permiso permiso){
     this.permisos.add(permiso);

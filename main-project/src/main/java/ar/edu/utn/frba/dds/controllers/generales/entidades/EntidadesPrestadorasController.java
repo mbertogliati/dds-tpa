@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.generales.entidades;
 
-import ar.edu.utn.frba.dds.controllers.utils.Filtrador;
+import ar.edu.utn.frba.dds.controllers.utils.FiltradorEntidades;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
@@ -39,13 +39,13 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
 
     List<EntidadPrestadora> entidadesManejadas = repoEntidadesPrestadoras.manejadasPor(persona);
     if(entidadesManejadas != null && !entidadesManejadas.isEmpty()){
-      List<EntidadPrestadora> entidadesNuevas = Filtrador.entidadesPrestadoras(entidadesManejadas);
+      List<EntidadPrestadora> entidadesNuevas = FiltradorEntidades.entidadesPrestadoras(entidadesManejadas);
       model.put("entidadesPrestadorasGen", entidadesNuevas);
     }
 
     List<OrganismoControl> organismosManejados = repoOrganismo.manejadosPor(persona);
     if(organismosManejados != null && !organismosManejados.isEmpty()){
-      List<OrganismoControl> organismosNuevos = Filtrador.organismosDeControl(organismosManejados);
+      List<OrganismoControl> organismosNuevos = FiltradorEntidades.organismosDeControl(organismosManejados);
       model.put("organismosDeControl", organismosNuevos);
     }
 

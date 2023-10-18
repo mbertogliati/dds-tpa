@@ -51,7 +51,7 @@ public class LoginController{
     String username = context.formParam("username");
     String password = context.formParam("password");
 
-    if(usuarioRepositorio.buscarPorUsername(username).isEmpty()){
+    if(usuarioRepositorio.buscarPorUsername(username) == null || usuarioRepositorio.buscarPorUsername(username).isEmpty()){
       intentoDeLogin.sumarIntento();
       throw new FormInvalidoException("Error. No existe el usuario especificado.");
     }
