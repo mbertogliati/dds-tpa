@@ -105,6 +105,7 @@ class ServicioFusion {
 }
 ServicioFusion ---|> AdapterFusion
 ServicioFusion ---> WebApiFusion
+ServicioFusion ...> MapperFusion
 
 class MapperFusion {
     {static} mapOrganizacionAFusionarARequestOrganizacion(organizacion: Organizacion): RequestOrganizacion
