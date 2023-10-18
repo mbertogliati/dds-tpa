@@ -46,7 +46,7 @@ public class ServicioCalculoGradoConfianza implements AdapterCalculoGradoConfian
     } catch (IOException exception) {
       System.out.println(exception);
     }
-    return null; //TODO: evaluar si devolver null está bien
+    return null;
   }
 
 }
