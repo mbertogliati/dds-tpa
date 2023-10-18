@@ -28,10 +28,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Comunidad extends ModelBase {
-  @Column(name = "nombre")
+  @Column(name = "nombre", length = 1000)
   private String nombre;
 
-  @Column(name = "detalle")
+  @Column(name = "detalle", length = 1500)
   private String detalle;
 
   @ManyToMany

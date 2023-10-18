@@ -87,7 +87,7 @@ public class Server {
         new CreadorEntityManager().entityManagerCreado()
     );
 
-    //calcularGradoConfianzaController.calcularGradosDeConfianza();
+    calcularGradoConfianzaController.calcularGradosDeConfianza();
     //generarRankingController.generarRankingUltimaSemana();
 
     creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.MONDAY, LocalTime.parse("00:00"));

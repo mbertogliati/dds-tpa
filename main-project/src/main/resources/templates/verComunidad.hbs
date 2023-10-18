@@ -78,7 +78,6 @@
                                                 <a href="/comunidades/{{comunidad.id}}/sacarServicio/{{servicioPrestado.id}}" class="btn btn-sm btn-danger">Sacar servicio</a>
                                             </td>
                                         {{else}}
-                                                {{#if ../tieneAUsuarioActual}}
                                                 <td class="text-center">
                                                     {{#if esAfectado}}
                                                         Afectado<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicioPrestado.id}}/observador" class="btn btn-primary">Cambiar</a>
@@ -86,7 +85,6 @@
                                                         Observador<a href="/comunidades/{{comunidad.id}}/cambiarRol/{{../userActual.id}}/{{servicioPrestado.id}}/afectado" class="btn btn-primary">Cambiar</a>
                                                     {{/if}}
                                                 </td>
-                                                {{/if}}
                                         {{/if}}
                                     </tr>
                                 {{/each}}
