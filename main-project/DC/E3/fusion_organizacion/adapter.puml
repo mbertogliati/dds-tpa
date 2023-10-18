@@ -1,0 +1,122 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package "Modelos de dominio" {
+    
+    class PropuestaFusion {
+        - idOrganizacion1: Long
+        - idOrganizacion2: Long
+    }
+
+    class FusionCompletada {
+        - idOrganizacion1: Long
+        - idOrganizacion2: Long
+        - organizacionFusionada: Organizacion
+    }
+    FusionCompletada ---> Organizacion
+
+    class Organizacion {
+        - idOrganizacion: Long
+        - establecimientos: Long[]
+        - servicios: Long []
+        - miembros: Long[]
+        - gradoConfianza: Double
+        - ultimoIntentoFusion: UltimoIntentoFusion[]
+    }
+    Organizacion "1" ---> "*" UltimoIntentoFusion
+
+    class UltimoIntentoFusion {
+        - idOrganizacion: Long
+        - fechaIntengo: LocalDateTime
+    }
+
+    class SolicitudFusion {
+        - organizacion1: Organizacion
+        - organizacion2: Organizacion
+    }
+    SolicitudFusion ---> Organizacion
+
+}
+
+interface AdapterFusion {
+    + obtenerPropuestas(organizaciones: Organizacion[]): PropuestaFusion[]
+    + aceptarFusion(solicitud: SolSolicitudFusionicitudFusion): FusionCompletada
+    '/+ rechazarFusion(String parametro): String'/
+}
+AdapterFusion ...> Organizacion
+AdapterFusion ...> PropuestaFusion
+AdapterFusion ...> SolicitudFusion
+AdapterFusion ...> FusionCompletada
+
+interface WebApiFusion {
+    + obtenerPropuestas(organizaciones: RequestOrganizacion[]): ResponsePropuestaFusion[]
+    + aceptarPropuesta(SolicitudFusion: RequestSolicitudFusion): ResponseFusionCompletada
+    '/+ rechazarPropuesta(parametro: String): String'/
+}
+
+package "Modelos de API" {
+
+    class RequestOrganizacion {
+        - idOrganizacion: Long
+        - establecimientos: Long[]
+        - servicios: Long[]
+        - miembros: Long[]
+        - gradoConfianza: Double
+        - ultimosIntentosDeFusion: RequestUltimoIntentoFusion[]
+    }
+    RequestOrganizacion "1" ---> "*" RequestUltimoIntentoFusion
+
+    class RequestSolicitudFusion {
+        - organizacion1: RequestOrganizacion
+        - organizacion2: RequestOrganizacion
+    }
+    RequestSolicitudFusion ---> RequestOrganizacion
+
+    class RequestUltimoIntentoFusion {
+        - idOrganizacion: Long
+        - fechaIntento: String
+    }
+
+    class ResponseFusionCompletada {
+        - idOrganizacion1: Long
+        - idOrganizacion2: Long
+        - organizacionFusionada: RequestOrganizacion
+    }
+    ResponseFusionCompletada ---> RequestOrganizacion
+
+    class ResponsePropuestaFusion {
+        - idOrganizacion1: Long
+        - idOrganizacion2: Long
+    }
+
+    WebApiFusion ...> RequestOrganizacion
+    WebApiFusion ...> ResponsePropuestaFusion
+    WebApiFusion ...> RequestSolicitudFusion
+    WebApiFusion ...> ResponseFusionCompletada
+
+}
+
+class ServicioFusion {
+    - urlApi: String
+    - webApiFusion: WebApiFusion
+    + obtenerPropuestas(organizaciones: Organizacion[]): PropuestaFusion[]
+    + aceptarFusion(solicitud: SolSolicitudFusionicitudFusion): FusionCompletada
+    '/+ rechazarFusion(String parametro): String'/
+}
+ServicioFusion ---|> AdapterFusion
+ServicioFusion ---> WebApiFusion
+
+class MapperFusion {
+    {static} mapOrganizacionAFusionarARequestOrganizacion(organizacion: Organizacion): RequestOrganizacion
+    {static} mapUltimoIntentoFusionARequestUltimoIntentoFusion(ultimoIntentoFusion: UltimoIntentoFusion): RequestUltimoIntentoFusion
+    {static} mapResponsePropuestaFusionAPropuestaFusion(responsePropuestaFusion: ResponsePropuestaFusion): PropuestaFusion
+    {static} mapSolicitudFusionARequestSolicitudFusion(solicitud: SolicitudFusion): RequestSolicitudFusion
+    {static} mapResponseFusionCompletadaAFusionCompletada(responseFusionCompletada: ResponseFusionCompletada): FusionCompletada
+    {static} mapRequestOrganizacionAOrganizacion(requestOrganizacion: RequestOrganizacion): Organizacion
+    {static} mapRequestUltimoIntentoFusionAUltimoIntentoFusion(requestUltimoIntentoFusion: RequestUltimoIntentoFusion): UltimoIntentoFusion
+    {static} mapStringDateToLocalDateTime(stringDate: String): LocalDateTime
+}
+MapperFusion ...> "Modelos de API"
+MapperFusion ...> "Modelos de dominio"
+
+@enduml
