@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ApacheCommonsEmail {
+  - hostName: String
+  - password: String
+  - smtpPort: int
+  - username: String
+  + enviarMAIL(String, String): void
+}
+
+@enduml

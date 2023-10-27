@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface AdapterProveedorMetadatosGeograficos << interface >> {
+  + obtenerMetadatoGeografico(coordenada: Coordenada): MetadatoGeografico
+  + obtenerProvincia(coordenada: Coordenada): Provincia
+  + obtenerDepartamento(coordenada: Coordenada): Departamento
+  + obtenerLocalidad(coordenada: Coordenada): Localidad
+  + provincias() : List<Provincia>
+  + departamentosDeProvincia(unaProvincia: Provincia): List<Departamento>
+  + localidadesDeDepartamento(unDepartamento: Departamento, unaProvincia: Provincia): List<Localidad>
+}
+
+@enduml

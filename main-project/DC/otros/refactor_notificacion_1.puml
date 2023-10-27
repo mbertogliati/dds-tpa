@@ -1,0 +1,89 @@
+@startuml "Posible refactor Personas y Notificaciones"
+
+    package "Dominio" #DDDDDD {
+        class Persona {
+            - apellido: String
+            - email: String
+            - interes: Interes
+            - membresias: List<Membresia>
+            '- metodoNotificacion: String
+            - nombre: String
+            - estrategiaMomentoNotificacion: EstrategiaMomentoNotificacion
+            - ubicacionActual: Ubicacion
+            - usuario: Usuario
+            '- whatsapp: int
+            - preferenciasDeNotificacion: PreferenciasDeNotificacion
+            + obtenerPreferenciasDeNotificacion(): PreferenciasDeNotificacion
+        }
+
+        class PreferenciasDeNotificacion {
+            - momentoPreferido: String
+            - canalPreferido: String
+            - direccionDestino: String
+        }
+        note bottom: Parte del dominio, son las preferencias\nque tiene el usuario\nrelacionadas a sus notificaciones\n\t1.canalPreferido: Whatsapp o Email\n\t2.direccionDestino: email o celular\n Este objeto en un futuro se persistiría en alguna DB
+
+        interface EstrategiaMomentoNotificacion{
+            + notificar(notificable Notificable, infoNotificacion: PreferenciasDeNotificacion)
+        }
+
+        class NotificacionAlMomento{
+            + notificar(notificable Notificable, infoNotificacion: PreferenciasDeNotificacion)
+        }
+
+        class NotificacionSinApuro{
+            - notificablesSinNotificar: ListadoNotificables
+            - fechas: Map<DayOfWeek, List<LocalDateTime>>
+            + notificar(notificable Notificable, infoNotificacion: PreferenciasDeNotificacion)
+        }
+
+        class ListadoNotificables {
+            - notificables: List<Notificable>
+
+            + agregarNotificables(Notificable notificable)
+            + vaciarNotificables()
+            + getInfo(): String
+        }
+
+        class FactoryEstrategiaMomentoNotificacion {
+            + obtenerEstrategia(unaPreferencia: PreferenciaDeNotificacion): EstrategiaMomentoNotificacion
+        }
+        note right: Esta factory fabrica estrategias para el controlador\nAcepta como argumento una preferencia\ny en base a ella devuelve una instancia correcta
+
+    }
+
+    package "Notificaciones" #DDDDDD {
+        class Notificador{
+            {static} - estrategiasDeCanal: Map<String, StrategyNotificacion>
+            {static} + notificar(notificable: Notificable, infoNotificacion: PreferenciasDeNotificacion)
+        }
+        note bottom: Notificador es sólo conocido por aquellas clases que sí tienen que notificar en algún moemento algo.\nEn este caso:\n\t1.NotificacionAlMomento\n\t2.NotificacionSinApuro
+    }
+
+    package "Controladores" #DDDDDD {
+        class ControllerDeEjemplo {
+            - estado necesario para ejecutar funciones
+            + crearIncidente(...)
+            + cerrarIncidente(...)
+        }
+        note right: Cuando el controlador ejecuta crear incidente o cerrar incidente,\ninteractúa con la Persona y otras clases del dominio relacionadas.\nLuego, utiliza la FactoryEstrategiaMomentoNotificacion\npara ejecutar la notificacion correspondiente siguiendo las preferencias\nconfiguradas por el usuario.
+    }
+
+    Persona ---> PreferenciasDeNotificacion
+
+    NotificacionAlMomento ---|> EstrategiaMomentoNotificacion
+    NotificacionAlMomento ...> Notificador
+
+    NotificacionSinApuro ---|> EstrategiaMomentoNotificacion
+    NotificacionSinApuro ---> ListadoNotificables
+    NotificacionSinApuro ...> Notificador
+
+    FactoryEstrategiaMomentoNotificacion ...> PreferenciasDeNotificacion
+    FactoryEstrategiaMomentoNotificacion ...> EstrategiaMomentoNotificacion
+    FactoryEstrategiaMomentoNotificacion ...> NotificacionAlMomento
+    FactoryEstrategiaMomentoNotificacion ...> NotificacionSinApuro
+
+    ControllerDeEjemplo ...> Persona
+    ControllerDeEjemplo ...> FactoryEstrategiaMomentoNotificacion
+
+@enduml

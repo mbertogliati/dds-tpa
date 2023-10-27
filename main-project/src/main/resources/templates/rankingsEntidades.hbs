@@ -1,0 +1,52 @@
+{{#partial "titulo"}}
+    <title>Rankings</title>
+{{/partial}}
+{{#partial "contenido"}}
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <h2 class="mb-3">Listado de Rankings de Entidades</h2>
+            <form method="GET" action="/rankings">
+                <div class="row">
+                    <div class="col">
+                        <label for="fecha" class="form-label">Buscar con fecha de generación posterior a:</label>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-sm-4">
+                        <input class="form-control" type="date" name="fecha" id="fecha">
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary">Buscar</button>
+                    </div>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table align-middle table-sm table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha generación</th>
+                        <th>Descripción</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each rankings}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{fechaHoraCreacion}}</td>
+                        <td>{{descripcion}}</td>
+                        <td class="text-center text-nowrap">
+                            <a href="/rankings/{{id}}" class="btn btn-sm btn-success">Ver más</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> templates/base}}

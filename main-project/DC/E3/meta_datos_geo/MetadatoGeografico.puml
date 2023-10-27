@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class MetadatoGeografico {
+  - provincia: Provincia
+  - departamento: Departamento
+  - municipio: Municipio
+  - localidad: Localidad
+  + esIgual(unMetadato: MetadatoGeografico) : boolean
+}
+
+@enduml

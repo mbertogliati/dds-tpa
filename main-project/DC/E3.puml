@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!include E3/domain.puml
+!include E3/rankings.puml
+
+IncidentePorComunidad <.. EstrategiaCalculoPuntos
+Entidad <.. EstrategiaCalculoPuntos
+
+Entidad "*"<-- Ranking
+
+
+IncidentePorComunidad <.. MedidorImpacto
+Entidad <.. MedidorImpacto
+
+@enduml

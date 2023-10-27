@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam linetype ortho
+
+class Membresia{
+    -id: int
+    -usuario: Persona
+    -comunidad: Comunidad
+    -rolComunidad: Rol
+    -serviciosObservados: List<Servicio>
+
+    +estaAfectado(servicio: Servicio): boolean
+}
+
+@enduml

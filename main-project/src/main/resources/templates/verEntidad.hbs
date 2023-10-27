@@ -1,0 +1,133 @@
+{{#partial "titulo"}}
+    <title>Editar entidad</title>
+{{/partial}}
+{{#partial "imports"}}
+    <script src="/js/manejoFormularioEntidades.js" type="module"></script>
+{{/partial}}
+{{#partial "contenido"}}
+<!-- Contenido principal -->
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            <h2 class="mb-3">
+                {{#with editable}}
+                    {{#with creacion}}
+                        Crear
+                    {{else}}
+                        Editar
+                    {{/with}}
+                {{/with}} entidad {{entidad.nombre}}</h2>
+            <form action="/entidades/{{#with editable}}{{#with creacion}}crear{{else}}{{entidad.id}}{{/with}}{{/with}}" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="nombreEntidad" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombreEntidad" name="nombreEntidad" value="{{entidad.nombre}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="denominacion" class="form-label">Denominación</label>
+                            <input type="text" class="form-control" id="denominacion" name="denominacion" value="{{entidad.denominacion.descripcion}}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="provincia" id="provincia" required>
+                                {{#with creacion}}
+                                    {{#each provinciasGen}}
+                                        <option value="{{id}}">{{nombre}}</option>
+                                    {{/each}}
+                                {{else}}
+                                    {{#each provincias}}
+                                        <option value="{{id}}" {{#if (eq entidad.ubicacion.metadato.provincia.id id)}}selected{{/if}}>{{nombre}}</option>
+                                    {{/each}}
+                                {{/with}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="departamento" id="departamento" required>
+                                {{#with creacion}}
+                                    <option>Departamentos</option>
+                                {{else}}
+                                    {{#each departamentos}}
+                                        <option value="{{id}}" {{#if (eq entidad.ubicacion.metadato.departamento.id id)}}selected{{/if}}>{{nombre}}</option>
+                                    {{/each}}
+                                {{/with}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="localidad" id="localidad" required>
+                                {{#with creacion}}
+                                    <option>Localidades</option>
+                                {{else}}
+                                    {{#each localidades}}
+                                        <option value="{{id}}" {{#if (eq entidad.ubicacion.metadato.localidad.id id)}}selected{{/if}}>{{nombre}}</option>
+                                    {{/each}}
+                                {{/with}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {{#with creacion}}
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="entidadPrestadora" class="form-label">Entidad prestadora</label>
+                            <input type="hidden" name="entidadPrestadora" value="{{entidadPrestadora.id}}">
+                            <input type="text" class="form-control" value="{{entidadPrestadora.nombre}}" disabled>
+                        </div>
+                    </div>
+                {{/with}}
+                {{#with editable}}
+                    {{#with creacion}}
+                        <button type="submit" class="btn btn-success">Crear</button>
+                    {{else}}
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    {{/with}}
+                {{/with}}
+                <a href="/entidadesPrestadoras" class="btn btn-secondary">Volver a entidades prestadoras</a>
+            </form>
+            {{#unless creacion}}
+            <form action="/entidades/{{entidad.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarla?');" class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
+            </form>
+            {{/unless}}
+            <div class="row justify-content-center">
+                <h5 class="mt-4">Establecimientos a cargo</h5>
+                <a class="btn btn-primary mb-3" href="/establecimientos/crear/{{entidad.id}}">Crear establecimiento</a>
+                <div class="table-responsive">
+                    <table class="table align-middle table-sm table-striped table-hover">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Establecimiento</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#with establecimientos}}
+                            {{#each establecimientos}}
+                                <tr>
+                                    <td>{{denominacion.descripcion}} - {{nombre}}</td>
+                                    <td class="text-center">
+                                        <a href="/establecimientos/{{id}}" class="btn btn-warning">Editar</a>
+                                        <a href="/entidades/{{../entidad.id}}/sacarEstablecimiento/{{id}}" class="btn btn-danger">Sacar</a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        {{/with}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{/partial}}
+{{> templates/base}}

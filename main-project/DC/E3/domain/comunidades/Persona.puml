@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam linetype ortho
+
+
+class Persona {
+  - id: int
+  - apellido: String
+  - email: String
+  - interes: Interes
+  - membresias: List<Membresia>
+  - metodoNotificacion: String
+  - nombre: String
+  - estrategiaMomentoNotificacion: EstrategiaMomentoNotificacion
+  - ubicacionActual: Ubicacion
+  - usuario: Usuario
+  - whatsapp: int
+  -notificablesSinNotificar: ListadoNotificables
+  -fechas: List<FechasDeSemana>
+
+  + agregarEntidadDeInteres(Entidad): void
+  + agregarEntidadInteres(Entidad): void
+  + agregarMembresia(Membresia): void
+  + agregarMembresiaDirecto(Membresia): void
+  + agregarServicioDeInteres(Servicio): void
+  + agregarServicioInteres(Servicio): void
+  + eliminarEntidadDeInteres(Entidad): void
+  + eliminarEntidadInteres(Entidad): void
+  + eliminarMembresia(Membresia): void
+  + eliminarMembresiaDirecto(Membresia): void
+  + eliminarMembresiaPorComunidad(Comunidad): void
+  + eliminarServicioDeInteres(Servicio): void
+  + eliminarServicioInteres(Servicio): void
+  + enviarNotificacion(Notificable): void
+  + servicioPrestadoEsDeInteres(ServicioPrestado): boolean
+  }
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Servicio{
+    - id: int
+    - nombre: String
+    - etiquetas: List<Etiqueta>
+
+    + getStringEtiquetas(): String
+    + agregarEtiqueta(nuevaEtiqueta: Etiqueta)
+    + eliminarEtiqueta(EtiquetaServicio: Etiqueta)
+    - eliminarEtiquetaPorID(idBuscada: int)
+}
+
+@enduml

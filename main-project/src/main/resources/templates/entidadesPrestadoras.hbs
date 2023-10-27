@@ -1,0 +1,114 @@
+{{#partial "titulo"}}
+    <title>Entidades prestadoras</title>
+{{/partial}}
+{{#partial "contenido"}}
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <h2 class="mb-3">Organismos de Control manejados por {{persona.nombre}}</h2>
+            {{#if adminPlataforma}}<a class="btn btn-primary mb-3" href="/organismosControl/crear">Crear organismo de control</a>{{/if}}
+            <div class="table-responsive">
+                <table class="table align-middle table-sm table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Organismo de Control</th>
+                        <th scope="col">Entidades Prestadoras a cargo</th>
+                        <th scope="col" class="text-center">Acciones entidades prestadoras</th>
+                        <th scope="col" class="text-center">Acciones organismo de control</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#with organismosDeControl}}
+                        {{#each organismosDeControl}}
+                            {{#if (eq entidadesPrestadoras.length 0)}}
+                                <tr>
+                                    <td><b>{{nombre}}</b></td>
+                                    <td><em>Sin entidades prestadoras a cargo</em></td>
+                                    <td></td>
+                                    <td class="text-center">
+                                        <a href="/organismosControl/{{id}}" class="btn btn-warning">Editar</a>
+                                        <a class="btn btn-success" href="/entidadesPrestadoras/crear/{{id}}">Agregar entidad prestadora</a>
+                                    </td>
+                                </tr>
+                            {{else}}
+                                {{#each entidadesPrestadoras}}
+                                    <tr>
+                                        {{#if @first}}
+                                            <td rowspan="{{entidadesPrestadoras.length}}"><b>{{../nombre}}</b></td>
+                                        {{/if}}
+                                        <td>{{nombre}}</td>
+                                        <td class="text-center"><a href="/organismosControl/{{../id}}/sacarEntidadPrestadora/{{id}}" class="btn btn-danger">Eliminar</a></td>
+                                        {{#if @first}}
+                                            <td rowspan="{{entidadesPrestadoras.length}}" class="text-center">
+                                                <a href="/organismosControl/{{../id}}" class="btn btn-warning">Editar</a>
+                                                <a class="btn btn-success" href="/entidadesPrestadoras/crear/{{../id}}">Agregar entidad prestadora</a>
+                                            </td>
+                                        {{/if}}
+                                    </tr>
+                                {{/each}}
+                            {{/if}}
+                        {{/each}}
+                    {{/with}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <h2 class="mb-3">Entidades Prestadoras manejadas por {{persona.nombre}}</h2>
+            {{#if adminPlataforma}}<a class="btn btn-primary mb-3" href="/entidadesPrestadoras/crear">Crear entidad prestadora</a>{{/if}}
+            <div class="table-responsive">
+                <table class="table align-middle table-sm table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Entidad Prestadora</th>
+                        <th scope="col">Entidades a cargo</th>
+                        <th scope="col" class="text-center">Acciones entidades</th>
+                        <th scope="col" class="text-center">Acciones entidad prestadora</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#with entidadesPrestadorasGen}}
+                        {{#each entidadesPrestadorasGen}}
+                            {{#if (eq entidades.length 0)}}
+                                <tr>
+                                    <td><b>{{nombre}}</b></td>
+                                    <td><em>Sin entidades a cargo</em></td>
+                                    <td></td>
+                                    <td class="text-center">
+                                        <a href="/entidadesPrestadoras/{{id}}" class="btn btn-warning">Editar</a>
+                                        <a class="btn btn-success" href="/entidades/crear/{{id}}">Agregar entidad</a>
+                                    </td>
+                                </tr>
+                            {{else}}
+                                {{#each entidades}}
+                                    <tr>
+                                        {{#if @first}}
+                                            <td rowspan="{{entidades.length}}"><b>{{../nombre}}</b></td>
+                                        {{/if}}
+                                        <td>{{denominacion.descripcion}} - {{nombre}}</td>
+                                        <td class="text-center">
+                                            <a href="/entidades/{{id}}" class="btn btn-warning">Editar</a>
+                                            <a href="/entidadesPrestadoras/{{../id}}/sacarEntidad/{{id}}" class="btn btn-danger">Eliminar</a>
+                                        </td>
+                                        {{#if @first}}
+                                            <td rowspan="{{entidades.length}}" class="text-center">
+                                                <a href="/entidadesPrestadoras/{{../id}}" class="btn btn-warning">Editar</a>
+                                                <a class="btn btn-success" href="/entidades/crear/{{../id}}">Agregar entidad</a>
+                                            </td>
+                                        {{/if}}
+                                    </tr>
+                                {{/each}}
+                            {{/if}}
+                        {{/each}}
+                    {{/with}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> templates/base }}

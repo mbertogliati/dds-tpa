@@ -1,0 +1,7 @@
+@startuml
+'https://plantuml.com/class-diagram
+interface EstrategiaValidacion << interface >> {
+  + validar(String): boolean
+}
+
+@enduml

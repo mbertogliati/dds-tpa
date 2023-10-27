@@ -1,0 +1,82 @@
+{{#partial "titulo"}}
+    <title>Incidentes</title>
+{{/partial}}
+{{#partial "imports"}}
+    <script src="/noAuth/obtenerUbicacion.js"></script>
+{{/partial}}
+{{#partial "contenido"}}
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <h2 class="mb-3">Listado de Incidentes</h2>
+            <form method="GET" action="/incidentes">
+                <div class="row">
+                    <label for="estado" class="form-label">Buscar incidente por estado</label>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-md-6 col-sm-8">
+                        <select class="form-select mb-3" name="estado" id="estado" required>
+                            <option>Estado</option>
+                            <option value="abierto">Abierto</option>
+                            <option value="cerrado">Cerrado</option>
+                            <option value="paraRevision">Para revisión</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="latitud" id="latitud" value="">
+                    <input type="hidden" name="longitud" id="longitud" value="">
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary">Buscar</button>
+                    </div>
+                    {{#unless (eq userActual.personaAsociada.membresias.length 0)}}
+                        <div class="col-sm-2">
+                            <a href="/aperturaIncidente" class="btn btn-success">Abrir incidente</a>
+                        </div>
+                    {{/unless}}
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table align-middle table-sm table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Servicios</th>
+                        <th scope="col">Entidad</th>
+                        <th scope="col">Establecimiento</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each incidentesPorComunidad}}
+                        {{#each incidente.serviciosAfectados}}
+                            <tr>
+                                <td>{{servicio.nombre}}</td>
+                                {{#if @first}}
+                                    <td rowspan="{{../incidente.serviciosAfectados.length}}">{{establecimiento.entidad.nombre}}</td>
+                                    <td rowspan="{{../incidente.serviciosAfectados.length}}">{{establecimiento.nombre}}</td>
+                                    <td rowspan="{{../incidente.serviciosAfectados.length}}">
+                                        {{#if ../estaCerrado}}
+                                            <span class="badge bg-danger">Cerrado</span>
+                                        {{else}}
+                                            <span class="badge bg-success">Abierto</span>
+                                        {{/if}}
+                                    </td>
+                                    <td rowspan="{{../incidente.serviciosAfectados.length}}" class="text-center">
+                                        <form action="/cierreIncidente" method="post">
+                                            <input type="hidden" name="incidente" value="{{../incidente.id}}">
+                                            {{#unless ../estaCerrado}}
+                                                <button type="submit" class="btn btn-sm btn-warning">Cerrar</button>
+                                            {{/unless}}
+                                        </form>
+                                    </td>
+                                {{/if}}
+                            </tr>
+                        {{/each}}
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> templates/base }}

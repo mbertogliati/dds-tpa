@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Informable{
+    + getPersonaInformada() : Persona
+    + getEntidades() : List<Entidad>
+    + getNombre() : String
+}
+
+@enduml

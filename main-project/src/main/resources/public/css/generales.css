@@ -1,0 +1,32 @@
+html,
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos para el banner con imagen de fondo */
+.banner {
+    background-image: url('../resources/banner1.jpg');
+    background-size: cover;
+    background-position: center;
+    padding-top: 200px;
+    padding-bottom: 200px;
+}
+
+.altura-minima{
+    min-height: calc(100vh - 150px);
+}
+
+.banner h1 {
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.banner p {
+    font-size: 22px;
+}
+#main-content{
+    height: fit-content;
+    min-height: 100%;
+}

@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+    interface RepositorioPersona {
+        + obtenerPersonaPorIdUsuario(idUsuario: int): Persona
+        + agregarPersona(unaPersona: Persona)
+        + modificarPersona(idUsuario: int, unaPersonaModificada: Persona)
+        + eliminarPersona(idUsuario: int)
+    }
+
+@enduml

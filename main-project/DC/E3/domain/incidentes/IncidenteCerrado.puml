@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class IncidenteCerrado{
+    -incidente: Incidente
+
+    +getInfo(): String
+}
+
+@enduml

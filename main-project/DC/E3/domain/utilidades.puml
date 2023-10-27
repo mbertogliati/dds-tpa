@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!include utilidades/Ubicacion.puml
+!include utilidades/InformacionAdapter.puml
+!include utilidades/CalculadoraDistanciaEnMetros.puml
+!include utilidades/AdapterCalculadoraDistancia.puml
+
+AdapterCalculadoraDistancia ..> Ubicacion
+CalculadoraDistanciaEnMetros ..|> AdapterCalculadoraDistancia
+@enduml

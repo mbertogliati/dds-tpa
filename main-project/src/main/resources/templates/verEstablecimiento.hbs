@@ -1,0 +1,173 @@
+{{#partial "titulo"}}
+    <title>Editar establecimiento</title>
+{{/partial}}
+{{#partial "imports"}}
+    <script src="/js/manejoFormularioEntidades.js" type="module"></script>
+    <script src="/js/obtenerUbicacion.js"></script>
+{{/partial}}
+{{#partial "contenido"}}
+<!-- Contenido principal -->
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            <h2 class="mb-3">
+                {{#with editable}}
+                    {{#with creacion}}
+                        Crear
+                    {{else}}
+                        Editar
+                    {{/with}}
+                {{/with}} establecimiento {{establecimiento.nombre}}</h2>
+            <form action="/establecimientos/{{#with editable}}{{#with creacion}}crear{{else}}{{establecimiento.id}}{{/with}}{{/with}}" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="nombreEstablecimiento" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombreEstablecimiento" name="nombreEstablecimiento" value="{{establecimiento.nombre}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="denominacion" class="form-label">Denominación</label>
+                            <input type="text" class="form-control" id="denominacion" name="denominacion" value="{{establecimiento.denominacion.descripcion}}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="provincia" id="provincia" required>
+                                {{#with creacion}}
+                                    {{#each provinciasGen}}
+                                        <option value="{{id}}">{{nombre}}</option>
+                                    {{/each}}
+                                {{else}}
+                                    {{#each provincias}}
+                                        <option value="{{id}}" {{#if (eq establecimiento.ubicacion.metadato.provincia.id id)}}selected{{/if}}>{{nombre}}</option>
+                                    {{/each}}
+                                {{/with}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="departamento" id="departamento" required>
+                                {{#with creacion}}
+                                    <option>Departamentos</option>
+                                {{else}}
+                                    {{#each departamentos}}
+                                        <option value="{{id}}" {{#if (eq establecimiento.ubicacion.metadato.departamento.id id)}}selected{{/if}}>{{nombre}}</option>
+                                    {{/each}}
+                                {{/with}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select mb-3" name="localidad" id="localidad" required>
+                                {{#with creacion}}
+                                    <option>Localidades</option>
+                                {{else}}
+                                    {{#each localidades}}
+                                        <option value="{{id}}" {{#if (eq establecimiento.ubicacion.metadato.localidad.id id)}}selected{{/if}}>{{nombre}}</option>
+                                    {{/each}}
+                                {{/with}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="latitud" class="form-label">Latitud</label>
+                        <input type="text" name="latitud" class="form-control" id="latitud" value="{{establecimiento.ubicacion.coordenada.latitud}}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="longitud" class="form-label">Longitud</label>
+                        <input type="text" name="longitud" class="form-control" id="longitud" value="{{establecimiento.ubicacion.coordenada.longitud}}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-primary mb-3" href="#" onclick="obtenerUbicacion();">Cargar ubicación actual</a>
+                    </div>
+                </div>
+                <hr>
+                {{#with creacion}}
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="entidad" class="form-label">Entidad</label>
+                            <input type="hidden" name="entidad" value="{{entidad.id}}">
+                            <input type="text" class="form-control" value="{{entidad.nombre}}" disabled>
+                        </div>
+                    </div>
+                {{/with}}
+                {{#with editable}}
+                    {{#with creacion}}
+                        <button type="submit" class="btn btn-success">Crear</button>
+                    {{else}}
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    {{/with}}
+                {{/with}}
+                <a href="/entidades/{{establecimiento.entidad.id}}" class="btn btn-secondary">Volver a entidad</a>
+            </form>
+            {{#unless creacion}}
+                <form action="/establecimientos/{{establecimiento.id}}/delete" method="post" onsubmit="confirm('¿Estas seguro que deseas eliminarlo?');" class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-danger" style="margin-top: -40px">Eliminar</button>
+                </form>
+            {{/unless}}
+            <div class="row">
+                <h5 class="mt-4">Servicios prestados</h5>
+                {{#unless creacion}}
+                    <form action="/establecimientos/{{establecimiento.id}}/agregarServicio" method="POST">
+                        <div class="row mb-3">
+                            <div class="col-sm-6">
+                                <select class="form-select" name="servicio" id="servicio" required>
+                                    {{#each serviciosGenerales}}
+                                        <option value="{{id}}">{{nombre}}
+                                            {{#each etiquetas}}
+                                                - {{valor}}
+                                            {{/each}}
+                                        </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary">Agregar servicio</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <a href="/servicios/{{establecimiento.id}}" class="btn btn-success">Crear servicio</a>
+                            </div>
+                        </div>
+                    </form>
+                {{/unless}}
+                <div class="table-responsive">
+                    <table class="table align-middle table-sm table-striped table-hover">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Servicios</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#with serviciosPrestados}}
+                            {{#each serviciosPrestados}}
+                                <tr>
+                                    <td><b>{{servicio.nombre}}</b>
+                                    {{#each servicio.etiquetas}}
+                                        - {{tipo}}: {{valor}}
+                                    {{/each}}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="/establecimientos/{{establecimiento.id}}/sacarServicio/{{id}}" class="btn btn-sm btn-danger">Sacar servicio</a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        {{/with}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> templates/base}}

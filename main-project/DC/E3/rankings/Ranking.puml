@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Ranking{
+ - puntosPorEntidad: List<PuntosPorEntidad>
+ - descripcion: String
+ - fechaHoraCreacion: DateTime
+
+ + contieneEntidad(entidad: Entidad): Boolean
+ + toString(): String
+ + puntosDe(entidad: Entidad) : Double
+ + agregarEntidad(entidad: Entidad, puntos: Double)
+ + ordenar(): void
+ + filtrar(filtro: PuntosPorEntidad -> Boolean): Ranking
+}
+
+@enduml

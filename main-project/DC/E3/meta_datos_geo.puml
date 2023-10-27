@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam linetype ortho
+package "Metadatos Geograficos" {
+    !include meta_datos_geo/AdapterProveedorMetadatosGeograficos.puml
+    !include meta_datos_geo/MetadatoGeografico.puml
+    !include meta_datos_geo/Provincia.puml
+    !include meta_datos_geo/Departamento.puml
+    !include meta_datos_geo/Localidad.puml
+
+    MetadatoGeografico --> Provincia
+    MetadatoGeografico --> Departamento
+    MetadatoGeografico --> Localidad
+
+    AdapterProveedorMetadatosGeograficos ..> MetadatoGeografico
+    AdapterProveedorMetadatosGeograficos ..> Provincia
+    AdapterProveedorMetadatosGeograficos ..> Departamento
+    AdapterProveedorMetadatosGeograficos ..> Localidad
+
+    Provincia -->"*" Departamento
+    Departamento -->"*" Localidad
+}
+
+@enduml

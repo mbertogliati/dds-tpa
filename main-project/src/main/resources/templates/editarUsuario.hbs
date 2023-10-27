@@ -1,0 +1,182 @@
+{{#partial "titulo"}}
+    <title>Editar usuario</title>
+{{/partial}}
+{{#partial "imports"}}
+    <script src="/js/manejoUsuario.js" type="module"></script>
+    <script src="/js/manejoBloquesFormulario.js"></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+<div class="container altura-minima mt-5 mb-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Modificar Perfil de Usuario
+                </div>
+                <div class="card-body">
+                    <form action="/usuarios/{{usuario.id}}/edit" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nombre de usuario</label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{usuario.username}}">
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="password" class="form-label">Nueva Contraseña</label>
+                                    <input type="password" class="form-control" id="password" name="password" autocomplete="new-password">
+                                </div>
+                                <div class="col-6">
+                                    <label for="repetir_password" class="form-label">Repetir Nueva Contraseña</label>
+                                    <input type="password" class="form-control" id="repetir_password" name="repetir_password">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input class="form-control" id="nombre" name="nombre" value="{{usuario.personaAsociada.nombre}}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="apellido" class="form-label">Apellido</label>
+                                    <input class="form-control" id="apellido" name="apellido" value="{{usuario.personaAsociada.apellido}}">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{usuario.personaAsociada.email}}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="celular" class="form-label">Celular</label>
+                                    <input type="number" class="form-control" id="celular" name="celular" value="{{usuario.personaAsociada.whatsapp}}">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <select class="form-select" name="provincia" id="provincia" required>
+                                            {{#each provincias}}
+                                                <option value="{{id}}" {{#if (eq ../usuario.personaAsociada.ubicacion.metadato.provincia.id id)}}selected{{/if}}>{{nombre}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <select class="form-select" name="departamento" id="departamento" required>
+                                            {{#each departamentos}}
+                                                <option value="{{id}}" {{#if (eq ../usuario.personaAsociada.ubicacion.metadato.departamento.id id)}}selected{{/if}}>{{nombre}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="">
+                                        <select class="form-select" name="localidad" id="localidad" required>
+                                            {{#each localidades}}
+                                                <option value="{{id}}" {{#if (eq ../usuario.personaAsociada.ubicacion.metadato.localidad.id id)}}selected{{/if}}>{{nombre}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="medio_notificacion" class="form-label">Medio de Notificacion</label>
+                                    <select class="form-select" id="medio_notificacion" name="medio_notificacion" data-medio="{{medioNotificacion}}">
+                                        <option value="MAIL">Email</option>
+                                        <option value="WPP">Whatsapp</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label for="momento_notificacion" class="form-label">Momento de Notificacion</label>
+                                    <select class="form-select" id="momento_notificacion" name="momento_notificacion" data-momento="{{momentoNotificacion}}">
+                                        <option value="alMomento">Al Momento</option>
+                                        <option value="sinApuro">Sin Apuro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="fechas_de_semana_container">
+                                <div id="fechas_de_semana" class="d-flex flex-column my-3 gap-2">
+                                    <div id="bloquesDinamicos">
+                                        <p>Fechas de Semana</p>
+                                        {{#with fechasDeSemana}}
+                                            {{#each fechasDeSemana}}
+                                                <div class="dynamic-block">
+                                                    <div class="input-group mt-3">
+                                                        <span class="input-group-text">Cada</span>
+                                                        <select type="text" class="form-select dia" name="dias[]" data-dia="{{dia}}">
+                                                            <option value="MONDAY">Lunes</option>
+                                                            <option value="TUESDAY">Martes</option>
+                                                            <option value="WEDNESDAY">Miercoles</option>
+                                                            <option value="THURSDAY">Jueves</option>
+                                                            <option value="FRIDAY">Viernes</option>
+                                                            <option value="SATURDAY">Sabado</option>
+                                                            <option value="SUNDAY">Domingo</option>
+                                                        </select>
+                                                        <span class="input-group-text">A las</span>
+                                                        <input type="time" class="form-control time-notificacion" name="horas[]" value="{{horario}}">
+                                                    </div>
+                                                </div>
+                                            {{/each}}
+                                        {{else}}
+                                            <div class="dynamic-block">
+                                                <div class="input-group mt-3">
+                                                    <span class="input-group-text">Cada</span>
+                                                    <select type="text" class="form-select dia" name="dias[]" data-dia="{{dia}}">
+                                                        <option value="MONDAY">Lunes</option>
+                                                        <option value="TUESDAY">Martes</option>
+                                                        <option value="WEDNESDAY">Miercoles</option>
+                                                        <option value="THURSDAY">Jueves</option>
+                                                        <option value="FRIDAY">Viernes</option>
+                                                        <option value="SATURDAY">Sabado</option>
+                                                        <option value="SUNDAY">Domingo</option>
+                                                    </select>
+                                                    <span class="input-group-text">A las</span>
+                                                    <input type="time" class="form-control time-notificacion" name="horas[]" value="{{horario}}">
+                                                </div>
+                                            </div>
+                                        {{/with}}
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row justify-content-end gap-3">
+                                    <a class="btn btn-sm btn-danger" id="remove-service" style="cursor: pointer">Eliminar última fecha</a>
+                                    <a class="btn btn-sm btn-success" id="add-service" style="cursor: pointer">Agregar fecha</a>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="latitud" value="{{usuario.personaAsociada.ultimaUbicacion.coordenada.latitud}}">
+                        <input type="hidden" name="longitud" value="{{usuario.personaAsociada.ultimaUbicacion.coordenada.longitud}}">
+                        <hr>
+                            <div class="row ">
+                                <div class="col-sm-3">
+                                    <label for="vieja_password" class="form-label">Actual Contraseña</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="password" class="form-control" id="vieja_password" name="vieja_password" required autocomplete="off">
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> templates/base}}

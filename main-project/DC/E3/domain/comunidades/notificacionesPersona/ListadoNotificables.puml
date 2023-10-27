@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ListadoNotificables{
+    -notificables: List<Notificable>
+
+    +agregarNotificables(List<Notificable> notificables)
+    -obtenerNotificablesDelDia(): List<Notificable>
+    +vaciarNotificables()
+    +estaVacio(): Boolean
+    +getInfo(): String
+}
+
+@enduml

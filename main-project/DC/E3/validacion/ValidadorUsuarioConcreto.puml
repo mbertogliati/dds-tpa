@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ValidadorUsuarioConcreto {
+  - estrategiasValidacion: List<EstrategiaValidacion>
+  + validar(Usuario, String): boolean
+  + agregarEstrategia(EstrategiaValidacion): void
+  + eliminarEstrategia(EstrategiaValidacion): void
+}
+
+@enduml

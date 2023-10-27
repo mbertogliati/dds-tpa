@@ -1,0 +1,60 @@
+{{#partial "titulo"}}
+    <title>Abrir incidente</title>
+{{/partial}}
+{{#partial "imports"}}
+    <!-- JS files -->
+    <script src="/js/manejoBloquesFormulario.js" type="module"></script>
+    <script src="/js/manejoFormularioAperturaIncidente.js" type="module"></script>
+{{/partial}}
+{{#partial "contenido"}}
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="mb-3">Apertura de Incidentes</h2>
+            <hr>
+            <form action="/aperturaIncidente" method="POST" id="formGeo">
+                <div class="mb-3">
+                    <label for="observaciones" class="form-label">Observaciones</label>
+                    <textarea type="textbox" class="form-control" id="observaciones" name="observaciones"></textarea>
+                </div>
+
+                <div id="bloquesDinamicos">
+                    <div class="mb-3">
+                        <hr>
+                        <select class="form-select mb-3" name="provincia" id="provincia" required>
+                            <option>Provincia</option>
+                            {{#each provincias}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                        <select class="form-select mb-3" name="departamento" id="departamento" required>
+                            <option>Departamento</option>
+                        </select>
+                        <select class="form-select mb-3" name="localidad" id="localidad" required>
+                            <option>Localidad</option>
+                        </select>
+                        <select class="form-select mb-3" name="entidad" id="entidad" required>
+                            <option>Entidad</option>
+                        </select>
+                        <select class="form-select mb-3" name="establecimiento" id="establecimiento" required>
+                            <option>Establecimiento</option>
+                        </select>
+                        <input class="form-control mb-3 dynamic-block" type="text" name="servicio[]" autocomplete="off" list="listaServicios">
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <a class="btn btn-sm btn-danger" id="remove-service" href="#">Eliminar último servicio</a>
+                    <a class="btn btn-sm btn-success" id="add-service" href="#">Agregar servicio</a>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Abrir incidente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<datalist id="listaServicios">
+</datalist>
+{{/partial}}
+{{> templates/base}}

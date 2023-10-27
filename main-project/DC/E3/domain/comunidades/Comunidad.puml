@@ -1,0 +1,28 @@
+@startuml
+
+
+skinparam linetype ortho
+
+class Comunidad {
+   -id: int
+   -detalle: String
+   -servicios: List<Servicio>
+   -incidentes: List<IncidentePorComunidad>
+   -membresias: List<Membresia>
+
+  + agregarPersona(Persona): void
+  + agregarIncidente(Incidente): void
+  + eliminarServicio(Servicio): void
+  + agregarMembresia(Membresia): void
+  + tieneIncidente(Incidente): boolean
+  + eliminarMembresiaDirecto(Membresia): void
+  - eliminarServicioPorID(int): void
+  + eliminarMembresia(Membresia): void
+  + cerrarIncidente(Incidente, Persona): void
+  + agregarMembresiaDirecto(Membresia): void
+  + eliminarMembresiaPorPersona(Persona): void
+  + agregarServicio(Servicio): void
+  + notificarMiembros(Notificable): void
+
+}
+@enduml

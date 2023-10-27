@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Informe{
+    - informable : Informable
+    - rankings : List<Ranking>
+
+    + getInfo() : String
+    + agregarRankings(listaRankings : Ranking ...) : void
+}
+
+@enduml

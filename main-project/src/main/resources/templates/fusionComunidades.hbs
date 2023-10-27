@@ -1,0 +1,39 @@
+{{#partial "titulo"}}
+    <title>Comunidad</title>
+{{/partial}}
+{{#partial "contenido"}}
+    <div class="container mt-4 mb-4 altura-minima">
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10">
+                <h2 class="mb-3">Listado de Posibles Fusiones de Comunidades</h2>
+                <div class="table-responsive">
+                    <table class="table align-middle table-sm table-striped table-hover">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Comunidad 1</th>
+                            <th scope="col">Comunidad 2</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each propuestas}}
+                            <tr>
+                                <td>{{comunidad1.nombre}}</td>
+                                <td>{{comunidad2.nombre}}</td>
+                                <td class="text-center">
+                                    <form method="POST" action="/fusionarComunidades">
+                                        <input type="hidden" name="idComunidad1" value="{{comunidad1.id}}">
+                                        <input type="hidden" name="idComunidad2" value="{{comunidad2.id}}">
+                                        <button type="submit" class="btn btn-success">Fusionar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/base}}

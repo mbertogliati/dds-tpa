@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam PackageBorderThickness 4
+skinparam PackageBorderColor DarkSlateGray
+
+package Entidades{
+!include domain/entidades.puml
+}
+
+package Servicios{
+!include domain/servicios.puml
+}
+
+package Incidentes{
+!include domain/incidentes.puml
+IncidentePorComunidad --> ServicioPrestado
+}
+
+package Utilidades{
+!include domain/utilidades.puml
+}
+
+package Comunidades{
+!include domain/comunidades.puml
+Comunidad -->"*" Servicio
+Comunidad --> "1..*" IncidentePorComunidad
+Comunidad ..> Incidente
+
+Membresia -->"*" Servicio
+
+Persona --> Ubicacion
+
+}
+
+package Entidades{
+OrganismoControl --> Persona
+EntidadPrestadora -> Persona
+
+Persona ..> Entidad
+Persona ..> Servicio
+Persona ..> Incidente
+
+EntidadPrestadora --> InformacionAdapter
+OrganismoControl --> InformacionAdapter
+
+Entidad --> Ubicacion
+
+Establecimiento -->"*" Ubicacion
+Establecimiento <-- ServicioPrestado
+Establecimiento -->"*" ServicioPrestado
+
+Entidad "*"<-- Interes
+Servicio "*"<-- Interes
+ServicioPrestado <.. Interes
+
+
+
+}
+
+
+@enduml

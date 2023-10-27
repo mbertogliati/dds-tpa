@@ -1,0 +1,8 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface EstrategiaMomentoNotificacion{
+    +notificar(notificable Notificable, persona: Persona)
+}
+
+@enduml

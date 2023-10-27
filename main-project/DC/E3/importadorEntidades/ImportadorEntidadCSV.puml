@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ImportarEntidadCSV{
+    + crearOrganismosControl(path: String): List<OrganismoControl>
+    + crearEntidadesPrestadoras(path: String): List<EntidadPrestadora>
+}
+
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Establecimiento{
+    - id: int
+    - entidad: Entidad
+    - nombre: String
+    - denominacion : Denominacion
+    - serviciosPrestados : List<ServicioPrestado>
+    - ubicacion : Ubicacion
+
+    + agregarServicio(nuevo: Servicio)
+    + eliminarServicio(servicio: Servicio)
+    + eliminarServicioPrestado(servicio: ServicioPrestado)
+}
+
+@enduml

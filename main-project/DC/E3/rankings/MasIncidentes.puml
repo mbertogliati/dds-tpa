@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class MasIncidentes{
++ calcularPuntos(incidentes: List<IncidentePorComunidad>): List<PuntosPorEntidad>
+- incidentes24HorasPorEntidad(incidentes: List<IncidentePorComunidad>): Map<Entidad,List<Incidente>>
+}
+
+@enduml

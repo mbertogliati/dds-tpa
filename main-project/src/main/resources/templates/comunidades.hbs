@@ -1,0 +1,42 @@
+{{#partial "titulo"}}
+    <title>Comunidad</title>
+{{/partial}}
+{{#partial "contenido"}}
+    <div class="container mt-4 mb-4 altura-minima">
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10">
+                <h2 class="mb-3">Listado de Comunidades</h2>
+                <a class="btn btn-success mb-3" href="/comunidades/crear">Crear comunidad</a>
+                {{#if adminPlataforma}}<a class="btn btn-primary mb-3" href="/fusionarComunidades">Fusionar comunidades</a>{{/if}}
+                <div class="table-responsive">
+                    <table class="table align-middle table-sm table-striped table-hover">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Detalle</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each comunidades}}
+                        <tr>
+                            <td><b>{{nombre}}</b></td>
+                            <td>{{detalle}}</td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="/comunidades/{{id}}">Ver más</a>
+                                    {{#if tieneAUsuarioActual}}
+                                        <a class="btn btn-sm btn-danger" href="/comunidades/{{id}}/sacarMiembro/{{userActual.id}}">Abandonar</a>
+                                    {{else}}
+                                            <a class="btn btn-sm btn-success" href="/comunidades/{{id}}/unirMiembro/{{userActual.id}}">Solicitar Unirse</a>
+                                    {{/if}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> templates/base}}

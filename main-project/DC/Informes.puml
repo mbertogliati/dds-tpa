@@ -1,0 +1,11 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!include E3/rankings/Informe.puml
+!include E3/domain/entidades.puml
+!include E3/notificaciones/Notificable.puml
+
+Informe --> Informable
+Informe ..|> Notificable
+
+@enduml

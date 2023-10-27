@@ -1,0 +1,10 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+    class ReceptorCoordenadaPersona {
+        - repositorioPersona: RepositorioPersona
+        - evaluadorSolicitudRevision: EvaluadorSolicitudRevision
+        + recibirCoordenada(float latitud, float longitud, id: int)
+    }
+
+@enduml
