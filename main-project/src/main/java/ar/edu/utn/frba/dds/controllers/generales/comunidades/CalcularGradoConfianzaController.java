@@ -49,15 +49,16 @@ public class CalcularGradoConfianzaController{
             parametro.setUsuarios(usuariosAEvaluar);
 
             ResultadoConfianza resultado = calculadorGradoConfianza.calcular(parametro);
+            if(resultado != null) {
+                comunidad.setGradoConfianza(resultado.getNivel());
 
-            comunidad.setGradoConfianza(resultado.getNivel());
+                if (comunidad.getGradoConfianza() < 2)
+                    comunidad.setActivo(false);
 
-            if(comunidad.getGradoConfianza() < 2)
-                comunidad.setActivo(false);
+                repoComunidad.actualizarComunidad(comunidad);
 
-            repoComunidad.actualizarComunidad(comunidad);
-
-            this.actualizarUsuarios(resultado.getUsuarios());
+                this.actualizarUsuarios(resultado.getUsuarios());
+            }
         }
     }
     private List<UsuarioAEvaluar> obtenerUsuariosAEvaluar(Comunidad comunidad){
