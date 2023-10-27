@@ -39,7 +39,7 @@ public class PersonaRepositorio {
   }
   public List<Persona> buscarTodas() {
     return entityManager.createQuery(
-            "SELECT e FROM " + Persona.class.getName() + " e WHERE e.activo=1", Persona.class)
+            "SELECT e FROM " + Persona.class.getName() + " e WHERE e.activo=TRUE", Persona.class)
         .getResultList();
   }
 }

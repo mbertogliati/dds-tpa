@@ -40,13 +40,13 @@ public class ServicioPrestadoRepositorio {
 
   public List<ServicioPrestado> buscarTodos() {
     return entityManager.createQuery(
-            "SELECT e FROM " + ServicioPrestado.class.getName() + " e WHERE e.activo=1", ServicioPrestado.class)
+            "SELECT e FROM " + ServicioPrestado.class.getName() + " e WHERE e.activo=TRUE", ServicioPrestado.class)
         .getResultList();
   }
 
   public List<ServicioPrestado> buscarPorEstablecimiento(String idEstablecimiento) {
     return entityManager.createQuery(
-            "SELECT s FROM " + ServicioPrestado.class.getName() + " s WHERE s.establecimiento.id = :idBuscado AND s.activo=1", ServicioPrestado.class)
+            "SELECT s FROM " + ServicioPrestado.class.getName() + " s WHERE s.establecimiento.id = :idBuscado AND s.activo=TRUE", ServicioPrestado.class)
         .setParameter("idBuscado", Integer.parseInt(idEstablecimiento))
         .getResultList();
   }

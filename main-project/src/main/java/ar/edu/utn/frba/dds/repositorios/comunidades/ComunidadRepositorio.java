@@ -54,7 +54,7 @@ public class ComunidadRepositorio {
 
   public List<Comunidad> obtenerTodas() {
     return entityManager.createQuery(
-            "SELECT e FROM " + Comunidad.class.getName() + " e WHERE e.activo=1", Comunidad.class)
+            "SELECT e FROM " + Comunidad.class.getName() + " e WHERE e.activo=TRUE", Comunidad.class)
         .getResultList();
   }
 }

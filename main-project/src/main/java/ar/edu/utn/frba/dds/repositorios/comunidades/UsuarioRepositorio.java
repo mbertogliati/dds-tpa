@@ -40,7 +40,7 @@ public class UsuarioRepositorio {
 
   public List<Usuario> buscarTodos() {
     return entityManager.createQuery(
-            "SELECT e FROM " + Usuario.class.getName() + "  e WHERE e.activo=1", Usuario.class)
+            "SELECT e FROM " + Usuario.class.getName() + "  e WHERE e.activo=TRUE", Usuario.class)
         .getResultList();
   }
 
