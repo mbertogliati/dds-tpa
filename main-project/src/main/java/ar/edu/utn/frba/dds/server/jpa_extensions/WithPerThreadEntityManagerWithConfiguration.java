@@ -12,6 +12,7 @@ public interface WithPerThreadEntityManagerWithConfiguration extends WithEntityM
     properties.set("hibernate.connection.username", System.getenv("DB_CONNECTION_USERNAME"));
     properties.set("hibernate.connection.password",System.getenv("DB_CONNECTION_PASSWORD"));
     properties.set("hibernate.connection.driver_class", System.getenv("DB_CONNECTION_DRIVER_CLASS"));
+    properties.set("hibernate.hbm2ddl.auto", System.getenv("DB_CONNECTION_HIBERNATE_HBM2DDL_AUTO"));
 
     PerThreadEntityManagerAccessWithConfiguration entityManagerAccess = new PerThreadEntityManagerAccessWithConfiguration("simple-persistence-unit", properties);
     return entityManagerAccess.get();

@@ -23,6 +23,11 @@ public class ServicioFusion implements AdapterFusion {
   private WebApiFusion webApiFusion;
 
   public ServicioFusion() {
+
+    String envUrlApi = System.getenv("SERVICIO_FUSION_URL");
+    if(envUrlApi != null && !envUrlApi.isEmpty())
+      urlApi = envUrlApi;
+
     Retrofit retrofitBuilder = new Retrofit.Builder()
         .baseUrl(urlApi)
         .addConverterFactory(GsonConverterFactory.create())

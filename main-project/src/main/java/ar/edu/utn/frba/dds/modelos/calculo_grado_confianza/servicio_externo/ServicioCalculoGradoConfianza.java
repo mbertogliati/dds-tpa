@@ -21,6 +21,11 @@ public class ServicioCalculoGradoConfianza implements AdapterCalculoGradoConfian
   private WebApiGradoConfianza webApiGradoConfianza;
 
   public ServicioCalculoGradoConfianza() {
+
+    String envUrlApi = System.getenv("SERVICIO_CALCULO_GRADO_CONFIANZA_URL");
+    if(envUrlApi != null && !envUrlApi.isEmpty())
+      urlApi = envUrlApi;
+
     Retrofit retrofitBuilder = new Retrofit.Builder()
         .baseUrl(urlApi)
         .addConverterFactory(GsonConverterFactory.create())
