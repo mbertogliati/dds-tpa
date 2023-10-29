@@ -1,0 +1,31 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  dbservice:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: pruebas
+    volumes:
+      - ./posgresdb:/var/lib/postgresql/data
+
+  app:
+    image: main-project
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      APP_MAIN_PORT: 8080
+      DB_CONNECTION_HIBERNATE_HBM2DDL_AUTO: create
+      DB_CONNECTION_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      DB_CONNECTION_DRIVER_CLASS: org.postgresql.Driver
+      DB_CONNECTION_PASSWORD: 123
+      DB_CONNECTION_HOST: jdbc:postgresql://dbservice/pruebas
+      DB_CONNECTION_USERNAME: postgres
+      SERVICIO_CALCULO_GRADO_CONFIANZA_URL: http://localhost:9999
+      SERVICIO_FUSION_URL: http://localhost:9998
+    depends_on:
+      - dbservice
