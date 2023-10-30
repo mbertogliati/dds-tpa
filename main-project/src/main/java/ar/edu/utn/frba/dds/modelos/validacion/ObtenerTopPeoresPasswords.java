@@ -6,9 +6,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 public class ObtenerTopPeoresPasswords implements ObtenerListaString {
-  private final String archivo = "main-project/src/main/java/ar/edu/utn/frba/dds/modelos/validacion/10000WorstPasswords.txt";
+  @Getter
+  @Setter
+  private String archivo = "main-project/src/main/resources/public/validacion/10000WorstPasswords.txt10000WorstPasswords.txt";
   private List<String> lista = new ArrayList<>();
   private static ObtenerTopPeoresPasswords instancia = null;
 
@@ -20,14 +24,21 @@ public class ObtenerTopPeoresPasswords implements ObtenerListaString {
   }
 
   private ObtenerTopPeoresPasswords(){
-    Path path = Paths.get(archivo);
 
+    String envWorstPasswords = System.getenv("WORST_PASSWORDS_FILE");
+    if(envWorstPasswords != null && !envWorstPasswords.isEmpty())
+      this.archivo = envWorstPasswords;
+
+    this.inicializarLista();
+  }
+
+  private void inicializarLista() {
     try {
-      lista = Files.readAllLines(path);
-    }catch (IOException e){
+      Path path = Paths.get(this.archivo);
+      this.lista = Files.readAllLines(path);
+    }catch (Exception e){
       e.printStackTrace();
     }
-
   }
 
   @Override
