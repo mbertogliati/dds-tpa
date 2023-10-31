@@ -48,7 +48,7 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     Usuario usuario = context.sessionAttribute("usuario");
 
-    List<Comunidad> comunidadesDeUsuario = usuario.getPersonaAsociada().getMembresias().stream().map(m -> m.getComunidad()).toList();
+    List<Comunidad> comunidadesDeUsuario = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId())).toList();
 
     model.put("comunidades", obtenerComunidadesConUsuarioActual(comunidadesDeUsuario, usuario));
 

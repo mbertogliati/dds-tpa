@@ -56,6 +56,8 @@ public class RolesController {
     context.consumeSessionAttribute("comunidad");
     context.consumeSessionAttribute("adminComunidad");
     context.consumeSessionAttribute("adminPlataforma");
+    context.consumeSessionAttribute("organismoControl");
+    context.consumeSessionAttribute("entidadPrestadora");
 
     String idRolRecibido = context.formParam("rol");
     int index = idRolRecibido.indexOf('-');

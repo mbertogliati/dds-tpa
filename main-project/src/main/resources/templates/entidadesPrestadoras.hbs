@@ -3,9 +3,10 @@
 {{/partial}}
 {{#partial "contenido"}}
 <div class="container mt-4 mb-4 altura-minima">
+    {{#with organismosDeControl}}
     <div class="row justify-content-center mt-4">
         <div class="col-md-10">
-            <h2 class="mb-3">Organismos de Control manejados por {{persona.nombre}}</h2>
+            <h2 class="mb-3">Organismo de Control manejado por {{persona.nombre}}</h2>
             {{#if adminPlataforma}}<a class="btn btn-primary mb-3" href="/organismosControl/crear">Crear organismo de control</a>{{/if}}
             <div class="table-responsive">
                 <table class="table align-middle table-sm table-striped table-hover">
@@ -54,10 +55,11 @@
             </div>
         </div>
     </div>
-
+    {{/with}}
+    {{#with entidadesPrestadorasGen}}
     <div class="row justify-content-center mt-4">
         <div class="col-md-10">
-            <h2 class="mb-3">Entidades Prestadoras manejadas por {{persona.nombre}}</h2>
+            <h2 class="mb-3">Entidad Prestadora manejada por {{persona.nombre}}</h2>
             {{#if adminPlataforma}}<a class="btn btn-primary mb-3" href="/entidadesPrestadoras/crear">Crear entidad prestadora</a>{{/if}}
             <div class="table-responsive">
                 <table class="table align-middle table-sm table-striped table-hover">
@@ -109,6 +111,7 @@
             </div>
         </div>
     </div>
+    {{/with}}
 </div>
 {{/partial}}
 {{> templates/base }}
