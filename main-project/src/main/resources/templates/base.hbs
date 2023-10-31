@@ -60,7 +60,9 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownEntidades">
                         <a class="dropdown-item" href="/entidadesPrestadoras">Administracion</a>
                         <a class="dropdown-item" href="/rankings">Rankings</a>
-                        <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
+                        {{#with adminPlataforma}}
+                            <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
+                        {{/with}}
                     </div>
                 </li>
                 {{/with}}
