@@ -1,21 +1,19 @@
 package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
-import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
-import ar.edu.utn.frba.dds.modelos.utilidades.Coordenada;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidentePorComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import io.javalin.http.Context;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -81,37 +79,14 @@ public class IncidentesController {
 
   public void getAll(@NotNull Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
-
-    String paramSuccess = context.queryParam("success");
-
-    if(paramSuccess != null){
-      model.put("success", paramSuccess);
+    String respuestaHTML = "";
+    try{
+      respuestaHTML = ObtenedorListadoIncidentes.obtenerHTMLListadoIncidentes(model);
     }
-
-    List<Incidente> listaIncidentes;
-    String paramEstado = context.queryParam("estado");
-    Usuario usuario = context.sessionAttribute("usuario");
-
-    if(context.queryParam("latitud") != null && context.queryParam("longitud") != null){
-      Float latitud = Float.valueOf(context.queryParam("latitud"));
-      Float longitud = Float.valueOf(context.queryParam("longitud"));
-      if(latitud != null && longitud != null){
-        Coordenada coordenada = new Coordenada(latitud, longitud);
-        usuario.getPersonaAsociada().getUltimaUbicacion().setCoordenada(coordenada);
-      }
+    catch(Exception e){
+      throw new FormInvalidoException("Error al obtener el listado de incidentes.");
     }
-
-    if(paramEstado != null){
-      listaIncidentes = repositorio.incidentesDeEstado(paramEstado, usuario.getPersonaAsociada().getId());
-    }else{
-      listaIncidentes = repositorio.buscarTodos();
-    }
-
-    List<IncidentePorComunidad> incidentesPorComunidad = repoIncidenteComunidad.incidentesComunidadDe(usuario, listaIncidentes);
-
-    model.put("incidentesPorComunidad", incidentesPorComunidad);
-
-    context.render("listaIncidentes.hbs", model);
+    context.html(respuestaHTML);
   }
 
   public void vistaApertura(@NotNull Context context){
@@ -150,5 +125,8 @@ public class IncidentesController {
 
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Incidente cerrado correctamente."));
     context.redirect("/incidentes?success");
+  }
+  private void obtenerVistaListadoIncidentes(@NotNull Context context){
+
   }
 }

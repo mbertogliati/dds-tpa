@@ -33,7 +33,7 @@ public class Server {
   public static void init() {
     if(app == null) {
       EntityManager entityManager = (new CreadorEntityManager()).entityManagerCreado();
-      Integer puerto = Integer.parseInt(System.getProperty("port", "8080"));
+      Integer puerto = Integer.parseInt(System.getProperty("port", System.getenv("APP_MAIN_PORT")));
       app = Javalin.create(config()).start(puerto);
 
       app.exception(FormInvalidoException.class, (e, ctx) -> {

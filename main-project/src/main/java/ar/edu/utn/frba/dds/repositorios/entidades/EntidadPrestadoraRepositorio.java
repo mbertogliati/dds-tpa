@@ -42,13 +42,13 @@ public class EntidadPrestadoraRepositorio {
   public List<EntidadPrestadora> buscarTodas() {
 
     return entityManager.createQuery(
-            "SELECT e FROM " + EntidadPrestadora.class.getName() + " e WHERE e.activo=1", EntidadPrestadora.class)
+            "SELECT e FROM " + EntidadPrestadora.class.getName() + " e WHERE e.activo=TRUE", EntidadPrestadora.class)
         .getResultList();
   }
 
   public List<EntidadPrestadora> manejadasPor(Persona persona) {
     return entityManager.createQuery(
-            "SELECT e FROM " + EntidadPrestadora.class.getName() +" e WHERE e.personaAInformar.id = :idBuscado AND e.activo=1", EntidadPrestadora.class)
+            "SELECT e FROM " + EntidadPrestadora.class.getName() +" e WHERE e.personaAInformar.id = :idBuscado AND e.activo=TRUE", EntidadPrestadora.class)
         .setParameter("idBuscado", persona.getId())
         .getResultList();
   }

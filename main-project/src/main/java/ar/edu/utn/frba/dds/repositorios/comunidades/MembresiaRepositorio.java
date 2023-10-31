@@ -40,7 +40,7 @@ public class MembresiaRepositorio {
 
   public List<Membresia> buscarTodas() {
     return entityManager.createQuery(
-            "SELECT e FROM " + Membresia.class.getName() + " e WHERE e.activo=1", Membresia.class)
+            "SELECT e FROM " + Membresia.class.getName() + " e WHERE e.activo=TRUE", Membresia.class)
         .getResultList();
   }
 }
