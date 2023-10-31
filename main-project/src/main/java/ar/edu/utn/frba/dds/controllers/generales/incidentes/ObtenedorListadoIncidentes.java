@@ -30,6 +30,7 @@ public class ObtenedorListadoIncidentes {
             put("msg", mensajeVista.getTexto());
             put("idUsuario",String.valueOf(usuario.getId()));
         }};
+        //TODO: AGREGAR QUE SOLO TRAIGA INCIDENTES DE LA COMUNIDAD QUE LE MANDEMOS (SEGUN EL ROL SELECCIONADO)
 
         var objectMapper = new ObjectMapper();
         String requestBody = objectMapper
