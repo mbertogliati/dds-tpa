@@ -31,6 +31,7 @@
                 <li class="nav-item">
                     <a class="nav-link {{#with nav-index}}active{{/with}}" href="/home">Inicio</a>
                 </li>
+                {{#with comunidad}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{#with nav-incidentes}}active{{/with}}" href="#" id="navbarDropdownIncidentes" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Incidentes
@@ -41,6 +42,13 @@
                         <a class="dropdown-item" href="/cierreIncidente">Cierre</a>
                     </div>
                 </li>
+                {{#unless adminComunidad}}
+                    <li class="nav-item">
+                        <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades/{{comunidad.id}}">Ver comunidad</a>
+                    </li>
+                {{/unless}}
+                {{/with}}
+                {{#with manejador}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{#with nav-entidades}}active{{/with}}" href="#" id="navbarDropdownEntidades" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Entidades
@@ -51,12 +59,23 @@
                         <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
                     </div>
                 </li>
+                {{/with}}
+                {{#with userDefault}}
                 <li class="nav-item">
                     <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades">Comunidades</a>
                 </li>
+                {{/with}}
                 {{#with adminPlataforma}}
                     <li class="nav-item">
+                        <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades">Comunidades</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{#with nav-usuarios}}active{{/with}}" href="/usuarios">Usuarios</a>
+                    </li>
+                {{/with}}
+                {{#with adminComunidad}}
+                    <li class="nav-item">
+                        <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades/{{comunidad.id}}/edit">Modificar comunidad</a>
                     </li>
                 {{/with}}
             </ul>

@@ -90,12 +90,8 @@ public class ComunidadesController implements ICrudViewsHandler {
     Usuario usuario = context.sessionAttribute("usuario");
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
 
-    if(VerificadorRol.tienePermiso(usuario, comunidad, ADMINISTRAR_COMUNIDAD)){
-      model.put("adminComunidad", true);
-    }
-
     ComunidadConUsuarioActual comunidadConUsuarioActual = new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada());
-    model.put("comunidad", comunidadConUsuarioActual);
+    model.put("comunidadSeleccionada", comunidadConUsuarioActual);
 
     context.render("verComunidad.hbs", model);
   }
@@ -146,7 +142,7 @@ public class ComunidadesController implements ICrudViewsHandler {
       model.put("adminComunidad", true);
     }
 
-    model.put("comunidad", new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada()));
+    model.put("comunidadSeleccionada", new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada()));
     model.put("serviciosGenerales", repoServicioPrestado.buscarTodos());
 
     context.render("verComunidad.hbs", model);

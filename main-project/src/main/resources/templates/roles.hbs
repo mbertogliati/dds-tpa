@@ -22,6 +22,12 @@
                                         <option value="{{id}}-{{../comunidad.id}}">{{../comunidad.nombre}} - {{nombre}}</option>
                                     {{/each}}
                                 {{/each}}
+                                {{#each organismosControl}}
+                                    <option value="organismo-{{id}}">{{nombre}}</option>
+                                {{/each}}
+                                {{#each entidadesPrestadoras}}
+                                    <option value="entidad-{{id}}">{{nombre}}</option>
+                                {{/each}}
                             </select>
                         </div>
                         <hr>

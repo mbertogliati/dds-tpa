@@ -5,9 +5,13 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.comunidades.Rol;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
+import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
+import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
+import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
+import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
 import java.util.List;
 import java.util.Map;
@@ -17,11 +21,15 @@ public class RolesController {
   RolRepositorio repoRol;
   UsuarioRepositorio repoUsuario;
   ComunidadRepositorio repoComunidad;
+  OrganismoControlRepositorio repoOrganismos;
+  EntidadPrestadoraRepositorio repoEntidades;
 
   public RolesController(EntityManager entityManager){
     this.repoRol = new RolRepositorio(entityManager);
     this.repoUsuario = new UsuarioRepositorio(entityManager);
     this.repoComunidad = new ComunidadRepositorio(entityManager);
+    this.repoOrganismos = new OrganismoControlRepositorio(entityManager);
+    this.repoEntidades = new EntidadPrestadoraRepositorio(entityManager);
   }
 
   public void show(Context context){
@@ -34,6 +42,12 @@ public class RolesController {
 
     List<Membresia> membresias = usuario.getPersonaAsociada().getMembresias();
     model.put("membresias", membresias);
+
+    List<OrganismoControl> organismosControl = repoOrganismos.manejadosPor(usuario.getPersonaAsociada());
+    model.put("organismosControl", organismosControl);
+
+    List<EntidadPrestadora> entidadesPrestadoras = repoEntidades.manejadasPor(usuario.getPersonaAsociada());
+    model.put("entidadesPrestadoras", entidadesPrestadoras);
 
     context.render("roles.hbs", model);
   }
@@ -49,12 +63,25 @@ public class RolesController {
     int idRol;
 
     if(index != -1){
-      idRol = Integer.parseInt(idRolRecibido.substring(0, index));
+      String rol = idRolRecibido.substring(0, index);
+      if(rol.equals("organismo")){
+        idRol = -1;
+      } else if (rol.equals("entidad")) {
+        idRol = -2;
+      }else{
+        idRol = Integer.parseInt(rol);
+      }
     }else{
       idRol = Integer.parseInt(idRolRecibido);
     }
 
-    if(idRol == repoRol.rolAdminComunidad().getId() || idRol == repoRol.rolDefaultComunidad().getId()){
+    if(idRol == -1){
+      OrganismoControl organismoControl = repoOrganismos.buscarPorId(Integer.parseInt(idRolRecibido.substring(index+1)));
+      context.sessionAttribute("organismoControl", organismoControl);
+    } else if (idRol == -2) {
+      EntidadPrestadora entidadPrestadora = repoEntidades.buscarPorId(Integer.parseInt(idRolRecibido.substring(index+1)));
+      context.sessionAttribute("entidadPrestadora", entidadPrestadora);
+    } else if(idRol == repoRol.rolAdminComunidad().getId() || idRol == repoRol.rolDefaultComunidad().getId()){
       int idComunidad = Integer.parseInt(idRolRecibido.substring(index+1));
 
       Comunidad comunidad = repoComunidad.obtenerComunidadPorId(idComunidad);

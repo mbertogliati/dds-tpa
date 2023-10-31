@@ -60,14 +60,20 @@ public class GeneradorModel {
 
     if(context.sessionAttribute("adminPlataforma") != null){
       model.put("adminPlataforma", true);
-    }else{
-      if(context.sessionAttribute("comunidad") != null){
-        model.put("comunidad", context.sessionAttribute("comunidad"));
+    }else if(context.sessionAttribute("comunidad") != null) {
+      model.put("comunidad", context.sessionAttribute("comunidad"));
 
-        if(context.sessionAttribute("adminComunidad") != null){
-          model.put("adminComunidad", true);
-        }
+      if (context.sessionAttribute("adminComunidad") != null) {
+        model.put("adminComunidad", true);
       }
+    } else if (context.sessionAttribute("organismoControl") != null) {
+      model.put("organismoControl", context.sessionAttribute("organismoControl"));
+      model.put("manejador", true);
+    } else if (context.sessionAttribute("entidadPrestadora") != null) {
+      model.put("entidadPrestadora", context.sessionAttribute("entidadPrestadora"));
+      model.put("manejador", true);
+    } else{
+      model.put("userDefault", true);
     }
 
     model.put("msg", context.consumeSessionAttribute("msg"));
