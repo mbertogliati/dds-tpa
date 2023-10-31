@@ -19,7 +19,7 @@
 </head>
 <body class="d-flex flex-column">
 
-<nav class="navbar navbar-expand-lg {{#with adminPlataforma}}navbar-light bg-warning{{else}}navbar-dark bg-primary{{/with}}{{#with adminComunidad}}navbar-light bg-success{{/with}}">
+        <nav class="navbar navbar-expand-lg {{#with adminPlataforma}}bg-admin{{else}}{{#with adminComunidad}}bg-adminComunidad{{else}}{{#with comunidad}}bg-miembro{{else}}{{#with manejador}}bg-manejador{{else}}navbar-dark bg-primary{{/with}}{{/with}}{{/with}}{{/with}}">
     <div class="container">
         <a class="navbar-brand" href="/home"><b>MESTRAPEST</b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -28,11 +28,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav nav-pills">
-                <li class="nav-item">
+                <li class="nav-item mx-2">
                     <a class="nav-link {{#with nav-index}}active{{/with}}" href="/home">Inicio</a>
                 </li>
                 {{#with comunidad}}
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown mx-2">
                     <a class="nav-link dropdown-toggle {{#with nav-incidentes}}active{{/with}}" href="#" id="navbarDropdownIncidentes" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Incidentes
                     </a>
@@ -43,17 +43,17 @@
                     </div>
                 </li>
                     {{#with adminComunidad}}
-                        <li class="nav-item">
+                        <li class="nav-item mx-2">
                             <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades/{{comunidad.id}}/edit">Modificar comunidad</a>
                         </li>
                     {{else}}
-                        <li class="nav-item">
+                        <li class="nav-item mx-2">
                             <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades/{{comunidad.id}}">Ver comunidad</a>
                         </li>
                     {{/with}}
                 {{/with}}
                 {{#with manejador}}
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown mx-2">
                     <a class="nav-link dropdown-toggle {{#with nav-entidades}}active{{/with}}" href="#" id="navbarDropdownEntidades" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Entidades
                     </a>
@@ -67,15 +67,15 @@
                 </li>
                 {{/with}}
                 {{#with userDefault}}
-                <li class="nav-item">
+                <li class="nav-item mx-2">
                     <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades">Comunidades</a>
                 </li>
                 {{/with}}
                 {{#with adminPlataforma}}
-                    <li class="nav-item">
+                    <li class="nav-item mx-2">
                         <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades">Comunidades</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item mx-2">
                         <a class="nav-link {{#with nav-usuarios}}active{{/with}}" href="/usuarios">Usuarios</a>
                     </li>
                 {{/with}}
