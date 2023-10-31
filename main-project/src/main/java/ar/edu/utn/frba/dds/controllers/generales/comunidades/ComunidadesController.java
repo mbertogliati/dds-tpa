@@ -10,8 +10,6 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.FusionadorComunidades;
-import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.MembresiaRepositorio;
@@ -92,7 +90,7 @@ public class ComunidadesController implements ICrudViewsHandler {
     Usuario usuario = context.sessionAttribute("usuario");
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
 
-    if(VerificadorRol.tieneRol(usuario, comunidad, ADMINISTRAR_COMUNIDAD)){
+    if(VerificadorRol.tienePermiso(usuario, comunidad, ADMINISTRAR_COMUNIDAD)){
       model.put("adminComunidad", true);
     }
 
@@ -142,7 +140,7 @@ public class ComunidadesController implements ICrudViewsHandler {
     Usuario usuario = context.sessionAttribute("usuario");
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
 
-    if(VerificadorRol.tieneRol(usuario, comunidad, ADMINISTRAR_COMUNIDAD)){
+    if(VerificadorRol.tienePermiso(usuario, comunidad, ADMINISTRAR_COMUNIDAD)){
       model.put("editable", true);
       model.put("edicion", true);
       model.put("adminComunidad", true);

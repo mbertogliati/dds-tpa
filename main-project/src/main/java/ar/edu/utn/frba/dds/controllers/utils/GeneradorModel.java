@@ -60,6 +60,14 @@ public class GeneradorModel {
 
     if(context.sessionAttribute("adminPlataforma") != null){
       model.put("adminPlataforma", true);
+    }else{
+      if(context.sessionAttribute("comunidad") != null){
+        model.put("comunidad", context.sessionAttribute("comunidad"));
+
+        if(context.sessionAttribute("adminComunidad") != null){
+          model.put("adminComunidad", true);
+        }
+      }
     }
 
     model.put("msg", context.consumeSessionAttribute("msg"));

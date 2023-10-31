@@ -133,7 +133,7 @@ public class UsuariosController implements ICrudViewsHandler {
   @Override
   public void index(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
-    if (!VerificadorRol.tieneRol(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
+    if (!VerificadorRol.tienePermiso(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
       context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
       return;
@@ -157,7 +157,7 @@ public class UsuariosController implements ICrudViewsHandler {
   }
   public void show(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
-    if (!VerificadorRol.tieneRol(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
+    if (!VerificadorRol.tienePermiso(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
       context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
       return;

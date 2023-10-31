@@ -2,14 +2,12 @@ package ar.edu.utn.frba.dds.controllers.utils;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
-import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Rol;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class VerificadorRol {
-  public static Boolean tieneRol(Usuario usuario, Permiso permiso){
+  public static Boolean tienePermiso(Usuario usuario, Permiso permiso){
     return usuario.getRoles().stream().map(Rol::getPermisos).flatMap(List::stream).anyMatch(p -> getRol(p.getDetalles()).equals(permiso));
   }
 
@@ -24,7 +22,7 @@ public class VerificadorRol {
     }
   }
 
-  public static Boolean tieneRol(Usuario usuario, Comunidad comunidad, Permiso permiso){
+  public static Boolean tienePermiso(Usuario usuario, Comunidad comunidad, Permiso permiso){
     if(usuario.getPersonaAsociada().getMembresias().isEmpty()){
       return false;
     }

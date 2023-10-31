@@ -19,7 +19,7 @@
 </head>
 <body class="d-flex flex-column">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg {{#with adminPlataforma}}navbar-light bg-warning{{else}}navbar-dark bg-primary{{/with}}{{#with adminComunidad}}navbar-light bg-success{{/with}}">
     <div class="container">
         <a class="navbar-brand" href="/home"><b>MESTRAPEST</b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -63,12 +63,13 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{#with nav-usuarios}}active{{/with}}" href="#" id="navbarDropdownSesion" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Mi sesión
+                        {{userActual.personaAsociada.nombre}} {{userActual.personaAsociada.apellido}}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownSesion">
                         <a class="dropdown-item" href="/usuarios/{{userActual.id}}/edit">Mi perfil</a>
                         <a class="dropdown-item" href="/misComunidades">Mis comunidades</a>
                         <a class="dropdown-item" href="/usuarios/{{userActual.id}}/interes">Mis intereses</a>
+                        <a class="dropdown-item" href="/roles">Cambiar rol</a>
                         <a class="dropdown-item" href="/logout">Cerrar sesión</a>
                     </div>
                 </li>

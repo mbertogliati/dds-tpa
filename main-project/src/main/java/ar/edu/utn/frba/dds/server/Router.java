@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesCon
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosPrestadosController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.FusionComunidadesController;
+import ar.edu.utn.frba.dds.controllers.generales.comunidades.RolesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.CargaMasivaController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.ComunidadesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.EntidadesController;
@@ -139,7 +140,7 @@ public class Router {
         post(new RegisterController(entityManager)::save);
       });
 
-      //ADMINISTRACIÓN DE USUARIOS (ADMIN PLATAFORMA)
+      //ADMINISTRACIÓN DE USUARIOS
       path("/usuarios",()->{
         get(new UsuariosController(entityManager)::index);
         path("{id}", () -> {
@@ -154,6 +155,12 @@ public class Router {
           get("sacarServicio/{idServicio}", new UsuariosController(entityManager)::sacarServicio);
           get("sacarEntidad/{idEntidad}", new UsuariosController(entityManager)::sacarEntidad);
         });
+      });
+
+      //ROLES
+      path("roles", ()->{
+        get(new RolesController(entityManager)::show);
+        post(new RolesController(entityManager)::setRol);
       });
 
       //COMUNIDADES

@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.modelos.comunidades;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,9 @@ public class Rol {
   @ManyToMany
   @Cascade(CascadeType.ALL)
   private List<Permiso> permisos = new ArrayList<>();
+
+  @Column(name = "nombre")
+  private String nombre;
 
   public Rol(){}
 
