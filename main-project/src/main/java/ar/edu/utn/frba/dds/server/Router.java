@@ -12,7 +12,7 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesCon
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosPrestadosController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.FusionComunidadesController;
-import ar.edu.utn.frba.dds.controllers.generales.comunidades.RolesController;
+import ar.edu.utn.frba.dds.controllers.generales.user.RolesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.CargaMasivaController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.ComunidadesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.EntidadesController;
