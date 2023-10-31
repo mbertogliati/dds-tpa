@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -15,9 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ObtenedorListadoIncidentes {
-    public static String ip = "localhost";
-    public static String puerto = "8080";
-    public static String resource = "incidentes";
+    public static String url = "https://localhost:8080/incidentes";
+
+    public static URI obtenerURI() {
+        String envUrl = System.getenv("LISTADO_INCIDENTES_URL");
+        if(envUrl != null && !envUrl.isEmpty()) url = envUrl;
+        return URI.create(url);
+    }
 
     public static String obtenerHTMLListadoIncidentes(Map<String,Object> model) throws URISyntaxException, IOException, InterruptedException {
         MensajeVista mensajeVista = (MensajeVista) model.get("msg");
@@ -34,7 +37,7 @@ public class ObtenedorListadoIncidentes {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://" +ip+":"+puerto+"/"+resource))
+                .uri(obtenerURI())
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
