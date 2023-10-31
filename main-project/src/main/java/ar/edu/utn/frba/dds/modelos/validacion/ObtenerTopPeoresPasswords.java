@@ -12,7 +12,7 @@ import lombok.Setter;
 public class ObtenerTopPeoresPasswords implements ObtenerListaString {
   @Getter
   @Setter
-  private String archivo = "main-project/src/main/resources/public/validacion/10000WorstPasswords.txt10000WorstPasswords.txt";
+  private String archivo = "main-project/src/main/resources/public/validacion/10000WorstPasswords.txt";
   private List<String> lista = new ArrayList<>();
   private static ObtenerTopPeoresPasswords instancia = null;
 

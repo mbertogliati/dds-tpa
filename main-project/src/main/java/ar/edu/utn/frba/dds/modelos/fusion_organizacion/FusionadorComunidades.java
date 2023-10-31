@@ -43,7 +43,7 @@ public class FusionadorComunidades {
       List<Membresia> membresiasDePersona = membresias.stream().filter(m -> m.getPersona().getId() == idPersona).toList();
       Rol rolPersona;
 
-      if(membresiasDePersona.stream().anyMatch(m -> m.getRolComunidad().getId() == this.rolAdminComunidad.getId())){
+      if(membresiasDePersona.stream().anyMatch(m -> m.getRoles().stream().map(Rol::getId).toList().contains(this.rolAdminComunidad.getId()))){
         rolPersona = this.rolAdminComunidad;
       }else{
         rolPersona = this.rolDefaultComunidad;
