@@ -19,5 +19,10 @@ También se pueden especificar por terminal antes de ejecutar la aplicación.
 9. `SERVICIO_CALCULO_GRADO_CONFIANZA_URL=http://localhost:8080`: URL de la aplicación externa para calcular el grado de confianza.
 10. `SERVICIO_FUSION_URL=http://localhost:8081`: URL de la aplicación externa para fusionar organizaciones o comunidades.
 11. `WORST_PASSWORDS_FILE=main-project/src/main/resources/public/validacion/10000WorstPasswords.txt`: ruta del archivo que contiene los peores passwords para el sistema de validación.
-
+12. `NOTIFICACION_PENDIENTES_MINUTOS=30`: cada cuantos minutos se envían las notificaciones pendientes.
+13. `NOTIFICACION_AL_MOMENTO_MINUTOS=5`: cada cuantos minutos se envían las notificaciones al momento.
+14. `GENERAR_RANKING_DIA=MONDAY`: día en el que se hace la generación de ranking.
+15. `GENERAR_RANKING_HORA=00:00`: hora en el que se hace la generación del ranking.
+16. `CALCULAR_CONFIANZA_DIA=SUNDAY`: día en el que se calcula el grado de confianza.
+17. `CALCULAR_CONFIANZA_HORA=13:00`: horario en el que se calcula el grado de confianza.
 * *Los valores mostrados son sólo de ejemplo y deben ser readaptados según el entorno de ejecución (local, docker, nube, etc).*

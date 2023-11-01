@@ -15,7 +15,13 @@ public class CreadorCronTask {
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
-        task.run();
+        try {
+          task.run();
+        } catch (Exception ex) {
+          System.out.println("Una excepción ocurrió cuando se ejecutaba la tarea programada.");
+          System.out.println(ex.getMessage());
+          ex.printStackTrace();
+        }
       }
     };
 
@@ -35,8 +41,9 @@ public class CreadorCronTask {
 
     crearCronTask(task, fechaDesde, cantSegundos);
   }
-  public void crearCronTaskCadaMinuto(Runnable task, Long cantMinutos){
-    crearCronTask(task,LocalDateTime.now(),cantMinutos);
+  public void crearCronTaskCadaMinuto(Runnable task, Long cantMinutos) {
+    Long cantSegundos = cantMinutos * 60;
+    crearCronTask(task,LocalDateTime.now(),cantSegundos);
   }
 
   private long calcularRetrasoInicial(LocalDateTime ahora, LocalDateTime fechaDesde, long cantSegundos) {

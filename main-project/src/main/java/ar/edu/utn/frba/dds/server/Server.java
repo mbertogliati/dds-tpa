@@ -90,9 +90,9 @@ public class Server {
     calcularGradoConfianzaController.calcularGradosDeConfianza();
     //generarRankingController.generarRankingUltimaSemana();
 
-    creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.MONDAY, LocalTime.parse("00:00"));
-    creadorCronTask.crearCronTaskSemanal(calcularGradoConfianzaController::calcularGradosDeConfianza, DayOfWeek.SUNDAY, LocalTime.parse("13:00"));
-    creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, 30L);
-    creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosAlMomento, 5L);
+    creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.valueOf(System.getenv("GENERAR_RANKING_DIA")), LocalTime.parse(System.getenv("GENERAR_RANKING_HORA")));
+    creadorCronTask.crearCronTaskSemanal(calcularGradoConfianzaController::calcularGradosDeConfianza, DayOfWeek.valueOf(System.getenv("CALCULAR_CONFIANZA_DIA")), LocalTime.parse(System.getenv("CALCULAR_CONFIANZA_HORA")));
+    creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, Long.parseLong(System.getenv("NOTIFICACION_PENDIENTES_MINUTOS")));
+    creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosAlMomento,Long.parseLong(System.getenv("NOTIFICACION_AL_MOMENTO_MINUTOS")));
   }
 }
