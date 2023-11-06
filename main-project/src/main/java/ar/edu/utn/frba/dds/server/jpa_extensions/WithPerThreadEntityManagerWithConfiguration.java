@@ -24,6 +24,7 @@ public interface WithPerThreadEntityManagerWithConfiguration extends WithEntityM
 
     properties.set("hibernate.hbm2ddl.auto", System.getenv("DB_CONNECTION_HIBERNATE_HBM2DDL_AUTO"));
     properties.set("hibernate.dialect", System.getenv("DB_CONNECTION_HIBERNATE_DIALECT"));
+    properties.set("hibernate.show_sql", System.getenv("DB_CONNECTION_HIBERNATE_SHOW_SQL"));
 
     PerThreadEntityManagerAccessWithConfiguration entityManagerAccess = new PerThreadEntityManagerAccessWithConfiguration("simple-persistence-unit", properties);
     return entityManagerAccess.get();

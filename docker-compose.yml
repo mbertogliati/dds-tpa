@@ -27,6 +27,7 @@ services:
       DB_CONNECTION_PASSWORD: 123
       DB_CONNECTION_HOST: jdbc:postgresql://dbservice/pruebas
       DB_CONNECTION_USERNAME: postgres
+      DB_CONNECTION_HIBERNATE_SHOW_SQL: TRUE
       SERVICIO_CALCULO_GRADO_CONFIANZA_URL: http://localhost:9999
       SERVICIO_FUSION_URL: http://localhost:9998
       LISTADO_INCIDENTES_URL: http://localhost:9997/incidentes
