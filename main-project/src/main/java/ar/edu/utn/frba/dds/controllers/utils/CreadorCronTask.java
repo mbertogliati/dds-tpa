@@ -18,7 +18,7 @@ public class CreadorCronTask {
         try {
           task.run();
         } catch (Exception ex) {
-          System.out.println("Una excepción ocurrió cuando se ejecutaba la tarea programada.");
+          System.out.println("[ERROR]: Una excepción ocurrió cuando se ejecutaba la tarea programada.");
           System.out.println(ex.getMessage());
           ex.printStackTrace();
         }
