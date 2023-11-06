@@ -1,6 +1,9 @@
 package ar.edu.utn.frba.dds.modelos.validacion;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +15,7 @@ import lombok.Setter;
 public class ObtenerTopPeoresPasswords implements ObtenerListaString {
   @Getter
   @Setter
-  private String archivo = "main-project/src/main/resources/public/validacion/10000WorstPasswords.txt10000WorstPasswords.txt";
+  private String archivo = "main-project/src/main/resources/public/validacion/10000WorstPasswords.txt";
   private List<String> lista = new ArrayList<>();
   private static ObtenerTopPeoresPasswords instancia = null;
 
@@ -37,6 +40,7 @@ public class ObtenerTopPeoresPasswords implements ObtenerListaString {
       Path path = Paths.get(this.archivo);
       this.lista = Files.readAllLines(path);
     }catch (Exception e){
+      System.out.println("Ocurrió un error al intentar leer el archivo con el listado de peores passwords.");
       e.printStackTrace();
     }
   }

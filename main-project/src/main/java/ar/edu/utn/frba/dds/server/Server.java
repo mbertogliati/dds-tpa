@@ -77,22 +77,31 @@ public class Server {
     );
   }
   private static void configurarCronTasks(){
-    GenerarRankingController generarRankingController = new GenerarRankingController(
-        new CreadorEntityManager().entityManagerCreado()
-    );
-    NotificacionController notificacionController = new NotificacionController(
-        new CreadorEntityManager().entityManagerCreado()
-    );
-    CalcularGradoConfianzaController calcularGradoConfianzaController = new CalcularGradoConfianzaController(
-        new CreadorEntityManager().entityManagerCreado()
-    );
+    try {
+      System.out.println("Inicializando Cron Tasks ...");
 
-    calcularGradoConfianzaController.calcularGradosDeConfianza();
-    //generarRankingController.generarRankingUltimaSemana();
+      GenerarRankingController generarRankingController = new GenerarRankingController(
+          new CreadorEntityManager().entityManagerCreado()
+      );
+      NotificacionController notificacionController = new NotificacionController(
+          new CreadorEntityManager().entityManagerCreado()
+      );
+      CalcularGradoConfianzaController calcularGradoConfianzaController = new CalcularGradoConfianzaController(
+          new CreadorEntityManager().entityManagerCreado()
+      );
 
-    creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.valueOf(System.getenv("GENERAR_RANKING_DIA")), LocalTime.parse(System.getenv("GENERAR_RANKING_HORA")));
-    creadorCronTask.crearCronTaskSemanal(calcularGradoConfianzaController::calcularGradosDeConfianza, DayOfWeek.valueOf(System.getenv("CALCULAR_CONFIANZA_DIA")), LocalTime.parse(System.getenv("CALCULAR_CONFIANZA_HORA")));
-    creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, Long.parseLong(System.getenv("NOTIFICACION_PENDIENTES_MINUTOS")));
-    creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosAlMomento,Long.parseLong(System.getenv("NOTIFICACION_AL_MOMENTO_MINUTOS")));
+      calcularGradoConfianzaController.calcularGradosDeConfianza();
+      //generarRankingController.generarRankingUltimaSemana();
+
+      creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.valueOf(System.getenv("GENERAR_RANKING_DIA")), LocalTime.parse(System.getenv("GENERAR_RANKING_HORA")));
+      creadorCronTask.crearCronTaskSemanal(calcularGradoConfianzaController::calcularGradosDeConfianza, DayOfWeek.valueOf(System.getenv("CALCULAR_CONFIANZA_DIA")), LocalTime.parse(System.getenv("CALCULAR_CONFIANZA_HORA")));
+      creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, Long.parseLong(System.getenv("NOTIFICACION_PENDIENTES_MINUTOS")));
+      creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosAlMomento,Long.parseLong(System.getenv("NOTIFICACION_AL_MOMENTO_MINUTOS")));
+
+      System.out.println("Cron Tasks inicializados correctamente.");
+    } catch (Exception ex) {
+      System.out.println("Ocurrió un error en la inicialización de los Cron Tasks.");
+      ex.printStackTrace();
+    }
   }
 }
