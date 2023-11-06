@@ -78,7 +78,7 @@ public class Server {
   }
   private static void configurarCronTasks(){
     try {
-      System.out.println("Inicializando Cron Tasks ...");
+      System.out.println("[INFO]: Inicializando Cron Tasks ...");
 
       GenerarRankingController generarRankingController = new GenerarRankingController(
           new CreadorEntityManager().entityManagerCreado()
@@ -98,9 +98,9 @@ public class Server {
       creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, Long.parseLong(System.getenv("NOTIFICACION_PENDIENTES_MINUTOS")));
       creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosAlMomento,Long.parseLong(System.getenv("NOTIFICACION_AL_MOMENTO_MINUTOS")));
 
-      System.out.println("Cron Tasks inicializados correctamente.");
+      System.out.println("[INFO]: Cron Tasks inicializados correctamente.");
     } catch (Exception ex) {
-      System.out.println("Ocurrió un error en la inicialización de los Cron Tasks.");
+      System.out.println("[ERROR]: Ocurrió un error en la inicialización de los Cron Tasks.");
       ex.printStackTrace();
     }
   }

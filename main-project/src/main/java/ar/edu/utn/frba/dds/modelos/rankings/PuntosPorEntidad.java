@@ -15,7 +15,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(name = "puntosPorEntidades")
+@Table(name = "puntos_por_entidades")
 @Getter
 @Setter
 public class PuntosPorEntidad {

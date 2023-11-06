@@ -19,9 +19,13 @@ public class NotificacionController {
     repoAlMomento = new NotificablesParaCronTaskAlMomentoRepositorio(entityManager);
   }
 
-  public void notificarUsuariosPendientes(){
+  public void notificarUsuariosPendientes() {
+    System.out.println("[INFO]: Notificando usuarios pendientes...");
+
     LocalDateTime horaInicioProceso = LocalDateTime.now();
     List<Persona> personas = repoPersona.buscarTodas();
+
+    System.out.println("[INFO]: Cantidad de personas encontradas:" + personas.size());
 
     for(Persona persona : personas){
       if(persona.getFechas().stream().anyMatch(fecha -> fecha.sePuedeNotificar(horaInicioProceso))){
@@ -29,14 +33,21 @@ public class NotificacionController {
         repoPersona.actualizar(persona);
       }
     }
+    System.out.println("[INFO]: Usuarios pendientes notificados correctamente.");
   }
 
-  public void notificarUsuariosAlMomento(){
+  public void notificarUsuariosAlMomento() {
+    System.out.println("[INFO]: Notificando usuarios al momento...");
     List<NotificablesParaCronTaskAlMomento> notificablesPendientes = repoAlMomento.obtenerTodos();
+
+    System.out.println("[INFO]: Cantidad de notificables pendientes encontrados:" + notificablesPendientes.size());
+
     notificablesPendientes.forEach(n -> {
         Notificador.notificar(n.getMensaje(), n.getPersona());
         repoAlMomento.eliminar(n);
     });
+
+    System.out.println("[INFO]: Usuarios notificados al momento correctamente.");
   }
 }
 

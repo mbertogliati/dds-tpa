@@ -15,7 +15,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "notificablesAlMomento")
+@Table(name = "notificables_al_momento")
 public class NotificablesParaCronTaskAlMomento {
   @Id
   @GeneratedValue
