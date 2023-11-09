@@ -1,12 +1,14 @@
 package ar.edu.utn.frba.dds.modelos.comunidades;
 
 import ar.edu.utn.frba.dds.modelos.base.ModelBase;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -20,7 +22,6 @@ import org.hibernate.annotations.Where;
 @Entity
 @Table(name = "usuarios")
 @Getter @Setter
-
 public class Usuario extends ModelBase {
   @Column(name = "usuario")
   private String username;
@@ -33,9 +34,8 @@ public class Usuario extends ModelBase {
   @Cascade(CascadeType.ALL)
   private Persona personaAsociada;
 
-  @ManyToOne
-  @JoinColumn(name = "rolPlataforma_id", referencedColumnName = "id")
-  private Rol rolPlataforma;
+  @ManyToMany
+  private List<Rol> roles;
 
   public Usuario(){}
 

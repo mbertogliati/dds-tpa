@@ -61,10 +61,11 @@ public class LoginController{
     if(Objects.equals(hasheador.hashear(password), usuario.getPassword())){
       context.sessionAttribute("usuario", usuario);
       intentoDeLogin.reset();
-      if (VerificadorRol.tieneRol(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
+/*
+      if (VerificadorRol.tienePermiso(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
         context.sessionAttribute("adminPlataforma", true);
       }
-
+*/
       context.redirect("/");
     }else{
       context.sessionAttribute("usuario", null);

@@ -33,9 +33,17 @@ public class RankingsController implements ICrudViewsHandler {
     List<Ranking> listaRankings;
 
     if(param != null){
-      listaRankings = repoRankings.buscarConFechaCreacionPosteriorA(param, usuario);
+      if(context.sessionAttribute("adminPlataforma") != null){
+        listaRankings = repoRankings.buscarConFechaCreacionPosteriorA(param);
+      }else {
+        listaRankings = repoRankings.buscarConFechaCreacionPosteriorA(param, usuario);
+      }
     }else{
-      listaRankings = repoRankings.obtenerTodos(usuario);
+      if(context.sessionAttribute("adminPlataforma") != null){
+        listaRankings = repoRankings.obtenerTodos();
+      }else {
+        listaRankings = repoRankings.obtenerTodos(usuario);
+      }
     }
 
     model.put("rankings", listaRankings);

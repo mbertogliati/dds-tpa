@@ -1,0 +1,44 @@
+{{#partial "titulo"}}
+    <title>Seleccionar rol</title>
+{{/partial}}
+
+{{#partial "contenido"}}
+<div class="container altura-minima mt-5 mb-5">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Seleccionar rol de <b>{{userActual.personaAsociada.nombre}} {{userActual.personaAsociada.apellido}}</b>
+                </div>
+                <div class="card-body">
+                    <form action="/roles" method="post">
+                        <div class="row">
+                            <select class="form-select" name="rol" id="rol" required>
+                                {{#each rolesPlataforma}}
+                                    <option value="{{id}}">{{nombre}}</option>
+                                {{/each}}
+                                {{#each membresias}}
+                                    {{#each roles}}
+                                        <option value="{{id}}-{{../comunidad.id}}">{{../comunidad.nombre}} - {{nombre}}</option>
+                                    {{/each}}
+                                {{/each}}
+                                {{#each organismosControl}}
+                                    <option value="organismo-{{id}}">{{nombre}} - Manejador</option>
+                                {{/each}}
+                                {{#each entidadesPrestadoras}}
+                                    <option value="entidad-{{id}}">{{nombre}} - Manejador</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary">Seleccionar rol</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> templates/base}}

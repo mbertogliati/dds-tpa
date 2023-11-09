@@ -56,7 +56,7 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         Map<String, Object> model = GeneradorModel.model(context);
 
         Usuario usuario = context.sessionAttribute("usuario");
-        List<Organizacion> listaOrganizacion = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId() && m.getRolComunidad().getId() == repoRol.rolAdminComunidad().getId())).map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
+        List<Organizacion> listaOrganizacion = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId() && m.tieneRol(repoRol.rolAdminComunidad()))).map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
         List<PropuestaFusionComunidad> propuestasDisponibles = servicioDeFusion.obtenerPropuestas(listaOrganizacion).stream().map(
             p ->
             new PropuestaFusionComunidad(
