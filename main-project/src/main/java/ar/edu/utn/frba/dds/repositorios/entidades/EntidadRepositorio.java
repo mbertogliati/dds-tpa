@@ -46,7 +46,7 @@ public class EntidadRepositorio {
 
   public List<Entidad> buscarPorLocalidad(String idLocalidad) {
     return entityManager.createQuery(
-        "SELECT e FROM "+ Entidad.class.getName() +" e WHERE e.ubicacion.metadato.localidad.id = :idBuscado AND e.activo = 1",Entidad.class)
+        "SELECT e FROM "+ Entidad.class.getName() +" e WHERE e.ubicacion.metadato.localidad.id = :idBuscado AND e.activo = true",Entidad.class)
         .setParameter("idBuscado", Integer.parseInt(idLocalidad))
         .getResultList();
   }

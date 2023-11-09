@@ -46,7 +46,7 @@ public class EstablecimientoRepositorio {
 
   public List<Establecimiento> buscarPorEntidad(String idEntidad) {
     return entityManager.createQuery(
-            "SELECT e FROM "+ Establecimiento.class.getName() +" e WHERE e.entidad.id = :idBuscado AND e.activo = 1",Establecimiento.class)
+            "SELECT e FROM "+ Establecimiento.class.getName() +" e WHERE e.entidad.id = :idBuscado AND e.activo = true",Establecimiento.class)
         .setParameter("idBuscado", Integer.parseInt(idEntidad))
         .getResultList();
   }
