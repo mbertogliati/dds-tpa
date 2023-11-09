@@ -41,7 +41,7 @@ public class Server {
         ctx.redirect(ctx.path() + "?error");
       });
 
-      configurarCronTasks();
+      //configurarCronTasks();
       initTemplateEngine();
 
       Router.init(entityManager);
