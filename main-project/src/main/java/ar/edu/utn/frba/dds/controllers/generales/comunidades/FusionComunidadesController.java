@@ -37,8 +37,8 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         this.repoRol = new RolRepositorio(entityManager);
         this.entityManager = entityManager;
         this.fusionadorComunidades = new FusionadorComunidades();
-        this.fusionadorComunidades.setRolAdminComunidad(repoRol.rolAdminComunidad());
-        this.fusionadorComunidades.setRolDefaultComunidad(repoRol.rolDefaultComunidad());
+        /*this.fusionadorComunidades.setRolAdminComunidad(repoRol.rolAdminComunidad());
+        this.fusionadorComunidades.setRolDefaultComunidad(repoRol.rolDefaultComunidad());*/
     }
 
     @Override
@@ -77,7 +77,7 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         solicitudFusion.setOrganizacion2(ConverterComunidadOrganizacion.obtenerOrganizacion(comunidad2));
 
         try {
-            Comunidad comunidadFusionada = fusionadorComunidades.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2);
+            Comunidad comunidadFusionada = fusionadorComunidades.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2, repoRol.rolDefaultComunidad(), repoRol.rolAdminComunidad());
 
             comunidad1.agregarIntentoFusion(LocalDateTime.now(), comunidad2);
             comunidad2.agregarIntentoFusion(LocalDateTime.now(), comunidad1);
