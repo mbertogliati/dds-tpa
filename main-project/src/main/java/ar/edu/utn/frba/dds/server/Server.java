@@ -96,21 +96,21 @@ public class Server {
       System.out.println("[INFO]: Inicializando Cron Task: GENERAR_RANKING_DIA...");
       creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.valueOf(System.getenv("GENERAR_RANKING_DIA")), LocalTime.parse(System.getenv("GENERAR_RANKING_HORA")));
       System.out.println("[INFO]: Cron Task inicializado correctamente: GENERAR_RANKING_DIA...");
-      /*
+
       System.out.println("[INFO]: Inicializando Cron Task: CALCULAR_CONFIANZA_DIA...");
       creadorCronTask.crearCronTaskSemanal(calcularGradoConfianzaController::calcularGradosDeConfianza, DayOfWeek.valueOf(System.getenv("CALCULAR_CONFIANZA_DIA")), LocalTime.parse(System.getenv("CALCULAR_CONFIANZA_HORA")));
       System.out.println("[INFO]: Cron Task inicializado correctamente: CALCULAR_CONFIANZA_DIA...");
-      */
-      /*
+
+
       System.out.println("[INFO]: Inicializando Cron Task: NOTIFICACION_PENDIENTES_MINUTOS...");
       creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, Long.parseLong(System.getenv("NOTIFICACION_PENDIENTES_MINUTOS")));
       System.out.println("[INFO]: Cron Task inicializado correctamente: NOTIFICACION_PENDIENTES_MINUTOS...");
-      */
-      /*
+
+
       System.out.println("[INFO]: Inicializando Cron Task: NOTIFICACION_AL_MOMENTO_MINUTOS...");
       creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosAlMomento,Long.parseLong(System.getenv("NOTIFICACION_AL_MOMENTO_MINUTOS")));
       System.out.println("[INFO]: Cron Task inicializado correctamente: NOTIFICACION_AL_MOMENTO_MINUTOS...");
-      */
+      
 
       System.out.println("[INFO]: Cron Tasks inicializados correctamente.");
     } catch (Exception ex) {
