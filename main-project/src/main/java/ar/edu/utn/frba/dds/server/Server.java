@@ -110,7 +110,7 @@ public class Server {
       System.out.println("[INFO]: Inicializando Cron Task: NOTIFICACION_AL_MOMENTO_MINUTOS...");
       creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosAlMomento,Long.parseLong(System.getenv("NOTIFICACION_AL_MOMENTO_MINUTOS")));
       System.out.println("[INFO]: Cron Task inicializado correctamente: NOTIFICACION_AL_MOMENTO_MINUTOS...");
-      
+
 
       System.out.println("[INFO]: Cron Tasks inicializados correctamente.");
     } catch (Exception ex) {

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.formulariosDinamicos;
 
+import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import io.javalin.http.Context;
@@ -19,23 +20,29 @@ public class ObtenerServiciosPrestadosController implements Handler {
   public void handle(@NotNull Context context) throws Exception {
     String establecimientoId = context.queryParam("selectorId");
 
-    List<ServicioPrestado> servicioPrestados = servicioPrestadoRepositorio.buscarPorEstablecimiento(establecimientoId);
 
-    // Genero HTML con las opciones de los departamentos
-    StringBuilder htmlOptions = new StringBuilder();
+    if(establecimientoId != null && establecimientoId != "") {
+      List<ServicioPrestado> servicioPrestados = servicioPrestadoRepositorio.buscarPorEstablecimiento(establecimientoId);
 
-    for (ServicioPrestado servicioPrestado : servicioPrestados) {
-      htmlOptions
-          .append("<option value=\"")
-          .append(servicioPrestado.getId())
-          .append(" - ")
-          .append(servicioPrestado.getServicio().getNombre())
-          .append("\" label=\"")
-          .append(servicioPrestado.getServicio().getStringEtiquetas())
-          .append("\">");
+      // Genero HTML con las opciones de los departamentos
+      StringBuilder htmlOptions = new StringBuilder();
+
+      for (ServicioPrestado servicioPrestado : servicioPrestados) {
+        htmlOptions
+            .append("<option value=\"")
+            .append(servicioPrestado.getId())
+            .append(" - ")
+            .append(servicioPrestado.getServicio().getNombre())
+            .append("\" label=\"")
+            .append(servicioPrestado.getServicio().getStringEtiquetas())
+            .append("\">");
+      }
+
+      context.contentType("text/html");
+      context.result(htmlOptions.toString());
+    }else{
+      context.contentType("text/html");
+      context.result("");
     }
-
-    context.contentType("text/html");
-    context.result(htmlOptions.toString());
   }
 }
