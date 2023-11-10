@@ -65,7 +65,7 @@ public class Incidente implements Notificable {
     }
 
     public void agregarIncidenteComunidad() {
-        this.autorApertura.getMembresias().stream().map(m -> m.getComunidad()).filter(c -> c.getActivo()).forEach(c -> c.agregarIncidente(this));
+        this.autorApertura.getMembresias().stream().filter(m -> m.getActivo()).map(m -> m.getComunidad()).filter(c -> c.getActivo()).forEach(c -> c.agregarIncidente(this));
     }
 
     @Override
