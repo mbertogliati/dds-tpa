@@ -19,7 +19,7 @@ import org.hibernate.annotations.CascadeType;
 @Getter
 @Setter
 @Entity
-@Table(name = "listados_notificables")
+@Table(name = "listados_notificables", schema = "public")
 public class ListadoNotificables implements Notificable {
     @Id
     @GeneratedValue

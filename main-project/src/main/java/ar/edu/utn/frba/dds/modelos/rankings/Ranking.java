@@ -21,7 +21,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(name = "rankings")
+@Table(name = "rankings", schema = "public")
 @Getter
 @Setter
 public class Ranking {

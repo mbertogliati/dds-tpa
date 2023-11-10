@@ -18,7 +18,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "servicios")
+@Table(name = "servicios", schema = "public")
 
 @Getter
 @Setter

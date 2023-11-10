@@ -18,7 +18,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "membresias")
+@Table(name = "membresias", schema = "public")
 
 @Getter
 @Setter

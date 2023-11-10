@@ -23,7 +23,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "comunidades")
+@Table(name = "comunidades", schema = "public")
 
 @Getter
 @Setter

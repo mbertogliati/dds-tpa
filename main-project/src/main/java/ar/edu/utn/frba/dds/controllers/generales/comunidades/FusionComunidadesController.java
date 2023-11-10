@@ -36,9 +36,9 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         this.repoIntentoFusionComunidades = new IntentoFusionComunidadRepositorio(entityManager);
         this.repoRol = new RolRepositorio(entityManager);
         this.entityManager = entityManager;
-        fusionadorComunidades = new FusionadorComunidades();
-        fusionadorComunidades.setRolAdminComunidad(repoRol.rolAdminComunidad());
-        fusionadorComunidades.setRolDefaultComunidad(repoRol.rolDefaultComunidad());
+        this.fusionadorComunidades = new FusionadorComunidades();
+        this.fusionadorComunidades.setRolAdminComunidad(repoRol.rolAdminComunidad());
+        this.fusionadorComunidades.setRolDefaultComunidad(repoRol.rolDefaultComunidad());
     }
 
     @Override
