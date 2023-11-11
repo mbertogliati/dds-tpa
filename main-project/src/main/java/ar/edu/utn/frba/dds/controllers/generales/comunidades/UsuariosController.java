@@ -244,6 +244,8 @@ public class UsuariosController implements ICrudViewsHandler {
     List<FechasDeSemana> fechasViejas = persona.getFechas();
     if (fechasViejas != null) fechasViejas.forEach(f -> repoFechas.eliminar(f));
 
+    repoUsuario.actualizar(usuario);
+
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Usuario modificado correctamente."));
     context.redirect("/usuarios/"+usuario.getId()+"/edit?success");
   }
