@@ -49,6 +49,10 @@ public class FiltradorPorComunidad {
     return localidades.stream().filter(l -> obtenerServiciosPrestadosConIncidentes(comunidad).stream().anyMatch(s -> Objects.equals(s.getUbicacion().getMetadato().getLocalidad().getId(), l.getId()))).toList();
   }
 
+  public static List<Incidente> incidentesDeComunidad(Comunidad comunidad, List<Incidente> incidentes) {
+    return incidentes.stream().filter(comunidad::tieneIncidente).toList();
+  }
+
   private static List<ServicioPrestado> obtenerServiciosPrestados(Comunidad comunidad){
     return comunidad.getServiciosPrestados();
   }

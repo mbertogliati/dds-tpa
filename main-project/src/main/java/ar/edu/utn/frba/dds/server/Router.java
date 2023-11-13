@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesCont
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosIncidentesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesCierreController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesCierreIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
@@ -211,6 +212,7 @@ public class Router {
         get("serviciosPrestadosIncidentes", new ObtenerServiciosPrestadosIncidentesController(entityManager));
         get("departamentosCierreIncidentes", new ObtenerDepartamentosCierreIncidentesController(entityManager));
         get("localidadesCierreIncidentes", new ObtenerLocalidadesCierreIncidentesController(entityManager));
+        get("incidentesCierre", new ObtenerIncidentesCierreController(entityManager));
       });
 
     });

@@ -13,13 +13,13 @@ document.addEventListener("DOMContentLoaded", function() {
         buscarOpciones(departamentoSelector, localidadSelector,"localidadesCierreIncidentes");
     });
     localidadSelector.addEventListener("DOMSubtreeModified", function(){
-        buscarOpciones(localidadSelector, incidenteSelector,"incidentes");
+        buscarOpciones(localidadSelector, incidenteSelector,"incidentesCierre");
     });
     departamentoSelector.addEventListener("change", function(){
         buscarOpciones(departamentoSelector, localidadSelector,"localidadesCierreIncidentes");
     });
     localidadSelector.addEventListener("change", function(){
-        buscarOpciones(localidadSelector, incidenteSelector,"incidentes");
+        buscarOpciones(localidadSelector, incidenteSelector,"incidentesCierre");
     });
 
 });
