@@ -5,12 +5,19 @@ import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosCierreIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesCierreIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosPrestadosController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosPrestadosIncidentesController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.FusionComunidadesController;
 import ar.edu.utn.frba.dds.controllers.generales.user.RolesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.CargaMasivaController;
@@ -197,6 +204,13 @@ public class Router {
         get("establecimientos", new ObtenerEstablecimientosController(entityManager));
         get("serviciosPrestados", new ObtenerServiciosPrestadosController(entityManager));
         get("incidentes", new ObtenerIncidentesController(entityManager));
+        get("departamentosIncidentes", new ObtenerDepartamentosIncidentesController(entityManager));
+        get("localidadesIncidentes", new ObtenerLocalidadesIncidentesController(entityManager));
+        get("entidadesIncidentes", new ObtenerEntidadesIncidentesController(entityManager));
+        get("establecimientosIncidentes", new ObtenerEstablecimientosIncidentesController(entityManager));
+        get("serviciosPrestadosIncidentes", new ObtenerServiciosPrestadosIncidentesController(entityManager));
+        get("departamentosCierreIncidentes", new ObtenerDepartamentosCierreIncidentesController(entityManager));
+        get("localidadesCierreIncidentes", new ObtenerLocalidadesCierreIncidentesController(entityManager));
       });
 
     });

@@ -1,8 +1,10 @@
 package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.FiltradorPorComunidad;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
@@ -65,10 +67,11 @@ public class IncidentesController {
     //PERSONA
     Usuario usuario = context.sessionAttribute("usuario");
     Persona persona = usuario.getPersonaAsociada();
+    Comunidad comunidad = context.sessionAttribute("comunidad");
     incidente.setAutorApertura(persona);
     incidente.setFechaHoraApertura(LocalDateTime.now());
 
-    incidente.agregarIncidenteComunidad();
+    incidente.agregarIncidenteComunidad(comunidad);
 
     //PERSISTIR
     repoIncidente.guardar(incidente);
@@ -94,19 +97,21 @@ public class IncidentesController {
   }
 
   public void vistaApertura(@NotNull Context context){
-
       Map<String, Object> model = GeneradorModel.model(context);
 
-      List<Provincia> provincias = repoProvincia.buscarTodas();
+      Comunidad comunidad = (Comunidad) model.get("comunidad");
 
+      List<Provincia> provincias = FiltradorPorComunidad.provinciasDeComunidad(comunidad , repoProvincia.buscarTodas());
       model.put("provincias", provincias);
 
       context.render("aperturaIncidente.hbs", model);
   }
+
   public void vistaCierre(@NotNull Context context){
     Map<String, Object> model = GeneradorModel.model(context);
 
-    List<Provincia> provincias = repoProvincia.buscarTodas();
+    Comunidad comunidad = (Comunidad) model.get("comunidad");
+    List<Provincia> provincias = FiltradorPorComunidad.provinciasConIncidentes(comunidad, repoProvincia.buscarTodas());
 
     model.put("provincias", provincias);
 
@@ -121,8 +126,10 @@ public class IncidentesController {
     //PERSONA
     Usuario usuario = context.sessionAttribute("usuario");
 
+    Comunidad comunidad = context.sessionAttribute("comunidad");
+
     //CERRAR INCIDENTE
-    usuario.getPersonaAsociada().cerrarIncidente(incidente);
+    usuario.getPersonaAsociada().cerrarIncidente(incidente, comunidad);
 
     //PERSISTIR
     this.repoIncidente.actualizar(incidente);

@@ -142,6 +142,10 @@ public class Persona extends ModelBase {
     this.membresias.stream().filter(m -> m.getActivo()).map(m -> m.getComunidad()).filter(c -> c.getActivo() && c.tieneIncidente(incidente)).forEach(c -> c.cerrarIncidente(incidente, this));
   }
 
+  public void cerrarIncidente(Incidente incidente, Comunidad comunidad){
+     comunidad.cerrarIncidente(incidente, this);
+  }
+
   public void agregarServicioDeInteres(ServicioPrestado servicio) {
     this.interes.agregarServicio(servicio);
   }
