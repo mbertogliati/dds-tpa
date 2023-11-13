@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.FiltradorPorComunida
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
+import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
@@ -67,11 +68,11 @@ public class IncidentesController {
     //PERSONA
     Usuario usuario = context.sessionAttribute("usuario");
     Persona persona = usuario.getPersonaAsociada();
-    Comunidad comunidad = context.sessionAttribute("comunidad");
     incidente.setAutorApertura(persona);
     incidente.setFechaHoraApertura(LocalDateTime.now());
 
-    incidente.agregarIncidenteComunidad(comunidad);
+    List<Comunidad> comunidades = persona.getMembresias().stream().map(Membresia::getComunidad).filter(c -> c.getServiciosPrestados().stream().map(s -> s.getId()).toList().containsAll(incidente.getServiciosAfectados().stream().map(sp -> sp.getId()).toList())).toList();
+    comunidades.forEach(incidente::agregarIncidenteComunidad);
 
     //PERSISTIR
     repoIncidente.guardar(incidente);
