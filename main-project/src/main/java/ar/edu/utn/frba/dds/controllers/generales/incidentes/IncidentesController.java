@@ -79,14 +79,18 @@ public class IncidentesController {
 
   public void getAll(@NotNull Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
+
     String respuestaHTML = "";
     try{
-      respuestaHTML = ObtenedorListadoIncidentes.obtenerHTMLListadoIncidentes(model);
+      respuestaHTML = ObtenedorListadoIncidentes.obtenerHTMLListadoIncidentes(model, context.formParam("estado"));
+
+      model.put("contenidoIncidentes", respuestaHTML);
+
+      context.render("base.hbs", model);
     }
     catch(Exception e){
       throw new FormInvalidoException("Error al obtener el listado de incidentes.");
     }
-    context.html(respuestaHTML);
   }
 
   public void vistaApertura(@NotNull Context context){
