@@ -1,11 +1,16 @@
 package ar.edu.utn.frba.dds.repositorios.incidentes;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
+import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
+import ar.edu.utn.frba.dds.modelos.utilidades.CalculadoraDistanciaEnMetros;
+import ar.edu.utn.frba.dds.modelos.utilidades.EvaluadorSolicitudRevision;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -69,5 +74,11 @@ public class IncidentePorComunidadRepositorio {
     }
 
     return incidentesFiltrados;
+  }
+
+  public List<IncidentePorComunidad> incidentesEnRevision(Persona persona, Comunidad comunidad){
+    EvaluadorSolicitudRevision evaluadorSolicitudRevision = new EvaluadorSolicitudRevision(new CalculadoraDistanciaEnMetros());
+
+    return evaluadorSolicitudRevision.obtenerIncidentesPorComunidadCercanos(persona.getUltimaUbicacion().getCoordenada(), comunidad);
   }
 }

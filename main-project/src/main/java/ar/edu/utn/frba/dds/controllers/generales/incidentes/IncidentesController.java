@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
+import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidentePorComunidadRepositorio;
@@ -19,6 +20,7 @@ import io.javalin.http.Context;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.persistence.EntityManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -88,9 +90,17 @@ public class IncidentesController {
     try{
       respuestaHTML = ObtenedorListadoIncidentes.obtenerHTMLListadoIncidentes(model, context.queryParam("estado"));
 
-      model.put("contenidoIncidentes", respuestaHTML);
+      if(Objects.equals(respuestaHTML, "paraRevision")){
+        Comunidad comunidad = context.sessionAttribute("comunidad");
+        Persona persona = ((Usuario) context.sessionAttribute("usuario")).getPersonaAsociada();
+        List<IncidentePorComunidad> incidentesPorComunidad = repoIncidenteComunidad.incidentesEnRevision(persona, comunidad);
 
-      context.render("base.hbs", model);
+        model.put("incidentesPorComunidad", incidentesPorComunidad);
+        context.render("listaIncidentes.hbs", model);
+      }else{
+        model.put("contenidoIncidentes", respuestaHTML);
+        context.render("base.hbs", model);
+      }
     }
     catch(Exception e){
       throw new FormInvalidoException("Error al obtener el listado de incidentes.");

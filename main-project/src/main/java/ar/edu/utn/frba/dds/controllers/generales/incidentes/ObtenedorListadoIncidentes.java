@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,6 +26,7 @@ public class ObtenedorListadoIncidentes {
     public static String obtenerHTMLListadoIncidentes(Map<String,Object> model, String estado) throws URISyntaxException, IOException, InterruptedException {
         MensajeVista mensajeVista = (MensajeVista) model.get("msg");
         Usuario usuario = (Usuario) model.get("userActual");
+        Comunidad comunidad = (Comunidad) model.get("comunidad");
         var values = new HashMap<String, String>() {{
             if(mensajeVista != null) {
                 put("tipo", mensajeVista.getTipo());
@@ -33,9 +35,9 @@ public class ObtenedorListadoIncidentes {
             if(estado != null){
                 put("estado", estado);
             }
+            put("idComunidad", String.valueOf(comunidad.getId()));
             put("idUsuario",String.valueOf(usuario.getId()));
         }};
-        //TODO: AGREGAR QUE SOLO TRAIGA INCIDENTES DE LA COMUNIDAD QUE LE MANDEMOS (SEGUN EL ROL SELECCIONADO)
 
         var objectMapper = new ObjectMapper();
         String requestBody = objectMapper

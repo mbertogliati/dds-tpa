@@ -109,6 +109,7 @@ public class IncidenteRepositorio {
         }
       }
 
+
       case CERRADO -> {
         for (Incidente incidente : incidentesTotales) {
           List<IncidentePorComunidad> incidentesPorComunidad = repoIncidenteComunidad.buscarPorIncidente(String.valueOf(incidente.getId()));
