@@ -82,7 +82,7 @@ public class IncidentesController {
 
     String respuestaHTML = "";
     try{
-      respuestaHTML = ObtenedorListadoIncidentes.obtenerHTMLListadoIncidentes(model, context.formParam("estado"));
+      respuestaHTML = ObtenedorListadoIncidentes.obtenerHTMLListadoIncidentes(model, context.queryParam("estado"));
 
       model.put("contenidoIncidentes", respuestaHTML);
 
