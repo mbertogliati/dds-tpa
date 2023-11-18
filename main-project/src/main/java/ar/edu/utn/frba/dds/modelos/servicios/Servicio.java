@@ -27,7 +27,6 @@ public class Servicio extends ModelBase {
   private String nombre;
 
   @ManyToMany
-  @Cascade(CascadeType.ALL)
   private List<Etiqueta> etiquetas = new ArrayList<>();
 
   public Servicio(){}

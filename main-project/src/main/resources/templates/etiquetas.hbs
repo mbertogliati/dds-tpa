@@ -1,0 +1,84 @@
+{{#partial "titulo"}}
+    <title>Etiquetas de servicios</title>
+{{/partial}}
+{{#partial "imports"}}
+    <script src="/js/manejoBloquesFormulario.js"></script>
+{{/partial}}
+{{#partial "contenido"}}
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center">
+        <div class="col-md-4 mt-3">
+            <h3 class="mb-3">Crear Tipo Etiqueta</h3>
+            <hr>
+            <form action="/tipoEtiquetas" method="POST">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="tipoNombre" name="tipoNombre" placeholder="Nombre del tipo de etiqueta">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-success">Crear tipo</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8 mt-3">
+            <h3 class="mb-3">Crear Etiqueta</h3>
+            <hr>
+            <form action="/etiquetas" method="POST">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <select class="form-select" name="tipoId" id="tipoId" required>
+                                <option>Tipo de etiqueta</option>
+                                {{#each tipoEtiquetas}}
+                                    <option value="{{id}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="valorEtiqueta" name="valorEtiqueta" placeholder="Valor de la etiqueta">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-success">Crear etiqueta</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-3 mt-3">Listado de etiquetas</h2>
+
+            <div class="table-responsive">
+                <table class="table align-middle table-sm table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each etiquetas}}
+                        <tr>
+                            <td>{{tipo.nombre}}</td>
+                            <td>{{valor}}</td>
+                            <td class="text-center"><form action="/etiquetas/{{id}}/delete" method="post"><button class="btn btn-danger" type="submit">Eliminar</button></form></td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<datalist id="listaServicios">
+</datalist>
+{{/partial}}
+{{> templates/base }}

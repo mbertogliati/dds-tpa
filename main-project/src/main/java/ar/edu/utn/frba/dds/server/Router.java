@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesCont
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEntidadesIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEstablecimientosIncidentesController;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerEtiquetasController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesCierreController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesCierreIncidentesController;
@@ -20,6 +21,8 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesIn
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosPrestadosController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosPrestadosIncidentesController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.FusionComunidadesController;
+import ar.edu.utn.frba.dds.controllers.generales.servicios.EtiquetasController;
+import ar.edu.utn.frba.dds.controllers.generales.servicios.TipoEtiquetasController;
 import ar.edu.utn.frba.dds.controllers.generales.user.RolesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.CargaMasivaController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.ComunidadesController;
@@ -134,6 +137,18 @@ public class Router {
         post(new ServiciosController(entityManager)::save);
       });
 
+      //ETIQUETAS
+      path("/etiquetas", () -> {
+        get(new EtiquetasController(entityManager)::index);
+        post(new EtiquetasController(entityManager)::save);
+        post("{id}/delete", new EtiquetasController(entityManager)::delete);
+      });
+
+      //TIPO ETIQUETAS
+      path("/tipoEtiquetas", () -> {
+        post(new TipoEtiquetasController(entityManager)::save);
+      });
+
       //LOGIN
       path("/login", () -> {
         get(new LoginController(entityManager)::login);
@@ -213,6 +228,7 @@ public class Router {
         get("departamentosCierreIncidentes", new ObtenerDepartamentosCierreIncidentesController(entityManager));
         get("localidadesCierreIncidentes", new ObtenerLocalidadesCierreIncidentesController(entityManager));
         get("incidentesCierre", new ObtenerIncidentesCierreController(entityManager));
+        get("etiquetas", new ObtenerEtiquetasController(entityManager));
       });
 
     });

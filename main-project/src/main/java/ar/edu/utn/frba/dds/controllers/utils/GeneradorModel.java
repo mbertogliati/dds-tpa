@@ -41,7 +41,7 @@ public class GeneradorModel {
         navSelected = "nav-entidades";
         break;
       case "servicios":
-        navSelected = "nav-entidades";
+        navSelected = "nav-servicios";
         break;
       case "usuarios":
         navSelected = "nav-usuarios";

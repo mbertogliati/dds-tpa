@@ -4,11 +4,15 @@ import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
+import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.modelos.servicios.TipoEtiquetas;
 import ar.edu.utn.frba.dds.repositorios.entidades.EstablecimientoRepositorio;
+import ar.edu.utn.frba.dds.repositorios.servicios.EtiquetaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioRepositorio;
+import ar.edu.utn.frba.dds.repositorios.servicios.TipoEtiquetaRepositorio;
 import io.javalin.http.Context;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +23,14 @@ import javax.persistence.EntityManager;
 public class ServiciosController implements ICrudViewsHandler {
   ServicioRepositorio repoServicios;
   EstablecimientoRepositorio repoEstablecimiento;
+  EtiquetaRepositorio repoEtiquetas;
+  TipoEtiquetaRepositorio repoTipos;
 
   public ServiciosController(EntityManager entityManager){
     this.repoServicios = new ServicioRepositorio(entityManager);
     this.repoEstablecimiento = new EstablecimientoRepositorio(entityManager);
+    this.repoEtiquetas = new EtiquetaRepositorio(entityManager);
+    this.repoTipos = new TipoEtiquetaRepositorio(entityManager);
   }
 
   @Override
@@ -39,13 +47,23 @@ public class ServiciosController implements ICrudViewsHandler {
   public void create(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
 
+    List<TipoEtiquetas> tipos = this.repoTipos.buscarTodos();
+    model.put("tipoEtiquetas", tipos);
+
     context.render("crearServicio.hbs", model);
   }
 
   public void createFromEstablecimiento(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
 
-    model.put("establecimiento", repoEstablecimiento.buscarPorId(Integer.parseInt(context.pathParam("idEstablecimiento"))));
+    List<TipoEtiquetas> tipos = this.repoTipos.buscarTodos();
+    model.put("tipoEtiquetas", tipos);
+
+    Establecimiento establecimiento = repoEstablecimiento.buscarPorId(Integer.parseInt(context.pathParam("idEstablecimiento")));
+
+    if(establecimiento != null){
+      model.put("establecimiento", establecimiento);
+    }
 
     context.render("crearServicio.hbs", model);
   }
@@ -56,16 +74,13 @@ public class ServiciosController implements ICrudViewsHandler {
     String nombreServicio = context.formParam("nombre");
 
     //ETIQUETAS
-    List<String> tipos = context.formParams("tipo[]");
-    List<String> valores = context.formParams("valor[]");
+    List<String> etiquetasId = context.formParams("etiqueta[]");
 
     //Creo etiquetas
     List<Etiqueta> etiquetas = new ArrayList<>();
-    for (int i = 0; i < tipos.size(); i++) {
-      Etiqueta etiquetaCreada = new Etiqueta();
-      etiquetaCreada.setTipo(tipos.get(i));
-      etiquetaCreada.setValor(valores.get(i));
-      etiquetas.add(etiquetaCreada);
+    for (int i = 0; i < etiquetasId.size(); i++) {
+      Etiqueta etiqueta = this.repoEtiquetas.buscarPorId(Integer.parseInt(etiquetasId.get(i)));
+      etiquetas.add(etiqueta);
     }
 
     //CREO SERVICIO

@@ -2,7 +2,7 @@
     <title>Crear servicio</title>
 {{/partial}}
 {{#partial "imports"}}
-    <script src="/js/manejoBloquesFormulario.js"></script>
+    <script src="/js/manejoFormularioServicios.js"></script>
 {{/partial}}
 {{#partial "contenido"}}
 <div class="container mt-4 mb-4 altura-minima">
@@ -22,8 +22,15 @@
                     <div class="h5">Etiquetas</div>
                     <div class="dynamic-block">
                         <div class="mb-3">
-                            <input type="text" class="form-control mb-3" name="tipo[]" placeholder="Tipo de etiqueta" required>
-                            <input type="text" class="form-control mb-3" name="valor[]" placeholder="Valor de etiqueta" required>
+                            <select class="form-select mb-3 tipo-etiqueta" name="tipo[]" required>
+                                <option>Tipo de etiqueta</option>
+                                {{#each tipoEtiquetas}}
+                                    <option value="{{id}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                            <select class="form-select mb-3 valor-etiqueta" name="etiqueta[]" required>
+                                <option>Valor de etiqueta</option>
+                            </select>
                         </div>
                         <hr>
                     </div>
