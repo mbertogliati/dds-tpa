@@ -18,18 +18,25 @@ public class ServicioTests {
 
     @BeforeEach
     public void init() {
-        Etiqueta eBanio = new Etiqueta("tipoServicio", "banio");
-        Etiqueta eEscalera = new Etiqueta("elevacion", "escalera");
-        Etiqueta eAscensor = new Etiqueta("elevacion", "ascensor");
-        Etiqueta eEscaleraMecanica = new Etiqueta("elevacion", "escaleraMecanica");
-        Etiqueta eRampa = new Etiqueta("elevacion", "rampa");
-        Etiqueta eDiscapacitados = new Etiqueta("tipoBanio", "discapacitados");
-        Etiqueta eBebe = new Etiqueta("tipoBanio", "bebe");
-        Etiqueta eHombre = new Etiqueta("genero", "hombre");
-        Etiqueta eMujer = new Etiqueta("genero", "mujer");
-        Etiqueta eSinGenero = new Etiqueta("genero", "sinGenero");
-        Etiqueta eMolinete = new Etiqueta("acceso", "molineteComun");
-        Etiqueta eMolineteAncho = new Etiqueta("acceso", "molineteAncho");
+
+        TipoEtiquetas teTipoServicio = new TipoEtiquetas("tipoServicio");
+        TipoEtiquetas teElevacion = new TipoEtiquetas("elevacion");
+        TipoEtiquetas teTipoBanio = new TipoEtiquetas("tipoBanio");
+        TipoEtiquetas teGenero = new TipoEtiquetas("genero");
+        TipoEtiquetas teAcceso = new TipoEtiquetas("acceso");
+
+        Etiqueta eBanio = new Etiqueta(teTipoServicio, "banio");
+        Etiqueta eEscalera = new Etiqueta(teElevacion, "escalera");
+        Etiqueta eAscensor = new Etiqueta(teElevacion, "ascensor");
+        Etiqueta eEscaleraMecanica = new Etiqueta(teElevacion, "escaleraMecanica");
+        Etiqueta eRampa = new Etiqueta(teElevacion, "rampa");
+        Etiqueta eDiscapacitados = new Etiqueta(teTipoBanio, "discapacitados");
+        Etiqueta eBebe = new Etiqueta(teTipoBanio, "bebe");
+        Etiqueta eHombre = new Etiqueta(teGenero, "hombre");
+        Etiqueta eMujer = new Etiqueta(teGenero, "mujer");
+        Etiqueta eSinGenero = new Etiqueta(teGenero, "sinGenero");
+        Etiqueta eMolinete = new Etiqueta(teAcceso, "molineteComun");
+        Etiqueta eMolineteAncho = new Etiqueta(teAcceso, "molineteAncho");
 
         List<Etiqueta> et_banioHombreBebe = new ArrayList<>();
         et_banioHombreBebe.add(eBanio);
@@ -77,19 +84,24 @@ public class ServicioTests {
     @Test
     @DisplayName("Se pueden crear servicios y agregarle etiquetas nuevas")
     public void agregarEtiquetas() {
-        Servicio nuevoServicio = new Servicio(new ArrayList<Etiqueta>());
-        nuevoServicio.agregarEtiqueta(new Etiqueta("elevacion", "cintaTransportadora"));
-        nuevoServicio.agregarEtiqueta(new Etiqueta("tipoServicio", "banio"));
 
-        Assertions.assertTrue(nuevoServicio.getEtiquetas().stream().anyMatch(e -> e.getTipo() == "elevacion"));
-        Assertions.assertTrue(nuevoServicio.getEtiquetas().stream().anyMatch(e -> e.getTipo() == "tipoServicio"));
+        TipoEtiquetas teElevacion = new TipoEtiquetas("elevacion");
+        TipoEtiquetas teTipoServicio = new TipoEtiquetas("tipoServicio");
+
+        Servicio nuevoServicio = new Servicio(new ArrayList<Etiqueta>());
+        nuevoServicio.agregarEtiqueta(new Etiqueta(teElevacion, "cintaTransportadora"));
+        nuevoServicio.agregarEtiqueta(new Etiqueta(teTipoServicio, "banio"));
+
+        Assertions.assertTrue(nuevoServicio.getEtiquetas().stream().anyMatch(e -> e.getTipo() == teElevacion));
+        Assertions.assertTrue(nuevoServicio.getEtiquetas().stream().anyMatch(e -> e.getTipo() == teTipoServicio));
     }
 
     @Test
     @DisplayName("Se pueden eliminar etiquetas de un servicio")
     public void eliminarEtiquetas() {
-        escaleraMolinete.eliminarEtiqueta(new Etiqueta("elevacion", "escalera"));
+        TipoEtiquetas teElevacion = new TipoEtiquetas("elevación");
+        escaleraMolinete.eliminarEtiqueta(new Etiqueta(teElevacion, "escalera"));
 
-        Assertions.assertFalse(escaleraMolinete.getEtiquetas().stream().anyMatch(e -> e.getTipo() == "elevacion"));
+        Assertions.assertFalse(escaleraMolinete.getEtiquetas().stream().anyMatch(e -> e.getTipo() == teElevacion));
     }
 }
