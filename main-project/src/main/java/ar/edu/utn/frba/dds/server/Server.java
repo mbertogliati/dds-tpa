@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.CalcularGradoConfianzaController;
 import ar.edu.utn.frba.dds.controllers.generales.incidentes.GenerarRankingController;
 import ar.edu.utn.frba.dds.controllers.generales.user.NotificacionController;
-import ar.edu.utn.frba.dds.controllers.utils.CreadorCronTask;
+import ar.edu.utn.frba.dds.controllers.utils.CronTask;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import com.github.jknack.handlebars.Handlebars;
@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 
 public class Server {
-  public static CreadorCronTask creadorCronTask = new CreadorCronTask();
+  public static CronTask cronTask = new CronTask();
   private static Javalin app = null;
 
   public static Javalin app() {
@@ -94,21 +94,21 @@ public class Server {
       //generarRankingController.generarRankingUltimaSemana();
 
       System.out.println("[INFO]: Inicializando Cron Task: GENERAR_RANKING_DIA...");
-      creadorCronTask.crearCronTaskSemanal(generarRankingController::generarRankingUltimaSemana, DayOfWeek.valueOf(System.getenv("GENERAR_RANKING_DIA")), LocalTime.parse(System.getenv("GENERAR_RANKING_HORA")));
+      cronTask.inicializarSemanalmente(generarRankingController::generarRankingUltimaSemana, DayOfWeek.valueOf(System.getenv("GENERAR_RANKING_DIA")), LocalTime.parse(System.getenv("GENERAR_RANKING_HORA")));
       System.out.println("[INFO]: Cron Task inicializado correctamente: GENERAR_RANKING_DIA...");
 
       System.out.println("[INFO]: Inicializando Cron Task: CALCULAR_CONFIANZA_DIA...");
-      creadorCronTask.crearCronTaskSemanal(calcularGradoConfianzaController::calcularGradosDeConfianza, DayOfWeek.valueOf(System.getenv("CALCULAR_CONFIANZA_DIA")), LocalTime.parse(System.getenv("CALCULAR_CONFIANZA_HORA")));
+      cronTask.inicializarSemanalmente(calcularGradoConfianzaController::calcularGradosDeConfianza, DayOfWeek.valueOf(System.getenv("CALCULAR_CONFIANZA_DIA")), LocalTime.parse(System.getenv("CALCULAR_CONFIANZA_HORA")));
       System.out.println("[INFO]: Cron Task inicializado correctamente: CALCULAR_CONFIANZA_DIA...");
 
 
       System.out.println("[INFO]: Inicializando Cron Task: NOTIFICACION_PENDIENTES_MINUTOS...");
-      creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosPendientes, Long.parseLong(System.getenv("NOTIFICACION_PENDIENTES_MINUTOS")));
+      cronTask.inicializarPorPeriodoEnMinutos(notificacionController::notificarUsuariosPendientes, Long.parseLong(System.getenv("NOTIFICACION_PENDIENTES_MINUTOS")));
       System.out.println("[INFO]: Cron Task inicializado correctamente: NOTIFICACION_PENDIENTES_MINUTOS...");
 
 
       System.out.println("[INFO]: Inicializando Cron Task: NOTIFICACION_AL_MOMENTO_MINUTOS...");
-      creadorCronTask.crearCronTaskCadaMinuto(notificacionController::notificarUsuariosAlMomento,Long.parseLong(System.getenv("NOTIFICACION_AL_MOMENTO_MINUTOS")));
+      cronTask.inicializarPorPeriodoEnMinutos(notificacionController::notificarUsuariosAlMomento,Long.parseLong(System.getenv("NOTIFICACION_AL_MOMENTO_MINUTOS")));
       System.out.println("[INFO]: Cron Task inicializado correctamente: NOTIFICACION_AL_MOMENTO_MINUTOS...");
 
 

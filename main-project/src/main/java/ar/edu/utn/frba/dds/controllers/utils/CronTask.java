@@ -2,16 +2,20 @@ package ar.edu.utn.frba.dds.controllers.utils;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.time.LocalDateTime;
-import java.util.function.Function;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
 
-public class CreadorCronTask {
+public class CronTask {
   private Timer timer = new Timer();
 
-  public void crearCronTask(Runnable task, LocalDateTime fechaDesde, long cantSegundos) {
+  public void inicializar(Runnable task, LocalDateTime fechaDesde, long cantSegundos) {
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
@@ -34,16 +38,16 @@ public class CreadorCronTask {
     // Programar la tarea
     timer.schedule(timerTask, retrasoInicial, cantSegundos * 1000);
   }
-  public void crearCronTaskSemanal(Runnable task, DayOfWeek dia, LocalTime hora){
+  public void inicializarSemanalmente(Runnable task, DayOfWeek dia, LocalTime hora){
     LocalDateTime ahora = LocalDateTime.now();
     LocalDateTime fechaDesde = ahora.with(dia).with(hora);
     long cantSegundos = 7 * 24 * 60 * 60; // Una semana en segundos
 
-    crearCronTask(task, fechaDesde, cantSegundos);
+    inicializar(task, fechaDesde, cantSegundos);
   }
-  public void crearCronTaskCadaMinuto(Runnable task, Long cantMinutos) {
+  public void inicializarPorPeriodoEnMinutos(Runnable task, Long cantMinutos) {
     Long cantSegundos = cantMinutos * 60;
-    crearCronTask(task,LocalDateTime.now(),cantSegundos);
+    inicializar(task,LocalDateTime.now(),cantSegundos);
   }
 
   private long calcularRetrasoInicial(LocalDateTime ahora, LocalDateTime fechaDesde, long cantSegundos) {
@@ -57,5 +61,9 @@ public class CreadorCronTask {
     }
 
     return retrasoInicial;
+  }
+
+  public void detener() {
+    this.timer.cancel();
   }
 }
