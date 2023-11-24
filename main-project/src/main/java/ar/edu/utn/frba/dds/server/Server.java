@@ -1,10 +1,7 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
-import ar.edu.utn.frba.dds.controllers.generales.comunidades.CalcularGradoConfianzaController;
-import ar.edu.utn.frba.dds.controllers.generales.incidentes.GenerarRankingController;
-import ar.edu.utn.frba.dds.controllers.generales.user.NotificacionController;
-import ar.edu.utn.frba.dds.controllers.utils.CronTask;
+import ar.edu.utn.frba.dds.controllers.utils.InicializadorCronTask;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import com.github.jknack.handlebars.Handlebars;
@@ -15,14 +12,12 @@ import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
 import io.javalin.rendering.JavalinRenderer;
 import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 
 public class Server {
-  public static CronTask cronTask = new CronTask();
   private static Javalin app = null;
+  private static InicializadorCronTask inicializadorCronTask = null;
 
   public static Javalin app() {
     if(app == null)
@@ -41,8 +36,11 @@ public class Server {
         ctx.redirect(ctx.path() + "?error");
       });
 
-      configurarCronTasks();
+      //configurarCronTasks();
       initTemplateEngine();
+
+      inicializadorCronTask = new InicializadorCronTask();
+      inicializadorCronTask.inicializar();
 
       Router.init(entityManager);
     }
@@ -75,47 +73,5 @@ public class Server {
           }
         }, ".hbs" // Extensión del archivo de template
     );
-  }
-  private static void configurarCronTasks(){
-    try {
-      System.out.println("[INFO]: Inicializando Cron Tasks ...");
-
-      GenerarRankingController generarRankingController = new GenerarRankingController(
-          new CreadorEntityManager().entityManagerCreado()
-      );
-      NotificacionController notificacionController = new NotificacionController(
-          new CreadorEntityManager().entityManagerCreado()
-      );
-      CalcularGradoConfianzaController calcularGradoConfianzaController = new CalcularGradoConfianzaController(
-          new CreadorEntityManager().entityManagerCreado()
-      );
-
-      //calcularGradoConfianzaController.calcularGradosDeConfianza();
-      //generarRankingController.generarRankingUltimaSemana();
-
-      System.out.println("[INFO]: Inicializando Cron Task: GENERAR_RANKING_DIA...");
-      cronTask.inicializarSemanalmente(generarRankingController::generarRankingUltimaSemana, DayOfWeek.valueOf(System.getenv("GENERAR_RANKING_DIA")), LocalTime.parse(System.getenv("GENERAR_RANKING_HORA")));
-      System.out.println("[INFO]: Cron Task inicializado correctamente: GENERAR_RANKING_DIA...");
-
-      System.out.println("[INFO]: Inicializando Cron Task: CALCULAR_CONFIANZA_DIA...");
-      cronTask.inicializarSemanalmente(calcularGradoConfianzaController::calcularGradosDeConfianza, DayOfWeek.valueOf(System.getenv("CALCULAR_CONFIANZA_DIA")), LocalTime.parse(System.getenv("CALCULAR_CONFIANZA_HORA")));
-      System.out.println("[INFO]: Cron Task inicializado correctamente: CALCULAR_CONFIANZA_DIA...");
-
-
-      System.out.println("[INFO]: Inicializando Cron Task: NOTIFICACION_PENDIENTES_MINUTOS...");
-      cronTask.inicializarPorPeriodoEnMinutos(notificacionController::notificarUsuariosPendientes, Long.parseLong(System.getenv("NOTIFICACION_PENDIENTES_MINUTOS")));
-      System.out.println("[INFO]: Cron Task inicializado correctamente: NOTIFICACION_PENDIENTES_MINUTOS...");
-
-
-      System.out.println("[INFO]: Inicializando Cron Task: NOTIFICACION_AL_MOMENTO_MINUTOS...");
-      cronTask.inicializarPorPeriodoEnMinutos(notificacionController::notificarUsuariosAlMomento,Long.parseLong(System.getenv("NOTIFICACION_AL_MOMENTO_MINUTOS")));
-      System.out.println("[INFO]: Cron Task inicializado correctamente: NOTIFICACION_AL_MOMENTO_MINUTOS...");
-
-
-      System.out.println("[INFO]: Cron Tasks inicializados correctamente.");
-    } catch (Exception ex) {
-      System.out.println("[ERROR]: Ocurrió un error en la inicialización de los Cron Tasks.");
-      ex.printStackTrace();
-    }
   }
 }

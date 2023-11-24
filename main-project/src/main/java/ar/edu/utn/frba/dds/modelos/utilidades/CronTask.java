@@ -1,21 +1,52 @@
-package ar.edu.utn.frba.dds.controllers.utils;
+package ar.edu.utn.frba.dds.modelos.utilidades;
 
+import ar.edu.utn.frba.dds.modelos.base.ModelBase;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CronTask {
+@Getter
+@Setter
+@Entity
+@Table(name = "cron_task")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
+public abstract class CronTask {
+  @Transient
   private Timer timer = new Timer();
 
-  public void inicializar(Runnable task, LocalDateTime fechaDesde, long cantSegundos) {
+  @Column(name = "id")
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  @Column(name = "nombre")
+  private String nombre;
+
+  @Column(name = "fecha_creacion")
+  private LocalDateTime fechaCreacion;
+
+  @Column(name = "fecha_modificacion")
+  private LocalDateTime fechaModificacion;
+
+  @Column(name = "habilitado")
+  private Boolean habilitado;
+
+  protected void iniciarTimer(Runnable task, LocalDateTime fechaDesde, long cantSegundos) {
+    System.out.println("[INFO]: iniciando timer para :" + this.nombre);
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
@@ -37,20 +68,10 @@ public class CronTask {
 
     // Programar la tarea
     timer.schedule(timerTask, retrasoInicial, cantSegundos * 1000);
-  }
-  public void inicializarSemanalmente(Runnable task, DayOfWeek dia, LocalTime hora){
-    LocalDateTime ahora = LocalDateTime.now();
-    LocalDateTime fechaDesde = ahora.with(dia).with(hora);
-    long cantSegundos = 7 * 24 * 60 * 60; // Una semana en segundos
-
-    inicializar(task, fechaDesde, cantSegundos);
-  }
-  public void inicializarPorPeriodoEnMinutos(Runnable task, Long cantMinutos) {
-    Long cantSegundos = cantMinutos * 60;
-    inicializar(task,LocalDateTime.now(),cantSegundos);
+    System.out.println("[INFO]: timer iniciado correctamente para :" + this.nombre);
   }
 
-  private long calcularRetrasoInicial(LocalDateTime ahora, LocalDateTime fechaDesde, long cantSegundos) {
+  protected long calcularRetrasoInicial(LocalDateTime ahora, LocalDateTime fechaDesde, long cantSegundos) {
     long retrasoInicial = 0;
 
     if (ahora.isBefore(fechaDesde)) {
@@ -62,6 +83,8 @@ public class CronTask {
 
     return retrasoInicial;
   }
+
+  public abstract void iniciar(Runnable task);
 
   public void detener() {
     this.timer.cancel();
