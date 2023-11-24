@@ -38,5 +38,6 @@ services:
       CALCULAR_CONFIANZA_DIA: SUNDAY
       CALCULAR_CONFIANZA_HORA: 13:00
       WORST_PASSWORDS_FILE: public/validacion/10000WorstPasswords.txt
+      CRON_TASK_PERIODO_REFRESCO_MIN: 1
     depends_on:
       - dbservice
