@@ -94,3 +94,7 @@ body{
     background-color: #009825 !important;
     color: #ffffff !important;
 }
+
+.seccion-condicional {
+    display:none;
+}

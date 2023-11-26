@@ -36,6 +36,9 @@ public abstract class CronTask {
   @Column(name = "nombre")
   private String nombre;
 
+  @Column(name ="comando")
+  private String comando;
+
   @Column(name = "fecha_creacion")
   private LocalDateTime fechaCreacion;
 
@@ -45,8 +48,11 @@ public abstract class CronTask {
   @Column(name = "habilitado")
   private Boolean habilitado;
 
+  /*@Column(name = "tipo", insertable = false, updatable = false)
+  private String tipo;*/
+
   protected void iniciarTimer(Runnable task, LocalDateTime fechaDesde, long cantSegundos) {
-    System.out.println("[INFO]: iniciando timer para :" + this.nombre);
+    System.out.println("[INFO]: iniciando timer para :" + this.id + "-" + this.nombre);
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
@@ -68,7 +74,7 @@ public abstract class CronTask {
 
     // Programar la tarea
     timer.schedule(timerTask, retrasoInicial, cantSegundos * 1000);
-    System.out.println("[INFO]: timer iniciado correctamente para :" + this.nombre);
+    System.out.println("[INFO]: timer iniciado correctamente para :" + this.id + "-" + this.nombre);
   }
 
   protected long calcularRetrasoInicial(LocalDateTime ahora, LocalDateTime fechaDesde, long cantSegundos) {

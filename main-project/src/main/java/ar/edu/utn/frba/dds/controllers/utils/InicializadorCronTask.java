@@ -23,8 +23,8 @@ public class InicializadorCronTask {
     this.calcularGradoConfianzaController = new CalcularGradoConfianzaController(new CreadorEntityManager().entityManagerCreado());
   }
 
-  private Runnable obtenerSubrutina(String nombreCronTask) {
-    switch (nombreCronTask) {
+  private Runnable obtenerSubrutina(String comandoCronTask) {
+    switch (comandoCronTask) {
       case "generar_ranking_ultima_semana":
         return this.generarRankingController::generarRankingUltimaSemana;
       case "calcular_grados_confianza":
@@ -42,9 +42,9 @@ public class InicializadorCronTask {
     for(CronTask cronTask : cronTasks) {
       if(cronTask.getHabilitado())
       {
-        System.out.println("[INFO]: Inicializando Cron Task: " + cronTask.getNombre());
-        cronTask.iniciar(this.obtenerSubrutina(cronTask.getNombre()));
-        System.out.println("[INFO]: Cron Task inicializado correctamente: " + cronTask.getNombre());
+        System.out.println("[INFO]: Inicializando Cron Task: " + cronTask.getId() + "-" + cronTask.getNombre());
+        cronTask.iniciar(this.obtenerSubrutina(cronTask.getComando()));
+        System.out.println("[INFO]: Cron Task inicializado correctamente: " + cronTask.getId() + "-" + cronTask.getNombre());
       }
     }
   }
@@ -56,7 +56,7 @@ public class InicializadorCronTask {
         cronTaskARefrescar.detener();
         this.cronTasks.remove(cronTaskARefrescar);
         if(cronTaskActualizada.getHabilitado())
-          cronTaskActualizada.iniciar(this.obtenerSubrutina(cronTaskActualizada.getNombre()));
+          cronTaskActualizada.iniciar(this.obtenerSubrutina(cronTaskActualizada.getComando()));
         this.cronTasks.add(cronTaskActualizada);
       }
     }
