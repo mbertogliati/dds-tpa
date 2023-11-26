@@ -22,7 +22,7 @@ public class CronTaskRepositorio {
   }
 
   public List<CronTask> obtener() {
-    TypedQuery<CronTask> query = entityManager.createQuery("FROM " + CronTask.class.getName(), CronTask.class);
+    TypedQuery<CronTask> query = entityManager.createQuery("FROM " + CronTask.class.getName() + " ORDER BY id", CronTask.class);
     return query.getResultList();
   }
 

@@ -16,6 +16,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
@@ -26,7 +27,8 @@ public class CronTaskController implements ICrudViewsHandler {
   private CronTaskRepositorio repositorio;
   private Map<String, String> dicComandos;
   private Map<String, String> dicTipos;
-  private Map<String, String> dicDias;
+  private DayOfWeek[] dias;
+  private Locale locale;
 
   public CronTaskController(EntityManager entityManager) {
     this.repositorio = new CronTaskRepositorio(entityManager);
@@ -42,14 +44,8 @@ public class CronTaskController implements ICrudViewsHandler {
     this.dicTipos.put("CronTaskPorSegundo", "Por segundo");
     this.dicTipos.put("CronTaskSemanal", "Semanal");
 
-    this.dicDias = new Hashtable<String, String>();
-    this.dicDias.put(DayOfWeek.MONDAY.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase(), "Lunes");
-    this.dicDias.put(DayOfWeek.TUESDAY.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase(), "Martes");
-    this.dicDias.put(DayOfWeek.WEDNESDAY.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase(), "Miercoles");
-    this.dicDias.put(DayOfWeek.THURSDAY.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase(), "Jueves");
-    this.dicDias.put(DayOfWeek.FRIDAY.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase(), "Viernes");
-    this.dicDias.put(DayOfWeek.SATURDAY.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase(), "Sábado");
-    this.dicDias.put(DayOfWeek.SUNDAY.getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase(), "Domingo");
+    this.dias = DayOfWeek.values();
+    this.locale = new Locale.Builder().setLanguage("es").setRegion("AR").build(); //locale argentina
   }
 
   @Override
@@ -80,8 +76,12 @@ public class CronTaskController implements ICrudViewsHandler {
       crearCronTaskDTO.getTipos().add(new OpcionGenericaDTO(key, value));
     });
 
-    this.dicDias.forEach((key, value) -> {
-      crearCronTaskDTO.getDias().add(new OpcionGenericaDTO(key, value));
+    Arrays.stream(this.dias).toList().stream().forEach(v -> {
+      crearCronTaskDTO.getDias().add(
+          new OpcionGenericaDTO(
+              String.valueOf(v.ordinal()),
+              v.getDisplayName(TextStyle.FULL, this.locale))
+          );
     });
 
     model.put("crearCronTaskDTO", crearCronTaskDTO);
@@ -187,8 +187,12 @@ public class CronTaskController implements ICrudViewsHandler {
         .get()
         .setSeleccionado(true);
 
-    this.dicDias.forEach((key, value) -> {
-      dto.getDias().add(new OpcionGenericaDTO(key, value));
+    Arrays.stream(this.dias).toList().stream().forEach(v -> {
+      dto.getDias().add(
+          new OpcionGenericaDTO(
+              String.valueOf(v.ordinal()),
+              v.getDisplayName(TextStyle.FULL, this.locale))
+      );
     });
 
     String className = cronTask.getClass().getSimpleName();
@@ -202,7 +206,7 @@ public class CronTaskController implements ICrudViewsHandler {
       CronTaskSemanal ct = (CronTaskSemanal) cronTask;
       dto.setHorario(ct.getHorario().toString());
       dto.getDias().stream()
-          .filter(d -> d.getId().equals(ct.getDia().getDisplayName(TextStyle.FULL, Locale.getDefault()).toUpperCase()))
+          .filter(d -> d.getId().equals(String.valueOf(ct.getDia().ordinal())))
           .findFirst()
           .get()
           .setSeleccionado(true);
@@ -252,9 +256,14 @@ public class CronTaskController implements ICrudViewsHandler {
       cronTaskPorSegundo.setCantSegundos(Long.parseLong(context.formParam("segundos")));
     }else if (className.equals("CronTaskSemanal")) {
       CronTaskSemanal cronTaskSemanal = (CronTaskSemanal) cronTask;
-      cronTaskSemanal.setDia(DayOfWeek.valueOf(context.formParam("dia").toUpperCase()));
+      cronTaskSemanal.setDia(this.ordinalADayOfWeek(Integer.parseInt(context.formParam("dia"))));
       cronTaskSemanal.setHorario(LocalTime.parse(context.formParam("horario")));
     }
     return cronTask;
+  }
+
+  private DayOfWeek ordinalADayOfWeek(Integer ordinal) {
+    DayOfWeek valor = this.dias[ordinal];
+    return valor;
   }
 }
