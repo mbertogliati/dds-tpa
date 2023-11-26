@@ -86,7 +86,6 @@ public class RegisterController{
             .get();
 
     usuario.setPersonaAsociada(nuevaPersona);
-    usuario.getRoles().add(repoRol.buscarPorId(TipoRol.DEFAULT.ordinal()));
     repoUsuario.guardar(usuario);
 
     context.sessionAttribute("usuario", usuario);

@@ -192,7 +192,6 @@ public class Router {
 
       //ADMINISTRACIÓN DE USUARIOS
       path("/usuarios",()->{
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_USUARIOS).build());
         get(new UsuariosController(entityManager)::index);
         path("{id}", () -> {
           path("edit", ()->{

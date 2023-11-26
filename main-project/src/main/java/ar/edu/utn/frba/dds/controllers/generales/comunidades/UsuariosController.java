@@ -155,11 +155,6 @@ public class UsuariosController implements ICrudViewsHandler {
   }
   public void show(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
-    if (!VerificadorRol.tienePermiso(usuario, TipoPermiso.ADMINISTRAR_USUARIOS)){
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
-      context.redirect("/");
-      return;
-    }
 
     Map<String,Object> model = GeneradorModel.model(context);
 
