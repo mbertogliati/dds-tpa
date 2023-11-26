@@ -76,7 +76,7 @@ public class GeneradorModel {
     } else{
       model.put("userDefault", true);
     }
-
+    model.put("rolSeleccionado", context.sessionAttribute("rolSeleccionado"));
     model.put("msg", context.consumeSessionAttribute("msg"));
 
     return model;

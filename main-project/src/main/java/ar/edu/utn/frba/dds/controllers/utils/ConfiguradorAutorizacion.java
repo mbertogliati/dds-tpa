@@ -24,12 +24,12 @@ public class ConfiguradorAutorizacion {
             Rol rolAsociado = roles.stream().filter(rol -> rol.getId() == tipoRol.ordinal()).findFirst().orElse(null);
             if(rolAsociado == null){
                 Rol rol = new Rol();
-                rol.setNombre(tipoRol.toString());
+                rol.setNombre(tipoRol.nombreLindo());
                 rol.setId(tipoRol.ordinal());
                 rolRepositorio.guardar(rol);
             }
             else{
-                rolAsociado.setNombre(tipoRol.toString());
+                rolAsociado.setNombre(tipoRol.nombreLindo());
                 rolRepositorio.actualizar(rolAsociado);
             }
             configurarPermisos();

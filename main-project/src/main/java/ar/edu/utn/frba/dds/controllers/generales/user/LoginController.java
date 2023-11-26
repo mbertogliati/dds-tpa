@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
 import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
+import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
@@ -24,11 +25,13 @@ public class LoginController{
   EntidadPrestadoraRepositorio entidadPrestadoraRepositorio;
   OrganismoControlRepositorio organismoControlRepositorio;
 
+  RolRepositorio repoRol;
   public LoginController(EntityManager entityManager) {
     this.personaRepositorio = new PersonaRepositorio(entityManager);
     this.usuarioRepositorio = new UsuarioRepositorio(entityManager);
     this.entidadPrestadoraRepositorio = new EntidadPrestadoraRepositorio(entityManager);
     this.organismoControlRepositorio = new OrganismoControlRepositorio(entityManager);
+    this.repoRol = new RolRepositorio(entityManager);
   }
 
   public void login(@NotNull Context context) {
@@ -67,6 +70,7 @@ public class LoginController{
       intentoDeLogin.sumarIntento();
       throw new FormInvalidoException("Error. La contraseña es incorrecta.");
     }
+    context.sessionAttribute("rolSeleccionado", repoRol.rolDefault().getNombre());
   }
   public void delete(@NotNull Context context){
     context.consumeSessionAttribute("usuario");

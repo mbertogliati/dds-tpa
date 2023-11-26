@@ -20,6 +20,7 @@ import org.hibernate.annotations.CascadeType;
 @Setter
 public class Rol {
   @Id
+
   private int id;
 
   @ManyToMany

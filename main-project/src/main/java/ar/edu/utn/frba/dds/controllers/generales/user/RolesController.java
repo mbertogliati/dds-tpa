@@ -60,6 +60,10 @@ public class RolesController {
     context.consumeSessionAttribute("entidadPrestadora");
 
     String idRolRecibido = context.formParam("rol");
+    if(idRolRecibido == null){
+      context.redirect("/roles");
+      return;
+    }
     int index = idRolRecibido.indexOf('-');
 
     int idRol;
@@ -77,24 +81,31 @@ public class RolesController {
       idRol = Integer.parseInt(idRolRecibido);
     }
 
+    int idOrganizacion = Integer.parseInt(idRolRecibido.substring(index + 1));
     if(idRol == -1){
-      OrganismoControl organismoControl = repoOrganismos.buscarPorId(Integer.parseInt(idRolRecibido.substring(index+1)));
+      OrganismoControl organismoControl = repoOrganismos.buscarPorId(idOrganizacion);
       context.sessionAttribute("organismoControl", organismoControl);
+      context.sessionAttribute("rolSeleccionado", organismoControl.getNombre() + " - Manejador");
     } else if (idRol == -2) {
-      EntidadPrestadora entidadPrestadora = repoEntidades.buscarPorId(Integer.parseInt(idRolRecibido.substring(index+1)));
+      EntidadPrestadora entidadPrestadora = repoEntidades.buscarPorId(idOrganizacion);
       context.sessionAttribute("entidadPrestadora", entidadPrestadora);
+      context.sessionAttribute("rolSeleccionado", entidadPrestadora.getNombre() + " - Manejador");
     } else if(idRol == repoRol.rolAdminComunidad().getId() || idRol == repoRol.rolDefaultComunidad().getId()){
-      int idComunidad = Integer.parseInt(idRolRecibido.substring(index+1));
+      int idComunidad = idOrganizacion;
+
 
       Comunidad comunidad = repoComunidad.obtenerComunidadPorId(idComunidad);
       context.sessionAttribute("comunidad", comunidad);
-
+      context.sessionAttribute("rolSeleccionado", comunidad.getNombre() + " - "+ repoRol.rolDefaultComunidad().getNombre());
       if(idRol == repoRol.rolAdminComunidad().getId()){
         context.sessionAttribute("adminComunidad", true);
+        context.sessionAttribute("rolSeleccionado", comunidad.getNombre() + " - "+ repoRol.rolAdminComunidad().getNombre());
       }
     }else{
+      context.sessionAttribute("rolSeleccionado", repoRol.rolDefault().getNombre());
       if(idRol == repoRol.rolAdminPlataforma().getId()){
         context.sessionAttribute("adminPlataforma", true);
+        context.sessionAttribute("rolSeleccionado", repoRol.rolAdminPlataforma().getNombre());
       }
     }
 
