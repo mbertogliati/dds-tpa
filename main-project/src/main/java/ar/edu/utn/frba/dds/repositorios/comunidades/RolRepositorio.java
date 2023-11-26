@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
+import ar.edu.utn.frba.dds.controllers.utils.TipoRol;
 import ar.edu.utn.frba.dds.modelos.comunidades.Rol;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -44,10 +45,10 @@ public class RolRepositorio {
     return query.getResultList();
   }
 
-  public Rol rolAdminPlataforma(){return this.buscarPorId(1);}
+  public Rol rolAdminPlataforma(){return this.buscarPorId(TipoRol.ADMINISTRADOR.ordinal());}
   public Rol rolDefault(){
-    return this.buscarPorId(3);
+    return this.buscarPorId(TipoRol.DEFAULT.ordinal());
   }
-  public Rol rolAdminComunidad(){return this.buscarPorId(2);}
-  public Rol rolDefaultComunidad(){return this.buscarPorId(4);}
+  public Rol rolAdminComunidad(){return this.buscarPorId(TipoRol.ADMINISTRADOR_COMUNIDAD.ordinal());}
+  public Rol rolDefaultComunidad(){return this.buscarPorId(TipoRol.ADMINISTRADOR_COMUNIDAD.ordinal());}
 }

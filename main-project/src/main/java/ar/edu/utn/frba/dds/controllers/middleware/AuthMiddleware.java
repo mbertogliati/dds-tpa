@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.middleware;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.UnauthorizedException;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -11,9 +12,7 @@ public class AuthMiddleware implements Handler {
         ctx.redirect("/login");
       }
       else if(requiereAutenticacion(ctx.path()) && ctx.sessionAttribute("usuario") == null){
-        ctx.status(401).result("Unauthorized");
-        ctx.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.WARNING, "Debes iniciar sesión para realizar esa acción."));
-        ctx.redirect("/login");
+          throw new UnauthorizedException("Debes iniciar sesión para realizar esa acción.", MensajeVista.TipoMensaje.WARNING, "/login");
       }
   }
   private static boolean requiereAutenticacion(String path){

@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.generales.user;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
+import ar.edu.utn.frba.dds.controllers.utils.TipoRol;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilder;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilderHashmap;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario.UsuarioBuilder;
@@ -85,6 +86,7 @@ public class RegisterController{
             .get();
 
     usuario.setPersonaAsociada(nuevaPersona);
+    usuario.getRoles().add(repoRol.buscarPorId(TipoRol.DEFAULT.ordinal()));
     repoUsuario.guardar(usuario);
 
     context.sessionAttribute("usuario", usuario);

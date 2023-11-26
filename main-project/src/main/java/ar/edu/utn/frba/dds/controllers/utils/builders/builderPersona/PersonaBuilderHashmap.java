@@ -59,6 +59,7 @@ public class PersonaBuilderHashmap implements PersonaBuilder {
     @Override
     public PersonaBuilder configurarInformacionDeContacto() {
         personaEnCreacion.setEmail(hashMapPersona.get("email").get(0));
+        //TODO: Cuando el número es muy largo tira excepcion
         personaEnCreacion.setWhatsapp(Integer.parseInt(hashMapPersona.get("celular").get(0)));
         return this;
     }

@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.generales.comunidades;
 
-import static ar.edu.utn.frba.dds.controllers.utils.VerificadorRol.Permiso.ADMINISTRAR_COMUNIDAD;
+import static ar.edu.utn.frba.dds.controllers.utils.TipoPermiso.ADMINISTRAR_COMUNIDAD;
 
 import ar.edu.utn.frba.dds.controllers.utils.VerificadorRol;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;

@@ -20,7 +20,6 @@ import org.hibernate.annotations.CascadeType;
 @Setter
 public class Rol {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @ManyToMany

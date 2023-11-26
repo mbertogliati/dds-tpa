@@ -15,7 +15,6 @@ import lombok.Setter;
 @Setter
 public class Permiso {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @Column(name = "detalles")

@@ -1,10 +1,8 @@
 package ar.edu.utn.frba.dds.controllers.generales.comunidades;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
-import ar.edu.utn.frba.dds.controllers.utils.VerificadorRol;
-import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
-import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
-import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.controllers.utils.TipoPermiso;
+import ar.edu.utn.frba.dds.controllers.utils.*;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilder;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilderHashmap;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario.UsuarioBuilder;
@@ -133,7 +131,7 @@ public class UsuariosController implements ICrudViewsHandler {
   @Override
   public void index(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
-    if (!VerificadorRol.tienePermiso(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
+    if (!VerificadorRol.tienePermiso(usuario, TipoPermiso.ADMINISTRAR_USUARIOS)){
       context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
       return;
@@ -157,7 +155,7 @@ public class UsuariosController implements ICrudViewsHandler {
   }
   public void show(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
-    if (!VerificadorRol.tienePermiso(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
+    if (!VerificadorRol.tienePermiso(usuario, TipoPermiso.ADMINISTRAR_USUARIOS)){
       context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
       return;

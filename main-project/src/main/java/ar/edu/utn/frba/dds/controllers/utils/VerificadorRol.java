@@ -7,22 +7,22 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import java.util.List;
 
 public class VerificadorRol {
-  public static Boolean tienePermiso(Usuario usuario, Permiso permiso){
-    return usuario.getRoles().stream().map(Rol::getPermisos).flatMap(List::stream).anyMatch(p -> getRol(p.getDetalles()).equals(permiso));
+  public static Boolean tienePermiso(Usuario usuario, TipoPermiso tipoPermiso){
+    return usuario.getRoles().stream().map(Rol::getPermisos).flatMap(List::stream).anyMatch(p -> getRol(p.getDetalles()).equals(tipoPermiso));
   }
 
-  private static Permiso getRol(String detalle) {
+  private static TipoPermiso getRol(String detalle) {
     switch(detalle){
       case "administrarUsuarios":
-        return Permiso.ADMINISTRAR_USUARIOS;
+        return TipoPermiso.ADMINISTRAR_USUARIOS;
       case "administrarComunidad":
-        return Permiso.ADMINISTRAR_COMUNIDAD;
+        return TipoPermiso.ADMINISTRAR_COMUNIDAD;
       default:
-        return Permiso.USER_BASE;
+        return TipoPermiso.USER_BASE;
     }
   }
 
-  public static Boolean tienePermiso(Usuario usuario, Comunidad comunidad, Permiso permiso){
+  public static Boolean tienePermiso(Usuario usuario, Comunidad comunidad, TipoPermiso tipoPermiso){
     if(usuario.getPersonaAsociada().getMembresias().isEmpty()){
       return false;
     }
@@ -30,13 +30,7 @@ public class VerificadorRol {
     if(comunidades.size() == 0){
       return false;
     }else{
-      return comunidades.get(0).getMembresia(usuario.getPersonaAsociada()).getRoles().stream().map(Rol::getPermisos).flatMap(List::stream).anyMatch(p -> getRol(p.getDetalles()).equals(permiso));
+      return comunidades.get(0).getMembresia(usuario.getPersonaAsociada()).getRoles().stream().map(Rol::getPermisos).flatMap(List::stream).anyMatch(p -> getRol(p.getDetalles()).equals(tipoPermiso));
     }
-  }
-
-  public enum Permiso{
-    USER_BASE,
-    ADMINISTRAR_USUARIOS,
-    ADMINISTRAR_COMUNIDAD
   }
 }

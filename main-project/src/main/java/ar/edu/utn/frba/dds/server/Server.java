@@ -1,6 +1,10 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
+import ar.edu.utn.frba.dds.controllers.exceptions.UnauthorizedException;
+import ar.edu.utn.frba.dds.controllers.exceptions.handlers.FormInvalidoHandler;
+import ar.edu.utn.frba.dds.controllers.exceptions.handlers.UnauthorizedHandler;
+import ar.edu.utn.frba.dds.controllers.utils.ConfiguradorAutorizacion;
 import ar.edu.utn.frba.dds.controllers.utils.InicializadorCronTask;
 import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
@@ -18,6 +22,7 @@ import javax.persistence.EntityManager;
 public class Server {
   private static Javalin app = null;
   private static InicializadorCronTask inicializadorCronTask = null;
+  private static ConfiguradorAutorizacion configuradorAutorizacion = null;
 
   public static Javalin app() {
     if(app == null)
@@ -31,19 +36,30 @@ public class Server {
       Integer puerto = Integer.parseInt(System.getProperty("port", System.getenv("APP_MAIN_PORT")));
       app = Javalin.create(config()).start(puerto);
 
-      app.exception(FormInvalidoException.class, (e, ctx) -> {
-        ctx.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, e.getMessage()));
-        ctx.redirect(ctx.path() + "?error");
-      });
-
       //configurarCronTasks();
       initTemplateEngine();
 
-      inicializadorCronTask = new InicializadorCronTask();
-      inicializadorCronTask.inicializar();
+      configurarExceptionHandlers();
+      configurarCronTasks();
+      configurarAutorizacion(entityManager);
 
       Router.init(entityManager);
     }
+  }
+
+  private static void configurarExceptionHandlers(){
+    app.exception(FormInvalidoException.class, new FormInvalidoHandler());
+    app.exception(UnauthorizedException.class, new UnauthorizedHandler());
+  }
+
+  private static void configurarCronTasks(){
+    inicializadorCronTask = new InicializadorCronTask();
+    inicializadorCronTask.inicializar();
+  }
+
+  private static void configurarAutorizacion(EntityManager entityManager){
+    configuradorAutorizacion = new ConfiguradorAutorizacion(entityManager);
+    configuradorAutorizacion.configurarRoles();
   }
 
   private static Consumer<JavalinConfig> config(){
