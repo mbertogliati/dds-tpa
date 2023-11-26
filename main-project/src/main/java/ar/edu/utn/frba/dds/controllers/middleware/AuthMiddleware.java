@@ -7,7 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class AuthMiddleware implements Handler {
   public void handle(@NotNull Context ctx){
-      if(requiereAutenticacion(ctx.path()) && ctx.sessionAttribute("usuario") == null){
+      if(ctx.path().equals("/")){
+        ctx.redirect("/login");
+      }
+      else if(requiereAutenticacion(ctx.path()) && ctx.sessionAttribute("usuario") == null){
         ctx.status(401).result("Unauthorized");
         ctx.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.WARNING, "Debes iniciar sesión para realizar esa acción."));
         ctx.redirect("/login");
