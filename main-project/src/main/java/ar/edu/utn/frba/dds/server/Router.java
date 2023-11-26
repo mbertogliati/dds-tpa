@@ -223,17 +223,22 @@ public class Router {
           get(new ComunidadesController(entityManager)::create);
           post(new ComunidadesController(entityManager)::save);
         });
+
         path("{idComunidad}", () ->{
-          before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
+          before(new AutorizacionMiddlewareBuilder(entityManager).conComunidad().build());
           get(new ComunidadesController(entityManager)::show);
-          get("edit", new ComunidadesController(entityManager)::edit);
-          post("edit", new ComunidadesController(entityManager)::update);
-          post("delete", new ComunidadesController(entityManager)::delete);
-          post("agregarServicio", new ComunidadesController(entityManager)::agregarServicio);
-          get("sacarServicio/{idServicio}", new ComunidadesController(entityManager)::quitarServicio);
-          get("sacarMiembro/{idUsuario}", new ComunidadesController(entityManager)::sacarMiembro);
-          get("unirMiembro/{idUsuario}", new ComunidadesController(entityManager)::unirMiembro);
-          get("cambiarRol/{idUsuario}/{idServicio}/{nuevoRol}", new ComunidadesController(entityManager)::cambiarRol);
+          path("", () -> {
+            before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
+            get("edit", new ComunidadesController(entityManager)::edit);
+            post("edit", new ComunidadesController(entityManager)::update);
+            post("delete", new ComunidadesController(entityManager)::delete);
+            post("agregarServicio", new ComunidadesController(entityManager)::agregarServicio);
+            get("sacarServicio/{idServicio}", new ComunidadesController(entityManager)::quitarServicio);
+            get("sacarMiembro/{idUsuario}", new ComunidadesController(entityManager)::sacarMiembro);
+            get("unirMiembro/{idUsuario}", new ComunidadesController(entityManager)::unirMiembro);
+            get("cambiarRol/{idUsuario}/{idServicio}/{nuevoRol}", new ComunidadesController(entityManager)::cambiarRol);
+          });
+
         });
       });
 
