@@ -249,6 +249,9 @@ public class Router {
           get(cronTaskController::edit);
           post(cronTaskController::update);
         });
+        path("habilitar/{id}", () -> {
+          post(cronTaskController::habilitar);
+        });
       });
     });
   }

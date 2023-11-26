@@ -40,6 +40,12 @@
                                 <form action="/cron-task/borrar/{{id}}" method="post">
                                     <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
                                 </form>
+                                <form action="/cron-task/habilitar/{{id}}" method="post">
+                                    <button type="submit" class="btn btn-sm btn-secondary">
+                                        {{#if habilitado}}Deshabilitar{{/if}}
+                                        {{#unless habilitado}}Habilitar{{/unless}}
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     {{/each}}

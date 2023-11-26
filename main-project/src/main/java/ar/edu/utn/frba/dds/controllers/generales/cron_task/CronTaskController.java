@@ -142,6 +142,15 @@ public class CronTaskController implements ICrudViewsHandler {
     context.redirect("/cron-task");
   }
 
+  public void habilitar(Context context) {
+    Long id = Long.parseLong(context.pathParam("id"));
+    CronTask cronTask = repositorio.obtenerPorId(id);
+    cronTask.setHabilitado(!cronTask.getHabilitado());
+    cronTask.setFechaModificacion(LocalDateTime.now());
+    repositorio.actualizar(cronTask);
+    context.redirect("/cron-task");
+  }
+
   private String obtenerDescripcionTipo(CronTask cronTask) {
     String className = cronTask.getClass().getSimpleName();
     if(className.equals("CronTaskPorMinuto")) return "Por minuto";
