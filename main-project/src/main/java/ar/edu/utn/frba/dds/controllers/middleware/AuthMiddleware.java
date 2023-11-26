@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class AuthMiddleware implements Handler {
   public void handle(@NotNull Context ctx){
-      if(ctx.path().equals("/")){
+      if(ctx.sessionAttribute("usuario") == null && ctx.path().equals("/")){
         ctx.redirect("/login");
       }
       else if(requiereAutenticacion(ctx.path()) && ctx.sessionAttribute("usuario") == null){
@@ -23,6 +23,7 @@ public class AuthMiddleware implements Handler {
             || path.equals("/register")
             || path.startsWith("/obtener")
             || path.startsWith("/noAuth")
+            || path.startsWith("/css")
         );
   }
 }
