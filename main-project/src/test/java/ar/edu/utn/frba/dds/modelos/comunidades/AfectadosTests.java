@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.modelos.servicios.TipoEtiquetas;
 import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +30,10 @@ public class AfectadosTests {
 
   @BeforeEach
   public void init() {
+
+    TipoEtiquetas teTipo = new TipoEtiquetas("tipo");
+    TipoEtiquetas teGenero = new TipoEtiquetas("genero");
+
     persona1 = new Persona("Nombre", "Apellido");
     persona2 = new Persona("Nombre2", "Apellido2");
 
@@ -36,13 +41,13 @@ public class AfectadosTests {
 
     servicio1 = new Servicio();
     servicio1.setId(1);
-    servicio1.agregarEtiqueta(new Etiqueta("tipo", "baño"));
-    servicio1.agregarEtiqueta(new Etiqueta("genero", "hombre"));
+    servicio1.agregarEtiqueta(new Etiqueta(teTipo, "baño"));
+    servicio1.agregarEtiqueta(new Etiqueta(teGenero, "hombre"));
 
     servicio2 = new Servicio();
     servicio2.setId(2);
-    servicio2.agregarEtiqueta(new Etiqueta("tipo", "baño"));
-    servicio2.agregarEtiqueta(new Etiqueta("genero", "mujer"));
+    servicio2.agregarEtiqueta(new Etiqueta(teTipo, "baño"));
+    servicio2.agregarEtiqueta(new Etiqueta(teGenero, "mujer"));
 
     buenosAires = new Provincia("1", "Buenos Aires");
     ubicacion1 = new Ubicacion(buenosAires);

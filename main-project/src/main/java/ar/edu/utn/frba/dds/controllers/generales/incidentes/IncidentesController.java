@@ -1,11 +1,15 @@
 package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
+import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.FiltradorPorComunidad;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
+import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
+import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidentePorComunidadRepositorio;
@@ -16,6 +20,7 @@ import io.javalin.http.Context;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.persistence.EntityManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -68,7 +73,8 @@ public class IncidentesController {
     incidente.setAutorApertura(persona);
     incidente.setFechaHoraApertura(LocalDateTime.now());
 
-    incidente.agregarIncidenteComunidad();
+    List<Comunidad> comunidades = persona.getMembresias().stream().map(Membresia::getComunidad).filter(c -> c.getServiciosPrestados().stream().map(s -> s.getId()).toList().containsAll(incidente.getServiciosAfectados().stream().map(sp -> sp.getId()).toList())).toList();
+    comunidades.forEach(incidente::agregarIncidenteComunidad);
 
     //PERSISTIR
     repoIncidente.guardar(incidente);
@@ -79,30 +85,44 @@ public class IncidentesController {
 
   public void getAll(@NotNull Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
+
     String respuestaHTML = "";
     try{
-      respuestaHTML = ObtenedorListadoIncidentes.obtenerHTMLListadoIncidentes(model);
+      respuestaHTML = ObtenedorListadoIncidentes.obtenerHTMLListadoIncidentes(model, context.queryParam("estado"));
+
+      if(Objects.equals(respuestaHTML, "paraRevision")){
+        Comunidad comunidad = context.sessionAttribute("comunidad");
+        Persona persona = ((Usuario) context.sessionAttribute("usuario")).getPersonaAsociada();
+        List<IncidentePorComunidad> incidentesPorComunidad = repoIncidenteComunidad.incidentesEnRevision(persona, comunidad);
+
+        model.put("incidentesPorComunidad", incidentesPorComunidad);
+        context.render("listaIncidentes.hbs", model);
+      }else{
+        model.put("contenidoIncidentes", respuestaHTML);
+        context.render("base.hbs", model);
+      }
     }
     catch(Exception e){
       throw new FormInvalidoException("Error al obtener el listado de incidentes.");
     }
-    context.html(respuestaHTML);
   }
 
   public void vistaApertura(@NotNull Context context){
-
       Map<String, Object> model = GeneradorModel.model(context);
 
-      List<Provincia> provincias = repoProvincia.buscarTodas();
+      Comunidad comunidad = (Comunidad) model.get("comunidad");
 
+      List<Provincia> provincias = FiltradorPorComunidad.provinciasDeComunidad(comunidad , repoProvincia.buscarTodas());
       model.put("provincias", provincias);
 
       context.render("aperturaIncidente.hbs", model);
   }
+
   public void vistaCierre(@NotNull Context context){
     Map<String, Object> model = GeneradorModel.model(context);
 
-    List<Provincia> provincias = repoProvincia.buscarTodas();
+    Comunidad comunidad = (Comunidad) model.get("comunidad");
+    List<Provincia> provincias = FiltradorPorComunidad.provinciasConIncidentes(comunidad, repoProvincia.buscarTodas());
 
     model.put("provincias", provincias);
 
@@ -117,8 +137,10 @@ public class IncidentesController {
     //PERSONA
     Usuario usuario = context.sessionAttribute("usuario");
 
+    Comunidad comunidad = context.sessionAttribute("comunidad");
+
     //CERRAR INCIDENTE
-    usuario.getPersonaAsociada().cerrarIncidente(incidente);
+    usuario.getPersonaAsociada().cerrarIncidente(incidente, comunidad);
 
     //PERSISTIR
     this.repoIncidente.actualizar(incidente);

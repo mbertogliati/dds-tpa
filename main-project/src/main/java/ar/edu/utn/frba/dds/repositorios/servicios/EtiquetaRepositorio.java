@@ -40,7 +40,12 @@ public class EtiquetaRepositorio {
   }
 
   public List<Etiqueta> buscarTodas() {
-    TypedQuery<Etiqueta> query = entityManager.createQuery("FROM " + Etiqueta.class.getName(), Etiqueta.class);
+    TypedQuery<Etiqueta> query = entityManager.createQuery("FROM " + Etiqueta.class.getName() + " e ORDER BY e.tipo.nombre ASC", Etiqueta.class);
+    return query.getResultList();
+  }
+
+  public List<Etiqueta> buscarTodasDeTipo(int idTipo) {
+    TypedQuery<Etiqueta> query = entityManager.createQuery("FROM " + Etiqueta.class.getName() + " e WHERE e.tipo.id= " + idTipo + " ORDER BY e.tipo.nombre ASC", Etiqueta.class);
     return query.getResultList();
   }
 }

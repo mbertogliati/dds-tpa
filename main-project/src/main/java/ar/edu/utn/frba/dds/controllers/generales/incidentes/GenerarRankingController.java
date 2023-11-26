@@ -31,7 +31,7 @@ public class GenerarRankingController {
         this.repoRanking = new RankingRepositorio(entityManager);
     }
     public void generarRankingUltimaSemana() {
-
+        System.out.println("[INFO]: Generando ranking de la última semana...");
         List<IncidentePorComunidad> incidentes = obtenerIncidentesDeLaSemana();
 
         formasDeCalcular.forEach(formaDeCalcular -> {
@@ -39,7 +39,7 @@ public class GenerarRankingController {
             Ranking ranking = generadorRanking.generarRanking(incidentes, "Ranking del "+ LocalDate.now() + ": " + formaDeCalcular.getClass().getSimpleName());
             repoRanking.guardarRanking(ranking);
         });
-
+        System.out.println("[INFO]: Ranking generado correctamente.");
     }
     private List<IncidentePorComunidad> obtenerIncidentesDeLaSemana(){
         //Obtengo los incidentes de la semana anterior

@@ -36,9 +36,9 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         this.repoIntentoFusionComunidades = new IntentoFusionComunidadRepositorio(entityManager);
         this.repoRol = new RolRepositorio(entityManager);
         this.entityManager = entityManager;
-        fusionadorComunidades = new FusionadorComunidades();
-        fusionadorComunidades.setRolAdminComunidad(repoRol.rolAdminComunidad());
-        fusionadorComunidades.setRolDefaultComunidad(repoRol.rolDefaultComunidad());
+        this.fusionadorComunidades = new FusionadorComunidades();
+        /*this.fusionadorComunidades.setRolAdminComunidad(repoRol.rolAdminComunidad());
+        this.fusionadorComunidades.setRolDefaultComunidad(repoRol.rolDefaultComunidad());*/
     }
 
     @Override
@@ -56,7 +56,7 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         Map<String, Object> model = GeneradorModel.model(context);
 
         Usuario usuario = context.sessionAttribute("usuario");
-        List<Organizacion> listaOrganizacion = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId() && m.getRolComunidad().getId() == repoRol.rolAdminComunidad().getId())).map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
+        List<Organizacion> listaOrganizacion = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId() && m.tieneRol(repoRol.rolAdminComunidad()))).map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
         List<PropuestaFusionComunidad> propuestasDisponibles = servicioDeFusion.obtenerPropuestas(listaOrganizacion).stream().map(
             p ->
             new PropuestaFusionComunidad(
@@ -77,7 +77,7 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         solicitudFusion.setOrganizacion2(ConverterComunidadOrganizacion.obtenerOrganizacion(comunidad2));
 
         try {
-            Comunidad comunidadFusionada = fusionadorComunidades.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2);
+            Comunidad comunidadFusionada = fusionadorComunidades.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2, repoRol.rolDefaultComunidad(), repoRol.rolAdminComunidad());
 
             comunidad1.agregarIntentoFusion(LocalDateTime.now(), comunidad2);
             comunidad2.agregarIntentoFusion(LocalDateTime.now(), comunidad1);

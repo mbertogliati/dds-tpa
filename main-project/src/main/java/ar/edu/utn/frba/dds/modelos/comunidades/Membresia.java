@@ -18,7 +18,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "membresias")
+@Table(name = "membresias", schema = "public")
 
 @Getter
 @Setter
@@ -29,9 +29,8 @@ public class Membresia extends ModelBase {
   @ManyToOne
   private Comunidad comunidad;
 
-  @ManyToOne
-  @JoinColumn(name = "rolComunidad_id", referencedColumnName = "id")
-  private Rol rolComunidad;
+  @ManyToMany
+  private List<Rol> roles = new ArrayList<Rol>();
 
   @ManyToMany
   private List<ServicioPrestado> serviciosObservados;
@@ -46,7 +45,7 @@ public class Membresia extends ModelBase {
   public Membresia(Comunidad comunidad, Persona persona, Rol rol){
     this.persona = persona;
     this.comunidad = comunidad;
-    this.rolComunidad = rol;
+    this.roles.add(rol);
     serviciosObservados = new ArrayList<>();
   }
 
@@ -62,6 +61,10 @@ public class Membresia extends ModelBase {
 
   public boolean estaAfectado(ServicioPrestado servicioPrestado){
     return !serviciosObservados.contains(servicioPrestado);
+  }
+
+  public boolean tieneRol(Rol rol){
+    return this.roles.stream().map(Rol::getId).toList().contains(rol.getId());
   }
 
 }

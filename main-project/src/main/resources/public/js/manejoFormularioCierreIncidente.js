@@ -7,19 +7,19 @@ document.addEventListener("DOMContentLoaded", function() {
     var incidenteSelector = document.getElementById("incidente");
 
     provinciaSelector.addEventListener("change", function(){
-        buscarOpciones(provinciaSelector, departamentoSelector,"departamentos");
+        buscarOpciones(provinciaSelector, departamentoSelector,"departamentosCierreIncidentes");
     });
     departamentoSelector.addEventListener("DOMSubtreeModified", function(){
-        buscarOpciones(departamentoSelector, localidadSelector,"localidades");
+        buscarOpciones(departamentoSelector, localidadSelector,"localidadesCierreIncidentes");
     });
     localidadSelector.addEventListener("DOMSubtreeModified", function(){
-        buscarOpciones(localidadSelector, incidenteSelector,"incidentes");
+        buscarOpciones(localidadSelector, incidenteSelector,"incidentesCierre");
     });
     departamentoSelector.addEventListener("change", function(){
-        buscarOpciones(departamentoSelector, localidadSelector,"localidades");
+        buscarOpciones(departamentoSelector, localidadSelector,"localidadesCierreIncidentes");
     });
     localidadSelector.addEventListener("change", function(){
-        buscarOpciones(localidadSelector, incidenteSelector,"incidentes");
+        buscarOpciones(localidadSelector, incidenteSelector,"incidentesCierre");
     });
 
 });

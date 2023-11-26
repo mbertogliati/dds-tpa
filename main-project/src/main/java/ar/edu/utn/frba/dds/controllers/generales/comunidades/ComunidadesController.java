@@ -10,8 +10,6 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
-import ar.edu.utn.frba.dds.modelos.fusion_organizacion.FusionadorComunidades;
-import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.MembresiaRepositorio;
@@ -50,7 +48,7 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     Usuario usuario = context.sessionAttribute("usuario");
 
-    List<Comunidad> comunidadesDeUsuario = usuario.getPersonaAsociada().getMembresias().stream().map(m -> m.getComunidad()).toList();
+    List<Comunidad> comunidadesDeUsuario = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId())).toList();
 
     model.put("comunidades", obtenerComunidadesConUsuarioActual(comunidadesDeUsuario, usuario));
 
@@ -92,12 +90,8 @@ public class ComunidadesController implements ICrudViewsHandler {
     Usuario usuario = context.sessionAttribute("usuario");
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
 
-    if(VerificadorRol.tieneRol(usuario, comunidad, ADMINISTRAR_COMUNIDAD)){
-      model.put("adminComunidad", true);
-    }
-
     ComunidadConUsuarioActual comunidadConUsuarioActual = new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada());
-    model.put("comunidad", comunidadConUsuarioActual);
+    model.put("comunidadSeleccionada", comunidadConUsuarioActual);
 
     context.render("verComunidad.hbs", model);
   }
@@ -131,6 +125,19 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     repoComunidad.guardarComunidad(comunidad);
 
+    Usuario usuario = context.sessionAttribute("usuario");
+    Membresia membresia = new Membresia(comunidad, usuario.getPersonaAsociada(), repoRol.rolAdminComunidad());
+    repoMembresia.guardar(membresia);
+
+    Membresia membresia1 = new Membresia(comunidad, usuario.getPersonaAsociada(), repoRol.rolDefaultComunidad());
+    repoMembresia.guardar(membresia1);
+
+    comunidad.agregarMembresia(membresia);
+    comunidad.agregarMembresia(membresia1);
+
+    repoUsuario.actualizar(usuario);
+    repoComunidad.actualizarComunidad(comunidad);
+
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Comunidad creada correctamente."));
     context.redirect("/comunidades/"+comunidad.getId()+"/edit?success");
   }
@@ -142,13 +149,13 @@ public class ComunidadesController implements ICrudViewsHandler {
     Usuario usuario = context.sessionAttribute("usuario");
     Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
 
-    if(VerificadorRol.tieneRol(usuario, comunidad, ADMINISTRAR_COMUNIDAD)){
+    if(VerificadorRol.tienePermiso(usuario, comunidad, ADMINISTRAR_COMUNIDAD)){
       model.put("editable", true);
       model.put("edicion", true);
       model.put("adminComunidad", true);
     }
 
-    model.put("comunidad", new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada()));
+    model.put("comunidadSeleccionada", new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada()));
     model.put("serviciosGenerales", repoServicioPrestado.buscarTodos());
 
     context.render("verComunidad.hbs", model);

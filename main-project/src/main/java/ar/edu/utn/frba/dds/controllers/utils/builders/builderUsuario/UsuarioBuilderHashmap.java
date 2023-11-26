@@ -1,9 +1,11 @@
 package ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario;
+import ar.edu.utn.frba.dds.modelos.comunidades.Rol;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.hasheo.EstrategiaHash;
 import ar.edu.utn.frba.dds.modelos.hasheo.HashPBKDF2;
 import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +53,10 @@ public class UsuarioBuilderHashmap implements UsuarioBuilder{
     @Override
     public void reset() {
         this.usuarioEnCreacion = new Usuario();
-        if (repoRol != null) this.usuarioEnCreacion.setRolPlataforma(repoRol.rolDefault());
+        if (repoRol != null){
+            List<Rol> roles = new ArrayList<>();
+            roles.add(repoRol.rolDefault());
+            this.usuarioEnCreacion.setRoles(roles);
+        }
     }
 }

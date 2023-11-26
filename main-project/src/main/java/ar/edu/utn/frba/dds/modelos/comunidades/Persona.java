@@ -33,7 +33,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "personas")
+@Table(name = "personas", schema = "public")
 
 @Getter
 @Setter
@@ -139,7 +139,11 @@ public class Persona extends ModelBase {
   }
 
   public void cerrarIncidente(Incidente incidente){
-    this.membresias.stream().map(m -> m.getComunidad()).filter(c -> c.getActivo() && c.tieneIncidente(incidente)).forEach(c -> c.cerrarIncidente(incidente, this));
+    this.membresias.stream().filter(m -> m.getActivo()).map(m -> m.getComunidad()).filter(c -> c.getActivo() && c.tieneIncidente(incidente)).forEach(c -> c.cerrarIncidente(incidente, this));
+  }
+
+  public void cerrarIncidente(Incidente incidente, Comunidad comunidad){
+     comunidad.cerrarIncidente(incidente, this);
   }
 
   public void agregarServicioDeInteres(ServicioPrestado servicio) {

@@ -19,10 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FusionadorComunidades {
-  private Rol rolDefaultComunidad;
-  private Rol rolAdminComunidad;
-
-  public Comunidad obtenerComunidad(Organizacion organizacion, Comunidad comunidad1, Comunidad comunidad2){
+  public Comunidad obtenerComunidad(Organizacion organizacion, Comunidad comunidad1, Comunidad comunidad2, Rol rolDefaultComunidad, Rol rolAdminComunidad){
     Comunidad comunidad = new Comunidad();
 
     comunidad.setNombre("Fusión de " + comunidad1.getNombre() + " y " + comunidad2.getNombre());
@@ -43,10 +40,10 @@ public class FusionadorComunidades {
       List<Membresia> membresiasDePersona = membresias.stream().filter(m -> m.getPersona().getId() == idPersona).toList();
       Rol rolPersona;
 
-      if(membresiasDePersona.stream().anyMatch(m -> m.getRolComunidad().getId() == this.rolAdminComunidad.getId())){
-        rolPersona = this.rolAdminComunidad;
+      if(membresiasDePersona.stream().anyMatch(m -> m.getRoles().stream().map(Rol::getId).toList().contains(rolAdminComunidad.getId()))){
+        rolPersona = rolAdminComunidad;
       }else{
-        rolPersona = this.rolDefaultComunidad;
+        rolPersona = rolDefaultComunidad;
       }
 
       comunidad.agregarPersona(membresiasDePersona.get(0).getPersona(), rolPersona);

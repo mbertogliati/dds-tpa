@@ -40,10 +40,10 @@ public class EvaluadorSolicitudRevision {
     }
   }
 
-  private List<IncidentePorComunidad> obtenerIncidentesPorComunidadCercanos(Coordenada coordenada, Comunidad comunidad) {
+  public List<IncidentePorComunidad> obtenerIncidentesPorComunidadCercanos(Coordenada coordenada, Comunidad comunidad) {
     return comunidad.getIncidentes()
         .stream()
-        .filter(i -> i.getIncidente().getServiciosAfectados().stream().anyMatch(
+        .filter(i -> !i.isEstaCerrado() && i.getIncidente().getServiciosAfectados().stream().anyMatch(
             s -> s.getUbicacion().getCoordenada() != null && this.adapterCalculadoraDistancia.distanciaEntre(s.getUbicacion().getCoordenada(), coordenada) <= this.rangoCercaniaEnMetros
         )).toList();
   }

@@ -21,17 +21,22 @@ public class ObtenerEstablecimientosController implements Handler {
   public void handle(@NotNull Context context) throws Exception {
     String entidadId = context.queryParam("selectorId");
 
-    List<Establecimiento> establecimientos = establecimientoRepositorio.buscarPorEntidad(entidadId);
+    if(entidadId != null && entidadId != "") {
+      List<Establecimiento> establecimientos = establecimientoRepositorio.buscarPorEntidad(entidadId);
 
-    // Genero HTML con las opciones de los departamentos
-    StringBuilder htmlOptions = new StringBuilder();
+      // Genero HTML con las opciones de los departamentos
+      StringBuilder htmlOptions = new StringBuilder();
 
-    for (Establecimiento establecimiento : establecimientos) {
-      htmlOptions.append("<option value=\"").append(establecimiento.getId()).append("\">")
-          .append(establecimiento.getNombre()).append("</option>");
+      for (Establecimiento establecimiento : establecimientos) {
+        htmlOptions.append("<option value=\"").append(establecimiento.getId()).append("\">")
+            .append(establecimiento.getNombre()).append("</option>");
+      }
+
+      context.contentType("text/html");
+      context.result(htmlOptions.toString());
+    }else{
+      context.contentType("text/html");
+      context.result("");
     }
-
-    context.contentType("text/html");
-    context.result(htmlOptions.toString());
   }
 }

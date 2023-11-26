@@ -19,7 +19,7 @@
 </head>
 <body class="d-flex flex-column">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class="navbar navbar-expand-lg {{#with adminPlataforma}}bg-admin{{else}}{{#with adminComunidad}}bg-adminComunidad{{else}}{{#with comunidad}}bg-miembro{{else}}{{#with manejador}}bg-manejador{{else}}navbar-dark bg-primary{{/with}}{{/with}}{{/with}}{{/with}}">
     <div class="container">
         <a class="navbar-brand" href="/home"><b>MESTRAPEST</b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -28,10 +28,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav nav-pills">
-                <li class="nav-item">
+                <li class="nav-item mx-2">
                     <a class="nav-link {{#with nav-index}}active{{/with}}" href="/home">Inicio</a>
                 </li>
-                <li class="nav-item dropdown">
+                {{#with comunidad}}
+                <li class="nav-item dropdown mx-2">
                     <a class="nav-link dropdown-toggle {{#with nav-incidentes}}active{{/with}}" href="#" id="navbarDropdownIncidentes" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Incidentes
                     </a>
@@ -41,21 +42,43 @@
                         <a class="dropdown-item" href="/cierreIncidente">Cierre</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
+                    {{#with adminComunidad}}
+                        <li class="nav-item mx-2">
+                            <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades/{{comunidad.id}}/edit">Modificar comunidad</a>
+                        </li>
+                    {{else}}
+                        <li class="nav-item mx-2">
+                            <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades/{{comunidad.id}}">Ver comunidad</a>
+                        </li>
+                    {{/with}}
+                {{/with}}
+                {{#with manejador}}
+                <li class="nav-item dropdown mx-2">
                     <a class="nav-link dropdown-toggle {{#with nav-entidades}}active{{/with}}" href="#" id="navbarDropdownEntidades" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Entidades
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownEntidades">
                         <a class="dropdown-item" href="/entidadesPrestadoras">Administracion</a>
                         <a class="dropdown-item" href="/rankings">Rankings</a>
-                        <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
+                        {{#with adminPlataforma}}
+                            <a class="dropdown-item" href="/cargaMasiva">Carga masiva</a>
+                        {{/with}}
                     </div>
                 </li>
-                <li class="nav-item">
+                {{/with}}
+                {{#with userDefault}}
+                <li class="nav-item mx-2">
                     <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades">Comunidades</a>
                 </li>
+                {{/with}}
                 {{#with adminPlataforma}}
-                    <li class="nav-item">
+                    <li class="nav-item mx-2">
+                        <a class="nav-link {{#with nav-comunidades}}active{{/with}}" href="/comunidades">Comunidades</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link {{#with nav-servicios}}active{{/with}}" href="/servicios">Servicios</a>
+                    </li>
+                    <li class="nav-item mx-2">
                         <a class="nav-link {{#with nav-usuarios}}active{{/with}}" href="/usuarios">Usuarios</a>
                     </li>
                 {{/with}}
@@ -63,12 +86,13 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{#with nav-usuarios}}active{{/with}}" href="#" id="navbarDropdownSesion" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Mi sesión
+                        {{userActual.personaAsociada.nombre}} {{userActual.personaAsociada.apellido}}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownSesion">
                         <a class="dropdown-item" href="/usuarios/{{userActual.id}}/edit">Mi perfil</a>
                         <a class="dropdown-item" href="/misComunidades">Mis comunidades</a>
                         <a class="dropdown-item" href="/usuarios/{{userActual.id}}/interes">Mis intereses</a>
+                        <a class="dropdown-item" href="/roles">Cambiar rol</a>
                         <a class="dropdown-item" href="/logout">Cerrar sesión</a>
                     </div>
                 </li>
@@ -91,11 +115,14 @@
 {{/if}}
 
 <!-- Contenido principal -->
-<div id="main-content">
-{{#block "contenido"}}
-{{/block}}
-</div>
+        {{#with "contenidoIncidentes"}}
+            {{{contenidoIncidentes}}}
+        {{/with}}
 
+        <div id="main-content">
+            {{#block "contenido"}}
+            {{/block}}
+        </div>
 
 <footer class="bg-secondary text-white text-center py-3">
     <div class="container">

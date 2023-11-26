@@ -33,7 +33,7 @@ public class CalcularGradoConfianzaController{
     }
 
     public void calcularGradosDeConfianza(){
-
+        System.out.println("[INFO]: Calculando grados de confianza...");
         List<Comunidad> comunidades = repoComunidad.obtenerTodas();
 
         for (Comunidad comunidad : comunidades) {
@@ -60,6 +60,7 @@ public class CalcularGradoConfianzaController{
                 this.actualizarUsuarios(resultado.getUsuarios());
             }
         }
+        System.out.println("[INFO]: Grados de confianza calculados correctamente.");
     }
     private List<UsuarioAEvaluar> obtenerUsuariosAEvaluar(Comunidad comunidad){
         List<Persona> personas = comunidad.getMembresias().stream().map(Membresia::getPersona).toList();

@@ -18,7 +18,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "servicios")
+@Table(name = "servicios", schema = "public")
 
 @Getter
 @Setter
@@ -27,7 +27,6 @@ public class Servicio extends ModelBase {
   private String nombre;
 
   @ManyToMany
-  @Cascade(CascadeType.ALL)
   private List<Etiqueta> etiquetas = new ArrayList<>();
 
   public Servicio(){}

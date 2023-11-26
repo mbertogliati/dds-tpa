@@ -51,7 +51,7 @@ public class MapperFusion {
   }
 
   public static Organizacion mapRequestOrganizacionAOrganizacion(RequestOrganizacion requestOrganizacion) {
-    Organizacion organizacion = new Organizacion(); //TODO: completar
+    Organizacion organizacion = new Organizacion();
     organizacion.setIdOrganizacion(requestOrganizacion.getIdOrganizacion());
     organizacion.setServicios(requestOrganizacion.getMiembros());
     organizacion.setMiembros(requestOrganizacion.getMiembros());

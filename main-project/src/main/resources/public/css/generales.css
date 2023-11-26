@@ -29,3 +29,67 @@ body{
 #main-content{
    margin-bottom: auto;
 }
+
+
+.bg-admin, .bg-admin .dropdown-menu{
+    background-color: #004ec1 !important;
+}
+.bg-admin .dropdown-item{
+    background-color: #004ec1 !important;
+    color: #cccccc !important;
+}
+.bg-admin .nav-link, .bg-admin a{
+    color: #cccccc !important;
+}
+.bg-admin .nav-link:hover, .bg-admin .dropdown-item:hover, .bg-admin .nav-link.active {
+    background-color: #004ec1 !important;
+    color: #ffffff !important;
+}
+
+
+.bg-miembro, .bg-miembro .dropdown-menu{
+    background-color: #350094 !important;
+}
+.bg-miembro .dropdown-item{
+    background-color: #350094 !important;
+    color: #cccccc !important;
+}
+.bg-miembro .nav-link, .bg-miembro a{
+    color: #cccccc !important;
+}
+.bg-miembro .nav-link:hover, .bg-miembro .dropdown-item:hover, .bg-miembro .nav-link.active {
+    background-color: #350094 !important;
+    color: #ffffff !important;
+}
+
+
+.bg-adminComunidad, .bg-adminComunidad .dropdown-menu{
+    background-color: #00a184 !important;
+}
+.bg-adminComunidad .dropdown-item{
+    background-color: #00a184 !important;
+    color: #cccccc !important;
+}
+.bg-adminComunidad .nav-link, .bg-adminComunidad a{
+    color: #cccccc !important;
+}
+.bg-adminComunidad .nav-link:hover, .bg-adminComunidad .dropdown-item:hover, .bg-adminComunidad .nav-link.active {
+    background-color: #00a184 !important;
+    color: #ffffff !important;
+}
+
+
+.bg-manejador, .bg-manejador .dropdown-menu{
+    background-color: #009825 !important;
+}
+.bg-manejador .dropdown-item{
+    background-color: #009825 !important;
+    color: #cccccc !important;
+}
+.bg-manejador .nav-link, .bg-manejador a{
+    color: #cccccc !important;
+}
+.bg-manejador .nav-link:hover, .bg-manejador .dropdown-item:hover, .bg-manejador .nav-link.active {
+    background-color: #009825 !important;
+    color: #ffffff !important;
+}

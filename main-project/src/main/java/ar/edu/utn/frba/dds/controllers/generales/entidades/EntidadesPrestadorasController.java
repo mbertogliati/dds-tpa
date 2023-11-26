@@ -6,12 +6,14 @@ import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
+import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -37,17 +39,34 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
     Usuario usuario = context.sessionAttribute("usuario");
     Persona persona = usuario.getPersonaAsociada();
 
+    EntidadPrestadora entidadPrestadora = context.sessionAttribute("entidadPrestadora");
+    if(entidadPrestadora != null){
+      List<EntidadPrestadora> entidades = new ArrayList<>();
+      entidades.add(entidadPrestadora);
+      model.put("entidadesPrestadorasGen", entidades);
+    }
+    /*
     List<EntidadPrestadora> entidadesManejadas = repoEntidadesPrestadoras.manejadasPor(persona);
     if(entidadesManejadas != null && !entidadesManejadas.isEmpty()){
       List<EntidadPrestadora> entidadesNuevas = FiltradorEntidades.entidadesPrestadoras(entidadesManejadas);
       model.put("entidadesPrestadorasGen", entidadesNuevas);
     }
+    */
 
+    OrganismoControl organismoControl = context.sessionAttribute("organismoControl");
+    if(organismoControl != null){
+      List<OrganismoControl> organismos = new ArrayList<>();
+      organismos.add(organismoControl);
+      model.put("organismosDeControl", organismos);
+    }
+    /*
     List<OrganismoControl> organismosManejados = repoOrganismo.manejadosPor(persona);
     if(organismosManejados != null && !organismosManejados.isEmpty()){
       List<OrganismoControl> organismosNuevos = FiltradorEntidades.organismosDeControl(organismosManejados);
       model.put("organismosDeControl", organismosNuevos);
     }
+    */
+
 
     model.put("persona", persona);
 

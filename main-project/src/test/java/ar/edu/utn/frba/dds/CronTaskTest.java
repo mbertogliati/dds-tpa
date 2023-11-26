@@ -2,22 +2,20 @@ package ar.edu.utn.frba.dds;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import ar.edu.utn.frba.dds.controllers.utils.CreadorCronTask;
-import java.io.IOException;
-import java.time.LocalDate;
+import ar.edu.utn.frba.dds.modelos.utilidades.CronTaskPorMinuto;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CreadorCronTaskTest {
-  private static CreadorCronTask creadorCronTask ;
+public class CronTaskTest {
+  private static CronTaskPorMinuto cronTaskPorMinuto;
   private static class MiObjeto {
     public Integer numero;
   }
   @BeforeEach
   public void init(){
-    creadorCronTask = new CreadorCronTask();
+    cronTaskPorMinuto = new CronTaskPorMinuto();
   }
 
   @Test
@@ -25,10 +23,10 @@ public class CreadorCronTaskTest {
   public void cambioEnObjetoAfectadoPorCrontaskEsReflejado() throws InterruptedException {
     MiObjeto miObj = new MiObjeto();
     miObj.numero = 0;
-    creadorCronTask.crearCronTask(() ->{miObj.numero = 1;},LocalDateTime.now(),5);
-    Thread.sleep(4500);
+    cronTaskPorMinuto.setCantMinutos(1L);
+    cronTaskPorMinuto.iniciar(() ->{miObj.numero = 1;});
     assertEquals(miObj.numero,0);
-    Thread.sleep(500);
+    Thread.sleep(61000);
     assertEquals(miObj.numero,1);
   }
 }

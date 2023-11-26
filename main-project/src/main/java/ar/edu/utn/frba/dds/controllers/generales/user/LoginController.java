@@ -61,10 +61,6 @@ public class LoginController{
     if(Objects.equals(hasheador.hashear(password), usuario.getPassword())){
       context.sessionAttribute("usuario", usuario);
       intentoDeLogin.reset();
-      if (VerificadorRol.tieneRol(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
-        context.sessionAttribute("adminPlataforma", true);
-      }
-
       context.redirect("/");
     }else{
       context.sessionAttribute("usuario", null);
@@ -77,6 +73,10 @@ public class LoginController{
     context.consumeSessionAttribute("adminPlataforma");
     context.consumeSessionAttribute("entidadesManejadas");
     context.consumeSessionAttribute("organismosManejados");
+    context.consumeSessionAttribute("comunidad");
+    context.consumeSessionAttribute("adminComunidad");
+    context.consumeSessionAttribute("organismoControl");
+    context.consumeSessionAttribute("entidadPrestadora");
     context.redirect("/");
   }
 }

@@ -11,6 +11,7 @@ import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
 import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
+import ar.edu.utn.frba.dds.modelos.servicios.TipoEtiquetas;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,10 +34,16 @@ public class TestGeneradorRankings {
     private static final Establecimiento estacion2MC = new Establecimiento("Estacion 2", "Estacion 2");
     private static final Establecimiento estacion3BK = new Establecimiento("Estacion 3", "Estacion 3");
 
-    private static final Servicio banioHombreBebe = new Servicio(new Etiqueta("tipoServicio","banio"), new Etiqueta("genero","hombre"), new Etiqueta("edad","bebe"));
-    private static final Servicio escaleraMolinete = new Servicio(new Etiqueta("tipoServicio","escalera"), new Etiqueta("tipoAcceso","molinete"));
-    private static final Servicio escaleraMolineteAncho = new Servicio(new Etiqueta("tipoServicio","escalera"), new Etiqueta("tipoAcceso","molinete"), new Etiqueta("ancho","ancho"));
-    private static final Servicio banioSinGeneroAscensor = new Servicio(new Etiqueta("tipoServicio","banio"), new Etiqueta("tipoAcceso","ascensor"));
+    private static final TipoEtiquetas teTipoServicio = new TipoEtiquetas("tipoServicio");
+    private static final TipoEtiquetas teGenero = new TipoEtiquetas("genero");
+    private static final TipoEtiquetas teEdad = new TipoEtiquetas("edad");
+    private static final TipoEtiquetas teTipoAcceso = new TipoEtiquetas("tipoAcceso");
+    private static final TipoEtiquetas teAncho = new TipoEtiquetas("ancho");
+
+    private static final Servicio banioHombreBebe = new Servicio(new Etiqueta(teTipoServicio,"banio"), new Etiqueta(teGenero,"hombre"), new Etiqueta(teEdad,"bebe"));
+    private static final Servicio escaleraMolinete = new Servicio(new Etiqueta(teTipoServicio,"escalera"), new Etiqueta(teTipoAcceso,"molinete"));
+    private static final Servicio escaleraMolineteAncho = new Servicio(new Etiqueta(teTipoServicio,"escalera"), new Etiqueta(teTipoAcceso,"molinete"), new Etiqueta(teAncho,"ancho"));
+    private static final Servicio banioSinGeneroAscensor = new Servicio(new Etiqueta(teTipoServicio,"banio"), new Etiqueta(teTipoAcceso,"ascensor"));
 
     private static final ServicioPrestado servicioPrestado1BBVA = new ServicioPrestado(banioHombreBebe);
     private static final ServicioPrestado servicioPrestado2MC = new ServicioPrestado(escaleraMolinete);

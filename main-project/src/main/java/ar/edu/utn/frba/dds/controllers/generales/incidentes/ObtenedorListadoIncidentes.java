@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ObtenedorListadoIncidentes {
-    public static String url = "https://localhost:8080/incidentes";
+    public static String url = "https://dds-g19-laravel.onrender.com/incidentes";
 
     public static URI obtenerURI() {
         String envUrl = System.getenv("LISTADO_INCIDENTES_URL");
@@ -22,12 +23,19 @@ public class ObtenedorListadoIncidentes {
         return URI.create(url);
     }
 
-    public static String obtenerHTMLListadoIncidentes(Map<String,Object> model) throws URISyntaxException, IOException, InterruptedException {
+    public static String obtenerHTMLListadoIncidentes(Map<String,Object> model, String estado) throws URISyntaxException, IOException, InterruptedException {
         MensajeVista mensajeVista = (MensajeVista) model.get("msg");
         Usuario usuario = (Usuario) model.get("userActual");
+        Comunidad comunidad = (Comunidad) model.get("comunidad");
         var values = new HashMap<String, String>() {{
-            put("tipo", mensajeVista.getTipo());
-            put("msg", mensajeVista.getTexto());
+            if(mensajeVista != null) {
+                put("tipo", mensajeVista.getTipo());
+                put("msg", mensajeVista.getTexto());
+            }
+            if(estado != null){
+                put("estado", estado);
+            }
+            put("idComunidad", String.valueOf(comunidad.getId()));
             put("idUsuario",String.valueOf(usuario.getId()));
         }};
 
@@ -38,6 +46,7 @@ public class ObtenedorListadoIncidentes {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(obtenerURI())
+                .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 

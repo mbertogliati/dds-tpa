@@ -22,7 +22,7 @@ import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-@Table(name = "incidentes")
+@Table(name = "incidentes", schema = "public")
 @Getter @Setter
 public class Incidente implements Notificable {
     @Id
@@ -65,7 +65,11 @@ public class Incidente implements Notificable {
     }
 
     public void agregarIncidenteComunidad() {
-        this.autorApertura.getMembresias().stream().map(m -> m.getComunidad()).filter(c -> c.getActivo()).forEach(c -> c.agregarIncidente(this));
+        this.autorApertura.getMembresias().stream().filter(m -> m.getActivo()).map(m -> m.getComunidad()).filter(c -> c.getActivo()).forEach(c -> c.agregarIncidente(this));
+    }
+
+    public void agregarIncidenteComunidad(Comunidad comunidad) {
+        comunidad.agregarIncidente(this);
     }
 
     @Override
