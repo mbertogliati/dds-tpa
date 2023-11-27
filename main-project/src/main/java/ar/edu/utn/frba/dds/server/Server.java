@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.server;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.ExternalException;
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.exceptions.UnauthorizedException;
+import ar.edu.utn.frba.dds.controllers.exceptions.handlers.ExternalExceptionHandler;
 import ar.edu.utn.frba.dds.controllers.exceptions.handlers.FormInvalidoHandler;
 import ar.edu.utn.frba.dds.controllers.exceptions.handlers.UnauthorizedHandler;
 import ar.edu.utn.frba.dds.controllers.utils.ConfiguradorAutorizacion;
@@ -50,6 +52,7 @@ public class Server {
   private static void configurarExceptionHandlers(){
     app.exception(FormInvalidoException.class, new FormInvalidoHandler());
     app.exception(UnauthorizedException.class, new UnauthorizedHandler());
+    app.exception(ExternalException.class, new ExternalExceptionHandler());
   }
 
   private static void configurarCronTasks(){
