@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.ExternalException;
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.FiltradorPorComunidad;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
@@ -103,7 +104,7 @@ public class IncidentesController {
       }
     }
     catch(Exception e){
-      throw new FormInvalidoException("Error al obtener el listado de incidentes.");
+      throw new ExternalException("Error al obtener el listado de incidentes.");
     }
   }
 

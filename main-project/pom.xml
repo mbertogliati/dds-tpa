@@ -42,22 +42,22 @@
         <!-- drivers jdbc -->
         <!-- mysql -->
         <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
-        <!--
-                <dependency>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                    <version>8.0.28</version>
-                </dependency>-->
 
-                <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+        </dependency>
 
-                <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>42.2.27</version>
-                </dependency>
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 
-                <!-- hsqldb -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.27</version>
+        </dependency>
+
+        <!-- hsqldb -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.ExternalException;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
@@ -25,6 +26,7 @@ public class ObtenedorListadoIncidentes {
 
     public static String obtenerHTMLListadoIncidentes(Map<String,Object> model, String estado) throws URISyntaxException, IOException, InterruptedException {
         MensajeVista mensajeVista = (MensajeVista) model.get("msg");
+
         Usuario usuario = (Usuario) model.get("userActual");
         Comunidad comunidad = (Comunidad) model.get("comunidad");
         var values = new HashMap<String, String>() {{
@@ -46,12 +48,14 @@ public class ObtenedorListadoIncidentes {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(obtenerURI())
-                .header("Content-Type", "application/json")
+                .header("Content-Type", "text/html")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
+
+        if(response.statusCode() != 200) throw new ExternalException("Error al obtener el listado de incidentes");
 
         return response.body();
     }

@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.generales.comunidades;
 
-import static ar.edu.utn.frba.dds.controllers.utils.VerificadorRol.Permiso.ADMINISTRAR_COMUNIDAD;
+import static ar.edu.utn.frba.dds.controllers.utils.TipoPermiso.ADMINISTRAR_COMUNIDAD;
 
 import ar.edu.utn.frba.dds.controllers.utils.VerificadorRol;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
@@ -60,7 +60,7 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
     ServicioPrestado servicioPrestado = repoServicioPrestado.buscarPorId(Integer.parseInt(context.pathParam("idServicio")));
-    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("idComunidad")));
 
     if(context.pathParam("nuevoRol").equals("afectado")){
       comunidad.getMembresia(usuario.getPersonaAsociada()).agregarServicioAfectado(servicioPrestado);
@@ -88,7 +88,7 @@ public class ComunidadesController implements ICrudViewsHandler {
     Map<String, Object> model = GeneradorModel.model(context);
 
     Usuario usuario = context.sessionAttribute("usuario");
-    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("idComunidad")));
 
     ComunidadConUsuarioActual comunidadConUsuarioActual = new ComunidadConUsuarioActual(comunidad,usuario.getPersonaAsociada());
     model.put("comunidadSeleccionada", comunidadConUsuarioActual);
@@ -147,7 +147,7 @@ public class ComunidadesController implements ICrudViewsHandler {
     Map<String, Object> model = GeneradorModel.model(context);
 
     Usuario usuario = context.sessionAttribute("usuario");
-    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("idComunidad")));
 
     if(VerificadorRol.tienePermiso(usuario, comunidad, ADMINISTRAR_COMUNIDAD)){
       model.put("editable", true);
@@ -163,7 +163,7 @@ public class ComunidadesController implements ICrudViewsHandler {
 
   @Override
   public void update(Context context) {
-    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("idComunidad")));
 
     comunidad.setNombre(context.formParam("nombre"));
     comunidad.setDetalle(context.formParam("detalle"));
@@ -176,7 +176,7 @@ public class ComunidadesController implements ICrudViewsHandler {
 
   @Override
   public void delete(Context context) {
-    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("idComunidad")));
 
     repoComunidad.eliminarComunidad(comunidad);
 
@@ -185,24 +185,25 @@ public class ComunidadesController implements ICrudViewsHandler {
   }
 
   public void sacarMiembro(Context context){
-    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("idComunidad")));
 
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
 
-    Membresia membresia = comunidad.getMembresias().stream().filter(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId()).toList().get(0);
+     List<Membresia> membresias = comunidad.getMembresias().stream().filter(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId()).toList();
 
-    comunidad.eliminarMembresia(membresia);
+     membresias.forEach(comunidad::eliminarMembresia);
+     membresias.forEach(usuario.getPersonaAsociada()::eliminarMembresia);
+     membresias.forEach(membresia -> repoMembresia.eliminar(membresia));
 
-    repoUsuario.actualizar(usuario);
     repoComunidad.actualizarComunidad(comunidad);
-    repoMembresia.eliminar(membresia);
+    repoUsuario.actualizar(usuario);
 
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Membresia eliminada correctamente."));
     context.redirect("/comunidades?success");
   }
 
   public void unirMiembro(Context context){
-    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("idComunidad")));
 
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
 
@@ -220,7 +221,7 @@ public class ComunidadesController implements ICrudViewsHandler {
   }
 
   public void agregarServicio(Context context){
-    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("idComunidad")));
 
     ServicioPrestado servicioPrestado = repoServicioPrestado.buscarPorId(Integer.parseInt(context.formParam("servicio")));
 
@@ -233,7 +234,7 @@ public class ComunidadesController implements ICrudViewsHandler {
   }
 
   public void quitarServicio(Context context){
-    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("id")));
+    Comunidad comunidad = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.pathParam("idComunidad")));
 
     ServicioPrestado servicioPrestado = repoServicioPrestado.buscarPorId(Integer.parseInt(context.pathParam("idServicio")));
 

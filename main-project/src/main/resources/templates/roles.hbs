@@ -12,9 +12,10 @@
                 </div>
                 <div class="card-body">
                     <form action="/roles" method="post">
-                        <div class="row">
+                        <div class="row mx-2">
+                            <h5 class="p-0">Usted tiene ahora el Rol: {{rolSeleccionado}}</h5>
                             <select class="form-select" name="rol" id="rol" required>
-                                <option>Roles disponibles</option>
+                                <option value="" selected disabled hidden>Roles Disponibles</option>
                                 {{#each rolesPlataforma}}
                                     <option value="{{id}}">{{nombre}}</option>
                                 {{/each}}

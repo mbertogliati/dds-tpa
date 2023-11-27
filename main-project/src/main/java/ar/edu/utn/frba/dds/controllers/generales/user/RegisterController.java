@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.generales.user;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
+import ar.edu.utn.frba.dds.controllers.utils.TipoRol;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilder;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilderHashmap;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario.UsuarioBuilder;
@@ -31,6 +32,7 @@ import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.LocalidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import com.ctc.wstx.shaded.msv_core.reader.trex.ng.ListState;
+import com.twilio.twiml.voice.Prompt;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import java.util.HashMap;
@@ -77,12 +79,17 @@ public class RegisterController{
     }
 
     Usuario usuario = usuarioBuilder.configurarPassword().get();
-
-    Persona nuevaPersona = personaBuilder
-            .configurarNombres()
-            .configurarInformacionDeContacto()
-            .configurarInformacionDeUbicacion()
-            .get();
+    Persona nuevaPersona;
+    try {
+      nuevaPersona = personaBuilder
+              .configurarNombres()
+              .configurarInformacionDeContacto()
+              .configurarInformacionDeUbicacion()
+              .get();
+    }
+    catch (FormInvalidoException e){
+      throw new FormInvalidoException(e.getMessage());
+    }
 
     usuario.setPersonaAsociada(nuevaPersona);
     repoUsuario.guardar(usuario);

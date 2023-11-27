@@ -63,6 +63,7 @@ public class Persona extends ModelBase {
   private EstrategiaMomentoNotificacion estrategiaMomentoNotificacion = new NotificacionAlMomento();
 
   @OneToMany(mappedBy = "persona", cascade = { CascadeType.ALL })
+  @Where(clause = "activo = 1")
   private List<Membresia> membresias = new ArrayList<>();
 
   @Embedded

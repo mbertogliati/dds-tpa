@@ -27,8 +27,7 @@ body{
     font-size: 22px;
 }
 #main-content{
-    height: fit-content;
-    min-height: 100%;
+   margin-bottom: auto;
 }
 
 

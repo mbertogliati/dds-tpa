@@ -2,6 +2,8 @@ package ar.edu.utn.frba.dds.repositorios.comunidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -34,6 +36,7 @@ public class MembresiaRepositorio {
 
   public void eliminar(Membresia membresia) {
     membresia.setActivo(false);
+    membresia.setRoles(new ArrayList<>());
     this.actualizar(membresia);
     //entityManager.clear();
   }

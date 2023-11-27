@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.MetadatoGeografico;
@@ -59,6 +60,8 @@ public class PersonaBuilderHashmap implements PersonaBuilder {
     @Override
     public PersonaBuilder configurarInformacionDeContacto() {
         personaEnCreacion.setEmail(hashMapPersona.get("email").get(0));
+        //TODO: Cuando el número es muy largo tira excepcion
+        if(hashMapPersona.get("celular").get(0).length() > 10) throw new FormInvalidoException("El número de celular es muy largo");
         personaEnCreacion.setWhatsapp(Integer.parseInt(hashMapPersona.get("celular").get(0)));
         return this;
     }

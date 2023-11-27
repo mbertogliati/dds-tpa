@@ -1,10 +1,8 @@
 package ar.edu.utn.frba.dds.controllers.generales.comunidades;
 
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
-import ar.edu.utn.frba.dds.controllers.utils.VerificadorRol;
-import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
-import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
-import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.controllers.utils.TipoPermiso;
+import ar.edu.utn.frba.dds.controllers.utils.*;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilder;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderPersona.PersonaBuilderHashmap;
 import ar.edu.utn.frba.dds.controllers.utils.builders.builderUsuario.UsuarioBuilder;
@@ -133,7 +131,7 @@ public class UsuariosController implements ICrudViewsHandler {
   @Override
   public void index(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
-    if (!VerificadorRol.tienePermiso(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
+    if (!VerificadorRol.tienePermiso(usuario, TipoPermiso.ADMINISTRAR_USUARIOS)){
       context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
       return;
@@ -157,15 +155,10 @@ public class UsuariosController implements ICrudViewsHandler {
   }
   public void show(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
-    if (!VerificadorRol.tienePermiso(usuario, VerificadorRol.Permiso.ADMINISTRAR_USUARIOS)){
-      context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
-      context.redirect("/");
-      return;
-    }
 
     Map<String,Object> model = GeneradorModel.model(context);
 
-    String id = context.pathParam("id");
+    String id = context.pathParam("idUsuario");
     model.put("adminPlataforma", true);
     model.put("persona", repoPersona.buscarPorId(Integer.parseInt(id)));
     context.render("administrarUsuario.hbs",model);
@@ -182,7 +175,7 @@ public class UsuariosController implements ICrudViewsHandler {
   }
 
   public void edit(@NotNull Context context){
-    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
     if(context.sessionAttribute("adminPlataforma") == null && !usuario.equals(context.sessionAttribute("usuario"))){
       context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
@@ -206,7 +199,7 @@ public class UsuariosController implements ICrudViewsHandler {
   }
 
   public void update(@NotNull Context context) {
-    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
     usuarioBuilder = new UsuarioBuilderHashmap(context.formParamMap(),null).init(usuario);
     personaBuilder = new PersonaBuilderHashmap(context.formParamMap(),repoLocalidad);
 
@@ -214,7 +207,7 @@ public class UsuariosController implements ICrudViewsHandler {
       context.redirect("/");
     }
 
-    if (!usuario.getPassword().equals(hasheador.hashear(context.formParam("vieja_password")))) {
+    if (context.sessionAttribute("adminPlataforma") == null && !usuario.getPassword().equals(hasheador.hashear(context.formParam("vieja_password")))) {
       throw new FormInvalidoException("La contraseña actual no coincide con la ingresada");
     }
 
@@ -252,7 +245,7 @@ public class UsuariosController implements ICrudViewsHandler {
 
   @Override
   public void delete(Context context) {
-    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
     usuario.setActivo(false);
     repoUsuario.actualizar(usuario);
     context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS,"Usuario eliminado correctamente"));

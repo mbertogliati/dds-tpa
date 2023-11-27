@@ -1,9 +1,12 @@
 package ar.edu.utn.frba.dds.server;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.ExternalException;
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
-import ar.edu.utn.frba.dds.controllers.utils.InicializadorCronTask;
-import ar.edu.utn.frba.dds.controllers.utils.CreadorEntityManager;
-import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
+import ar.edu.utn.frba.dds.controllers.exceptions.UnauthorizedException;
+import ar.edu.utn.frba.dds.controllers.exceptions.handlers.ExternalExceptionHandler;
+import ar.edu.utn.frba.dds.controllers.exceptions.handlers.FormInvalidoHandler;
+import ar.edu.utn.frba.dds.controllers.exceptions.handlers.UnauthorizedHandler;
+import ar.edu.utn.frba.dds.controllers.utils.*;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.helper.ConditionalHelpers;
@@ -18,6 +21,7 @@ import javax.persistence.EntityManager;
 public class Server {
   private static Javalin app = null;
   private static InicializadorCronTask inicializadorCronTask = null;
+  private static ConfiguradorAutorizacion configuradorAutorizacion = null;
 
   public static Javalin app() {
     if(app == null)
@@ -31,19 +35,35 @@ public class Server {
       Integer puerto = Integer.parseInt(System.getProperty("port", System.getenv("APP_MAIN_PORT")));
       app = Javalin.create(config()).start(puerto);
 
-      app.exception(FormInvalidoException.class, (e, ctx) -> {
-        ctx.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, e.getMessage()));
-        ctx.redirect(ctx.path() + "?error");
-      });
-
       //configurarCronTasks();
       initTemplateEngine();
+      configurarErrorHandlers();
 
-      inicializadorCronTask = new InicializadorCronTask();
-      inicializadorCronTask.inicializar();
+      configurarCronTasks();
+      configurarAutorizacion(entityManager);
 
+      configurarExceptionHandlers();
       Router.init(entityManager);
     }
+  }
+  private static void configurarErrorHandlers(){
+    app.error(404, new HttpErrorHandler(404, "Not Found", "El recurso solicitado no existe."));
+    app.error(500, new HttpErrorHandler(500, "Internal Server Error", "Parece ha habido un problema con la aplicación. Por favor, intente nuevamente más tarde."));
+  }
+  private static void configurarExceptionHandlers(){
+    app.exception(FormInvalidoException.class, new FormInvalidoHandler());
+    app.exception(UnauthorizedException.class, new UnauthorizedHandler());
+    app.exception(ExternalException.class, new ExternalExceptionHandler());
+  }
+
+  private static void configurarCronTasks(){
+    inicializadorCronTask = new InicializadorCronTask();
+    inicializadorCronTask.inicializar();
+  }
+
+  private static void configurarAutorizacion(EntityManager entityManager){
+    configuradorAutorizacion = new ConfiguradorAutorizacion(entityManager);
+    configuradorAutorizacion.configurarRoles();
   }
 
   private static Consumer<JavalinConfig> config(){
