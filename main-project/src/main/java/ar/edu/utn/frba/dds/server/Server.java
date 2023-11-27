@@ -39,7 +39,7 @@ public class Server {
       initTemplateEngine();
       configurarErrorHandlers();
 
-      configurarCronTasks();
+      configurarCronTasks(entityManager);
       configurarAutorizacion(entityManager);
 
       configurarExceptionHandlers();
@@ -56,8 +56,8 @@ public class Server {
     app.exception(ExternalException.class, new ExternalExceptionHandler());
   }
 
-  private static void configurarCronTasks(){
-    inicializadorCronTask = new InicializadorCronTask();
+  private static void configurarCronTasks(EntityManager entityManager){
+    inicializadorCronTask = new InicializadorCronTask(entityManager);
     inicializadorCronTask.inicializar();
   }
 

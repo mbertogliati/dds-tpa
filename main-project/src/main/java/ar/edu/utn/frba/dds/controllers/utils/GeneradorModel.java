@@ -9,8 +9,13 @@ public class GeneradorModel {
     Map<String, Object> model = new HashMap<>();
 
     model.put("userActual", context.sessionAttribute("usuario"));
-
-    String path = context.path().split("/")[1];
+    String path = "";
+    try {
+      path = context.path().split("/")[1];
+    }
+    catch (Exception e){
+      //ignorar
+    }
     String navSelected;
     switch(path){
       case "home":
