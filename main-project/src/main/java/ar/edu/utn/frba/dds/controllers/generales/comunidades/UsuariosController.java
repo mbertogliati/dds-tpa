@@ -158,7 +158,7 @@ public class UsuariosController implements ICrudViewsHandler {
 
     Map<String,Object> model = GeneradorModel.model(context);
 
-    String id = context.pathParam("id");
+    String id = context.pathParam("idUsuario");
     model.put("adminPlataforma", true);
     model.put("persona", repoPersona.buscarPorId(Integer.parseInt(id)));
     context.render("administrarUsuario.hbs",model);
@@ -175,7 +175,7 @@ public class UsuariosController implements ICrudViewsHandler {
   }
 
   public void edit(@NotNull Context context){
-    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
     if(context.sessionAttribute("adminPlataforma") == null && !usuario.equals(context.sessionAttribute("usuario"))){
       context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
@@ -199,7 +199,7 @@ public class UsuariosController implements ICrudViewsHandler {
   }
 
   public void update(@NotNull Context context) {
-    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
     usuarioBuilder = new UsuarioBuilderHashmap(context.formParamMap(),null).init(usuario);
     personaBuilder = new PersonaBuilderHashmap(context.formParamMap(),repoLocalidad);
 
@@ -245,7 +245,7 @@ public class UsuariosController implements ICrudViewsHandler {
 
   @Override
   public void delete(Context context) {
-    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("id")));
+    Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
     usuario.setActivo(false);
     repoUsuario.actualizar(usuario);
     context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS,"Usuario eliminado correctamente"));

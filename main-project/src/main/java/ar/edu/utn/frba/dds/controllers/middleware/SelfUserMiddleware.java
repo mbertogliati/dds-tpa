@@ -6,8 +6,8 @@ import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
 
-public class SelfMiddleware implements Handler {
-
+public class SelfUserMiddleware implements Handler {
+    //Si la ruta requiere de {idUsuario}, ese usuario debe ser el de la sesion.
     @Override
     public void handle(@NotNull Context context) throws Exception {
         try {
