@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "comunidades", schema = "public")
@@ -38,6 +39,7 @@ public class Comunidad extends ModelBase {
   private List<ServicioPrestado> serviciosPrestados = new ArrayList<>();
 
   @OneToMany(mappedBy = "comunidad", cascade = { CascadeType.ALL })
+  @Where(clause = "activo = 1")
   private List<Membresia> membresias = new ArrayList<>();
 
   @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
