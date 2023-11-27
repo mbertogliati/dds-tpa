@@ -1,0 +1,60 @@
+{{#partial "titulo"}}
+    <title>Administración de Cron Task</title>
+{{/partial}}
+{{#partial "contenido"}}
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+            <h2 class="mb-3">Administración de Cron Task</h2>
+            <div class="table-responsive">
+                <div class="container" style="display:flex;flex-direction:row-reverse;">
+                    <a href="/cron-task/crear" class="btn btn-success m-1">Crear</a>
+                </div>
+                <table class="table align-middle table-sm table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Comando</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Habilitado</th>
+                            <th scope="col">Fecha Creación</th>
+                            <th scope="col">Fecha Actualización</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{#each cronTasksDTO}}
+                        <tr>
+                            <td>{{id}}</td>
+                            <td>{{nombre}}</td>
+                            <td>{{comando}}</td>
+                            <td>{{tipo}}</td>
+                            <td>{{habilitado}}</td>
+                            <td>{{fechaCreacion}}</td>
+                            <td>{{fechaModificacion}}</td>
+                            <td>
+                                <form action="/cron-task/editar/{{id}}" method="get">
+                                    <button type="submit" class="btn btn-sm btn-primary">Editar</button>
+                                </form>
+                                <form action="/cron-task/borrar/{{id}}" method="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
+                                </form>
+                                <form action="/cron-task/habilitar/{{id}}" method="post">
+                                    <button type="submit" class="btn btn-sm btn-secondary">
+                                        {{#if habilitado}}Deshabilitar{{/if}}
+                                        {{#unless habilitado}}Habilitar{{/unless}}
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{/partial}}
+{{> templates/base}}

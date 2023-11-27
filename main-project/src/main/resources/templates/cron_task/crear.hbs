@@ -1,0 +1,68 @@
+{{#partial "titulo"}}
+    <title>Crear Cron Task</title>
+{{/partial}}
+{{#partial "imports"}}
+    <script src="/js/cron_task/crear-editar.js"></script>
+{{/partial}}
+{{#partial "contenido"}}
+<div class="container mt-4 mb-4 altura-minima">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="mb-3">Crear Cron Task</h2>
+            <hr>
+            <form action="/cron-task/crear" method="POST" id="form">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre" value="" />
+                </div>
+                <div class="mb-3">
+                    <label for="comando" class="form-label">Comando a ejecutar</label>
+                    <select class="form-select mb-3" name="comando" id="comando" required>
+                        {{#each crearCronTaskDTO.comandos}}
+                            <option value="{{id}}">{{descripcion}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="tipo" class="form-label">Tipo</label>
+                    <select class="form-select mb-3" id="tipo" name="tipo" required>
+                        {{#each crearCronTaskDTO.tipos}}
+                            <option value="{{id}}">{{descripcion}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="mb-3 seccion-condicional" id="seccion-por-segundo" dependsOnValue="CronTaskPorSegundo">
+                    <label for="segundos" class="form-label">Segundos</label>
+                    <input type="text" class="form-control" id="segundos" name="segundos" value="" />
+                </div>
+                <div class="mb-3 seccion-condicional" id="seccion-por-minuto" dependsOnValue="CronTaskPorMinuto">
+                    <label for="minutos" class="form-label">Minutos</label>
+                    <input type="text" class="form-control" id="minutos" name="minutos" value="" />
+                </div>
+                <div class="mb-3 seccion-condicional" id="seccion-semanal" dependsOnValue="CronTaskSemanal">
+                    <label for="dia" class="form-label">Día de la semana</label>
+                    <select class="form-select mb-3" id="dia" name="dia" required>
+                        {{#each crearCronTaskDTO.dias}}
+                            <option value="{{id}}">{{descripcion}}</option>
+                        {{/each}}
+                    </select>
+                    <label for="horario" class="form-label">Horario</label>
+                    <input type="text" class="form-control" id="horario" name="horario" value="" />
+                </div>
+                <div class="mb-3">
+                    <label for="habilitado" class="form-label">Habilitado</label>
+                    <select class="form-select mb-3" id="habilitado" name="habilitado" required>
+                        <option value="true">Habilitado</option>
+                        <option value="false">Deshabilitado</option>
+                    </select>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                    <a class="btn btn-secondary" href="/cron-task">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{/partial}}
+{{> templates/base }}

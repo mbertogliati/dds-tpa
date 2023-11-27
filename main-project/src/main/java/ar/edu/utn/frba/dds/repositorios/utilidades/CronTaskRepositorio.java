@@ -21,14 +21,33 @@ public class CronTaskRepositorio {
   }
 
   public List<CronTask> obtener() {
-    TypedQuery<CronTask> query = entityManager.createQuery("FROM " + CronTask.class.getName(), CronTask.class);
+    TypedQuery<CronTask> query = entityManager.createQuery("FROM " + CronTask.class.getName() + " ORDER BY id", CronTask.class);
     return query.getResultList();
   }
 
-  public void update(CronTask cronTask) {
+  public CronTask obtenerPorId(Long id) {
+    return entityManager.find(CronTask.class, id);
+  }
+
+  public void actualizar(CronTask cronTask) {
     EntityTransaction transaction = entityManager.getTransaction();
     transaction.begin();
     entityManager.merge(cronTask);
     transaction.commit();
+  }
+
+  public void borrar(CronTask cronTask) {
+    EntityTransaction transaction = entityManager.getTransaction();
+    transaction.begin();
+    entityManager.remove(cronTask);
+    transaction.commit();
+  }
+
+  public void refresh(CronTask cronTask) {
+    entityManager.refresh(cronTask);
+  }
+
+  public void detach(CronTask cronTask) {
+    entityManager.detach(cronTask);
   }
 }

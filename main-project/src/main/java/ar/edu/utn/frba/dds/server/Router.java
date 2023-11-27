@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.server;
 
 import static io.javalin.apibuilder.ApiBuilder.before;
+import static io.javalin.apibuilder.ApiBuilder.delete;
 import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.patch;
 import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
@@ -21,6 +23,7 @@ import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerLocalidadesIn
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosPrestadosController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerServiciosPrestadosIncidentesController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.FusionComunidadesController;
+import ar.edu.utn.frba.dds.controllers.generales.cron_task.CronTaskController;
 import ar.edu.utn.frba.dds.controllers.generales.servicios.EtiquetasController;
 import ar.edu.utn.frba.dds.controllers.generales.servicios.TipoEtiquetasController;
 import ar.edu.utn.frba.dds.controllers.generales.user.RolesController;
@@ -231,6 +234,25 @@ public class Router {
         get("etiquetas", new ObtenerEtiquetasController(entityManager));
       });
 
+      //Cron Tasks
+      CronTaskController cronTaskController = new CronTaskController(entityManager);
+      path("/cron-task", () -> {
+        get(cronTaskController::index);
+        path("crear", () -> {
+          get(cronTaskController::create);
+          post(cronTaskController::save);
+        });
+        path("borrar/{id}",() -> {
+          post(cronTaskController::delete);
+        });
+        path("editar/{id}",() -> {
+          get(cronTaskController::edit);
+          post(cronTaskController::update);
+        });
+        path("habilitar/{id}", () -> {
+          post(cronTaskController::habilitar);
+        });
+      });
     });
   }
 }
