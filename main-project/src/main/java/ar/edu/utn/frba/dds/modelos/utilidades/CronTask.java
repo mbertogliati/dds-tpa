@@ -1,8 +1,5 @@
 package ar.edu.utn.frba.dds.modelos.utilidades;
 
-import ar.edu.utn.frba.dds.modelos.base.ModelBase;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.time.LocalDateTime;
@@ -48,11 +45,8 @@ public abstract class CronTask {
   @Column(name = "habilitado")
   private Boolean habilitado;
 
-  /*@Column(name = "tipo", insertable = false, updatable = false)
-  private String tipo;*/
-
   protected void iniciarTimer(Runnable task, LocalDateTime fechaDesde, long cantSegundos) {
-    System.out.println("[INFO]: iniciando timer para :" + this.id + "-" + this.nombre);
+    System.out.println("[INFO]: iniciando timer para :" + this.toString());
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
@@ -74,7 +68,7 @@ public abstract class CronTask {
 
     // Programar la tarea
     timer.schedule(timerTask, retrasoInicial, cantSegundos * 1000);
-    System.out.println("[INFO]: timer iniciado correctamente para :" + this.id + "-" + this.nombre);
+    System.out.println("[INFO]: timer iniciado correctamente para :" + this.toString());
   }
 
   protected long calcularRetrasoInicial(LocalDateTime ahora, LocalDateTime fechaDesde, long cantSegundos) {
@@ -94,5 +88,15 @@ public abstract class CronTask {
 
   public void detener() {
     this.timer.cancel();
+  }
+
+  @Override
+  public String toString() {
+    return "[id:" + this.id +
+            "; nombre:" + this.nombre +
+            "; comando:" + this.comando +
+            "; fechaCreacion:" + this.fechaCreacion +
+            "; fechaModificacion:" + this.fechaModificacion +
+            ";]";
   }
 }

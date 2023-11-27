@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.utilidades;
 
 import ar.edu.utn.frba.dds.modelos.utilidades.CronTask;
-import ar.edu.utn.frba.dds.modelos.utilidades.FechasDeSemana;
 import javax.persistence.EntityManager;
 import java.util.List;
 import javax.persistence.EntityTransaction;
@@ -42,5 +41,13 @@ public class CronTaskRepositorio {
     transaction.begin();
     entityManager.remove(cronTask);
     transaction.commit();
+  }
+
+  public void refresh(CronTask cronTask) {
+    entityManager.refresh(cronTask);
+  }
+
+  public void detach(CronTask cronTask) {
+    entityManager.detach(cronTask);
   }
 }
