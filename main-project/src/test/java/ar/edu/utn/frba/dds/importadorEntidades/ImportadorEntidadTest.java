@@ -22,7 +22,7 @@ public class ImportadorEntidadTest {
     @DisplayName("ej4.csv")
     public void ej4() throws IOException {
 
-        String path = "src/test/java/ar/edu/utn/frba/dds/importadorEntidades/ej4.csv";
+        String path = "main-project/src/test/java/ar/edu/utn/frba/dds/importadorEntidades/ej4.csv";
         List<OrganismoControl> organismosDeControl = importador.importar(path);
         assertEquals(1, organismosDeControl.size());
 

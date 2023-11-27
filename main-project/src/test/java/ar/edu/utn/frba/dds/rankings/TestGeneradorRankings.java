@@ -121,15 +121,19 @@ public class TestGeneradorRankings {
         generadorRanking.setGeneradorPuntos(new PromedioEntreAperturaYCierre());
 
         incidentePC1_BBVA.setFechaHoraCierre(LocalDateTime.parse("2020-01-01 04:00",formatter));
+        incidentePC1_BBVA.setEstaCerrado(true);
         incidentePC1_BBVA_2.setFechaHoraCierre(LocalDateTime.parse("2020-01-01 15:00",formatter));
+        incidentePC1_BBVA_2.setEstaCerrado(true);
 
         incidentePC2_MC.setFechaHoraCierre(LocalDateTime.parse("2020-01-02 01:00",formatter));
+        incidentePC2_MC.setEstaCerrado(true);
         incidentePC6_MC.setFechaHoraCierre(LocalDateTime.parse("2020-01-06 01:00",formatter));
+        incidentePC6_MC.setEstaCerrado(true);
 
         incidentePC3_BK.setFechaHoraCierre(LocalDateTime.parse("2020-01-03 02:00",formatter));
+        incidentePC3_BK.setEstaCerrado(true);
         incidentePC4_BK.setFechaHoraCierre(LocalDateTime.parse("2020-01-04 01:00",formatter));
-
-
+        incidentePC4_BK.setEstaCerrado(true);
 
         Ranking ranking = generadorRanking.generarRanking(new ArrayList<>(List.of(
                 incidentePC1_BBVA,
