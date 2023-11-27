@@ -162,12 +162,15 @@
                         <input type="hidden" name="longitud" value="{{usuario.personaAsociada.ultimaUbicacion.coordenada.longitud}}">
                         <hr>
                             <div class="row ">
-                                <div class="col-sm-3">
-                                    <label for="vieja_password" class="form-label">Actual Contraseña</label>
-                                </div>
+                                {{#unless adminPlataforma}}
+                                    <div class="col-sm-3">
+                                        <label for="vieja_password" class="form-label">Actual Contraseña</label>
+                                    </div>
+
                                 <div class="col-sm-6">
                                     <input type="password" class="form-control" id="vieja_password" name="vieja_password" required autocomplete="off">
                                 </div>
+                                {{/unless}}
                                 <div class="col-sm-3">
                                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                 </div>

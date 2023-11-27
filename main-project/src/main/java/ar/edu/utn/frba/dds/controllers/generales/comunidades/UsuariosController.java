@@ -207,7 +207,7 @@ public class UsuariosController implements ICrudViewsHandler {
       context.redirect("/");
     }
 
-    if (!usuario.getPassword().equals(hasheador.hashear(context.formParam("vieja_password")))) {
+    if (context.sessionAttribute("adminPlataforma") == null && !usuario.getPassword().equals(hasheador.hashear(context.formParam("vieja_password")))) {
       throw new FormInvalidoException("La contraseña actual no coincide con la ingresada");
     }
 
