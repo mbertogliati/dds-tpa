@@ -50,5 +50,5 @@ public class RolRepositorio {
     return this.buscarPorId(TipoRol.DEFAULT.ordinal());
   }
   public Rol rolAdminComunidad(){return this.buscarPorId(TipoRol.ADMINISTRADOR_COMUNIDAD.ordinal());}
-  public Rol rolDefaultComunidad(){return this.buscarPorId(TipoRol.ADMINISTRADOR_COMUNIDAD.ordinal());}
+  public Rol rolDefaultComunidad(){return this.buscarPorId(TipoRol.DEFAULT_COMUNIDAD.ordinal());}
 }

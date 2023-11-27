@@ -42,6 +42,11 @@ public class ConfiguradorAutorizacion {
                     }
             );
             this.rolRepositorio.actualizar(admin);
+            Rol adminComunidad = this.rolRepositorio.buscarPorId(TipoRol.ADMINISTRADOR_COMUNIDAD.ordinal());
+            if(adminComunidad.getPermisos().stream().noneMatch(permiso -> permiso.getId() == TipoPermiso.ADMINISTRAR_COMUNIDAD.ordinal())){
+                adminComunidad.getPermisos().add(this.permisoRepositorio.buscarPorId(TipoPermiso.ADMINISTRAR_COMUNIDAD.ordinal()));
+            }
+
         }
     }
     private void configurarPermisos(){

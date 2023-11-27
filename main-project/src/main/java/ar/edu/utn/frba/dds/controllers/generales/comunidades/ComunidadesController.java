@@ -189,13 +189,14 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
 
-    Membresia membresia = comunidad.getMembresias().stream().filter(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId()).toList().get(0);
+     List<Membresia> membresias = comunidad.getMembresias().stream().filter(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId()).toList();
 
-    comunidad.eliminarMembresia(membresia);
+     membresias.forEach(comunidad::eliminarMembresia);
+     membresias.forEach(usuario.getPersonaAsociada()::eliminarMembresia);
+     membresias.forEach(membresia -> repoMembresia.eliminar(membresia));
 
-    repoUsuario.actualizar(usuario);
     repoComunidad.actualizarComunidad(comunidad);
-    repoMembresia.eliminar(membresia);
+    repoUsuario.actualizar(usuario);
 
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Membresia eliminada correctamente."));
     context.redirect("/comunidades?success");

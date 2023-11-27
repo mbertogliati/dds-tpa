@@ -26,6 +26,7 @@ public class AutorizacionMiddlewareBuilder {
         return this;
     }
     public AutorizacionMiddlewareBuilder conRolesDeComunidad(TipoRol ... roles){
+        this.conComunidad();
         this.autorizacionMiddleware.getRolesComunidad()
                 .addAll( Arrays.stream(roles).map( tipoRol -> this.rolRepositorio.buscarPorId(tipoRol.ordinal())).toList());
         return this;
@@ -34,15 +35,21 @@ public class AutorizacionMiddlewareBuilder {
         this.autorizacionMiddleware.setChequearComunidad(true);
         return this;
     }
-    public AutorizacionMiddlewareBuilder conPermisos(TipoPermiso... permisos){
-        this.autorizacionMiddleware.getPermisos()
+    public AutorizacionMiddlewareBuilder conPermisosPlataforma(TipoPermiso... permisos){
+        this.autorizacionMiddleware.getPermisosPlataforma()
+                .addAll( Arrays.stream(permisos).map( tipoPermiso -> this.permisoRepositorio.buscarPorId(tipoPermiso.ordinal())).toList());
+        return this;
+    }
+    public AutorizacionMiddlewareBuilder conPermisosComunidad(TipoPermiso... permisos){
+        this.conComunidad();
+        this.autorizacionMiddleware.getPermisosComunidad()
                 .addAll( Arrays.stream(permisos).map( tipoPermiso -> this.permisoRepositorio.buscarPorId(tipoPermiso.ordinal())).toList());
         return this;
     }
     public AutorizacionMiddleware build(){
-        AutorizacionMiddleware autorizacionMiddleware = this.autorizacionMiddleware;
+        AutorizacionMiddleware autMiddleware = this.autorizacionMiddleware;
         reset();
-        return autorizacionMiddleware;
+        return autMiddleware;
     }
     public AutorizacionMiddleware reset(){
         this.autorizacionMiddleware = new AutorizacionMiddleware();

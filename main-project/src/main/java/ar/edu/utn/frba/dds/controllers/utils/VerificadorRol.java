@@ -7,8 +7,9 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import java.util.List;
 
 public class VerificadorRol {
+
   public static Boolean tienePermiso(Usuario usuario, TipoPermiso tipoPermiso){
-    return usuario.getRoles().stream().map(Rol::getPermisos).flatMap(List::stream).anyMatch(p -> p.getId() == tipoPermiso.ordinal() );
+    return usuario.getRoles().stream().map(Rol::getPermisos).flatMap(List::stream).anyMatch(p -> p.getId() == tipoPermiso.ordinal());
   }
 
   public static Boolean tienePermiso(Usuario usuario, Comunidad comunidad, TipoPermiso tipoPermiso){

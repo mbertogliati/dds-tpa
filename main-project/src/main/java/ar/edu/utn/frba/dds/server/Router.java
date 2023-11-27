@@ -5,6 +5,7 @@ import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 
+import ar.edu.utn.frba.dds.controllers.exceptions.UnauthorizedException;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosCierreIncidentesController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosController;
 import ar.edu.utn.frba.dds.controllers.formulariosDinamicos.ObtenerDepartamentosIncidentesController;
@@ -38,6 +39,8 @@ import ar.edu.utn.frba.dds.controllers.generales.user.RegisterController;
 import ar.edu.utn.frba.dds.controllers.generales.servicios.ServiciosController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.UsuariosController;
 import ar.edu.utn.frba.dds.controllers.middleware.AuthMiddleware;
+import ar.edu.utn.frba.dds.controllers.middleware.OrMiddleware;
+import ar.edu.utn.frba.dds.controllers.middleware.SelfMiddleware;
 import ar.edu.utn.frba.dds.controllers.middleware.factories.AutorizacionMiddlewareBuilder;
 import ar.edu.utn.frba.dds.controllers.utils.TipoPermiso;
 import ar.edu.utn.frba.dds.controllers.utils.TipoRol;
@@ -89,7 +92,7 @@ public class Router {
 
       // ENTIDADES
       path("/entidades", () -> {
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_ENTIDADES).build());
+        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ENTIDADES).build());
         path("crear", () -> {
           get("{idEntidadPrestadora}", new EntidadesController(entityManager)::create);
           post(new EntidadesController(entityManager)::save);
@@ -106,7 +109,7 @@ public class Router {
 
       //ENTIDADES PRESTADORAS
       path("/entidadesPrestadoras",() -> {
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_ENTIDADES_PRESTADORAS).build());
+        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ENTIDADES_PRESTADORAS).build());
         get("{id}", new EntidadesPrestadorasController(entityManager)::edit);
         path("", () -> {
           before(new AutorizacionMiddlewareBuilder(entityManager).conRolesDePlataforma(TipoRol.ADMINISTRADOR).build());
@@ -126,7 +129,7 @@ public class Router {
 
       //ORGANISMOS DE CONTROL
       path("/organismosControl", () -> {
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_ORGANISMOS_DE_CONTROL).build());
+        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ORGANISMOS_DE_CONTROL).build());
         get("{id}",new OrganismosDeControlController((entityManager))::edit);
         post(new OrganismosDeControlController(entityManager)::save);
         get("crear", new OrganismosDeControlController(entityManager)::create);
@@ -140,7 +143,7 @@ public class Router {
 
       //ESTABLECIMIENTOS
       path("/establecimientos/", () -> {
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_ESTABLECIMIENTOS).build());
+        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ESTABLECIMIENTOS).build());
         path("crear", () ->{
           get("{idEntidad}", new EstablecimientosController(entityManager)::create);
           post(new EstablecimientosController(entityManager)::save);
@@ -156,7 +159,7 @@ public class Router {
 
       //SERVICIOS
       path("/servicios", () ->{
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_SERVICIOS).build());
+        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_SERVICIOS).build());
         get(new ServiciosController(entityManager)::create);
         get("{idEstablecimiento}", new ServiciosController(entityManager)::createFromEstablecimiento);
         post(new ServiciosController(entityManager)::save);
@@ -164,7 +167,7 @@ public class Router {
 
       //ETIQUETAS
       path("/etiquetas", () -> {
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_ETIQUETAS).build());
+        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ETIQUETAS).build());
         get(new EtiquetasController(entityManager)::index);
         post(new EtiquetasController(entityManager)::save);
         post("{id}/delete", new EtiquetasController(entityManager)::delete);
@@ -172,7 +175,7 @@ public class Router {
 
       //TIPO ETIQUETAS
       path("/tipoEtiquetas", () -> {
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_ESTABLECIMIENTOS).build());
+        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ESTABLECIMIENTOS).build());
         post(new TipoEtiquetasController(entityManager)::save);
       });
 
@@ -209,7 +212,7 @@ public class Router {
 
       //ROLES
       path("roles", ()->{
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_ROLES).build());
+        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ROLES).build());
         get(new RolesController(entityManager)::show);
         post(new RolesController(entityManager)::setRol);
       });
@@ -219,16 +222,19 @@ public class Router {
       path("/comunidades", () ->{
         get(new ComunidadesController(entityManager)::index);
         path("crear", () -> {
-          before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
+          before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
           get(new ComunidadesController(entityManager)::create);
           post(new ComunidadesController(entityManager)::save);
         });
 
         path("{idComunidad}", () ->{
-          before(new AutorizacionMiddlewareBuilder(entityManager).conComunidad().build());
+          before( new OrMiddleware(new UnauthorizedException("No tiene permisos para realizar esta acción."),
+                  new AutorizacionMiddlewareBuilder(entityManager).conComunidad().build(),
+                  new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_COMUNIDAD).build())
+          );
           get(new ComunidadesController(entityManager)::show);
           path("", () -> {
-            before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
+            before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
             get("edit", new ComunidadesController(entityManager)::edit);
             post("edit", new ComunidadesController(entityManager)::update);
             post("delete", new ComunidadesController(entityManager)::delete);
@@ -243,7 +249,7 @@ public class Router {
       });
 
       path("fusionarComunidades", () -> {
-        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisos(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
+        before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
         get(new FusionComunidadesController(entityManager)::create);
         post(new FusionComunidadesController(entityManager)::save);
       });
