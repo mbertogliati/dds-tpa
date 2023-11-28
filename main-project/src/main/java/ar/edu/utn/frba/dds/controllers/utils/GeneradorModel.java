@@ -57,6 +57,9 @@ public class GeneradorModel {
       case "misComunidades":
         navSelected = "nav-comunidades";
         break;
+      case "etiquetas":
+        navSelected = "nav-etiquetas";
+        break;
       default:
         navSelected = "";
         break;

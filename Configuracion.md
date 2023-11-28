@@ -27,4 +27,5 @@ También se pueden especificar por terminal antes de ejecutar la aplicación.
 17. ~~`CALCULAR_CONFIANZA_DIA=SUNDAY`: día en el que se calcula el grado de confianza.~~ **Deprecado**
 18. ~~`CALCULAR_CONFIANZA_HORA=13:00`: horario en el que se calcula el grado de confianza~~. **Deprecado**
 19. `CRON_TASK_PERIODO_REFRESCO_MIN=1`: cada cuantos minutos se revisa la DB para refrescar los parámetros de las cron tasks.
+20. `EVALUADOR_SOL_REVISION_RANGO_CERCANIA_METROS=100`: el rango de metros con el que se considera que un usuario está cerca de un incidente. 100 indica que si el usuario está a 100 metros o menos de un incidente, entonces está cerca de él y puede ser notificado.
 * *Los valores mostrados son sólo de ejemplo y deben ser readaptados según el entorno de ejecución (local, docker, nube, etc).*

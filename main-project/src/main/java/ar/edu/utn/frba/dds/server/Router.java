@@ -27,6 +27,7 @@ import ar.edu.utn.frba.dds.controllers.generales.comunidades.FusionComunidadesCo
 import ar.edu.utn.frba.dds.controllers.generales.cron_task.CronTaskController;
 import ar.edu.utn.frba.dds.controllers.generales.servicios.EtiquetasController;
 import ar.edu.utn.frba.dds.controllers.generales.servicios.TipoEtiquetasController;
+import ar.edu.utn.frba.dds.controllers.generales.user.LocalizacionUsuarioController;
 import ar.edu.utn.frba.dds.controllers.generales.user.RolesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.CargaMasivaController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.ComunidadesController;
@@ -113,8 +114,6 @@ public class Router {
 
       //ENTIDADES PRESTADORAS
       path("/entidadesPrestadoras",() -> {
-        before(autorizacion.conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ENTIDADES_PRESTADORAS).build());
-        get("{id}", new EntidadesPrestadorasController(entityManager)::edit);
         path("", () -> {
           before(autorizacion.conRolesDePlataforma(TipoRol.ADMINISTRADOR).build());
 
@@ -128,21 +127,21 @@ public class Router {
             get("sacarEntidad/{idEntidad}", new EntidadesPrestadorasController(entityManager)::sacarEntidad);
           });
         });
-
+        before(autorizacion.conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ENTIDADES_PRESTADORAS).build());
+        get("{id}", new EntidadesPrestadorasController(entityManager)::edit);
       });
 
       //ORGANISMOS DE CONTROL
-      path("/organismosControl", () -> {
+      path("organismosControl", () -> {
         before(autorizacion.conPermisosPlataforma(TipoPermiso.ADMINISTRAR_ORGANISMOS_DE_CONTROL).build());
+        get("crear", new OrganismosDeControlController(entityManager)::create);
         get("{id}",new OrganismosDeControlController((entityManager))::edit);
         post(new OrganismosDeControlController(entityManager)::save);
-        get("crear", new OrganismosDeControlController(entityManager)::create);
         path("{id}", () -> {
           get("sacarEntidadPrestadora/{entidadPrestadora}", new OrganismosDeControlController((entityManager))::sacarEntidadPrestadora);
           post("delete", new OrganismosDeControlController(entityManager)::delete);
           post( new OrganismosDeControlController((entityManager))::update);
         });
-
       });
 
       //ESTABLECIMIENTOS
@@ -304,6 +303,7 @@ public class Router {
       //Cron Tasks
       CronTaskController cronTaskController = new CronTaskController(entityManager);
       path("/cron-task", () -> {
+        before(autorizacion.conRolesDePlataforma(TipoRol.ADMINISTRADOR).build());
         get(cronTaskController::index);
         path("crear", () -> {
           get(cronTaskController::create);
@@ -319,6 +319,11 @@ public class Router {
         path("habilitar/{id}", () -> {
           post(cronTaskController::habilitar);
         });
+      });
+
+      LocalizacionUsuarioController localizacionUsuarioController = new LocalizacionUsuarioController(entityManager);
+      path("usuario-localizacion", () -> {
+        post(localizacionUsuarioController::handle);
       });
     });
   }
