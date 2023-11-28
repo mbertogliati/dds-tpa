@@ -15,6 +15,8 @@ import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
 import io.javalin.rendering.JavalinRenderer;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 
@@ -31,6 +33,8 @@ public class Server {
 
   public static void init() {
     if(app == null) {
+      System.out.println("Inicializando app...");
+      LocalDateTime inicio = LocalDateTime.now();
       EntityManager entityManager = (new CreadorEntityManager()).entityManagerCreado();
       Integer puerto = Integer.parseInt(System.getProperty("port", System.getenv("APP_MAIN_PORT")));
       app = Javalin.create(config()).start(puerto);
@@ -39,11 +43,13 @@ public class Server {
       initTemplateEngine();
       configurarErrorHandlers();
 
-      configurarCronTasks(entityManager);
+      configurarCronTasks();
       configurarAutorizacion(entityManager);
 
       configurarExceptionHandlers();
       Router.init(entityManager);
+      //Datetime difference
+      System.out.println("Listo! "+ ChronoUnit.SECONDS.between(inicio, LocalDateTime.now())+" s");
     }
   }
   private static void configurarErrorHandlers(){
@@ -56,8 +62,8 @@ public class Server {
     app.exception(ExternalException.class, new ExternalExceptionHandler());
   }
 
-  private static void configurarCronTasks(EntityManager entityManager){
-    inicializadorCronTask = new InicializadorCronTask(entityManager);
+  private static void configurarCronTasks(){
+    inicializadorCronTask = new InicializadorCronTask();
     inicializadorCronTask.inicializar();
   }
 

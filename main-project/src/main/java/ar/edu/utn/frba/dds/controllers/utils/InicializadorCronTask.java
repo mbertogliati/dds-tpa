@@ -19,11 +19,11 @@ public class InicializadorCronTask {
   GenerarRankingController generarRankingController;
   NotificacionController notificacionController;
   CalcularGradoConfianzaController calcularGradoConfianzaController;
-  public InicializadorCronTask(EntityManager entityManager) {
-    this.repositorio = new CronTaskRepositorio(entityManager);
-    this.generarRankingController = new GenerarRankingController(entityManager);
-    this.notificacionController = new NotificacionController(entityManager);
-    this.calcularGradoConfianzaController = new CalcularGradoConfianzaController(entityManager);
+  public InicializadorCronTask() {
+    this.repositorio = new CronTaskRepositorio(new CreadorEntityManager().entityManagerCreado());
+    this.generarRankingController = new GenerarRankingController(new CreadorEntityManager().entityManagerCreado());
+    this.notificacionController = new NotificacionController(new CreadorEntityManager().entityManagerCreado());
+    this.calcularGradoConfianzaController = new CalcularGradoConfianzaController(new CreadorEntityManager().entityManagerCreado());
   }
 
   private Runnable obtenerSubrutina(String comandoCronTask) {

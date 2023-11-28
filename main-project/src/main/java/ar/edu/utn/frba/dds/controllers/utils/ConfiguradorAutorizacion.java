@@ -32,22 +32,24 @@ public class ConfiguradorAutorizacion {
                 rolAsociado.setNombre(tipoRol.nombreLindo());
                 rolRepositorio.actualizar(rolAsociado);
             }
-            configurarPermisos();
-            //Se le asignan al administrador todos los permisos que existen
-            Rol admin = this.rolRepositorio.buscarPorId(TipoRol.ADMINISTRADOR.ordinal());
-            this.permisoRepositorio.buscarTodos().forEach(permiso -> {
-                        if(admin.getPermisos().stream().noneMatch(permiso1 -> permiso1.getId() == permiso.getId())){
-                            admin.getPermisos().add(permiso);
-                        }
-                    }
-            );
-            this.rolRepositorio.actualizar(admin);
-            Rol adminComunidad = this.rolRepositorio.buscarPorId(TipoRol.ADMINISTRADOR_COMUNIDAD.ordinal());
-            if(adminComunidad.getPermisos().stream().noneMatch(permiso -> permiso.getId() == TipoPermiso.ADMINISTRAR_COMUNIDAD.ordinal())){
-                adminComunidad.getPermisos().add(this.permisoRepositorio.buscarPorId(TipoPermiso.ADMINISTRAR_COMUNIDAD.ordinal()));
-            }
-
         }
+        configurarPermisos();
+        //Se le asignan al administrador todos los permisos que existen
+        Rol admin = this.rolRepositorio.buscarPorId(TipoRol.ADMINISTRADOR.ordinal());
+        this.permisoRepositorio.buscarTodos().forEach(permiso -> {
+                    if(admin.getPermisos().stream().noneMatch(permiso1 -> permiso1.getId() == permiso.getId())){
+                        admin.getPermisos().add(permiso);
+                    }
+                }
+        );
+        this.rolRepositorio.actualizar(admin);
+        Rol adminComunidad = this.rolRepositorio.buscarPorId(TipoRol.ADMINISTRADOR_COMUNIDAD.ordinal());
+        if(adminComunidad.getPermisos().stream().noneMatch(permiso -> permiso.getId() == TipoPermiso.ADMINISTRAR_COMUNIDAD.ordinal())){
+            adminComunidad.getPermisos().add(this.permisoRepositorio.buscarPorId(TipoPermiso.ADMINISTRAR_COMUNIDAD.ordinal()));
+        }
+        this.rolRepositorio.actualizar(adminComunidad);
+
+
     }
     private void configurarPermisos(){
         List<Permiso> permisos = this.permisoRepositorio.buscarTodos();

@@ -238,11 +238,7 @@ public class Router {
 
         path("{idComunidad}", () ->{
 
-          get(new AndMiddleware(
-                  new OrMiddleware(new UnauthorizedException("No tiene permisos para realizar esta acción."),
-                          autorizacion.conComunidad().build(),
-                          autorizacion.conPermisosPlataforma(TipoPermiso.ADMINISTRAR_COMUNIDAD).build()),
-                  new ComunidadesController(entityManager)::show));
+          get(new ComunidadesController(entityManager)::show);
 
           get("sacarMiembro/{idUsuario}", new AndMiddleware(
                                                   new OrMiddleware(new UnauthorizedException("No tiene permisos para realizar esta acción."),
@@ -254,6 +250,13 @@ public class Router {
                                                           new SelfUserMiddleware(),
                                                           autorizacion.conPermisosPlataforma(TipoPermiso.ADMINISTRAR_COMUNIDAD).build()),
                                                   new ComunidadesController(entityManager)::unirMiembro));
+          get("cambiarRol/{idUsuario}/{idServicio}/{nuevoRol}", new AndMiddleware(
+                                                                            new OrMiddleware( new UnauthorizedException("No tiene permisos para realizar esta acción."),
+                                                                              autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build(),
+                                                                              new AndMiddleware(
+                                                                                      autorizacion.conComunidad().build(),
+                                                                                      new SelfUserMiddleware())),
+                                                                            new ComunidadesController(entityManager)::cambiarRol ));
 
           path("", () -> {
             path("edit",() -> {
@@ -264,9 +267,7 @@ public class Router {
             post("agregarServicio", new AndMiddleware(
                                             autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build(),
                                             new ComunidadesController(entityManager)::agregarServicio));
-            get("cambiarRol/{idUsuario}/{idServicio}/{nuevoRol}", new AndMiddleware(
-                                                                          autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build(),
-                                                                          new ComunidadesController(entityManager)::cambiarRol));
+
             get("sacarServicio/{idServicio}", new AndMiddleware(
                                                       autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build(),
                                                       new ComunidadesController(entityManager)::quitarServicio));

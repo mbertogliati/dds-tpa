@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.transaction.Transactional;
 
 public class PersonaRepositorio {
 
@@ -37,6 +38,7 @@ public class PersonaRepositorio {
     this.actualizar(persona);
     //entityManager.clear();
   }
+  @Transactional
   public List<Persona> buscarTodas() {
     return entityManager.createQuery(
             "SELECT e FROM " + Persona.class.getName() + " e WHERE e.activo=TRUE", Persona.class)

@@ -28,7 +28,7 @@ public class NotificacionController {
     System.out.println("[INFO]: Cantidad de personas encontradas:" + personas.size());
 
     for(Persona persona : personas){
-      if(persona.getFechas().stream().anyMatch(fecha -> fecha.sePuedeNotificar(horaInicioProceso))){
+      if(persona.getFechas() != null && persona.getFechas().stream().anyMatch(fecha -> fecha.sePuedeNotificar(horaInicioProceso))){
         Notificador.notificar(persona.getNotificablesSinNotificar(),persona);
         repoPersona.actualizar(persona);
       }

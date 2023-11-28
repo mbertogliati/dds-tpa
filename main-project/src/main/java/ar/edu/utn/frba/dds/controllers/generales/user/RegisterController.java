@@ -87,8 +87,8 @@ public class RegisterController{
               .configurarInformacionDeUbicacion()
               .get();
     }
-    catch (FormInvalidoException e){
-      throw new FormInvalidoException(e.getMessage());
+    catch (Exception e){
+      throw new FormInvalidoException("Datos inválidos. Por favor reviselos.");
     }
 
     usuario.setPersonaAsociada(nuevaPersona);
