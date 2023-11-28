@@ -27,6 +27,7 @@ import ar.edu.utn.frba.dds.controllers.generales.comunidades.FusionComunidadesCo
 import ar.edu.utn.frba.dds.controllers.generales.cron_task.CronTaskController;
 import ar.edu.utn.frba.dds.controllers.generales.servicios.EtiquetasController;
 import ar.edu.utn.frba.dds.controllers.generales.servicios.TipoEtiquetasController;
+import ar.edu.utn.frba.dds.controllers.generales.user.LocalizacionUsuarioController;
 import ar.edu.utn.frba.dds.controllers.generales.user.RolesController;
 import ar.edu.utn.frba.dds.controllers.generales.entidades.CargaMasivaController;
 import ar.edu.utn.frba.dds.controllers.generales.comunidades.ComunidadesController;
@@ -319,6 +320,11 @@ public class Router {
         path("habilitar/{id}", () -> {
           post(cronTaskController::habilitar);
         });
+      });
+
+      LocalizacionUsuarioController localizacionUsuarioController = new LocalizacionUsuarioController(entityManager);
+      path("usuario-localizacion", () -> {
+        post(localizacionUsuarioController::handle);
       });
     });
   }
