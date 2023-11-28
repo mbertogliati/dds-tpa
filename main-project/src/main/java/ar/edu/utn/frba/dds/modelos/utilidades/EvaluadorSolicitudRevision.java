@@ -21,10 +21,21 @@ public class EvaluadorSolicitudRevision {
 
   public EvaluadorSolicitudRevision() {
     this.adapterCalculadoraDistancia = null;
+    this.inicializarRangoCercania();
   }
 
   public EvaluadorSolicitudRevision(AdapterCalculadoraDistancia calculadoraDistancia) {
     this.adapterCalculadoraDistancia = calculadoraDistancia;
+    this.inicializarRangoCercania();
+  }
+
+  private void inicializarRangoCercania() {
+    String envRangoCercaniaEnMetros = System.getenv("EVALUADOR_SOL_REVISION_RANGO_CERCANIA_METROS");
+    if( envRangoCercaniaEnMetros == null ||
+        envRangoCercaniaEnMetros.isEmpty() ||
+        envRangoCercaniaEnMetros.isBlank())
+      return;
+    this.rangoCercaniaEnMetros = Integer.parseInt(envRangoCercaniaEnMetros);
   }
 
   public void evaluarSolicitudRevision(Persona unaPersona) {
