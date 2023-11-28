@@ -1,6 +1,6 @@
 var opcionesGeoLocalizacion = {
   enableHighAccuracy: false, //true: el dispositivo intentará tener mucha precisión (consume más energía).
-  timeout: 10000, // devolver posición cada X ms
+  timeout: 60000, // devolver posición cada X ms
   maximumAge: 0, // 0 = no se usa una posición cacheada
 };
 
