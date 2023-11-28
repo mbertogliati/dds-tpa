@@ -61,6 +61,9 @@ public class LoginController{
 
     Usuario usuario = usuarioRepositorio.buscarPorUsername(username).get(0);
 
+    if(usuario != null) //refresco el usuario para que tenga los últimos datos
+      usuarioRepositorio.refresh(usuario);
+
     if(Objects.equals(hasheador.hashear(password), usuario.getPassword())){
       context.sessionAttribute("usuario", usuario);
       intentoDeLogin.reset();

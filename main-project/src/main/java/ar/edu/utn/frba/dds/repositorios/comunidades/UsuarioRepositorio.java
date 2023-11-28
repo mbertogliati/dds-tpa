@@ -50,4 +50,8 @@ public class UsuarioRepositorio {
         .setParameter("usuarioBuscado", "%" + username + "%")
         .getResultList();
   }
+
+  public void refresh(Usuario usuario) {
+    this.entityManager.refresh(usuario);
+  }
 }
