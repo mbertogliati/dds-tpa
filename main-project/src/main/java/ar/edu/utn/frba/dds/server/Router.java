@@ -227,7 +227,9 @@ public class Router {
 
       //COMUNIDADES
       get("/misComunidades", new ComunidadesController(entityManager)::deUsuario);
+
       path("/comunidades", () ->{
+
         get(new ComunidadesController(entityManager)::index);
         path("crear", () -> {
           before(new AutorizacionMiddlewareBuilder(entityManager).conPermisosPlataforma(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
@@ -257,20 +259,35 @@ public class Router {
                                                                                       new SelfUserMiddleware())),
                                                                             new ComunidadesController(entityManager)::cambiarRol ));
 
-          path("", () -> {
+          //path("", () -> {
             path("edit",() -> {
-              before(autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
+              //before(autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
+              before(
+                  new OrMiddleware(
+                      new UnauthorizedException("No tiene permisos para realizar esta acción."),
+                      autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build(),
+                      autorizacion.conPermisosPlataforma(TipoPermiso.ADMINISTRAR_COMUNIDAD).build()
+                  )
+              );
               get(new ComunidadesController(entityManager)::edit);
               post(new ComunidadesController(entityManager)::update);
             });
-            post("agregarServicio", new AndMiddleware(
+
+            /*post("agregarServicio", new AndMiddleware(
                                             autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build(),
-                                            new ComunidadesController(entityManager)::agregarServicio));
+                                            new ComunidadesController(entityManager)::agregarServicio));*/
+
+            path("agregarServicio", () -> {
+              before(
+                  autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build()
+              );
+              post(new ComunidadesController(entityManager)::agregarServicio);
+            });
 
             get("sacarServicio/{idServicio}", new AndMiddleware(
                                                       autorizacion.conPermisosComunidad(TipoPermiso.ADMINISTRAR_COMUNIDAD).build(),
                                                       new ComunidadesController(entityManager)::quitarServicio));
-          });
+          //});
 
         });
       });

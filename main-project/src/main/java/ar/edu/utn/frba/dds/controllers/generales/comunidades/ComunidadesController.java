@@ -126,14 +126,12 @@ public class ComunidadesController implements ICrudViewsHandler {
     repoComunidad.guardarComunidad(comunidad);
 
     Usuario usuario = context.sessionAttribute("usuario");
+
     Membresia membresia = new Membresia(comunidad, usuario.getPersonaAsociada(), repoRol.rolAdminComunidad());
+    membresia.getRoles().add(this.repoRol.rolDefaultComunidad());
+
     repoMembresia.guardar(membresia);
-
-    Membresia membresia1 = new Membresia(comunidad, usuario.getPersonaAsociada(), repoRol.rolDefaultComunidad());
-    repoMembresia.guardar(membresia1);
-
     comunidad.agregarMembresia(membresia);
-    comunidad.agregarMembresia(membresia1);
 
     repoUsuario.actualizar(usuario);
     repoComunidad.actualizarComunidad(comunidad);
