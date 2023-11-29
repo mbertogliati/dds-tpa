@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 
 public class CargarDatosInicial {
   public static void main(String[] args) throws IOException {
-    EntityManager entityManager = new CreadorEntityManager().entityManagerCreado();
+    EntityManager entityManager = new CreadorEntityManager().getEntityManagerFactory().createEntityManager();
 
     cargarGeoRef(entityManager);
     System.out.println("GeoRef cargado correctamente.");

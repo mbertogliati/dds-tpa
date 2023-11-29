@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.modelos.utilidades.CronTaskPorMinuto;
 import ar.edu.utn.frba.dds.repositorios.utilidades.CronTaskRepositorio;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +20,11 @@ public class InicializadorCronTask {
   GenerarRankingController generarRankingController;
   NotificacionController notificacionController;
   CalcularGradoConfianzaController calcularGradoConfianzaController;
-  public InicializadorCronTask() {
-    this.repositorio = new CronTaskRepositorio(new CreadorEntityManager().entityManagerCreado());
-    this.generarRankingController = new GenerarRankingController(new CreadorEntityManager().entityManagerCreado());
-    this.notificacionController = new NotificacionController(new CreadorEntityManager().entityManagerCreado());
-    this.calcularGradoConfianzaController = new CalcularGradoConfianzaController(new CreadorEntityManager().entityManagerCreado());
+  public InicializadorCronTask(EntityManagerFactory emf) {
+    this.repositorio = new CronTaskRepositorio(emf.createEntityManager());
+    this.generarRankingController = new GenerarRankingController(emf.createEntityManager());
+    this.notificacionController = new NotificacionController(emf.createEntityManager());
+    this.calcularGradoConfianzaController = new CalcularGradoConfianzaController(emf.createEntityManager());
   }
 
   private Runnable obtenerSubrutina(String comandoCronTask) {

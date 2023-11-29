@@ -38,7 +38,7 @@ public class PerThreadEntityManagerAccessWithConfiguration {
     propertiesConsumer.accept(this.properties);
   }
 
-  private EntityManagerFactory getEmf() {
+  public EntityManagerFactory getEmf() {
     return (EntityManagerFactory)this.emfHolder.computeIfAbsent(this.persistenceUnitName, (name) -> {
       return Persistence.createEntityManagerFactory(name, this.properties.get());
     });

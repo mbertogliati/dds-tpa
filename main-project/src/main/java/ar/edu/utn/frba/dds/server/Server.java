@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.controllers.exceptions.handlers.ExternalExceptionHand
 import ar.edu.utn.frba.dds.controllers.exceptions.handlers.FormInvalidoHandler;
 import ar.edu.utn.frba.dds.controllers.exceptions.handlers.UnauthorizedHandler;
 import ar.edu.utn.frba.dds.controllers.utils.*;
+import ar.edu.utn.frba.dds.server.jpa_extensions.PerThreadEntityManagerAccessWithConfiguration;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.helper.ConditionalHelpers;
@@ -35,7 +36,7 @@ public class Server {
     if(app == null) {
       System.out.println("Inicializando app...");
       LocalDateTime inicio = LocalDateTime.now();
-      EntityManager entityManager = (new CreadorEntityManager()).entityManagerCreado();
+      EntityManager entityManager = (new CreadorEntityManager().getEntityManagerFactory().createEntityManager());
       Integer puerto = Integer.parseInt(System.getProperty("port", System.getenv("APP_MAIN_PORT")));
       app = Javalin.create(config()).start(puerto);
 
@@ -63,7 +64,7 @@ public class Server {
   }
 
   private static void configurarCronTasks(){
-    inicializadorCronTask = new InicializadorCronTask();
+    inicializadorCronTask = new InicializadorCronTask(new CreadorEntityManager().getEntityManagerFactory());
     inicializadorCronTask.inicializar();
   }
 
