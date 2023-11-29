@@ -33,7 +33,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "personas", schema = "public")
+@Table(name = "personas")
 
 @Getter
 @Setter
@@ -53,7 +53,7 @@ public class Persona extends ModelBase {
 
   @Embedded
   @Cascade(org.hibernate.annotations.CascadeType.ALL)
-  private Interes interes;
+  private Interes interes = new Interes();
 
   @Column(name = "metodoNotificacion")
   private String metodoNotificacion = "MAIL";

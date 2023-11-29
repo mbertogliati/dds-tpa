@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tipos", schema = "public")
+@Table(name = "tipos")
 @Getter
 @Setter
 public class TipoEtiquetas {

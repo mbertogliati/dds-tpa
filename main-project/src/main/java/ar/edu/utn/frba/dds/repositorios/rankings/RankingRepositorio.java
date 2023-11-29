@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.repositorios.rankings;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,19 +11,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-public class RankingRepositorio {
-  private EntityManager entityManager;
-
-  public RankingRepositorio(EntityManager entityManager) {
-    this.entityManager = entityManager;
-  }
+public class RankingRepositorio implements WithSimplePersistenceUnit {
 
   public void guardarRanking(Ranking ranking) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
 
     try {
       transaction.begin();
-      entityManager.persist(ranking);
+      entityManager().persist(ranking);
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null && transaction.isActive()) {
@@ -33,15 +29,15 @@ public class RankingRepositorio {
   }
 
   public Ranking obtenerRankingPorId(int id) {
-    return entityManager.find(Ranking.class, id);
+    return entityManager().find(Ranking.class, id);
   }
 
   public void actualizarRanking(Ranking ranking) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
 
     try {
       transaction.begin();
-      entityManager.merge(ranking);
+      entityManager().merge(ranking);
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null && transaction.isActive()) {
@@ -52,12 +48,12 @@ public class RankingRepositorio {
   }
 
   public void eliminarRanking(Ranking ranking) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
 
     try {
       transaction.begin();
-      Ranking managedRanking = entityManager.find(Ranking.class, ranking.getId());
-      entityManager.remove(managedRanking);
+      Ranking managedRanking = entityManager().find(Ranking.class, ranking.getId());
+      entityManager().remove(managedRanking);
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null && transaction.isActive()) {
@@ -68,7 +64,7 @@ public class RankingRepositorio {
   }
 
   public List<Ranking> obtenerTodos() {
-    TypedQuery<Ranking> query = entityManager.createQuery("FROM " + Ranking.class.getName(), Ranking.class);
+    TypedQuery<Ranking> query = entityManager().createQuery("FROM " + Ranking.class.getName(), Ranking.class);
     return query.getResultList();
   }
 
@@ -77,7 +73,7 @@ public class RankingRepositorio {
   }
 
   public List<Ranking> buscarConFechaCreacionPosteriorA(String fecha) {
-    return entityManager.createQuery(
+    return entityManager().createQuery(
             "SELECT r FROM Ranking r WHERE r.fechaHoraCreacion > :fechaCreacion", Ranking.class)
         .setParameter("fechaCreacion", LocalDate.parse(fecha).atStartOfDay())
         .getResultList();

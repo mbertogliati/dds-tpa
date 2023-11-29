@@ -15,6 +15,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -24,7 +25,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "comunidades", schema = "public")
+@Table(name = "comunidades")
 
 @Getter
 @Setter

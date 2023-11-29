@@ -14,7 +14,7 @@ public class IncidenteRepositorioTests implements WithSimplePersistenceUnit {
 
   @BeforeEach
   public void init() throws IOException {
-    this.repositorioIncidente = new IncidenteRepositorio(entityManager());
+    this.repositorioIncidente = new IncidenteRepositorio();
   }
 
   @Test

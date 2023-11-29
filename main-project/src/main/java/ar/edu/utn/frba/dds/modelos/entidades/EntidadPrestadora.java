@@ -23,7 +23,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "entidades_prestadoras", schema = "public")
+@Table(name = "entidades_prestadoras")
 @Getter
 @Setter
 

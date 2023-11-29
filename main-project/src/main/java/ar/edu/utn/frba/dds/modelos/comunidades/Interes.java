@@ -15,11 +15,11 @@ import lombok.Setter;
 @Setter
 public class Interes {
   @ManyToMany
-  @JoinTable(name = "interes_entidades", schema = "public")
+  @JoinTable(name = "interes_entidades")
   private List<Entidad> entidades = new ArrayList<>();
 
   @ManyToMany
-  @JoinTable(name = "interes_serviciosPrestados", schema = "public")
+  @JoinTable(name = "interes_serviciosPrestados")
   private List<ServicioPrestado> servicios = new ArrayList<>();
 
   public boolean servicioPrestadoEsDeInteres(ServicioPrestado servicioPrestado){

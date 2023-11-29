@@ -17,8 +17,8 @@ public class EstablecimientoRepositorioTests  implements WithSimplePersistenceUn
 
   @BeforeEach
   public void init() throws IOException {
-    this.repositorioEstablecimiento = new EstablecimientoRepositorio(entityManager());
-    this.repositorioServicio = new ServicioRepositorio(entityManager());
+    this.repositorioEstablecimiento = new EstablecimientoRepositorio();
+    this.repositorioServicio = new ServicioRepositorio();
   }
 
   @Test

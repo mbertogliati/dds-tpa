@@ -11,7 +11,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "usuarios", schema = "public")
+@Table(name = "usuarios")
 @Getter @Setter
 public class Usuario extends ModelBase {
   @Column(name = "usuario")

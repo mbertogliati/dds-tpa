@@ -27,6 +27,7 @@ import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.utilidades.FechasDeSemanaRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -50,15 +51,15 @@ public class UsuariosController implements ICrudViewsHandler {
   private EntidadRepositorio repoEntidad;
 
 
-  public UsuariosController(EntityManager entityManager){
-    repoPersona = new PersonaRepositorio(entityManager);
-    repoFechas = new FechasDeSemanaRepositorio(entityManager);
-    repoUsuario = new UsuarioRepositorio(entityManager);
-    repoProvincia = new ProvinciaRepositorio(entityManager);
-    repoDepartamento = new DepartamentoRepositorio(entityManager);
-    repoLocalidad = new LocalidadRepositorio(entityManager);
-    this.repoServicioPrestado = new ServicioPrestadoRepositorio(entityManager);
-    this.repoEntidad = new EntidadRepositorio(entityManager);
+  public UsuariosController(){
+    repoPersona = new PersonaRepositorio();
+    repoFechas = new FechasDeSemanaRepositorio();
+    repoUsuario = new UsuarioRepositorio();
+    repoProvincia = new ProvinciaRepositorio();
+    repoDepartamento = new DepartamentoRepositorio();
+    repoLocalidad = new LocalidadRepositorio();
+    this.repoServicioPrestado = new ServicioPrestadoRepositorio();
+    this.repoEntidad = new EntidadRepositorio();
   }
 
   public void agregarServicio(Context context){

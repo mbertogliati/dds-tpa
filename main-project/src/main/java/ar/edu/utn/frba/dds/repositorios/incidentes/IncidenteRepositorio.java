@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.utilidades.CalculadoraDistanciaEnMetros;
 import ar.edu.utn.frba.dds.modelos.utilidades.EvaluadorSolicitudRevision;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,54 +16,48 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-public class IncidenteRepositorio {
-
-  private final EntityManager entityManager;
-
-  public IncidenteRepositorio(EntityManager entityManager) {
-    this.entityManager = entityManager;
-  }
+public class IncidenteRepositorio implements WithSimplePersistenceUnit {
 
   public void guardar(Incidente incidente) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
     transaction.begin();
-    entityManager.persist(incidente);
+    entityManager().persist(incidente);
     transaction.commit();
   }
 
   public Incidente buscarPorId(int id) {
-    return entityManager.find(Incidente.class, id);
+    return entityManager().find(Incidente.class, id);
   }
 
   public void actualizar(Incidente incidente) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
     transaction.begin();
-    entityManager.merge(incidente);
+    entityManager().merge(incidente);
     transaction.commit();
   }
 
   public void eliminar(Incidente incidente) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
     transaction.begin();
-    entityManager.remove(incidente);
+    entityManager().remove(incidente);
     transaction.commit();
   }
 
   public List<Incidente> buscarTodos() {
-    TypedQuery<Incidente> query = entityManager.createQuery("FROM " + Incidente.class.getName(), Incidente.class);
+    TypedQuery<Incidente> query = entityManager().createQuery("FROM " + Incidente.class.getName(), Incidente.class);
     return query.getResultList();
   }
 
   public List<Incidente> buscarPorLocalidad(String idLocalidad) {
-    return (List<Incidente>) entityManager.createQuery(
+    return (List<Incidente>) entityManager().createQuery(
             "SELECT i FROM Incidente i JOIN i.serviciosAfectados s WHERE s.establecimiento.entidad.ubicacion.metadato.localidad.id = :idBuscado")
         .setParameter("idBuscado", Integer.parseInt(idLocalidad))
         .getResultList();
   }
 
   public List<Incidente> incidentesDeEstado(String estado, int idPersona){
-    IncidentePorComunidadRepositorio repoIncidenteComunidad = new IncidentePorComunidadRepositorio(entityManager);
-    PersonaRepositorio repoPersona = new PersonaRepositorio(entityManager);
+    IncidentePorComunidadRepositorio repoIncidenteComunidad = new IncidentePorComunidadRepositorio();
+    PersonaRepositorio repoPersona = new PersonaRepositorio();
 
     List<Incidente> incidentesTotales = this.buscarTodos();
 

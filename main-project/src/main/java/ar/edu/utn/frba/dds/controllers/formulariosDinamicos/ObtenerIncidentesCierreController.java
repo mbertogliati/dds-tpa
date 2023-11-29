@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,8 @@ import org.jetbrains.annotations.NotNull;
 public class ObtenerIncidentesCierreController implements Handler {
   IncidenteRepositorio incidenteRepositorio;
 
-  public ObtenerIncidentesCierreController(EntityManager entityManager){
-    this.incidenteRepositorio = new IncidenteRepositorio(entityManager);
+  public ObtenerIncidentesCierreController(){
+    this.incidenteRepositorio = new IncidenteRepositorio();
   }
 
   @Override

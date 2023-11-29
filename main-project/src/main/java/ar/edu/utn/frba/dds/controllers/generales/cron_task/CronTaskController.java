@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.controllers.generales.cron_task;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.dtos.CrearCronTaskDTO;
 import ar.edu.utn.frba.dds.dtos.CronTaskDTO;
 import ar.edu.utn.frba.dds.dtos.EditarCronTaskDTO;
@@ -11,7 +13,9 @@ import ar.edu.utn.frba.dds.modelos.utilidades.CronTaskPorMinuto;
 import ar.edu.utn.frba.dds.modelos.utilidades.CronTaskPorSegundo;
 import ar.edu.utn.frba.dds.modelos.utilidades.CronTaskSemanal;
 import ar.edu.utn.frba.dds.repositorios.utilidades.CronTaskRepositorio;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -30,8 +34,8 @@ public class CronTaskController implements ICrudViewsHandler {
   private DayOfWeek[] dias;
   private Locale locale;
 
-  public CronTaskController(EntityManager entityManager) {
-    this.repositorio = new CronTaskRepositorio(entityManager);
+  public CronTaskController() {
+    this.repositorio = new CronTaskRepositorio();
 
     this.dicComandos = new Hashtable<String, String>();
     this.dicComandos.put("generar_ranking_ultima_semana", "Generar ranking de ultima semana");

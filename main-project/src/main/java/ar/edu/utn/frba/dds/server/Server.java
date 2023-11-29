@@ -10,6 +10,9 @@ import ar.edu.utn.frba.dds.controllers.utils.*;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.helper.ConditionalHelpers;
+import io.github.flbulgarelli.jpa.extras.perthread.PerThreadEntityManagerAccess;
+import io.github.flbulgarelli.jpa.extras.perthread.PerThreadEntityManagerProperties;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
@@ -17,8 +20,13 @@ import io.javalin.rendering.JavalinRenderer;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import lombok.With;
 
 public class Server {
   private static Javalin app = null;
@@ -35,22 +43,46 @@ public class Server {
     if(app == null) {
       System.out.println("Inicializando app...");
       LocalDateTime inicio = LocalDateTime.now();
-      EntityManager entityManager = (new CreadorEntityManager()).entityManagerCreado();
+
+      EntityManagerFactory entityManagerFactory = crearEntityManagerFactory();
+
       Integer puerto = Integer.parseInt(System.getProperty("port", System.getenv("APP_MAIN_PORT")));
       app = Javalin.create(config()).start(puerto);
 
-      //configurarCronTasks();
       initTemplateEngine();
       configurarErrorHandlers();
 
-      configurarCronTasks();
-      configurarAutorizacion(entityManager);
+      configurarCronTasks(entityManagerFactory);
+      configurarAutorizacion(entityManagerFactory);
 
       configurarExceptionHandlers();
-      Router.init(entityManager);
+      Router.init(entityManagerFactory);
       //Datetime difference
       System.out.println("Listo! "+ ChronoUnit.SECONDS.between(inicio, LocalDateTime.now())+" s");
     }
+  }
+  private static EntityManagerFactory crearEntityManagerFactory() {
+    Map<String, String> propiedades = new HashMap<>();
+    //hibernate naming convention
+    propiedades.put("hibernate.connection.url",System.getenv("DB_CONNECTION_HOST"));
+    propiedades.put("hibernate.connection.username", System.getenv("DB_CONNECTION_USERNAME"));
+    propiedades.put("hibernate.connection.password",System.getenv("DB_CONNECTION_PASSWORD"));
+    propiedades.put("hibernate.connection.driver_class", System.getenv("DB_CONNECTION_DRIVER_CLASS"));
+
+    //Javax naming convention
+    propiedades.put("javax.persistence.jdbc.url", System.getenv("DB_CONNECTION_HOST"));
+    propiedades.put("javax.persistence.jdbc.user", System.getenv("DB_CONNECTION_USERNAME"));
+    propiedades.put("javax.persistence.jdbc.password",System.getenv("DB_CONNECTION_PASSWORD"));
+    propiedades.put("javax.persistence.jdbc.driver", System.getenv("DB_CONNECTION_DRIVER_CLASS"));
+
+    propiedades.put("hibernate.hbm2ddl.auto", System.getenv("DB_CONNECTION_HIBERNATE_HBM2DDL_AUTO"));
+    propiedades.put("hibernate.dialect", System.getenv("DB_CONNECTION_HIBERNATE_DIALECT"));
+    propiedades.put("hibernate.show_sql", System.getenv("DB_CONNECTION_HIBERNATE_SHOW_SQL"));
+
+    WithSimplePersistenceUnit.configure(p -> {
+      p.putAll(propiedades);
+    });
+    return Persistence.createEntityManagerFactory("simple-persistence-unit", propiedades);
   }
   private static void configurarErrorHandlers(){
     app.error(404, new HttpErrorHandler(404, "Not Found", "El recurso solicitado no existe."));
@@ -62,13 +94,13 @@ public class Server {
     app.exception(ExternalException.class, new ExternalExceptionHandler());
   }
 
-  private static void configurarCronTasks(){
-    inicializadorCronTask = new InicializadorCronTask();
-    inicializadorCronTask.inicializar();
+  private static void configurarCronTasks(EntityManagerFactory entityManagerFactory){
+    inicializadorCronTask = new InicializadorCronTask(entityManagerFactory);
+    inicializadorCronTask.inicializar(entityManagerFactory);
   }
 
-  private static void configurarAutorizacion(EntityManager entityManager){
-    configuradorAutorizacion = new ConfiguradorAutorizacion(entityManager);
+  private static void configurarAutorizacion(EntityManagerFactory entityManagerFactory){
+    configuradorAutorizacion = new ConfiguradorAutorizacion(entityManagerFactory);
     configuradorAutorizacion.configurarRoles();
   }
 

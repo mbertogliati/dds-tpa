@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "ultimo_intento_fusion_comunidades", schema = "public")
+@Table(name = "ultimo_intento_fusion_comunidades")
 public class UltimoIntentoFusionComunidad {
     @Id
     @GeneratedValue

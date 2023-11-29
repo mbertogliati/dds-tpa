@@ -2,7 +2,9 @@ package ar.edu.utn.frba.dds.controllers.formulariosDinamicos;
 
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.DepartamentoRepositorio;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -11,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 public class ObtenerDepartamentosController implements Handler {
   DepartamentoRepositorio departamentoRepositorio;
 
-  public ObtenerDepartamentosController(EntityManager entityManager){
-    this.departamentoRepositorio = new DepartamentoRepositorio(entityManager);
+  public ObtenerDepartamentosController(){
+    this.departamentoRepositorio = new DepartamentoRepositorio();
   }
 
   @Override

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import javax.persistence.EntityManager;
 import org.jetbrains.annotations.NotNull;
@@ -23,11 +24,11 @@ public class LocalizacionUsuarioController implements Handler {
   private JsonMapper jsonMapper;
   private EvaluadorSolicitudRevision evaluador;
   private PersonaRepositorio repositorio;
-  public LocalizacionUsuarioController(EntityManager entityManager) {
+  public LocalizacionUsuarioController() {
     this.objectMapper = new ObjectMapper();
     this.jsonMapper = new JsonMapper();
     this.evaluador = new EvaluadorSolicitudRevision(new CalculadoraDistanciaEnMetros());
-    this.repositorio = new PersonaRepositorio(entityManager);
+    this.repositorio = new PersonaRepositorio();
   }
 
   private void responder(Context context, boolean exito, String mensaje) throws JsonProcessingException {
@@ -83,6 +84,10 @@ public class LocalizacionUsuarioController implements Handler {
       System.out.println("Excepción en processing");
       System.out.println(jpe.getMessage());
       this.responder(context, false, "Error al procesar");
+    } catch (IllegalStateException e){
+      System.out.println("Doble request a BD con transacción en curso.");
+      e.printStackTrace();
+      this.responder(context, true, "Doble request a BD con transacción en curso. OK");
     } catch(Exception ex) {
       System.out.println("Excepción general");
       ex.printStackTrace();

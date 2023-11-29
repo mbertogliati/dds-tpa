@@ -1,25 +1,20 @@
 package ar.edu.utn.frba.dds.repositorios.meta_datos_geo;
 
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-public class ProvinciaRepositorio {
-
-  private final EntityManager entityManager;
-
-  public ProvinciaRepositorio(EntityManager entityManager) {
-    this.entityManager = entityManager;
-  }
+public class ProvinciaRepositorio implements WithSimplePersistenceUnit {
 
   public void guardar(Provincia provincia) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
     transaction.begin();
     try{
-      entityManager.persist(provincia);
+      entityManager().persist(provincia);
     }catch(EntityExistsException e){
       System.out.println(e);
     }
@@ -27,25 +22,25 @@ public class ProvinciaRepositorio {
   }
 
   public Provincia buscarPorId(String id) {
-    return entityManager.find(Provincia.class, id);
+    return entityManager().find(Provincia.class, id);
   }
 
   public void actualizar(Provincia provincia) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
     transaction.begin();
-    entityManager.merge(provincia);
+    entityManager().merge(provincia);
     transaction.commit();
   }
 
   public void eliminar(Provincia provincia) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
     transaction.begin();
-    entityManager.remove(provincia);
+    entityManager().remove(provincia);
     transaction.commit();
   }
 
   public List<Provincia> buscarTodas() {
-    TypedQuery<Provincia> query = entityManager.createQuery("SELECT p FROM Provincia p ORDER BY p.nombre", Provincia.class);
+    TypedQuery<Provincia> query = entityManager().createQuery("SELECT p FROM Provincia p ORDER BY p.nombre", Provincia.class);
     return query.getResultList();
   }
 }

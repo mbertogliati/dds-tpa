@@ -1,11 +1,17 @@
 package ar.edu.utn.frba.dds.modelos.utilidades;
 
+import ar.edu.utn.frba.dds.controllers.generales.comunidades.CalcularGradoConfianzaController;
+import ar.edu.utn.frba.dds.controllers.generales.incidentes.GenerarRankingController;
+import ar.edu.utn.frba.dds.controllers.generales.user.NotificacionController;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -24,6 +30,9 @@ import lombok.Setter;
 public abstract class CronTask {
   @Transient
   private Timer timer = new Timer();
+
+  @Transient
+  private Runnable runnableTask = null;
 
   @Column(name = "id")
   @Id
@@ -45,13 +54,19 @@ public abstract class CronTask {
   @Column(name = "habilitado")
   private Boolean habilitado;
 
-  protected void iniciarTimer(Runnable task, LocalDateTime fechaDesde, long cantSegundos) {
+  protected void iniciarTimer(LocalDateTime fechaDesde, long cantSegundos, EntityManagerFactory entityManagerFactory) {
     System.out.println("[INFO]: iniciando timer para :" + this.toString());
     TimerTask timerTask = new TimerTask() {
       @Override
       public void run() {
         try {
-          task.run();
+          //esto sería un hilo nuevo?
+          EntityManager entityManagerParaEsteHilo = entityManagerFactory.createEntityManager();
+          EntityManagerContext.setEntityManager(entityManagerParaEsteHilo);
+
+          if(runnableTask == null) runnableTask = obtenerSubrutina(comando);
+          if(runnableTask != null) runnableTask.run();
+
         } catch (Exception ex) {
           System.out.println("[ERROR]: Una excepción ocurrió cuando se ejecutaba la tarea programada.");
           System.out.println(ex.getMessage());
@@ -84,7 +99,7 @@ public abstract class CronTask {
     return retrasoInicial;
   }
 
-  public abstract void iniciar(Runnable task);
+  public abstract void iniciar(EntityManagerFactory entityManagerFactory);
 
   public void detener() {
     this.timer.cancel();
@@ -98,5 +113,24 @@ public abstract class CronTask {
             "; fechaCreacion:" + this.fechaCreacion +
             "; fechaModificacion:" + this.fechaModificacion +
             ";]";
+  }
+
+  private Runnable obtenerSubrutina(String comandoCronTask) {
+    switch (comandoCronTask) {
+      case "generar_ranking_ultima_semana" -> {
+        return new GenerarRankingController()::generarRankingUltimaSemana;
+      }
+      case "calcular_grados_confianza" -> {
+        return new CalcularGradoConfianzaController()::calcularGradosDeConfianza;
+      }
+      case "notificar_usuarios_pendientes" -> {
+        return new NotificacionController()::notificarUsuariosPendientes;
+      }
+
+      case "notificar_usuarios_al_momento" -> {
+        return new NotificacionController()::notificarUsuariosAlMomento;
+      }
+      default -> { return null; }
+    }
   }
 }

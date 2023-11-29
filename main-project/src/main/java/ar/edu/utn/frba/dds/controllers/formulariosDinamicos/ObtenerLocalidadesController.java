@@ -5,7 +5,9 @@ import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Localidad;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.DepartamentoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.LocalidadRepositorio;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -14,8 +16,8 @@ import org.jetbrains.annotations.NotNull;
 public class ObtenerLocalidadesController implements Handler {
   LocalidadRepositorio localidadRepositorio;
 
-  public ObtenerLocalidadesController(EntityManager entityManager){
-    this.localidadRepositorio = new LocalidadRepositorio(entityManager);
+  public ObtenerLocalidadesController(){
+    this.localidadRepositorio = new LocalidadRepositorio();
   }
 
   @Override

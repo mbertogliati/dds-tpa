@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EstablecimientoRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,8 +14,8 @@ import org.jetbrains.annotations.NotNull;
 public class ObtenerEstablecimientosController implements Handler {
   EstablecimientoRepositorio establecimientoRepositorio;
 
-  public ObtenerEstablecimientosController(EntityManager entityManager){
-    this.establecimientoRepositorio = new EstablecimientoRepositorio(entityManager);
+  public ObtenerEstablecimientosController(){
+    this.establecimientoRepositorio = new EstablecimientoRepositorio();
   }
 
   @Override

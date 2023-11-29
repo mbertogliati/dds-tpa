@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidentePorComunidadRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,13 +27,13 @@ public class CalcularGradoConfianzaController{
     IncidentePorComunidadRepositorio repoIncidentes;
     AdapterCalculoGradoConfianza calculadorGradoConfianza = new ServicioCalculoGradoConfianza();
 
-    public CalcularGradoConfianzaController(EntityManager entityManager){
-        repoComunidad = new ComunidadRepositorio(entityManager);
-        repoUsuario = new UsuarioRepositorio(entityManager);
-        repoIncidentes = new IncidentePorComunidadRepositorio(entityManager);
+    public CalcularGradoConfianzaController(){
+        repoComunidad = new ComunidadRepositorio();
+        repoUsuario = new UsuarioRepositorio();
+        repoIncidentes = new IncidentePorComunidadRepositorio();
     }
 
-    public void calcularGradosDeConfianza(){
+    public void calcularGradosDeConfianza() {
         System.out.println("[INFO]: Calculando grados de confianza...");
         List<Comunidad> comunidades = repoComunidad.obtenerTodas();
 
@@ -55,7 +56,7 @@ public class CalcularGradoConfianzaController{
                 if (comunidad.getGradoConfianza() < 2)
                     comunidad.setActivo(false);
 
-                repoComunidad.actualizarComunidad(comunidad);
+                repoComunidad.actualizar(comunidad);
 
                 this.actualizarUsuarios(resultado.getUsuarios());
             }

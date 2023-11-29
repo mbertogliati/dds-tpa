@@ -15,7 +15,7 @@ public class OrganismoControlRepositorioTests implements WithSimplePersistenceUn
 
   @BeforeEach
   public void init() throws IOException {
-    this.repositorioOrganismoControl = new OrganismoControlRepositorio(entityManager());
+    this.repositorioOrganismoControl = new OrganismoControlRepositorio();
   }
 
   @Test

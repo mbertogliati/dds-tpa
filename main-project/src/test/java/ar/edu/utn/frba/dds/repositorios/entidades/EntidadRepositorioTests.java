@@ -13,7 +13,7 @@ public class EntidadRepositorioTests implements WithSimplePersistenceUnit {
   private EntidadRepositorio repositorioEntidad;
   @BeforeEach
   public void init() throws IOException {
-    this.repositorioEntidad = new EntidadRepositorio(entityManager());
+    this.repositorioEntidad = new EntidadRepositorio();
   }
 
   @Test

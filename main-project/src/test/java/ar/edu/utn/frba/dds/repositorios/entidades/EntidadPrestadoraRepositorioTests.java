@@ -15,7 +15,7 @@ public class EntidadPrestadoraRepositorioTests  implements WithSimplePersistence
 
   @BeforeEach
   public void init() throws IOException {
-    this.repositorioEntidadPrestadora = new EntidadPrestadoraRepositorio(entityManager());
+    this.repositorioEntidadPrestadora = new EntidadPrestadoraRepositorio();
   }
 
   @Test

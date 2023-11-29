@@ -13,6 +13,7 @@ import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.util.Map;
 import java.util.Objects;
 import javax.persistence.EntityManager;
@@ -26,12 +27,12 @@ public class LoginController{
   OrganismoControlRepositorio organismoControlRepositorio;
 
   RolRepositorio repoRol;
-  public LoginController(EntityManager entityManager) {
-    this.personaRepositorio = new PersonaRepositorio(entityManager);
-    this.usuarioRepositorio = new UsuarioRepositorio(entityManager);
-    this.entidadPrestadoraRepositorio = new EntidadPrestadoraRepositorio(entityManager);
-    this.organismoControlRepositorio = new OrganismoControlRepositorio(entityManager);
-    this.repoRol = new RolRepositorio(entityManager);
+  public LoginController() {
+    this.personaRepositorio = new PersonaRepositorio();
+    this.usuarioRepositorio = new UsuarioRepositorio();
+    this.entidadPrestadoraRepositorio = new EntidadPrestadoraRepositorio();
+    this.organismoControlRepositorio = new OrganismoControlRepositorio();
+    this.repoRol = new RolRepositorio();
   }
 
   public void login(@NotNull Context context) {

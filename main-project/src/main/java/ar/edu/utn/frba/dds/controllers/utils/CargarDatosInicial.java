@@ -27,7 +27,7 @@ public class CargarDatosInicial {
   private static void cargarGeoRef(EntityManager entityManager) throws IOException {
     AdapterProveedorMetadatosGeograficos servicioGeoRef = new ServicioGeoRef();
 
-    ProvinciaRepositorio repoProvincia = new ProvinciaRepositorio(entityManager);
+    ProvinciaRepositorio repoProvincia = new ProvinciaRepositorio();
 
     List<Provincia> provincias = servicioGeoRef.provincias();
 
@@ -54,8 +54,8 @@ public class CargarDatosInicial {
   }
 
   private static void cargarRoles(EntityManager entityManager){
-    RolRepositorio repoRol = new RolRepositorio(entityManager);
-    PermisoRepositorio repoPermiso = new PermisoRepositorio(entityManager);
+    RolRepositorio repoRol = new RolRepositorio();
+    PermisoRepositorio repoPermiso = new PermisoRepositorio();
 
     Permiso administrarUsuarios = new Permiso("administrarUsuarios");
     Permiso administrarComunidad = new Permiso("administrarComunidad");

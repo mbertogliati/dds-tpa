@@ -2,12 +2,14 @@ package ar.edu.utn.frba.dds.controllers.generales.incidentes;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
 import ar.edu.utn.frba.dds.repositorios.rankings.RankingRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +21,9 @@ import org.jetbrains.annotations.NotNull;
 public class RankingsController implements ICrudViewsHandler {
   private RankingRepositorio repoRankings;
 
-  public RankingsController(EntityManager entityManager){
+  public RankingsController(){
 
-    this.repoRankings = new RankingRepositorio(entityManager);
+    this.repoRankings = new RankingRepositorio();
   }
   @Override
   public void index(@NotNull Context context){

@@ -6,7 +6,9 @@ import ar.edu.utn.frba.dds.modelos.rankings.*;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidentePorComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.rankings.RankingRepositorio;
 
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,9 +28,9 @@ public class GenerarRankingController {
     private IncidentePorComunidadRepositorio repoIncidentes;
     private RankingRepositorio repoRanking;
 
-    public GenerarRankingController(EntityManager entityManager) {
-        this.repoIncidentes = new IncidentePorComunidadRepositorio(entityManager);
-        this.repoRanking = new RankingRepositorio(entityManager);
+    public GenerarRankingController() {
+        this.repoIncidentes = new IncidentePorComunidadRepositorio();
+        this.repoRanking = new RankingRepositorio();
     }
     public void generarRankingUltimaSemana() {
         System.out.println("[INFO]: Generando ranking de la última semana...");

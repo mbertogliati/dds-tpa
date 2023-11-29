@@ -23,7 +23,7 @@ import org.hibernate.annotations.Where;
 
 
 @Entity
-@Table(name = "entidades", schema = "public")
+@Table(name = "entidades")
 @Setter
 @Getter
 

@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.controllers.middleware;
 
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
 

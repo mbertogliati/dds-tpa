@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.controllers.utils.TipoRol;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PermisoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import javax.persistence.EntityManager;
 import java.util.Arrays;
 
@@ -15,9 +16,9 @@ public class AutorizacionMiddlewareBuilder {
     private RolRepositorio rolRepositorio;
     private PermisoRepositorio permisoRepositorio;
 
-    public AutorizacionMiddlewareBuilder(EntityManager entityManager){
-        this.rolRepositorio = new RolRepositorio(entityManager);
-        this.permisoRepositorio = new PermisoRepositorio(entityManager);
+    public AutorizacionMiddlewareBuilder(){
+        this.rolRepositorio = new RolRepositorio();
+        this.permisoRepositorio = new PermisoRepositorio();
         this.reset();
     }
     public AutorizacionMiddlewareBuilder conRolesDePlataforma(TipoRol ... roles){

@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "fechas_de_semana", schema = "public")
+@Table(name = "fechas_de_semana")
 public class FechasDeSemana {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

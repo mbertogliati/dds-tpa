@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.Notificable
 import ar.edu.utn.frba.dds.modelos.notificaciones.Notificador;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PersonaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.notificacionesPersona.NotificablesParaCronTaskAlMomentoRepositorio;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -14,9 +15,9 @@ public class NotificacionController {
   private NotificablesParaCronTaskAlMomentoRepositorio repoAlMomento;
   private Notificador notificador;
 
-  public NotificacionController(EntityManager entityManager){
-    repoPersona = new PersonaRepositorio(entityManager);
-    repoAlMomento = new NotificablesParaCronTaskAlMomentoRepositorio(entityManager);
+  public NotificacionController(){
+    repoPersona = new PersonaRepositorio();
+    repoAlMomento = new NotificablesParaCronTaskAlMomentoRepositorio();
   }
 
   public void notificarUsuariosPendientes() {

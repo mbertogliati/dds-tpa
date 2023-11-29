@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,8 @@ import org.jetbrains.annotations.NotNull;
 public class ObtenerIncidentesController implements Handler {
   IncidenteRepositorio incidenteRepositorio;
 
-  public ObtenerIncidentesController(EntityManager entityManager){
-    this.incidenteRepositorio = new IncidenteRepositorio(entityManager);
+  public ObtenerIncidentesController(){
+    this.incidenteRepositorio = new IncidenteRepositorio();
   }
 
   @Override

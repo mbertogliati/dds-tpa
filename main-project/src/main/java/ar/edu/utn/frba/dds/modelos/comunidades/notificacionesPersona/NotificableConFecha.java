@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "notificable_con_fecha", schema = "public")
+@Table(name = "notificable_con_fecha")
 public class NotificableConFecha {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

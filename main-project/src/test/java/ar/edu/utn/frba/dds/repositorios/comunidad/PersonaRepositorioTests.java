@@ -15,7 +15,7 @@ public class PersonaRepositorioTests implements WithSimplePersistenceUnit {
 
   @BeforeEach
   public void init() throws IOException {
-    this.repositorioPersona = new PersonaRepositorio(entityManager());
+    this.repositorioPersona = new PersonaRepositorio();
   }
 
   @Test

@@ -34,6 +34,7 @@ import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import com.ctc.wstx.shaded.msv_core.reader.trex.ng.ListState;
 import com.twilio.twiml.voice.Prompt;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.HashMap;
 import java.util.List;
@@ -54,12 +55,12 @@ public class RegisterController{
   private LocalidadRepositorio repoLocalidad;
   private ProvinciaRepositorio repoProvincia;
 
-  public RegisterController(EntityManager entityManager){
-    this.repoPersona = new PersonaRepositorio(entityManager);
-    this.repoUsuario = new UsuarioRepositorio(entityManager);
-    this.repoRol = new RolRepositorio(entityManager);
-    this.repoLocalidad = new LocalidadRepositorio(entityManager);
-    this.repoProvincia = new ProvinciaRepositorio(entityManager);
+  public RegisterController(){
+    this.repoPersona = new PersonaRepositorio();
+    this.repoUsuario = new UsuarioRepositorio();
+    this.repoRol = new RolRepositorio();
+    this.repoLocalidad = new LocalidadRepositorio();
+    this.repoProvincia = new ProvinciaRepositorio();
   }
 
   public void create(@NotNull Context context) throws Exception {

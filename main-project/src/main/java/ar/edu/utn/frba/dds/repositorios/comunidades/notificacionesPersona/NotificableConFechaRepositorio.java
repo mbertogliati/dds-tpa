@@ -1,24 +1,20 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades.notificacionesPersona;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificableConFecha;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-public class NotificableConFechaRepositorio {
-  private EntityManager entityManager;
+public class NotificableConFechaRepositorio implements WithSimplePersistenceUnit {
 
-  public NotificableConFechaRepositorio(EntityManager entityManager) {
-    this.entityManager = entityManager;
-  }
-
-  public void guardarNotificableConFecha(NotificableConFecha notificableConFecha) {
-    EntityTransaction transaction = entityManager.getTransaction();
+  public void guardar(NotificableConFecha notificableConFecha) {
+    EntityTransaction transaction = entityManager().getTransaction();
 
     try {
       transaction.begin();
-      entityManager.persist(notificableConFecha);
+      entityManager().persist(notificableConFecha);
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null && transaction.isActive()) {
@@ -28,16 +24,16 @@ public class NotificableConFechaRepositorio {
     }
   }
 
-  public NotificableConFecha obtenerNotificableConFechaPorId(int id) {
-    return entityManager.find(NotificableConFecha.class, id);
+  public NotificableConFecha obtenerPorId(int id) {
+    return entityManager().find(NotificableConFecha.class, id);
   }
 
-  public void actualizarNotificableConFecha(NotificableConFecha notificableConFecha) {
-    EntityTransaction transaction = entityManager.getTransaction();
+  public void actualizar(NotificableConFecha notificableConFecha) {
+    EntityTransaction transaction = entityManager().getTransaction();
 
     try {
       transaction.begin();
-      entityManager.merge(notificableConFecha);
+      entityManager().merge(notificableConFecha);
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null && transaction.isActive()) {
@@ -47,13 +43,13 @@ public class NotificableConFechaRepositorio {
     }
   }
 
-  public void eliminarNotificableConFecha(NotificableConFecha notificableConFecha) {
-    EntityTransaction transaction = entityManager.getTransaction();
+  public void eliminar(NotificableConFecha notificableConFecha) {
+    EntityTransaction transaction = entityManager().getTransaction();
 
     try {
       transaction.begin();
-      NotificableConFecha managedNotificableConFecha = entityManager.find(NotificableConFecha.class, notificableConFecha.getId());
-      entityManager.remove(managedNotificableConFecha);
+      NotificableConFecha managedNotificableConFecha = entityManager().find(NotificableConFecha.class, notificableConFecha.getId());
+      entityManager().remove(managedNotificableConFecha);
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null && transaction.isActive()) {
@@ -64,7 +60,7 @@ public class NotificableConFechaRepositorio {
   }
 
   public List<NotificableConFecha> obtenerTodos() {
-    TypedQuery<NotificableConFecha> query = entityManager.createQuery("FROM " + NotificableConFecha.class.getName(), NotificableConFecha.class);
+    TypedQuery<NotificableConFecha> query = entityManager().createQuery("FROM " + NotificableConFecha.class.getName(), NotificableConFecha.class);
     return query.getResultList();
   }
 }

@@ -2,24 +2,20 @@ package ar.edu.utn.frba.dds.repositorios.comunidades.notificacionesPersona;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificableConFecha;
 import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificablesParaCronTaskAlMomento;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-public class NotificablesParaCronTaskAlMomentoRepositorio {
-  private EntityManager entityManager;
-
-  public NotificablesParaCronTaskAlMomentoRepositorio(EntityManager entityManager) {
-    this.entityManager = entityManager;
-  }
+public class NotificablesParaCronTaskAlMomentoRepositorio implements WithSimplePersistenceUnit {
 
   public void guardar(NotificablesParaCronTaskAlMomento notificable) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
 
     try {
       transaction.begin();
-      entityManager.persist(notificable);
+      entityManager().persist(notificable);
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null && transaction.isActive()) {
@@ -30,15 +26,15 @@ public class NotificablesParaCronTaskAlMomentoRepositorio {
   }
 
   public NotificablesParaCronTaskAlMomento obtenerPorId(int id) {
-    return entityManager.find(NotificablesParaCronTaskAlMomento.class, id);
+    return entityManager().find(NotificablesParaCronTaskAlMomento.class, id);
   }
 
   public void actualizar(NotificablesParaCronTaskAlMomento notificable) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
 
     try {
       transaction.begin();
-      entityManager.merge(notificable);
+      entityManager().merge(notificable);
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null && transaction.isActive()) {
@@ -49,12 +45,12 @@ public class NotificablesParaCronTaskAlMomentoRepositorio {
   }
 
   public void eliminar(NotificablesParaCronTaskAlMomento notificable) {
-    EntityTransaction transaction = entityManager.getTransaction();
+    EntityTransaction transaction = entityManager().getTransaction();
 
     try {
       transaction.begin();
-      NotificablesParaCronTaskAlMomento managedNotificableConFecha = entityManager.find(NotificablesParaCronTaskAlMomento.class, notificable.getId());
-      entityManager.remove(managedNotificableConFecha);
+      NotificablesParaCronTaskAlMomento managedNotificableConFecha = entityManager().find(NotificablesParaCronTaskAlMomento.class, notificable.getId());
+      entityManager().remove(managedNotificableConFecha);
       transaction.commit();
     } catch (Exception e) {
       if (transaction != null && transaction.isActive()) {
@@ -65,7 +61,7 @@ public class NotificablesParaCronTaskAlMomentoRepositorio {
   }
 
   public List<NotificablesParaCronTaskAlMomento> obtenerTodos() {
-    TypedQuery<NotificablesParaCronTaskAlMomento> query = entityManager.createQuery("FROM " + NotificablesParaCronTaskAlMomento.class.getName(), NotificablesParaCronTaskAlMomento.class);
+    TypedQuery<NotificablesParaCronTaskAlMomento> query = entityManager().createQuery("FROM " + NotificablesParaCronTaskAlMomento.class.getName(), NotificablesParaCronTaskAlMomento.class);
     return query.getResultList();
   }
 }

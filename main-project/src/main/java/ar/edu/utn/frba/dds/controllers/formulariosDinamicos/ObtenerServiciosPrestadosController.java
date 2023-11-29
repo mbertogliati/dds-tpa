@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -12,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 public class ObtenerServiciosPrestadosController implements Handler {
   ServicioPrestadoRepositorio servicioPrestadoRepositorio;
 
-  public ObtenerServiciosPrestadosController(EntityManager entityManager){
-    this.servicioPrestadoRepositorio = new ServicioPrestadoRepositorio(entityManager);
+  public ObtenerServiciosPrestadosController(){
+    this.servicioPrestadoRepositorio = new ServicioPrestadoRepositorio();
   }
 
   @Override

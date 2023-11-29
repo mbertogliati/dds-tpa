@@ -16,7 +16,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(name = "incidentes_por_comunidad", schema = "public")
+@Table(name = "incidentes_por_comunidad")
 @Getter
 @Setter
 public class IncidentePorComunidad {

@@ -18,6 +18,7 @@ import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +40,13 @@ public class IncidentesController {
 
   }
 
-  public IncidentesController(EntityManager entityManager){
-    this.repositorio = new IncidenteRepositorio(entityManager);
-    this.repoComunidad = new IncidentePorComunidadRepositorio(entityManager);
-    this.repoProvincia = new ProvinciaRepositorio(entityManager);
-    this.repoServicioPrestado = new ServicioPrestadoRepositorio(entityManager);
-    this.repoIncidente = new IncidenteRepositorio(entityManager);
-    this.repoIncidenteComunidad = new IncidentePorComunidadRepositorio(entityManager);
+  public IncidentesController(){
+    this.repositorio = new IncidenteRepositorio();
+    this.repoComunidad = new IncidentePorComunidadRepositorio();
+    this.repoProvincia = new ProvinciaRepositorio();
+    this.repoServicioPrestado = new ServicioPrestadoRepositorio();
+    this.repoIncidente = new IncidenteRepositorio();
+    this.repoIncidenteComunidad = new IncidentePorComunidadRepositorio();
   }
 
   public void handle(@NotNull Context context) throws Exception {

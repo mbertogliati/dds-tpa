@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.generales.entidades;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
@@ -12,6 +13,7 @@ import ar.edu.utn.frba.dds.modelos.utilidades.Ubicacion;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import io.javalin.http.UploadedFile;
 import java.io.File;
@@ -30,9 +32,9 @@ public class CargaMasivaController implements ICrudViewsHandler {
   private OrganismoControlRepositorio repoOrganismoControl;
   private EntidadPrestadoraRepositorio repoEntidadPrestadora;
 
-  public CargaMasivaController(EntityManager entityManager){
-    repoOrganismoControl = new OrganismoControlRepositorio(entityManager);
-    repoEntidadPrestadora = new EntidadPrestadoraRepositorio(entityManager);
+  public CargaMasivaController(){
+    repoOrganismoControl = new OrganismoControlRepositorio();
+    repoEntidadPrestadora = new EntidadPrestadoraRepositorio();
 
   }
 

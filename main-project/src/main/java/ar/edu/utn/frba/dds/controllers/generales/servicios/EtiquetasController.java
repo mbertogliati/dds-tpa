@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.generales.servicios;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
@@ -11,6 +12,7 @@ import ar.edu.utn.frba.dds.repositorios.servicios.EtiquetaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.TipoEtiquetaRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +22,9 @@ public class EtiquetasController implements ICrudViewsHandler {
   private EtiquetaRepositorio repoEtiquetas;
   private TipoEtiquetaRepositorio repoTipoEtiquetas;
 
-  public EtiquetasController(EntityManager entityManager){
-    this.repoEtiquetas = new EtiquetaRepositorio(entityManager);
-    this.repoTipoEtiquetas = new TipoEtiquetaRepositorio(entityManager);
+  public EtiquetasController(){
+    this.repoEtiquetas = new EtiquetaRepositorio();
+    this.repoTipoEtiquetas = new TipoEtiquetaRepositorio();
   }
 
   @Override

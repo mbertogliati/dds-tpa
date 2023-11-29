@@ -22,7 +22,7 @@ import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 @Entity
-@Table(name = "incidentes", schema = "public")
+@Table(name = "incidentes")
 @Getter @Setter
 public class Incidente implements Notificable {
     @Id

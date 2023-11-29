@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.modelos.utilidades;
 
 import ar.edu.utn.frba.dds.repositorios.converters.DiaDeSemanaConverter;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -8,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EntityManagerFactory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,10 +27,10 @@ public class CronTaskSemanal extends CronTask {
   private LocalTime horario;
 
   @Override
-  public void iniciar(Runnable task) {
+  public void iniciar(EntityManagerFactory entityManagerFactory) {
     LocalDateTime ahora = LocalDateTime.now();
     LocalDateTime fechaDesde = ahora.with(this.dia).with(this.horario);
     long cantSegundos = 7 * 24 * 60 * 60; // Una semana en segundos
-    iniciarTimer(task, fechaDesde, cantSegundos);
+    iniciarTimer(fechaDesde, cantSegundos, entityManagerFactory);
   }
 }

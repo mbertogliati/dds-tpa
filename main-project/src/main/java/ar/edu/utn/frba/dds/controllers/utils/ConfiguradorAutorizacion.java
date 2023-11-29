@@ -5,18 +5,21 @@ import ar.edu.utn.frba.dds.modelos.comunidades.Rol;
 import ar.edu.utn.frba.dds.repositorios.comunidades.PermisoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import javax.persistence.EntityManager;
 import java.util.Enumeration;
 import java.util.List;
+import javax.persistence.EntityManagerFactory;
 
 public class ConfiguradorAutorizacion {
-    private EntityManager entityManager;
     private RolRepositorio rolRepositorio;
     private PermisoRepositorio permisoRepositorio;
-    public ConfiguradorAutorizacion(EntityManager entityManager){
-        this.entityManager = entityManager;
-        this.rolRepositorio = new RolRepositorio(entityManager);
-        this.permisoRepositorio = new PermisoRepositorio(entityManager);
+    public ConfiguradorAutorizacion(EntityManagerFactory entityManagerFactory){
+        EntityManager entityManagerParaEsteHilo = entityManagerFactory.createEntityManager();
+        EntityManagerContext.setEntityManager(entityManagerParaEsteHilo);
+
+        this.rolRepositorio = new RolRepositorio();
+        this.permisoRepositorio = new PermisoRepositorio();
     }
     public void configurarRoles(){
         List<Rol> roles = this.rolRepositorio.buscarTodos();

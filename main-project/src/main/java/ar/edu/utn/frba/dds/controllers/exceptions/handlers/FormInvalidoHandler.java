@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.controllers.exceptions.handlers;
 import ar.edu.utn.frba.dds.controllers.exceptions.FormInvalidoException;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.ExceptionHandler;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;

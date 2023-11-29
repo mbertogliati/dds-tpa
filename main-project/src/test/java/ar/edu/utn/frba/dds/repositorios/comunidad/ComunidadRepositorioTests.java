@@ -15,7 +15,7 @@ public class ComunidadRepositorioTests implements WithSimplePersistenceUnit {
 
   @BeforeEach
   public void init() throws IOException {
-    this.repositorioComunidad = new ComunidadRepositorio(entityManager());
+    this.repositorioComunidad = new ComunidadRepositorio();
   }
 
   @Test
@@ -26,9 +26,9 @@ public class ComunidadRepositorioTests implements WithSimplePersistenceUnit {
     comunidadNueva.setDetalle("Test Comunidad");
 
     //act
-    this.repositorioComunidad.guardarComunidad(comunidadNueva);
+    this.repositorioComunidad.guardar(comunidadNueva);
 
-    Comunidad comunidadRecuperada = this.repositorioComunidad.obtenerComunidadPorId(comunidadNueva.getId());
+    Comunidad comunidadRecuperada = this.repositorioComunidad.obtenerPorId(comunidadNueva.getId());
 
     //assert
     Assertions.assertTrue(comunidadNueva.getId() > 0, "Comunidad: genera id correctamente");
@@ -48,9 +48,9 @@ public class ComunidadRepositorioTests implements WithSimplePersistenceUnit {
     comunidadNueva.getMembresias().add(membresiaNueva);
 
     //act
-    this.repositorioComunidad.guardarComunidad(comunidadNueva);
+    this.repositorioComunidad.guardar(comunidadNueva);
 
-    Comunidad comunidadRecuperada = this.repositorioComunidad.obtenerComunidadPorId(comunidadNueva.getId());
+    Comunidad comunidadRecuperada = this.repositorioComunidad.obtenerPorId(comunidadNueva.getId());
     Membresia membresiaRecuperada = comunidadRecuperada.getMembresias().stream().findFirst().get();
 
     //assert
@@ -70,11 +70,11 @@ public class ComunidadRepositorioTests implements WithSimplePersistenceUnit {
     comunidadNueva.setDetalle("Test Comunidad");
 
     //act
-    this.repositorioComunidad.guardarComunidad(comunidadNueva);
-    Comunidad comunidadAModificar = this.repositorioComunidad.obtenerComunidadPorId(comunidadNueva.getId());
+    this.repositorioComunidad.guardar(comunidadNueva);
+    Comunidad comunidadAModificar = this.repositorioComunidad.obtenerPorId(comunidadNueva.getId());
     comunidadAModificar.setDetalle("Test Comunidad Actualizada");
-    this.repositorioComunidad.actualizarComunidad(comunidadAModificar);
-    Comunidad comunidadRecuperada = this.repositorioComunidad.obtenerComunidadPorId(comunidadAModificar.getId());
+    this.repositorioComunidad.actualizar(comunidadAModificar);
+    Comunidad comunidadRecuperada = this.repositorioComunidad.obtenerPorId(comunidadAModificar.getId());
 
     //assert
     Assertions.assertEquals("Test Comunidad Actualizada", comunidadRecuperada.getDetalle(), "Comunidad: detalle guardado correctamente");
@@ -89,10 +89,10 @@ public class ComunidadRepositorioTests implements WithSimplePersistenceUnit {
     comunidadNueva.setDetalle("Test Comunidad");
 
     //act
-    this.repositorioComunidad.guardarComunidad(comunidadNueva);
-    this.repositorioComunidad.eliminarComunidad(comunidadNueva);
+    this.repositorioComunidad.guardar(comunidadNueva);
+    this.repositorioComunidad.eliminar(comunidadNueva);
 
-    Comunidad comunidadRecuperada = this.repositorioComunidad.obtenerComunidadPorId(comunidadNueva.getId());
+    Comunidad comunidadRecuperada = this.repositorioComunidad.obtenerPorId(comunidadNueva.getId());
 
     //assert
     Assertions.assertNull(comunidadRecuperada, "Comunidad: la entidad es eliminada");

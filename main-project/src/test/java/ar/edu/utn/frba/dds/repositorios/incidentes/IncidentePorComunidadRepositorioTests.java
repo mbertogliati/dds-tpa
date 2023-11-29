@@ -17,8 +17,8 @@ public class IncidentePorComunidadRepositorioTests implements WithSimplePersiste
 
   @BeforeEach
   public void init() throws IOException {
-    this.repositorioIncidentePorComunidad = new IncidentePorComunidadRepositorio(entityManager());
-    this.repositorioIncidente = new IncidenteRepositorio(entityManager());
+    this.repositorioIncidentePorComunidad = new IncidentePorComunidadRepositorio();
+    this.repositorioIncidente = new IncidenteRepositorio();
   }
 
   @Test

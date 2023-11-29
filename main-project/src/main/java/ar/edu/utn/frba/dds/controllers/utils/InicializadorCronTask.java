@@ -7,52 +7,37 @@ import ar.edu.utn.frba.dds.modelos.utilidades.CronTask;
 import ar.edu.utn.frba.dds.modelos.utilidades.CronTaskPorMinuto;
 import ar.edu.utn.frba.dds.repositorios.utilidades.CronTaskRepositorio;
 
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityManagerFactory;
 
 public class InicializadorCronTask {
   CronTaskPorMinuto refrescarCronTasks = new CronTaskPorMinuto();
   List<CronTask> cronTasks = new ArrayList<>();
   CronTaskRepositorio repositorio;
-  GenerarRankingController generarRankingController;
-  NotificacionController notificacionController;
-  CalcularGradoConfianzaController calcularGradoConfianzaController;
-  public InicializadorCronTask() {
-    this.repositorio = new CronTaskRepositorio(new CreadorEntityManager().entityManagerCreado());
-    this.generarRankingController = new GenerarRankingController(new CreadorEntityManager().entityManagerCreado());
-    this.notificacionController = new NotificacionController(new CreadorEntityManager().entityManagerCreado());
-    this.calcularGradoConfianzaController = new CalcularGradoConfianzaController(new CreadorEntityManager().entityManagerCreado());
+  EntityManagerFactory entityManagerFactory;
+
+  public InicializadorCronTask(EntityManagerFactory entityManagerFactory) {
+    this.entityManagerFactory=entityManagerFactory;
+    this.repositorio = new CronTaskRepositorio();
   }
 
-  private Runnable obtenerSubrutina(String comandoCronTask) {
-    return switch (comandoCronTask) {
-      case "generar_ranking_ultima_semana" ->
-          this.generarRankingController::generarRankingUltimaSemana;
-      case "calcular_grados_confianza" ->
-          this.calcularGradoConfianzaController::calcularGradosDeConfianza;
-      case "notificar_usuarios_pendientes" ->
-          this.notificacionController::notificarUsuariosPendientes;
-      case "notificar_usuarios_al_momento" ->
-          this.notificacionController::notificarUsuariosAlMomento;
-      default -> null;
-    };
-  }
-
-  private List<CronTask> inicializarNuevas(List<CronTask> cronTasksNuevas) {
+  private List<CronTask> inicializarNuevas(List<CronTask> cronTasksNuevas, EntityManagerFactory entityManagerFactory) {
     for(CronTask cronTask : cronTasksNuevas) {
       if(cronTask.getHabilitado())
       {
         this.LogCronTask("[INFO]: Inicializando cron task: ", cronTask);
-        cronTask.iniciar(this.obtenerSubrutina(cronTask.getComando()));
+        cronTask.iniciar(entityManagerFactory);
         this.LogCronTask("[INFO]: Cron task inicializada correctamente: ", cronTask);
       }
     }
     return cronTasksNuevas;
   }
 
-  private void reinicializarExistentes(List<CronTask> cronTasksDb, List<CronTask> cronTasksARefrescar) {
+  private void reinicializarExistentes(List<CronTask> cronTasksDb, List<CronTask> cronTasksARefrescar, EntityManagerFactory entityManagerFactory) {
     for(CronTask cronTaskARefrescar : cronTasksARefrescar) {
 
       Optional<CronTask> optional = cronTasksDb.stream().filter(ct -> ct.getId().equals(cronTaskARefrescar.getId())).findFirst();
@@ -66,7 +51,7 @@ public class InicializadorCronTask {
         cronTaskARefrescar.detener();
         this.cronTasks.remove(cronTaskARefrescar);
         if(cronTaskFrescaDb.getHabilitado())
-          cronTaskFrescaDb.iniciar(this.obtenerSubrutina(cronTaskFrescaDb.getComando()));
+          cronTaskFrescaDb.iniciar(entityManagerFactory);
         this.cronTasks.add(cronTaskFrescaDb);
         this.LogCronTask("[INFO]: Se reinicializó cron task: ", cronTaskARefrescar);
       }
@@ -82,17 +67,18 @@ public class InicializadorCronTask {
     }
   }
 
-  public void inicializar() {
+  public void inicializar(EntityManagerFactory entityManagerFactory) {
     try {
       System.out.println("[INFO]: Inicializando Cron Tasks ...");
       this.cronTasks = this.repositorio.obtener();
       this.cronTasks.forEach(ct -> this.repositorio.detach(ct));//TODO: checkear si esto funciona correctamente
 
-      this.cronTasks = this.inicializarNuevas(this.cronTasks);
+      this.cronTasks = this.inicializarNuevas(this.cronTasks, entityManagerFactory);
       this.refrescarCronTasks = new CronTaskPorMinuto();
       this.refrescarCronTasks.setNombre("cron_task_para_refrescar_cron_tasks");
       this.refrescarCronTasks.setCantMinutos(Long.parseLong(System.getenv("CRON_TASK_PERIODO_REFRESCO_MIN")));
-      this.refrescarCronTasks.iniciar(this::refrescar);
+      this.refrescarCronTasks.setRunnableTask(() -> this.refrescar(entityManagerFactory));
+      this.refrescarCronTasks.iniciar(entityManagerFactory);
       System.out.println("[INFO]: Cron Tasks inicializados correctamente.");
     } catch (Exception ex) {
       System.out.println("[ERROR]: Ocurrió un error en la inicialización de los Cron Tasks.");
@@ -100,7 +86,7 @@ public class InicializadorCronTask {
     }
   }
 
-  public void refrescar() {
+  public void refrescar(EntityManagerFactory entityManagerFactory) {
     try {
       System.out.println("[INFO]: Refrescando Cron Tasks ...");
       List<CronTask> cronTasksDb = this.repositorio.obtener();
@@ -121,8 +107,8 @@ public class InicializadorCronTask {
           ).toList();
 
       this.eliminarCronTasksBorradas(cronTasksBorradas);
-      this.reinicializarExistentes(cronTasksDb, cronTasksARefrescar);
-      this.cronTasks.addAll(this.inicializarNuevas(cronTasksNuevas));
+      this.reinicializarExistentes(cronTasksDb, cronTasksARefrescar, entityManagerFactory);
+      this.cronTasks.addAll(this.inicializarNuevas(cronTasksNuevas, entityManagerFactory));
 
 
       System.out.println("[INFO]: Cron Tasks refrescadas correctamente.");

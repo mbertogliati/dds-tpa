@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.controllers.generales.comunidades;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.ConverterComunidadOrganizacion;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
@@ -17,6 +18,7 @@ import ar.edu.utn.frba.dds.repositorios.comunidades.ComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.IntentoFusionComunidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.comunidades.RolRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 
 import java.time.LocalDateTime;
 import javax.persistence.EntityManager;
@@ -31,10 +33,10 @@ public class FusionComunidadesController implements ICrudViewsHandler {
     private RolRepositorio repoRol;
     private EntityManager entityManager;
 
-    public FusionComunidadesController(EntityManager entityManager){
-        this.repoComunidad = new ComunidadRepositorio(entityManager);
-        this.repoIntentoFusionComunidades = new IntentoFusionComunidadRepositorio(entityManager);
-        this.repoRol = new RolRepositorio(entityManager);
+    public FusionComunidadesController(){
+        this.repoComunidad = new ComunidadRepositorio();
+        this.repoIntentoFusionComunidades = new IntentoFusionComunidadRepositorio();
+        this.repoRol = new RolRepositorio();
         this.entityManager = entityManager;
         this.fusionadorComunidades = new FusionadorComunidades();
         /*this.fusionadorComunidades.setRolAdminComunidad(repoRol.rolAdminComunidad());
@@ -60,8 +62,8 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         List<PropuestaFusionComunidad> propuestasDisponibles = servicioDeFusion.obtenerPropuestas(listaOrganizacion).stream().map(
             p ->
             new PropuestaFusionComunidad(
-                repoComunidad.obtenerComunidadPorId(p.getIdOrganizacion1().intValue()),
-                repoComunidad.obtenerComunidadPorId(p.getIdOrganizacion2().intValue()))
+                repoComunidad.obtenerPorId(p.getIdOrganizacion1().intValue()),
+                repoComunidad.obtenerPorId(p.getIdOrganizacion2().intValue()))
         ).toList();
         model.put("propuestas",propuestasDisponibles);
         context.render("fusionComunidades.hbs", model);
@@ -69,22 +71,22 @@ public class FusionComunidadesController implements ICrudViewsHandler {
 
     @Override
     public void save(Context context) {
-        Comunidad comunidad1 = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.formParam("idComunidad1")));
-        Comunidad comunidad2 = repoComunidad.obtenerComunidadPorId(Integer.parseInt(context.formParam("idComunidad2")));
+        Comunidad comunidad1 = repoComunidad.obtenerPorId(Integer.parseInt(context.formParam("idComunidad1")));
+        Comunidad comunidad2 = repoComunidad.obtenerPorId(Integer.parseInt(context.formParam("idComunidad2")));
 
         SolicitudFusion solicitudFusion = new SolicitudFusion();
         solicitudFusion.setOrganizacion1(ConverterComunidadOrganizacion.obtenerOrganizacion(comunidad1));
         solicitudFusion.setOrganizacion2(ConverterComunidadOrganizacion.obtenerOrganizacion(comunidad2));
 
         try {
-            Comunidad comunidadFusionada = fusionadorComunidades.obtenerComunidad(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2, repoRol.rolDefaultComunidad(), repoRol.rolAdminComunidad());
+            Comunidad comunidadFusionada = fusionadorComunidades.obtener(servicioDeFusion.aceptarFusion(solicitudFusion).getOrganizacionFusionada(), comunidad1, comunidad2, repoRol.rolDefaultComunidad(), repoRol.rolAdminComunidad());
 
             comunidad1.agregarIntentoFusion(LocalDateTime.now(), comunidad2);
             comunidad2.agregarIntentoFusion(LocalDateTime.now(), comunidad1);
 
-            repoComunidad.eliminarComunidad(comunidad1);
-            repoComunidad.eliminarComunidad(comunidad2);
-            repoComunidad.guardarComunidad(comunidadFusionada);
+            repoComunidad.eliminar(comunidad1);
+            repoComunidad.eliminar(comunidad2);
+            repoComunidad.guardar(comunidadFusionada);
 
             context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "'" + comunidad1.getNombre() + "' y '" + comunidad2.getNombre() + "' fusionadas correctamente."));
             context.redirect("/fusionarComunidades");

@@ -1,9 +1,11 @@
 package ar.edu.utn.frba.dds.modelos.utilidades;
 
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EntityManagerFactory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +19,8 @@ public class CronTaskPorMinuto extends CronTask {
   private Long cantMinutos;
 
   @Override
-  public void iniciar(Runnable task) {
+  public void iniciar(EntityManagerFactory entityManagerFactory) {
     Long cantSegundos = this.cantMinutos * 60;
-    iniciarTimer(task, LocalDateTime.now(), cantSegundos);
+    iniciarTimer(LocalDateTime.now(), cantSegundos, entityManagerFactory);
   }
 }

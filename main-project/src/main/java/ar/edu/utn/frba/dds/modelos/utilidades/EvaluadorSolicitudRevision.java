@@ -53,11 +53,16 @@ public class EvaluadorSolicitudRevision {
   }
 
   public List<IncidentePorComunidad> obtenerIncidentesPorComunidadCercanos(Coordenada coordenada, Comunidad comunidad) {
-    return comunidad.getIncidentes()
-        .stream()
-        .filter(i -> !i.isEstaCerrado() && i.getIncidente().getServiciosAfectados().stream().anyMatch(
-            s -> s.getUbicacion().getCoordenada() != null && this.adapterCalculadoraDistancia.distanciaEntre(s.getUbicacion().getCoordenada(), coordenada) <= this.rangoCercaniaEnMetros
-        )).toList();
+    List<IncidentePorComunidad> incidentesPorComunidad = comunidad.getIncidentes();
+    if (!incidentesPorComunidad.isEmpty()){
+      return incidentesPorComunidad.stream()
+          .filter(i -> !i.isEstaCerrado() && i.getIncidente().getServiciosAfectados().stream().anyMatch(
+              s -> s.getUbicacion().getCoordenada() != null && this.adapterCalculadoraDistancia.distanciaEntre(s.getUbicacion().getCoordenada(), coordenada) <= this.rangoCercaniaEnMetros
+          )).toList();
+    }else {
+      return incidentesPorComunidad;
+    }
+
   }
 
   public List<IncidentePorComunidad> obtenerIncidentesCercanos(Persona unaPersona) {

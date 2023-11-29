@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.repositorios.incidentes.IncidenteRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.EtiquetaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.TipoEtiquetaRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,9 @@ public class ObtenerEtiquetasController implements Handler {
   EtiquetaRepositorio etiquetaRepositorio;
   TipoEtiquetaRepositorio tipoEtiquetaRepositorio;
 
-  public ObtenerEtiquetasController(EntityManager entityManager){
-    this.etiquetaRepositorio = new EtiquetaRepositorio(entityManager);
-    this.tipoEtiquetaRepositorio = new TipoEtiquetaRepositorio(entityManager);
+  public ObtenerEtiquetasController(){
+    this.etiquetaRepositorio = new EtiquetaRepositorio();
+    this.tipoEtiquetaRepositorio = new TipoEtiquetaRepositorio();
   }
 
   @Override

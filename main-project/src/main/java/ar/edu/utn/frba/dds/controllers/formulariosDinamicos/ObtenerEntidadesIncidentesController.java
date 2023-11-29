@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.controllers.formulariosDinamicos;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import io.javalin.http.Handler;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -11,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 public class ObtenerEntidadesIncidentesController implements Handler {
   EntidadRepositorio entidadRepositorio;
 
-  public ObtenerEntidadesIncidentesController(EntityManager entityManager){
-    this.entidadRepositorio = new EntidadRepositorio(entityManager);
+  public ObtenerEntidadesIncidentesController(){
+    this.entidadRepositorio = new EntidadRepositorio();
   }
 
   @Override

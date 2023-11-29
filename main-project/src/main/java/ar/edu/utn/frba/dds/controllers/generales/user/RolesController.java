@@ -13,6 +13,7 @@ import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -24,12 +25,12 @@ public class RolesController {
   OrganismoControlRepositorio repoOrganismos;
   EntidadPrestadoraRepositorio repoEntidades;
 
-  public RolesController(EntityManager entityManager){
-    this.repoRol = new RolRepositorio(entityManager);
-    this.repoUsuario = new UsuarioRepositorio(entityManager);
-    this.repoComunidad = new ComunidadRepositorio(entityManager);
-    this.repoOrganismos = new OrganismoControlRepositorio(entityManager);
-    this.repoEntidades = new EntidadPrestadoraRepositorio(entityManager);
+  public RolesController(){
+    this.repoRol = new RolRepositorio();
+    this.repoUsuario = new UsuarioRepositorio();
+    this.repoComunidad = new ComunidadRepositorio();
+    this.repoOrganismos = new OrganismoControlRepositorio();
+    this.repoEntidades = new EntidadPrestadoraRepositorio();
   }
 
   public void show(Context context){
@@ -94,7 +95,7 @@ public class RolesController {
       int idComunidad = idOrganizacion;
 
 
-      Comunidad comunidad = repoComunidad.obtenerComunidadPorId(idComunidad);
+      Comunidad comunidad = repoComunidad.obtenerPorId(idComunidad);
       context.sessionAttribute("comunidad", comunidad);
       context.sessionAttribute("rolSeleccionado", comunidad.getNombre() + " - "+ repoRol.rolDefaultComunidad().getNombre());
       if(idRol == repoRol.rolAdminComunidad().getId()){

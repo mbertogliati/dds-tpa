@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.generales.servicios;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
@@ -14,6 +15,7 @@ import ar.edu.utn.frba.dds.repositorios.servicios.EtiquetaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.TipoEtiquetaRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +28,11 @@ public class ServiciosController implements ICrudViewsHandler {
   EtiquetaRepositorio repoEtiquetas;
   TipoEtiquetaRepositorio repoTipos;
 
-  public ServiciosController(EntityManager entityManager){
-    this.repoServicios = new ServicioRepositorio(entityManager);
-    this.repoEstablecimiento = new EstablecimientoRepositorio(entityManager);
-    this.repoEtiquetas = new EtiquetaRepositorio(entityManager);
-    this.repoTipos = new TipoEtiquetaRepositorio(entityManager);
+  public ServiciosController(){
+    this.repoServicios = new ServicioRepositorio();
+    this.repoEstablecimiento = new EstablecimientoRepositorio();
+    this.repoEtiquetas = new EtiquetaRepositorio();
+    this.repoTipos = new TipoEtiquetaRepositorio();
   }
 
   @Override

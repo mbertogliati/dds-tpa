@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.generales.entidades;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.entidades.Denominacion;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
@@ -20,6 +21,7 @@ import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioPrestadoRepositorio;
 import ar.edu.utn.frba.dds.repositorios.servicios.ServicioRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.util.Map;
 import javax.persistence.EntityManager;
 
@@ -32,14 +34,14 @@ public class EstablecimientosController implements ICrudViewsHandler {
   private ServicioPrestadoRepositorio repoServicioPrestado;
   private EntidadRepositorio repoEntidad;
 
-  public EstablecimientosController(EntityManager entityManager){
-    this.repoServicio = new ServicioRepositorio(entityManager);
-    this.repoDepartamento = new DepartamentoRepositorio(entityManager);
-    this.repoProvincia = new ProvinciaRepositorio(entityManager);
-    this.repoEstablecimiento = new EstablecimientoRepositorio(entityManager);
-    this.repoLocalidad = new LocalidadRepositorio(entityManager);
-    this.repoServicioPrestado = new ServicioPrestadoRepositorio(entityManager);
-    this.repoEntidad = new EntidadRepositorio(entityManager);
+  public EstablecimientosController(){
+    this.repoServicio = new ServicioRepositorio();
+    this.repoDepartamento = new DepartamentoRepositorio();
+    this.repoProvincia = new ProvinciaRepositorio();
+    this.repoEstablecimiento = new EstablecimientoRepositorio();
+    this.repoLocalidad = new LocalidadRepositorio();
+    this.repoServicioPrestado = new ServicioPrestadoRepositorio();
+    this.repoEntidad = new EntidadRepositorio();
   }
 
   @Override

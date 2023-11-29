@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.generales.entidades;
 
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.entidades.Denominacion;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
@@ -17,6 +18,7 @@ import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.LocalidadRepositorio;
 import ar.edu.utn.frba.dds.repositorios.meta_datos_geo.ProvinciaRepositorio;
 import io.javalin.apibuilder.CrudHandler;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +32,12 @@ public class EntidadesController implements ICrudViewsHandler{
   private DepartamentoRepositorio repoDepartamento;
   private LocalidadRepositorio repoLocalidad;
 
-  public EntidadesController(EntityManager entityManager){
-    this.repoEntidad = new EntidadRepositorio(entityManager);
-    this.repoProvincia = new ProvinciaRepositorio(entityManager);
-    this.repoLocalidad = new LocalidadRepositorio(entityManager);
-    this.repoDepartamento = new DepartamentoRepositorio(entityManager);
-    this.repoEntidadPrestadora = new EntidadPrestadoraRepositorio(entityManager);
+  public EntidadesController(){
+    this.repoEntidad = new EntidadRepositorio();
+    this.repoProvincia = new ProvinciaRepositorio();
+    this.repoLocalidad = new LocalidadRepositorio();
+    this.repoDepartamento = new DepartamentoRepositorio();
+    this.repoEntidadPrestadora = new EntidadPrestadoraRepositorio();
   }
 
   @Override

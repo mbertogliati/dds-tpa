@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FusionadorComunidades {
-  public Comunidad obtenerComunidad(Organizacion organizacion, Comunidad comunidad1, Comunidad comunidad2, Rol rolDefaultComunidad, Rol rolAdminComunidad){
+  public Comunidad obtener(Organizacion organizacion, Comunidad comunidad1, Comunidad comunidad2, Rol rolDefaultComunidad, Rol rolAdminComunidad){
     Comunidad comunidad = new Comunidad();
 
     comunidad.setNombre("Fusión de " + comunidad1.getNombre() + " y " + comunidad2.getNombre());

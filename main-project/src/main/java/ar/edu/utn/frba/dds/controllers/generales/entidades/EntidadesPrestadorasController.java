@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.controllers.generales.entidades;
 import ar.edu.utn.frba.dds.controllers.utils.FiltradorEntidades;
 import ar.edu.utn.frba.dds.controllers.utils.GeneradorModel;
 import ar.edu.utn.frba.dds.controllers.utils.ICrudViewsHandler;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import ar.edu.utn.frba.dds.controllers.utils.MensajeVista;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
@@ -13,6 +14,7 @@ import ar.edu.utn.frba.dds.repositorios.comunidades.UsuarioRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.EntidadPrestadoraRepositorio;
 import ar.edu.utn.frba.dds.repositorios.entidades.OrganismoControlRepositorio;
 import io.javalin.http.Context;
+import ar.edu.utn.frba.dds.server.EntityManagerContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +28,10 @@ public class EntidadesPrestadorasController implements ICrudViewsHandler {
   private UsuarioRepositorio repoUsuarios;
   private OrganismoControlRepositorio repoOrganismo;
 
-  public EntidadesPrestadorasController(EntityManager entityManager){
-    this.repoEntidadesPrestadoras = new EntidadPrestadoraRepositorio(entityManager);
-    this.repoUsuarios = new UsuarioRepositorio(entityManager);
-    this.repoOrganismo = new OrganismoControlRepositorio(entityManager);
+  public EntidadesPrestadorasController(){
+    this.repoEntidadesPrestadoras = new EntidadPrestadoraRepositorio();
+    this.repoUsuarios = new UsuarioRepositorio();
+    this.repoOrganismo = new OrganismoControlRepositorio();
   }
 
   @Override
