@@ -132,6 +132,7 @@ public class UsuariosController implements ICrudViewsHandler {
   @Override
   public void index(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
+    repoUsuario.refresh(usuario);
     if (!VerificadorRol.tienePermiso(usuario, TipoPermiso.ADMINISTRAR_USUARIOS)){
       context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.ERROR, "Error. No tenés permisos suficientes para ver esa página."));
       context.redirect("/");
@@ -157,6 +158,7 @@ public class UsuariosController implements ICrudViewsHandler {
   public void show(@NotNull Context context){
     Usuario usuario = context.sessionAttribute("usuario");
 
+    repoUsuario.refresh(usuario);
     Map<String,Object> model = GeneradorModel.model(context);
 
     String id = context.pathParam("idUsuario");
@@ -184,6 +186,7 @@ public class UsuariosController implements ICrudViewsHandler {
 
     Map<String,Object> model = GeneradorModel.model(context);
 
+    repoUsuario.refresh(usuario);
     Persona persona = usuario.getPersonaAsociada();
 
     String momentoNotificacion = converterMomentoNotificacion.convertToDatabaseColumn(usuario.getPersonaAsociada().getEstrategiaMomentoNotificacion());
@@ -239,6 +242,7 @@ public class UsuariosController implements ICrudViewsHandler {
     if (fechasViejas != null) fechasViejas.forEach(f -> repoFechas.eliminar(f));
 
     repoUsuario.actualizar(usuario);
+    repoUsuario.refresh(usuario);
 
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Usuario modificado correctamente."));
     context.redirect("/usuarios/"+usuario.getId()+"/edit?success");
@@ -247,6 +251,7 @@ public class UsuariosController implements ICrudViewsHandler {
   @Override
   public void delete(Context context) {
     Usuario usuario = repoUsuario.buscarPorId(Integer.parseInt(context.pathParam("idUsuario")));
+    repoUsuario.refresh(usuario);
     usuario.setActivo(false);
     repoUsuario.actualizar(usuario);
     context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS,"Usuario eliminado correctamente"));
