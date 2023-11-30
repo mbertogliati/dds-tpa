@@ -32,7 +32,7 @@ function iniciarTracker() {
                 (position) => {
                     console.log("Localizacion obtenida!");
                     console.log(position);
-                    enviarLocalizacion(position);
+                    //enviarLocalizacion(position);
                 },
                 (error) => {
                     console.log("Ocurrió un error al obtener la geolocalización!");

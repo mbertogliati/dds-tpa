@@ -58,7 +58,9 @@ public class FusionComunidadesController implements ICrudViewsHandler {
         Map<String, Object> model = GeneradorModel.model(context);
 
         Usuario usuario = context.sessionAttribute("usuario");
-        List<Organizacion> listaOrganizacion = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId() && m.tieneRol(repoRol.rolAdminComunidad()))).map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
+        List<Comunidad> comunidades = repoComunidad.obtenerTodas();
+        comunidades.forEach(c -> repoComunidad.refresh(c));
+        List<Organizacion> listaOrganizacion = comunidades.stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId() && m.tieneRol(repoRol.rolAdminComunidad()))).map(ConverterComunidadOrganizacion::obtenerOrganizacion).toList();
         List<PropuestaFusionComunidad> propuestasDisponibles = servicioDeFusion.obtenerPropuestas(listaOrganizacion).stream().map(
             p ->
             new PropuestaFusionComunidad(
@@ -84,8 +86,15 @@ public class FusionComunidadesController implements ICrudViewsHandler {
             comunidad1.agregarIntentoFusion(LocalDateTime.now(), comunidad2);
             comunidad2.agregarIntentoFusion(LocalDateTime.now(), comunidad1);
 
+            repoComunidad.actualizar(comunidad1);
+            repoComunidad.actualizar(comunidad2);
+
             repoComunidad.eliminar(comunidad1);
             repoComunidad.eliminar(comunidad2);
+
+            repoComunidad.refresh(comunidad1);
+            repoComunidad.refresh(comunidad2);
+
             repoComunidad.guardar(comunidadFusionada);
 
             context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "'" + comunidad1.getNombre() + "' y '" + comunidad2.getNombre() + "' fusionadas correctamente."));
@@ -94,6 +103,22 @@ public class FusionComunidadesController implements ICrudViewsHandler {
             context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.ERROR,"Ocurrió un error al intentar realizar la fusión."));
             context.redirect("/fusionarComunidades");
         }
+    }
+
+    public void rechazar(Context context) {
+        Comunidad comunidad1 = repoComunidad.obtenerPorId(Integer.parseInt(context.formParam("idComunidad1")));
+        Comunidad comunidad2 = repoComunidad.obtenerPorId(Integer.parseInt(context.formParam("idComunidad2")));
+
+        comunidad1.agregarIntentoFusion(LocalDateTime.now(), comunidad2);
+        comunidad2.agregarIntentoFusion(LocalDateTime.now(), comunidad1);
+
+        repoComunidad.actualizar(comunidad1);
+        repoComunidad.actualizar(comunidad2);
+        repoComunidad.refresh(comunidad1);
+        repoComunidad.refresh(comunidad2);
+
+        context.sessionAttribute("msg",new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Propuesta de fusión rechazada correctamente."));
+        context.redirect("/fusionarComunidades");
     }
 
     @Override

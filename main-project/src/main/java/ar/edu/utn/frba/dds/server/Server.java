@@ -52,7 +52,7 @@ public class Server {
       initTemplateEngine();
       configurarErrorHandlers();
 
-      configurarCronTasks(entityManagerFactory);
+      //configurarCronTasks(entityManagerFactory);
       configurarAutorizacion(entityManagerFactory);
 
       configurarExceptionHandlers();

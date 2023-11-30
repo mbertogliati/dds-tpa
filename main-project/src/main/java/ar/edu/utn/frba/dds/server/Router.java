@@ -299,6 +299,7 @@ public class Router {
         before(autorizacion.conPermisosPlataforma(TipoPermiso.ADMINISTRAR_COMUNIDAD).build());
         get(new FusionComunidadesController()::create);
         post(new FusionComunidadesController()::save);
+        post("rechazar", new FusionComunidadesController()::rechazar);
       });
 
       //CONTROLADORES PARA FORMULARIOS DINAMICOS

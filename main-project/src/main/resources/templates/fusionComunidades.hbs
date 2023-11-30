@@ -26,6 +26,11 @@
                                         <input type="hidden" name="idComunidad2" value="{{comunidad2.id}}">
                                         <button type="submit" class="btn btn-success">Fusionar</button>
                                     </form>
+                                    <form method="POST" action="/fusionarComunidades/rechazar">
+                                        <input type="hidden" name="idComunidad1" value="{{comunidad1.id}}">
+                                        <input type="hidden" name="idComunidad2" value="{{comunidad2.id}}">
+                                        <button type="submit" class="btn btn-danger" onclick="alert('¿Estás seguro de rechazar la fusión? No podrás volver a verla por 6 meses.')">Rechazar</button>
+                                    </form>
                                 </td>
                             </tr>
                         {{/each}}

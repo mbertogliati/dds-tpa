@@ -13,7 +13,7 @@ public class MapperFusion {
   public static RequestOrganizacion mapOrganizacionAFusionarARequestOrganizacion(Organizacion organizacion) {
     RequestOrganizacion request = new RequestOrganizacion();
     request.setIdOrganizacion(organizacion.getIdOrganizacion());
-    request.setServicios(organizacion.getMiembros());
+    request.setServicios(organizacion.getServicios());
     request.setMiembros(organizacion.getMiembros());
     request.setEstablecimientos(organizacion.getEstablecimientos());
     request.setGradoConfianza(organizacion.getGradoConfianza());
@@ -53,7 +53,7 @@ public class MapperFusion {
   public static Organizacion mapRequestOrganizacionAOrganizacion(RequestOrganizacion requestOrganizacion) {
     Organizacion organizacion = new Organizacion();
     organizacion.setIdOrganizacion(requestOrganizacion.getIdOrganizacion());
-    organizacion.setServicios(requestOrganizacion.getMiembros());
+    organizacion.setServicios(requestOrganizacion.getServicios());
     organizacion.setMiembros(requestOrganizacion.getMiembros());
     organizacion.setEstablecimientos(requestOrganizacion.getEstablecimientos());
     organizacion.setGradoConfianza(requestOrganizacion.getGradoConfianza());
