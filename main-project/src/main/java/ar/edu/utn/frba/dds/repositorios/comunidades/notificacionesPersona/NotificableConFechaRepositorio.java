@@ -63,4 +63,8 @@ public class NotificableConFechaRepositorio implements WithSimplePersistenceUnit
     TypedQuery<NotificableConFecha> query = entityManager().createQuery("FROM " + NotificableConFecha.class.getName(), NotificableConFecha.class);
     return query.getResultList();
   }
+
+  public void refresh(NotificableConFecha notificableConFecha) {
+    entityManager().refresh(notificableConFecha);
+  }
 }

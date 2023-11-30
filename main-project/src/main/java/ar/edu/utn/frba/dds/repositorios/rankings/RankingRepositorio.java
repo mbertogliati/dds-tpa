@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.repositorios.rankings;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
+import ar.edu.utn.frba.dds.modelos.rankings.PuntosPorEntidad;
 import ar.edu.utn.frba.dds.modelos.rankings.Ranking;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.time.LocalDate;
@@ -82,5 +83,9 @@ public class RankingRepositorio implements WithSimplePersistenceUnit {
   public List<Ranking> buscarConFechaCreacionPosteriorA(String fecha, Usuario usuario) {
     List<Ranking> lista = buscarConFechaCreacionPosteriorA(fecha);
     return lista.stream().map(r -> r.filtradoPara(usuario)).filter(r -> !r.estaVacio()).toList();
+  }
+
+  public void refresh(Ranking ranking) {
+    this.entityManager().refresh(ranking);
   }
 }

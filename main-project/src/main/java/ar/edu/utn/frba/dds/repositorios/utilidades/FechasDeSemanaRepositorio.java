@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.utilidades;
 
+import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.utilidades.FechasDeSemana;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
@@ -37,5 +38,9 @@ public class FechasDeSemanaRepositorio implements WithSimplePersistenceUnit {
   public List<FechasDeSemana> buscarTodas() {
     TypedQuery<FechasDeSemana> query = entityManager().createQuery("FROM " + FechasDeSemana.class.getName(), FechasDeSemana.class);
     return query.getResultList();
+  }
+
+  public void refresh(FechasDeSemana fechasDeSemana) {
+    this.entityManager().refresh(fechasDeSemana);
   }
 }

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.notificacionesPersona.NotificablesParaCronTaskAlMomento;
 import ar.edu.utn.frba.dds.modelos.fusion_organizacion.UltimoIntentoFusionComunidad;
 
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -57,5 +58,9 @@ public class IntentoFusionComunidadRepositorio implements WithSimplePersistenceU
         return entityManager().createQuery(
                         "SELECT e FROM " + UltimoIntentoFusionComunidad.class.getName() + " e", UltimoIntentoFusionComunidad.class)
                 .getResultList();
+    }
+
+    public void refresh(UltimoIntentoFusionComunidad ultimoIntentoFusionComunidad) {
+        entityManager().refresh(ultimoIntentoFusionComunidad);
     }
 }

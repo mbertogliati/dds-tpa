@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.meta_datos_geo;
 
+import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -46,5 +47,9 @@ public class DepartamentoRepositorio implements WithSimplePersistenceUnit {
         "SELECT d FROM Departamento d WHERE d.provincia.id = :idBuscado ORDER BY d.nombre", Departamento.class)
         .setParameter("idBuscado", idProvincia)
         .getResultList();
+  }
+
+  public void refresh(Departamento departamento) {
+    this.entityManager().refresh(departamento);
   }
 }

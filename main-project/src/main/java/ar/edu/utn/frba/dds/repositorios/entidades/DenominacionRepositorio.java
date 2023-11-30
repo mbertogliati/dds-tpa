@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.entidades.Denominacion;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
@@ -37,5 +38,10 @@ public class DenominacionRepositorio implements WithSimplePersistenceUnit {
   public List<Denominacion> buscarTodas() {
     TypedQuery<Denominacion> query = entityManager().createQuery("FROM " + Denominacion.class.getName(), Denominacion.class);
     return query.getResultList();
+  }
+
+
+  public void refresh(Denominacion denominacion) {
+    this.entityManager().refresh(denominacion);
   }
 }

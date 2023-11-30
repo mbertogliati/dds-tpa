@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
@@ -46,5 +47,9 @@ public class OrganismoControlRepositorio implements WithSimplePersistenceUnit {
             "SELECT o FROM " + OrganismoControl.class.getName() + " o WHERE o.personaAInformar.id = :idBuscado AND o.activo=TRUE", OrganismoControl.class)
         .setParameter("idBuscado", persona.getId())
         .getResultList();
+  }
+
+  public void refresh(OrganismoControl organismoControl) {
+    this.entityManager().refresh(organismoControl);
   }
 }

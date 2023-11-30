@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.servicios;
 
 import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
+import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
 import ar.edu.utn.frba.dds.modelos.servicios.TipoEtiquetas;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
@@ -38,5 +39,9 @@ public class TipoEtiquetaRepositorio implements WithSimplePersistenceUnit {
   public List<TipoEtiquetas> buscarTodos() {
     TypedQuery<TipoEtiquetas> query = entityManager().createQuery("FROM " + TipoEtiquetas.class.getName() + " t ORDER BY t.nombre ASC", TipoEtiquetas.class);
     return query.getResultList();
+  }
+
+  public void refresh(TipoEtiquetas tipoEtiquetas) {
+    this.entityManager().refresh(tipoEtiquetas);
   }
 }

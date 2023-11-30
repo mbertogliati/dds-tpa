@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
+import ar.edu.utn.frba.dds.modelos.entidades.Denominacion;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -46,5 +47,9 @@ public class EntidadPrestadoraRepositorio implements WithSimplePersistenceUnit {
             "SELECT e FROM " + EntidadPrestadora.class.getName() +" e WHERE e.personaAInformar.id = :idBuscado AND e.activo=TRUE", EntidadPrestadora.class)
         .setParameter("idBuscado", persona.getId())
         .getResultList();
+  }
+
+  public void refresh(EntidadPrestadora entidadPrestadora) {
+    this.entityManager().refresh(entidadPrestadora);
   }
 }

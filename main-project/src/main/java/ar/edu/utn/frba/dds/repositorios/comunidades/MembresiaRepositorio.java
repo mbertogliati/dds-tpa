@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.repositorios.comunidades;
 import ar.edu.utn.frba.dds.modelos.comunidades.Membresia;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 
+import ar.edu.utn.frba.dds.modelos.fusion_organizacion.UltimoIntentoFusionComunidad;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,5 +41,9 @@ public class MembresiaRepositorio implements WithSimplePersistenceUnit {
     return entityManager().createQuery(
             "SELECT e FROM " + Membresia.class.getName() + " e WHERE e.activo=TRUE", Membresia.class)
         .getResultList();
+  }
+
+  public void refresh(Membresia membresia) {
+    entityManager().refresh(membresia);
   }
 }

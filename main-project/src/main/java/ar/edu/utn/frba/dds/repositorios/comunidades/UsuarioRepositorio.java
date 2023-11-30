@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Rol;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;

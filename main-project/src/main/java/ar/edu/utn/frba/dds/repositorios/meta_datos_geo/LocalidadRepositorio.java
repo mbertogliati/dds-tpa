@@ -75,4 +75,8 @@ public class LocalidadRepositorio implements WithSimplePersistenceUnit {
         .setParameter("idBuscado", idDepartamento)
         .getResultList();
   }
+
+  public void refresh(Localidad localidad) {
+    this.entityManager().refresh(localidad);
+  }
 }

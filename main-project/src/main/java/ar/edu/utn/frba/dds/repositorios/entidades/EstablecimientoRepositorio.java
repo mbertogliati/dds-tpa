@@ -45,4 +45,8 @@ public class EstablecimientoRepositorio implements WithSimplePersistenceUnit {
         .setParameter("idBuscado", Integer.parseInt(idEntidad))
         .getResultList();
   }
+
+  public void refresh(Establecimiento establecimiento) {
+    this.entityManager().refresh(establecimiento);
+  }
 }

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.rankings;
 
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import ar.edu.utn.frba.dds.modelos.rankings.PuntosPorEntidad;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
@@ -37,5 +38,9 @@ public class PuntosPorEntidadRepositorio implements WithSimplePersistenceUnit {
   public List<PuntosPorEntidad> buscarTodos() {
     TypedQuery<PuntosPorEntidad> query = entityManager().createQuery("FROM " + PuntosPorEntidad.class.getName(), PuntosPorEntidad.class);
     return query.getResultList();
+  }
+
+  public void refresh(PuntosPorEntidad puntosPorEntidad) {
+    this.entityManager().refresh(puntosPorEntidad);
   }
 }

@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.servicios;
 
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
+import ar.edu.utn.frba.dds.modelos.servicios.Etiqueta;
 import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
@@ -46,4 +47,7 @@ public class ServicioPrestadoRepositorio implements WithSimplePersistenceUnit {
         .getResultList();
   }
 
+  public void refresh(ServicioPrestado servicioPrestado) {
+    this.entityManager().refresh(servicioPrestado);
+  }
 }

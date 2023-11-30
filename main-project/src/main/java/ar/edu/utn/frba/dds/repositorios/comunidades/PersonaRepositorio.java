@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.comunidades;
 
+import ar.edu.utn.frba.dds.modelos.comunidades.Permiso;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -38,5 +39,9 @@ public class PersonaRepositorio implements WithSimplePersistenceUnit {
     return entityManager().createQuery(
             "SELECT e FROM " + Persona.class.getName() + " e WHERE e.activo=TRUE", Persona.class)
         .getResultList();
+  }
+
+  public void refresh(Persona persona) {
+    entityManager().refresh(persona);
   }
 }

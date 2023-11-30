@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.repositorios.meta_datos_geo;
 
+import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Departamento;
 import ar.edu.utn.frba.dds.modelos.meta_datos_geo.Provincia;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
@@ -42,5 +43,9 @@ public class ProvinciaRepositorio implements WithSimplePersistenceUnit {
   public List<Provincia> buscarTodas() {
     TypedQuery<Provincia> query = entityManager().createQuery("SELECT p FROM Provincia p ORDER BY p.nombre", Provincia.class);
     return query.getResultList();
+  }
+
+  public void refresh(Provincia provincia) {
+    this.entityManager().refresh(provincia);
   }
 }

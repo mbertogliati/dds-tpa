@@ -64,4 +64,8 @@ public class NotificablesParaCronTaskAlMomentoRepositorio implements WithSimpleP
     TypedQuery<NotificablesParaCronTaskAlMomento> query = entityManager().createQuery("FROM " + NotificablesParaCronTaskAlMomento.class.getName(), NotificablesParaCronTaskAlMomento.class);
     return query.getResultList();
   }
+
+  public void refresh(NotificablesParaCronTaskAlMomento notificablesParaCronTaskAlMomento) {
+    entityManager().refresh(notificablesParaCronTaskAlMomento);
+  }
 }

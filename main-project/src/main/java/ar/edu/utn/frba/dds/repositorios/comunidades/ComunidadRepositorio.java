@@ -41,7 +41,6 @@ public class ComunidadRepositorio implements WithSimplePersistenceUnit {
       }
       e.printStackTrace();
     }
-    entityManager().refresh(comunidad);
   }
 
   public void eliminar(Comunidad comunidad) {

@@ -51,7 +51,10 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     Usuario usuario = context.sessionAttribute("usuario");
 
-    List<Comunidad> comunidadesDeUsuario = repoComunidad.obtenerTodas().stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId())).toList();
+    List<Comunidad> comunidades = repoComunidad.obtenerTodas();
+    comunidades.forEach(c -> repoComunidad.refresh(c));
+
+    List<Comunidad> comunidadesDeUsuario = comunidades.stream().filter(c -> c.getMembresias().stream().anyMatch(m -> m.getPersona().getId() == usuario.getPersonaAsociada().getId())).toList();
 
     model.put("comunidades", obteneresConUsuarioActual(comunidadesDeUsuario, usuario));
 
@@ -72,6 +75,7 @@ public class ComunidadesController implements ICrudViewsHandler {
     }
 
     repoComunidad.actualizar(comunidad);
+    repoComunidad.refresh(comunidad);
 
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Rol cambiado correctamente."));
     context.redirect("/comunidades/"+comunidad.getId()+"?success");
@@ -82,7 +86,10 @@ public class ComunidadesController implements ICrudViewsHandler {
   public void index(Context context) {
     Map<String, Object> model = GeneradorModel.model(context);
 
-    model.put("comunidades", obteneresConUsuarioActual(repoComunidad.obtenerTodas(), context.sessionAttribute("usuario")));
+    List<Comunidad> comunidades = repoComunidad.obtenerTodas();
+    comunidades.forEach(c -> repoComunidad.refresh(c));
+
+    model.put("comunidades", obteneresConUsuarioActual(comunidades, context.sessionAttribute("usuario")));
 
     context.render("comunidades.hbs", model);
   }
@@ -201,6 +208,7 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     repoComunidad.actualizar(comunidad);
     repoUsuario.actualizar(usuario);
+    repoUsuario.refresh(usuario);
 
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Membresia eliminada correctamente."));
     context.redirect("/comunidades?success");
@@ -219,6 +227,7 @@ public class ComunidadesController implements ICrudViewsHandler {
 
     repoUsuario.actualizar(usuario);
     repoComunidad.actualizar(comunidad);
+    repoUsuario.refresh(usuario);
 
     context.sessionAttribute("msg", new MensajeVista(MensajeVista.TipoMensaje.SUCCESS, "Membresia agregada correctamente."));
     context.redirect("/comunidades/?success");

@@ -69,6 +69,7 @@
                             </tr>
                             </thead>
                             <tbody>
+    {{#if comunidadSeleccionada.tieneAUsuarioActual}}
                             {{#with comunidadSeleccionada.serviciosPrestados}}
                                 {{#each comunidadSeleccionada.serviciosPrestados}}
                                     <tr>
@@ -89,6 +90,7 @@
                                     </tr>
                                 {{/each}}
                             {{/with}}
+    {{/if}}
                             </tbody>
                         </table>
                     </div>

@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.repositorios.entidades;
 
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.EntidadPrestadora;
 import ar.edu.utn.frba.dds.modelos.entidades.Establecimiento;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
@@ -46,4 +47,7 @@ public class EntidadRepositorio implements WithSimplePersistenceUnit {
         .getResultList();
   }
 
+  public void refresh(Entidad entidad) {
+    this.entityManager().refresh(entidad);
+  }
 }

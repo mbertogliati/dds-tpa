@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.repositorios.incidentes;
 
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.entidades.Entidad;
+import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.utilidades.CalculadoraDistanciaEnMetros;
@@ -124,5 +125,9 @@ public class IncidenteRepositorio implements WithSimplePersistenceUnit {
     ABIERTO,
     CERRADO,
     REVISION
+  }
+
+  public void refresh(Incidente incidente) {
+    this.entityManager().refresh(incidente);
   }
 }

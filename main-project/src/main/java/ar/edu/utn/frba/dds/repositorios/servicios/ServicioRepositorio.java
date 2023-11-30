@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.repositorios.servicios;
 
 import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.servicios.Servicio;
+import ar.edu.utn.frba.dds.modelos.servicios.ServicioPrestado;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -37,5 +38,9 @@ public class ServicioRepositorio implements WithSimplePersistenceUnit {
     return entityManager().createQuery(
             "SELECT e FROM " + Servicio.class.getName() + " e WHERE e.activo=TRUE", Servicio.class)
         .getResultList();
+  }
+
+  public void refresh(Servicio servicio) {
+    this.entityManager().refresh(servicio);
   }
 }

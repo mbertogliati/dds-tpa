@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.repositorios.incidentes;
 import ar.edu.utn.frba.dds.modelos.comunidades.Comunidad;
 import ar.edu.utn.frba.dds.modelos.comunidades.Persona;
 import ar.edu.utn.frba.dds.modelos.comunidades.Usuario;
+import ar.edu.utn.frba.dds.modelos.entidades.OrganismoControl;
 import ar.edu.utn.frba.dds.modelos.incidentes.Incidente;
 import ar.edu.utn.frba.dds.modelos.incidentes.IncidentePorComunidad;
 import ar.edu.utn.frba.dds.modelos.utilidades.CalculadoraDistanciaEnMetros;
@@ -75,5 +76,9 @@ public class IncidentePorComunidadRepositorio implements WithSimplePersistenceUn
     EvaluadorSolicitudRevision evaluadorSolicitudRevision = new EvaluadorSolicitudRevision(new CalculadoraDistanciaEnMetros());
 
     return evaluadorSolicitudRevision.obtenerIncidentesPorComunidadCercanos(persona.getUltimaUbicacion().getCoordenada(), comunidad);
+  }
+
+  public void refresh(IncidentePorComunidad incidentePorComunidad) {
+    this.entityManager().refresh(incidentePorComunidad);
   }
 }
